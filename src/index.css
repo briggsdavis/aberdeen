@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "ED Venta Nueva Sans";
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+  src: url("/fonts/ed-venta-nueva-sans-regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-display: swap;
+  font-style: normal;
+  font-weight: 100 900;
+  src: url("/fonts/montserrat-regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Yaty";
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+  src: url("/fonts/yaty-regular.woff2") format("woff2");
+}
+
+@theme {
+  --color-aberdeen-blue: #2a3b92;
+  --color-aberdeen-peach: #f9e1ca;
+  --color-oyster-white: #fff8f0;
+  --color-kelp-ink: #1d2a2f;
+  --color-citrus: #f7b733;
+  --color-shell-pink: #efa6a0;
+  --font-display: "ED Venta Nueva Sans", sans-serif;
+  --font-body: "Montserrat", sans-serif;
+  --font-utility: "Montserrat", sans-serif;
+  --font-playful: "Yaty", serif;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-body);
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-aberdeen-peach);
+  }
+
+  a,
+  button {
+    outline-color: var(--color-citrus);
+    outline-offset: 4px;
+  }
+}

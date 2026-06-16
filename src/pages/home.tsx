@@ -58,7 +58,7 @@ function IntroSection() {
       </p>
       <div className="max-w-4xl">
         <h2 className="font-display text-5xl leading-none text-aberdeen-blue md:text-7xl">
-          Built like a coastal postcard, served with Pittsburgh appetite.
+          Built like a coastal postcard, served with Savannah appetite.
         </h2>
         <p className="mt-8 max-w-2xl text-lg leading-8">
           Aberdeen is a bright, editorial restaurant centered on seafood, cocktails, and the easy

@@ -8,7 +8,7 @@ function SiteFooter() {
         <div>
           <p className="font-utility text-sm tracking-[0.18em] uppercase">Visit</p>
           <p className="mt-4 leading-7 text-kelp-ink">
-            Pittsburgh, Pennsylvania
+            Savannah, Georgia
             <br />
             Address coming soon
           </p>

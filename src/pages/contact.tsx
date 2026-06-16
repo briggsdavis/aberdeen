@@ -31,7 +31,7 @@ function ContactDetails() {
   return (
     <section className="grid gap-10 bg-oyster-white px-5 py-16 md:grid-cols-[1fr_1fr_1fr] md:px-8 md:py-24">
       {[
-        ["Visit", "Pittsburgh, Pennsylvania", "Address coming soon"],
+        ["Visit", "Savannah, Georgia", "Address coming soon"],
         ["Call", "Phone coming soon", "For reservations, private dinners, and general questions"],
         ["Write", "hello@aberdeen.example", "Press, events, and restaurant inquiries"],
       ].map(([label, lineOne, lineTwo]) => (
@@ -75,8 +75,8 @@ function MapSection() {
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
           sandbox="allow-scripts allow-popups"
-          src="https://www.google.com/maps?q=Pittsburgh%2C%20Pennsylvania&output=embed"
-          title="Map showing Pittsburgh, Pennsylvania"
+          src="https://www.google.com/maps?q=Savannah%2C%20Georgia&output=embed"
+          title="Map showing Savannah, Georgia"
         />
       </div>
     </section>

@@ -74,7 +74,24 @@ function CalendarSection() {
           this starter schedule.
         </p>
       </div>
-      <div className="grid grid-cols-7 border-t border-l border-aberdeen-blue/25">
+      <div className="grid gap-3 md:hidden">
+        {events.map((event) => (
+          <article
+            className="border border-aberdeen-blue/25 bg-aberdeen-peach p-4 text-aberdeen-blue"
+            key={event.title}
+          >
+            <div className="flex items-start justify-between gap-4">
+              <p className="font-utility text-xs tracking-[0.16em] uppercase">June {event.day}</p>
+              <p className="shrink-0 font-utility text-xs tracking-[0.14em] uppercase">
+                {event.time}
+              </p>
+            </div>
+            <h3 className="mt-5 font-display text-3xl leading-none">{event.title}</h3>
+            <p className="mt-4 text-sm leading-6 text-kelp-ink/80">{event.copy}</p>
+          </article>
+        ))}
+      </div>
+      <div className="hidden grid-cols-7 border-t border-l border-aberdeen-blue/25 md:grid">
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
           <div
             className="border-r border-b border-aberdeen-blue/25 p-3 font-utility text-xs tracking-[0.14em] text-aberdeen-blue uppercase"

@@ -21,7 +21,7 @@ function HeroSection() {
       <div className="relative z-10 grid gap-10 px-5 pt-32 pb-16 md:px-8 md:pt-40 md:pb-24">
         <p className="font-utility text-sm tracking-[0.22em] uppercase">About Aberdeen</p>
         <h1 className="max-w-5xl font-display text-6xl leading-none md:text-8xl">
-          A coastal room with a Pittsburgh pulse.
+          A coastal room with a Savannah pulse.
         </h1>
       </div>
     </section>
@@ -41,7 +41,7 @@ function StorySection() {
         <p className="max-w-3xl text-lg leading-8">
           Aberdeen brings coastal ease to the city: oysters on ice, citrus-forward plates, generous
           mains, and a bar that keeps the evening moving. The feeling is editorial but relaxed, like
-          a postcard from somewhere sunnier pinned to a Pittsburgh wall.
+          a postcard from somewhere brighter pinned to a Savannah wall.
         </p>
       </div>
     </section>

@@ -5,6 +5,7 @@ import AdminPage from "./pages/admin"
 import ContactPage from "./pages/contact"
 import EventsPage from "./pages/events"
 import HomePage from "./pages/home"
+import KitPage from "./pages/kit"
 import BeveragesMenuPage from "./pages/menu-beverages"
 import FoodMenuPage from "./pages/menu-food"
 import SpiritsMenuPage from "./pages/menu-spirits"
@@ -12,6 +13,7 @@ import StaffPage from "./pages/staff"
 
 const siteLayoutRoute = <SiteLayout />
 const homeRoute = <HomePage />
+const kitRoute = <KitPage />
 const aboutRoute = <AboutPage />
 const menuRedirectRoute = <Navigate replace to="/menu/food" />
 const foodMenuRoute = <FoodMenuPage />
@@ -27,6 +29,7 @@ function App() {
     <Routes>
       <Route element={siteLayoutRoute}>
         <Route index element={homeRoute} />
+        <Route path="kit" element={kitRoute} />
         <Route path="about" element={aboutRoute} />
         <Route path="menu" element={menuRedirectRoute} />
         <Route path="menu/food" element={foodMenuRoute} />

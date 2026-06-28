@@ -22,6 +22,19 @@ function SiteFooter() {
           </p>
         </div>
       </div>
+      <div className="mt-12 border-t border-aberdeen-blue/20 pt-6">
+        <p className="font-utility text-xs tracking-[0.16em] text-aberdeen-blue/70 uppercase">
+          Made by{" "}
+          <a
+            className="underline decoration-citrus decoration-2 underline-offset-4 transition hover:text-aberdeen-blue"
+            href="https://socialsatisfaction.agency/"
+            rel="noreferrer"
+            target="_blank"
+          >
+            SocialSatisfaction
+          </a>
+        </p>
+      </div>
     </footer>
   )
 }

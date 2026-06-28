@@ -1,5 +1,5 @@
 import { Link } from "react-router"
-import { ParallaxLayer, RevealImage, Rise } from "../components/motion"
+import { ParallaxLayer, Reveal, RevealImage, Rise } from "../components/motion"
 
 function HomePage() {
   return (
@@ -31,21 +31,28 @@ function HeroSection() {
     <section className="relative min-h-svh bg-aberdeen-blue text-aberdeen-peach">
       <RevealImage
         alt="Sunlit coastal restaurant dining room"
-        className="absolute inset-y-0 right-0 h-full w-full object-cover opacity-45 mix-blend-luminosity md:w-[58%]"
+        className="absolute inset-y-0 right-0 h-full w-full object-cover mix-blend-luminosity md:w-[58%]"
+        finalOpacity={0.45}
         src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1800&q=85"
       />
       <div className="absolute inset-0 bg-[linear-gradient(90deg,#2A3B92_0%,rgba(42,59,146,0.92)_42%,rgba(42,59,146,0)_100%)]" />
       <aside className="absolute right-5 bottom-8 z-10 hidden w-72 bg-aberdeen-peach p-5 text-aberdeen-blue md:right-8 md:bottom-10 md:block">
-        <p className="font-utility text-xs tracking-[0.18em] uppercase">Today at the bar</p>
+        <Reveal as="p" className="font-utility text-xs tracking-[0.18em] uppercase">
+          Today at the bar
+        </Reveal>
         <ul className="mt-8 space-y-5">
-          {["East Coast oysters", "Blue Hour Martini", "Citrus olive oil cake"].map((item) => (
-            <li
-              className="border-t border-aberdeen-blue pt-3 font-display text-2xl leading-none"
-              key={item}
-            >
-              {item}
-            </li>
-          ))}
+          {["East Coast oysters", "Blue Hour Martini", "Citrus olive oil cake"].map(
+            (item, index) => (
+              <Reveal
+                as="li"
+                className="border-t border-aberdeen-blue pt-3 font-display text-2xl leading-none"
+                delay={120 + index * 90}
+                key={item}
+              >
+                {item}
+              </Reveal>
+            ),
+          )}
         </ul>
       </aside>
       <div className="relative z-10 grid min-h-svh items-end px-5 pt-24 pb-8 md:px-8 md:pt-28 md:pb-10">
@@ -53,7 +60,7 @@ function HeroSection() {
           <Rise as="p" className="max-w-[42rem] font-playful text-3xl leading-tight md:text-5xl">
             Seafood, bright spirits, and a room that keeps the afternoon glowing after dark.
           </Rise>
-          <div className="flex flex-wrap items-center gap-3">
+          <Reveal className="flex flex-wrap items-center gap-3" delay={160}>
             <a
               className="border border-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] uppercase transition hover:bg-aberdeen-peach hover:text-aberdeen-blue"
               href="#reservations"
@@ -66,7 +73,7 @@ function HeroSection() {
             >
               View menu
             </Link>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>
@@ -76,17 +83,20 @@ function HeroSection() {
 function IntroSection() {
   return (
     <section className="grid gap-10 bg-aberdeen-peach px-5 py-16 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:py-24">
-      <p className="font-utility text-sm tracking-[0.22em] text-aberdeen-blue uppercase">
+      <Reveal
+        as="p"
+        className="font-utility text-sm tracking-[0.22em] text-aberdeen-blue uppercase"
+      >
         Richard DeShantz Restaurant Group
-      </p>
+      </Reveal>
       <div className="max-w-4xl">
         <Rise as="h2" className="font-display text-5xl leading-none text-aberdeen-blue md:text-7xl">
           Built like a coastal postcard, served with Savannah appetite.
         </Rise>
-        <p className="mt-8 max-w-2xl text-lg leading-8">
+        <Reveal as="p" className="mt-8 max-w-2xl text-lg leading-8" delay={120}>
           Aberdeen is a bright, editorial restaurant centered on seafood, cocktails, and the easy
           ceremony of gathering around a good table.
-        </p>
+        </Reveal>
       </div>
     </section>
   )
@@ -123,15 +133,17 @@ function MenuSection() {
         <Rise as="h2" className="font-display text-5xl leading-none text-aberdeen-blue md:text-7xl">
           Menus
         </Rise>
-        <Link
-          className="hidden font-utility text-sm tracking-[0.18em] text-aberdeen-blue uppercase underline decoration-citrus decoration-2 underline-offset-8 md:block"
-          to="/menu/food"
-        >
-          View food menu
-        </Link>
+        <Reveal className="hidden md:block" delay={120}>
+          <Link
+            className="font-utility text-sm tracking-[0.18em] text-aberdeen-blue uppercase underline decoration-citrus decoration-2 underline-offset-8"
+            to="/menu/food"
+          >
+            View food menu
+          </Link>
+        </Reveal>
       </div>
       <div className="grid gap-5 md:grid-cols-3">
-        {menus.map((menu) => (
+        {menus.map((menu, index) => (
           <Link
             aria-label={`View ${menu.title} menu`}
             className="group block bg-aberdeen-peach text-aberdeen-blue"
@@ -140,13 +152,18 @@ function MenuSection() {
           >
             <div className="aspect-[4/5] overflow-hidden">
               <div className="h-full w-full transition duration-700 group-hover:scale-105">
-                <RevealImage alt="" className="h-full w-full object-cover" src={menu.image} />
+                <RevealImage
+                  alt=""
+                  className="h-full w-full object-cover"
+                  delay={index * 80}
+                  src={menu.image}
+                />
               </div>
             </div>
-            <div className="min-h-44 p-5">
+            <Reveal className="min-h-44 p-5" delay={index * 80 + 100}>
               <h3 className="font-display text-5xl">{menu.title}</h3>
               <p className="mt-3 max-w-sm text-base leading-7 text-kelp-ink">{menu.copy}</p>
-            </div>
+            </Reveal>
           </Link>
         ))}
       </div>
@@ -167,6 +184,7 @@ function GallerySection() {
           <RevealImage
             alt=""
             className={`h-72 w-full object-cover md:h-[34rem] ${index % 2 === 0 ? "md:mt-12" : ""}`}
+            delay={index * 90}
             key={image}
             src={image}
           />
@@ -183,21 +201,25 @@ function ReservationsSection() {
       id="reservations"
     >
       <div>
-        <p className="font-utility text-sm tracking-[0.22em] uppercase">Reservations</p>
+        <Reveal as="p" className="font-utility text-sm tracking-[0.22em] uppercase">
+          Reservations
+        </Reveal>
         <Rise as="h2" className="mt-5 max-w-3xl font-display text-5xl leading-none md:text-8xl">
           Join us where the table catches the light.
         </Rise>
       </div>
       <div className="self-end border border-aberdeen-peach p-5">
-        <p className="mb-6 text-lg leading-8">
+        <Reveal as="p" className="mb-6 text-lg leading-8">
           OpenTable will live here once the client provides the embed snippet.
-        </p>
-        <Link
-          className="inline-block bg-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase"
-          to="/contact"
-        >
-          Plan a visit
-        </Link>
+        </Reveal>
+        <Reveal delay={120}>
+          <Link
+            className="inline-block bg-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase"
+            to="/contact"
+          >
+            Plan a visit
+          </Link>
+        </Reveal>
       </div>
     </section>
   )
@@ -210,16 +232,18 @@ function EventsSection() {
         Seasonal nights, private dinners, reasons to circle the date.
       </Rise>
       <div className="self-end">
-        <p className="text-lg leading-8">
+        <Reveal as="p" className="text-lg leading-8">
           Aberdeen events bring the coastal mood into dinners, tastings, and gathered evenings built
           around the calendar.
-        </p>
-        <Link
-          className="mt-8 inline-block border border-aberdeen-blue px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase"
-          to="/events"
-        >
-          View events
-        </Link>
+        </Reveal>
+        <Reveal delay={120}>
+          <Link
+            className="mt-8 inline-block border border-aberdeen-blue px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase"
+            to="/events"
+          >
+            View events
+          </Link>
+        </Reveal>
       </div>
     </section>
   )

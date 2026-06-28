@@ -1,4 +1,4 @@
-import { ParallaxLayer, RevealImage, Rise } from "../components/motion"
+import { ParallaxLayer, Reveal, RevealImage, Rise } from "../components/motion"
 
 function AboutPage() {
   return (
@@ -24,12 +24,15 @@ function HeroSection() {
     <section className="relative bg-aberdeen-blue text-aberdeen-peach">
       <RevealImage
         alt="Sunlit restaurant table with glassware and coastal plates"
-        className="absolute inset-y-0 right-0 h-full w-full object-cover opacity-40 mix-blend-luminosity md:w-[55%]"
+        className="absolute inset-y-0 right-0 h-full w-full object-cover mix-blend-luminosity md:w-[55%]"
+        finalOpacity={0.4}
         src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1800&q=85"
       />
       <div className="absolute inset-0 bg-[linear-gradient(90deg,#2A3B92_0%,rgba(42,59,146,0.92)_45%,rgba(42,59,146,0)_100%)]" />
       <div className="relative z-10 grid gap-10 px-5 pt-32 pb-16 md:px-8 md:pt-40 md:pb-24">
-        <p className="font-utility text-sm tracking-[0.22em] uppercase">About Aberdeen</p>
+        <Reveal as="p" className="font-utility text-sm tracking-[0.22em] uppercase">
+          About Aberdeen
+        </Reveal>
         <Rise as="h1" className="max-w-5xl font-display text-6xl leading-none md:text-8xl">
           A coastal room with a Savannah pulse.
         </Rise>
@@ -41,18 +44,21 @@ function HeroSection() {
 function StorySection() {
   return (
     <section className="grid gap-12 bg-oyster-white px-5 py-16 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:py-24">
-      <p className="font-playful text-3xl leading-tight font-bold text-aberdeen-blue md:text-5xl">
+      <Reveal
+        as="p"
+        className="font-playful text-3xl leading-tight font-bold text-aberdeen-blue md:text-5xl"
+      >
         The story
-      </p>
+      </Reveal>
       <div className="max-w-4xl space-y-8">
         <Rise as="h2" className="font-display text-5xl leading-none text-aberdeen-blue md:text-7xl">
           Seafood, bright spirits, and a dining room made for lingering.
         </Rise>
-        <p className="max-w-3xl text-lg leading-8">
+        <Reveal as="p" className="max-w-3xl text-lg leading-8" delay={120}>
           Aberdeen brings coastal ease to the city: oysters on ice, citrus-forward plates, generous
           mains, and a bar that keeps the evening moving. The feeling is editorial but relaxed, like
           a postcard from somewhere brighter pinned to a Savannah wall.
-        </p>
+        </Reveal>
       </div>
     </section>
   )
@@ -80,13 +86,18 @@ function GroupSection() {
           ],
         ].map(([label, title, copy]) => (
           <article className="border-t border-aberdeen-blue pt-5" key={title}>
-            <p className="font-utility text-sm tracking-[0.18em] text-aberdeen-blue uppercase">
+            <Reveal
+              as="p"
+              className="font-utility text-sm tracking-[0.18em] text-aberdeen-blue uppercase"
+            >
               {label}
-            </p>
+            </Reveal>
             <Rise as="h3" className="mt-8 font-display text-4xl leading-none text-aberdeen-blue">
               {title}
             </Rise>
-            <p className="mt-5 leading-7 text-kelp-ink/80">{copy}</p>
+            <Reveal as="p" className="mt-5 leading-7 text-kelp-ink/80" delay={120}>
+              {copy}
+            </Reveal>
           </article>
         ))}
       </div>
@@ -109,7 +120,9 @@ function RoomSection() {
           src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1000&q=85"
         />
         <div className="bg-aberdeen-peach p-6 text-aberdeen-blue md:p-8">
-          <p className="font-utility text-sm tracking-[0.18em] uppercase">The room</p>
+          <Reveal as="p" className="font-utility text-sm tracking-[0.18em] uppercase">
+            The room
+          </Reveal>
           <Rise as="p" className="mt-6 font-playful text-4xl leading-none">
             Bright by day. Blue by night. Always built around the table.
           </Rise>

@@ -1,4 +1,4 @@
-import { ParallaxLayer, RevealImage, Rise } from "../components/motion"
+import { ParallaxLayer, Reveal, RevealImage, Rise } from "../components/motion"
 
 const events = [
   {
@@ -48,12 +48,15 @@ function HeroSection() {
     <section className="relative bg-aberdeen-blue text-aberdeen-peach">
       <RevealImage
         alt="People gathered around a restaurant table with drinks"
-        className="absolute inset-y-0 right-0 h-full w-full object-cover opacity-40 mix-blend-luminosity md:w-[52%]"
+        className="absolute inset-y-0 right-0 h-full w-full object-cover mix-blend-luminosity md:w-[52%]"
+        finalOpacity={0.4}
         src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1800&q=85"
       />
       <div className="absolute inset-0 bg-[linear-gradient(90deg,#2A3B92_0%,rgba(42,59,146,0.92)_45%,rgba(42,59,146,0)_100%)]" />
       <div className="relative z-10 grid gap-10 px-5 pt-32 pb-16 md:px-8 md:pt-40 md:pb-24">
-        <p className="font-utility text-sm tracking-[0.22em] uppercase">Events</p>
+        <Reveal as="p" className="font-utility text-sm tracking-[0.22em] uppercase">
+          Events
+        </Reveal>
         <Rise as="h1" className="max-w-5xl font-display text-6xl leading-none md:text-8xl">
           Seasonal nights worth circling.
         </Rise>
@@ -70,9 +73,12 @@ function CalendarSection() {
     <section className="bg-oyster-white px-5 py-16 md:px-8 md:py-24">
       <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
         <div>
-          <p className="font-utility text-sm tracking-[0.22em] text-aberdeen-blue uppercase">
+          <Reveal
+            as="p"
+            className="font-utility text-sm tracking-[0.22em] text-aberdeen-blue uppercase"
+          >
             June
-          </p>
+          </Reveal>
           <Rise
             as="h2"
             className="mt-4 font-display text-5xl leading-none text-aberdeen-blue md:text-7xl"
@@ -80,15 +86,17 @@ function CalendarSection() {
             Aberdeen calendar
           </Rise>
         </div>
-        <p className="max-w-md leading-7 text-kelp-ink/80">
+        <Reveal as="p" className="max-w-md leading-7 text-kelp-ink/80" delay={120}>
           Event details open inline in this calendar-style view. Future CMS entries will replace
           this starter schedule.
-        </p>
+        </Reveal>
       </div>
       <div className="grid gap-3 md:hidden">
-        {events.map((event) => (
-          <article
+        {events.map((event, index) => (
+          <Reveal
+            as="article"
             className="border border-aberdeen-blue/25 bg-aberdeen-peach p-4 text-aberdeen-blue"
+            delay={index * 80}
             key={event.title}
           >
             <div className="flex items-start justify-between gap-4">
@@ -99,7 +107,7 @@ function CalendarSection() {
             </div>
             <h3 className="mt-5 font-display text-3xl leading-none">{event.title}</h3>
             <p className="mt-4 text-sm leading-6 text-kelp-ink/80">{event.copy}</p>
-          </article>
+          </Reveal>
         ))}
       </div>
       <div className="hidden grid-cols-7 border-t border-l border-aberdeen-blue/25 md:grid">
@@ -117,16 +125,18 @@ function CalendarSection() {
             key={day}
           />
         ))}
-        {events.map((event) => (
-          <article
+        {events.map((event, index) => (
+          <Reveal
+            as="article"
             className="min-h-48 border-r border-b border-aberdeen-blue/25 bg-aberdeen-peach p-3 text-aberdeen-blue md:p-5"
+            delay={index * 80}
             key={event.title}
           >
             <p className="font-utility text-xs tracking-[0.16em] uppercase">{event.day}</p>
             <h3 className="mt-8 font-display text-3xl leading-none">{event.title}</h3>
             <p className="mt-2 font-utility text-xs tracking-[0.14em] uppercase">{event.time}</p>
             <p className="mt-4 text-sm leading-6 text-kelp-ink/80">{event.copy}</p>
-          </article>
+          </Reveal>
         ))}
         {trailingDays.map((day) => (
           <div
@@ -143,22 +153,26 @@ function PrivateEventsSection() {
   return (
     <section className="grid gap-10 bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:grid-cols-[1fr_0.9fr] md:px-8 md:py-24">
       <div>
-        <p className="font-utility text-sm tracking-[0.22em] uppercase">Private events</p>
+        <Reveal as="p" className="font-utility text-sm tracking-[0.22em] uppercase">
+          Private events
+        </Reveal>
         <Rise as="h2" className="mt-5 max-w-3xl font-playful text-5xl leading-none md:text-7xl">
           Gatherings with seafood, spirits, and a room already dressed for it.
         </Rise>
       </div>
       <div className="self-end border border-aberdeen-peach p-5">
-        <p className="mb-6 text-lg leading-8">
+        <Reveal as="p" className="mb-6 text-lg leading-8">
           For birthdays, group dinners, brand nights, and seasonal parties, Aberdeen can shape the
           table around the moment.
-        </p>
-        <a
-          className="inline-block bg-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase"
-          href="/contact"
-        >
-          Start planning
-        </a>
+        </Reveal>
+        <Reveal delay={120}>
+          <a
+            className="inline-block bg-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase"
+            href="/contact"
+          >
+            Start planning
+          </a>
+        </Reveal>
       </div>
     </section>
   )

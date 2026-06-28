@@ -1,12 +1,13 @@
-import { Link } from "react-router"
 import {
   attachImages,
   MenuCardSection,
+  MenuClosingNote,
   type MenuGroup,
-  MenuTabs,
+  MenuHero,
+  MenuReserve,
   type RawGroup,
 } from "../components/menu"
-import { ParallaxLayer, RevealImage, Rise } from "../components/motion"
+import { ParallaxLayer } from "../components/motion"
 
 const houseCocktails: RawGroup = {
   title: "House Cocktails",
@@ -224,7 +225,13 @@ function SpiritsMenuPage() {
   return (
     <div className="overflow-hidden">
       <ParallaxLayer index={0}>
-        <MenuHero />
+        <MenuHero
+          active="spirits"
+          image="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=1800&q=85"
+          imageAlt="Blue cocktail on a wooden bar"
+          intro="Cocktails, coastal classics, and bottles for lingering. Bright, briny, botanical, and built for the room after dark."
+          title="Spirits"
+        />
       </ParallaxLayer>
       {groups.map((group, index) => (
         <ParallaxLayer index={index + 1} key={group.title}>
@@ -232,74 +239,18 @@ function SpiritsMenuPage() {
         </ParallaxLayer>
       ))}
       <ParallaxLayer index={groups.length + 1}>
-        <ClosingNote />
+        <MenuClosingNote>
+          Spirits, wine, and cocktail selections shift with the season. Ask the bar for the night's
+          favorite bottle, spritz, or zero-proof build.
+        </MenuClosingNote>
       </ParallaxLayer>
       <ParallaxLayer index={groups.length + 2}>
-        <ReserveSection />
+        <MenuReserve
+          body="Book a table and let the bar start the night with something cold, bright, and a little blue."
+          heading="Come hungry, stay for the light."
+        />
       </ParallaxLayer>
     </div>
-  )
-}
-
-function MenuHero() {
-  return (
-    <section className="relative bg-aberdeen-blue text-aberdeen-peach">
-      <RevealImage
-        alt="Blue cocktail on a wooden bar"
-        className="absolute inset-y-0 right-0 h-full w-full object-cover opacity-40 mix-blend-luminosity md:w-[52%]"
-        src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=1800&q=85"
-      />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,#2A3B92_0%,rgba(42,59,146,0.92)_44%,rgba(42,59,146,0)_100%)]" />
-      <div className="relative z-10 grid gap-10 px-5 pt-32 pb-16 md:px-8 md:pt-40 md:pb-24">
-        <p className="font-utility text-sm tracking-[0.22em] uppercase">Menus</p>
-        <div className="max-w-5xl">
-          <Rise as="h1" className="font-display text-6xl leading-none md:text-8xl">
-            Spirits
-          </Rise>
-          <p className="mt-8 max-w-2xl text-lg leading-8">
-            Cocktails, coastal classics, and bottles for lingering. Bright, briny, botanical, and
-            built for the room after dark.
-          </p>
-        </div>
-        <MenuTabs active="spirits" />
-      </div>
-    </section>
-  )
-}
-
-function ClosingNote() {
-  return (
-    <section className="bg-oyster-white px-5 pb-16 md:px-8 md:pb-24">
-      <p className="max-w-3xl leading-8 text-kelp-ink/80">
-        Spirits, wine, and cocktail selections shift with the season. Ask the bar for the night's
-        favorite bottle, spritz, or zero-proof build.
-      </p>
-    </section>
-  )
-}
-
-function ReserveSection() {
-  return (
-    <section className="grid gap-10 bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:grid-cols-[1fr_0.9fr] md:px-8 md:py-24">
-      <div>
-        <p className="font-utility text-sm tracking-[0.22em] uppercase">Reservations</p>
-        <Rise as="h2" className="mt-5 max-w-3xl font-display text-5xl leading-none md:text-7xl">
-          Come hungry, stay for the light.
-        </Rise>
-      </div>
-      <div className="self-end border border-aberdeen-peach p-5">
-        <p className="mb-6 text-lg leading-8">
-          Book a table and let the bar start the night with something cold, bright, and a little
-          blue.
-        </p>
-        <Link
-          className="inline-block bg-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase"
-          to="/contact"
-        >
-          Plan a visit
-        </Link>
-      </div>
-    </section>
   )
 }
 

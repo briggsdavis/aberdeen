@@ -1,12 +1,13 @@
-import { Link } from "react-router"
 import {
   attachImages,
   MenuCardSection,
+  MenuClosingNote,
   type MenuGroup,
-  MenuTabs,
+  MenuHero,
+  MenuReserve,
   type RawGroup,
 } from "../components/menu"
-import { ParallaxLayer, RevealImage, Rise } from "../components/motion"
+import { ParallaxLayer } from "../components/motion"
 
 const zeroProof: RawGroup = {
   title: "Zero-Proof",
@@ -212,7 +213,13 @@ function BeveragesMenuPage() {
   return (
     <div className="overflow-hidden">
       <ParallaxLayer index={0}>
-        <MenuHero />
+        <MenuHero
+          active="beverages"
+          image="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=1800&q=85"
+          imageAlt="A bottle of sparkling water next to lemonade"
+          intro="Sparkling, zero-proof, coffee, tea, and daytime refreshers. Made for long lunches, early dinners, and one more round without the proof."
+          title="Beverages"
+        />
       </ParallaxLayer>
       {groups.map((group, index) => (
         <ParallaxLayer index={index + 1} key={group.title}>
@@ -220,74 +227,18 @@ function BeveragesMenuPage() {
         </ParallaxLayer>
       ))}
       <ParallaxLayer index={groups.length + 1}>
-        <ClosingNote />
+        <MenuClosingNote>
+          Beverage selections change with the season. Ask for the current house soda, iced tea, or
+          zero-proof special.
+        </MenuClosingNote>
       </ParallaxLayer>
       <ParallaxLayer index={groups.length + 2}>
-        <ReserveSection />
+        <MenuReserve
+          body="Book a table for bright refreshers, coffee after dinner, and something sparkling between courses."
+          heading="Stay for one more sparkling thing."
+        />
       </ParallaxLayer>
     </div>
-  )
-}
-
-function MenuHero() {
-  return (
-    <section className="relative bg-aberdeen-blue text-aberdeen-peach">
-      <RevealImage
-        alt="A bottle of sparkling water next to lemonade"
-        className="absolute inset-y-0 right-0 h-full w-full object-cover opacity-40 mix-blend-luminosity md:w-[52%]"
-        src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=1800&q=85"
-      />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,#2A3B92_0%,rgba(42,59,146,0.92)_44%,rgba(42,59,146,0)_100%)]" />
-      <div className="relative z-10 grid gap-10 px-5 pt-32 pb-16 md:px-8 md:pt-40 md:pb-24">
-        <p className="font-utility text-sm tracking-[0.22em] uppercase">Menus</p>
-        <div className="max-w-5xl">
-          <Rise as="h1" className="font-display text-6xl leading-none md:text-8xl">
-            Beverages
-          </Rise>
-          <p className="mt-8 max-w-2xl text-lg leading-8">
-            Sparkling, zero-proof, coffee, tea, and daytime refreshers. Made for long lunches, early
-            dinners, and one more round without the proof.
-          </p>
-        </div>
-        <MenuTabs active="beverages" />
-      </div>
-    </section>
-  )
-}
-
-function ClosingNote() {
-  return (
-    <section className="bg-oyster-white px-5 pb-16 md:px-8 md:pb-24">
-      <p className="max-w-3xl leading-8 text-kelp-ink/80">
-        Beverage selections change with the season. Ask for the current house soda, iced tea, or
-        zero-proof special.
-      </p>
-    </section>
-  )
-}
-
-function ReserveSection() {
-  return (
-    <section className="grid gap-10 bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:grid-cols-[1fr_0.9fr] md:px-8 md:py-24">
-      <div>
-        <p className="font-utility text-sm tracking-[0.22em] uppercase">Reservations</p>
-        <Rise as="h2" className="mt-5 max-w-3xl font-display text-5xl leading-none md:text-7xl">
-          Stay for one more sparkling thing.
-        </Rise>
-      </div>
-      <div className="self-end border border-aberdeen-peach p-5">
-        <p className="mb-6 text-lg leading-8">
-          Book a table for bright refreshers, coffee after dinner, and something sparkling between
-          courses.
-        </p>
-        <Link
-          className="inline-block bg-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase"
-          to="/contact"
-        >
-          Plan a visit
-        </Link>
-      </div>
-    </section>
   )
 }
 

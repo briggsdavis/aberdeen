@@ -1,4 +1,4 @@
-import { ParallaxLayer, RevealImage, Rise } from "../components/motion"
+import { ParallaxLayer, Reveal, RevealImage, Rise } from "../components/motion"
 
 const staff = [
   {
@@ -66,12 +66,15 @@ function HeroSection() {
     <section className="relative bg-aberdeen-blue text-aberdeen-peach">
       <RevealImage
         alt="Restaurant team preparing a dining room"
-        className="absolute inset-y-0 right-0 h-full w-full object-cover opacity-40 mix-blend-luminosity md:w-[52%]"
+        className="absolute inset-y-0 right-0 h-full w-full object-cover mix-blend-luminosity md:w-[52%]"
+        finalOpacity={0.4}
         src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1800&q=85"
       />
       <div className="absolute inset-0 bg-[linear-gradient(90deg,#2A3B92_0%,rgba(42,59,146,0.92)_45%,rgba(42,59,146,0)_100%)]" />
       <div className="relative z-10 grid gap-10 px-5 pt-32 pb-16 md:px-8 md:pt-40 md:pb-24">
-        <p className="font-utility text-sm tracking-[0.22em] uppercase">Staff</p>
+        <Reveal as="p" className="font-utility text-sm tracking-[0.22em] uppercase">
+          Staff
+        </Reveal>
         <Rise as="h1" className="max-w-5xl font-display text-6xl leading-none md:text-8xl">
           The people who keep the room glowing.
         </Rise>
@@ -103,10 +106,10 @@ function RosterSection() {
             <div className="absolute top-4 left-4 bg-aberdeen-blue px-3 py-2 font-utility text-xs tracking-[0.16em] text-aberdeen-peach uppercase">
               {person.role}
             </div>
-            <div className="p-5">
+            <Reveal className="p-5" delay={(index % 3) * 90}>
               <h2 className="font-display text-4xl leading-none">{person.name}</h2>
               <p className="mt-4 leading-7 text-kelp-ink/80">{person.note}</p>
-            </div>
+            </Reveal>
           </article>
         ))}
       </div>
@@ -120,10 +123,10 @@ function HiringSection() {
       <Rise as="h2" className="max-w-3xl font-playful text-5xl leading-none md:text-7xl">
         Hospitality is the house style.
       </Rise>
-      <p className="self-end text-lg leading-8">
+      <Reveal as="p" className="self-end text-lg leading-8" delay={120}>
         The Aberdeen team is built around warmth, precision, and the good timing that makes a busy
         room feel effortless.
-      </p>
+      </Reveal>
     </section>
   )
 }

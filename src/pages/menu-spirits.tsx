@@ -1,18 +1,14 @@
 import { Link } from "react-router"
+import {
+  attachImages,
+  MenuCardSection,
+  type MenuGroup,
+  MenuTabs,
+  type RawGroup,
+} from "../components/menu"
+import { ParallaxLayer, RevealImage, Rise } from "../components/motion"
 
-type MenuItem = {
-  name: string
-  description: string
-  price: string
-}
-
-type MenuGroup = {
-  title: string
-  note?: string
-  items: MenuItem[]
-}
-
-const rawBar: MenuGroup = {
+const houseCocktails: RawGroup = {
   title: "House Cocktails",
   note: "Bright and coastal",
   items: [
@@ -44,7 +40,7 @@ const rawBar: MenuGroup = {
   ],
 }
 
-const towers: MenuGroup = {
+const largeFormat: RawGroup = {
   title: "For the Table",
   note: "Large format",
   items: [
@@ -61,7 +57,7 @@ const towers: MenuGroup = {
   ],
 }
 
-const starters: MenuGroup = {
+const classics: RawGroup = {
   title: "Classics",
   items: [
     {
@@ -97,7 +93,7 @@ const starters: MenuGroup = {
   ],
 }
 
-const mains: MenuGroup = {
+const ginVodka: RawGroup = {
   title: "Gin & Vodka",
   items: [
     {
@@ -133,7 +129,7 @@ const mains: MenuGroup = {
   ],
 }
 
-const land: MenuGroup = {
+const brownSpirits: RawGroup = {
   title: "Rum, Tequila & Whiskey",
   items: [
     {
@@ -169,7 +165,7 @@ const land: MenuGroup = {
   ],
 }
 
-const sides: MenuGroup = {
+const wine: RawGroup = {
   title: "Wine by the Glass",
   items: [
     { name: "Brut Cava", description: "Green apple, lemon, mineral", price: "14" },
@@ -181,7 +177,7 @@ const sides: MenuGroup = {
   ],
 }
 
-const desserts: MenuGroup = {
+const afterDinner: RawGroup = {
   title: "After Dinner",
   items: [
     {
@@ -207,202 +203,74 @@ const desserts: MenuGroup = {
   ],
 }
 
+const POOL = [
+  "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1572116469696-31de0f17cc34?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1621263764928-df1444c5e859?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800&q=80",
+]
+
+const tones = ["light", "peach", "blue"] as const
+const groups: MenuGroup[] = attachImages(
+  [houseCocktails, largeFormat, classics, ginVodka, brownSpirits, wine, afterDinner],
+  POOL,
+)
+
 function SpiritsMenuPage() {
   return (
     <div className="overflow-hidden">
-      <MenuHero />
-      <RawBarSection />
-      <StartersSection />
-      <MainsSection />
-      <SidesAndDessertSection />
-      <ReserveSection />
-    </div>
-  )
-}
-
-function MenuTabs() {
-  const tabs = [
-    { label: "Food", to: "/menu/food", active: false },
-    { label: "Spirits", to: "/menu/spirits", active: true },
-    { label: "Beverages", to: "/menu/beverages", active: false },
-  ]
-
-  return (
-    <nav className="flex flex-wrap gap-x-6 gap-y-2 font-utility text-sm tracking-[0.18em] uppercase">
-      {tabs.map((tab) => (
-        <Link
-          className={
-            tab.active
-              ? "underline decoration-citrus decoration-2 underline-offset-8"
-              : "opacity-70 transition hover:opacity-100"
-          }
-          key={tab.label}
-          to={tab.to}
-        >
-          {tab.label}
-        </Link>
+      <ParallaxLayer index={0}>
+        <MenuHero />
+      </ParallaxLayer>
+      {groups.map((group, index) => (
+        <ParallaxLayer index={index + 1} key={group.title}>
+          <MenuCardSection group={group} tone={tones[index % tones.length]} />
+        </ParallaxLayer>
       ))}
-    </nav>
+      <ParallaxLayer index={groups.length + 1}>
+        <ClosingNote />
+      </ParallaxLayer>
+      <ParallaxLayer index={groups.length + 2}>
+        <ReserveSection />
+      </ParallaxLayer>
+    </div>
   )
 }
 
 function MenuHero() {
   return (
     <section className="relative bg-aberdeen-blue text-aberdeen-peach">
-      <img
+      <RevealImage
         alt="Blue cocktail on a wooden bar"
         className="absolute inset-y-0 right-0 h-full w-full object-cover opacity-40 mix-blend-luminosity md:w-[52%]"
         src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=1800&q=85"
       />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,#2A3B92_0%,rgba(42,59,146,0.96)_44%,rgba(42,59,146,0.36)_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,#2A3B92_0%,rgba(42,59,146,0.92)_44%,rgba(42,59,146,0)_100%)]" />
       <div className="relative z-10 grid gap-10 px-5 pt-32 pb-16 md:px-8 md:pt-40 md:pb-24">
         <p className="font-utility text-sm tracking-[0.22em] uppercase">Menus</p>
         <div className="max-w-5xl">
-          <h1 className="font-display text-6xl leading-none md:text-8xl">Spirits</h1>
+          <Rise as="h1" className="font-display text-6xl leading-none md:text-8xl">
+            Spirits
+          </Rise>
           <p className="mt-8 max-w-2xl text-lg leading-8">
             Cocktails, coastal classics, and bottles for lingering. Bright, briny, botanical, and
             built for the room after dark.
           </p>
         </div>
-        <MenuTabs />
+        <MenuTabs active="spirits" />
       </div>
     </section>
   )
 }
 
-function MenuList({ group }: { group: MenuGroup }) {
+function ClosingNote() {
   return (
-    <div>
-      <div className="mb-6 flex items-baseline justify-between gap-4 border-b border-aberdeen-blue/20 pb-3">
-        <h3 className="font-display text-3xl text-aberdeen-blue md:text-4xl">{group.title}</h3>
-        {group.note ? (
-          <p className="font-utility text-xs tracking-[0.18em] text-aberdeen-blue/70 uppercase">
-            {group.note}
-          </p>
-        ) : null}
-      </div>
-      <ul className="space-y-5">
-        {group.items.map((item) => (
-          <li className="flex items-baseline gap-4" key={item.name}>
-            <div className="min-w-0">
-              <p className="font-display text-xl text-aberdeen-blue">{item.name}</p>
-              <p className="mt-1 leading-7 text-kelp-ink/80">{item.description}</p>
-            </div>
-            <span className="grow border-b border-dotted border-aberdeen-blue/25" />
-            <span className="font-utility text-sm tracking-[0.12em] text-aberdeen-blue uppercase">
-              {item.price}
-            </span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
-}
-
-function RawBarSection() {
-  return (
-    <section className="bg-oyster-white px-5 py-16 md:px-8 md:py-24">
-      <div className="grid gap-12 md:grid-cols-[1fr_0.9fr] md:gap-16">
-        <div className="space-y-12">
-          <MenuList group={rawBar} />
-          <MenuList group={towers} />
-        </div>
-        <div className="self-start md:sticky md:top-8">
-          <div className="aspect-[4/5] overflow-hidden">
-            <img
-              alt="Colorful cocktails served on a bar"
-              className="h-full w-full object-cover"
-              src="https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=1000&q=85"
-            />
-          </div>
-          <p className="mt-4 max-w-sm font-utility text-xs tracking-[0.18em] text-aberdeen-blue/70 uppercase">
-            Built bright, cold, and coastal from the first pour.
-          </p>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function StartersSection() {
-  return (
-    <section className="bg-aberdeen-peach px-5 py-16 md:px-8 md:py-24">
-      <div className="grid gap-12 md:grid-cols-[0.9fr_1fr] md:gap-16">
-        <div className="order-2 md:order-1">
-          <div className="aspect-[4/5] overflow-hidden">
-            <img
-              alt="Bartender stirring a cocktail over ice"
-              className="h-full w-full object-cover"
-              src="https://images.unsplash.com/photo-1572116469696-31de0f17cc34?auto=format&fit=crop&w=1000&q=85"
-            />
-          </div>
-        </div>
-        <div className="order-1 md:order-2">
-          <MenuList group={starters} />
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function MainsSection() {
-  return (
-    <section className="bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24">
-      <div className="mb-12 grid gap-10 md:grid-cols-[1fr_1fr] md:items-end">
-        <h2 className="font-display text-5xl leading-none md:text-7xl">
-          Bottles that carry the table.
-        </h2>
-        <div className="aspect-[16/10] overflow-hidden">
-          <img
-            alt="Cocktail glasses lined up on a bar"
-            className="h-full w-full object-cover"
-            src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=1200&q=85"
-          />
-        </div>
-      </div>
-      <div className="grid gap-12 md:grid-cols-2 md:gap-16">
-        <MainsList group={mains} />
-        <MainsList group={land} />
-      </div>
-    </section>
-  )
-}
-
-function MainsList({ group }: { group: MenuGroup }) {
-  return (
-    <div>
-      <div className="mb-6 flex items-baseline justify-between gap-4 border-b border-aberdeen-peach/25 pb-3">
-        <h3 className="font-display text-3xl md:text-4xl">{group.title}</h3>
-        {group.note ? (
-          <p className="font-utility text-xs tracking-[0.18em] text-aberdeen-peach/70 uppercase">
-            {group.note}
-          </p>
-        ) : null}
-      </div>
-      <ul className="space-y-5">
-        {group.items.map((item) => (
-          <li className="flex items-baseline gap-4" key={item.name}>
-            <div className="min-w-0">
-              <p className="font-display text-xl">{item.name}</p>
-              <p className="mt-1 leading-7 text-aberdeen-peach/80">{item.description}</p>
-            </div>
-            <span className="grow border-b border-dotted border-aberdeen-peach/30" />
-            <span className="font-utility text-sm tracking-[0.12em] uppercase">{item.price}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
-}
-
-function SidesAndDessertSection() {
-  return (
-    <section className="bg-oyster-white px-5 py-16 md:px-8 md:py-24">
-      <div className="grid gap-12 md:grid-cols-2 md:gap-16">
-        <MenuList group={sides} />
-        <MenuList group={desserts} />
-      </div>
-      <p className="mt-12 max-w-3xl leading-8 text-kelp-ink/80">
+    <section className="bg-oyster-white px-5 pb-16 md:px-8 md:pb-24">
+      <p className="max-w-3xl leading-8 text-kelp-ink/80">
         Spirits, wine, and cocktail selections shift with the season. Ask the bar for the night's
         favorite bottle, spritz, or zero-proof build.
       </p>
@@ -415,9 +283,9 @@ function ReserveSection() {
     <section className="grid gap-10 bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:grid-cols-[1fr_0.9fr] md:px-8 md:py-24">
       <div>
         <p className="font-utility text-sm tracking-[0.22em] uppercase">Reservations</p>
-        <h2 className="mt-5 max-w-3xl font-display text-5xl leading-none md:text-7xl">
+        <Rise as="h2" className="mt-5 max-w-3xl font-display text-5xl leading-none md:text-7xl">
           Come hungry, stay for the light.
-        </h2>
+        </Rise>
       </div>
       <div className="self-end border border-aberdeen-peach p-5">
         <p className="mb-6 text-lg leading-8">

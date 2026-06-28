@@ -1,3 +1,5 @@
+import { ParallaxLayer, RevealImage, Rise } from "../components/motion"
+
 const events = [
   {
     day: "06",
@@ -28,9 +30,15 @@ const events = [
 function EventsPage() {
   return (
     <div className="overflow-hidden">
-      <HeroSection />
-      <CalendarSection />
-      <PrivateEventsSection />
+      <ParallaxLayer index={0}>
+        <HeroSection />
+      </ParallaxLayer>
+      <ParallaxLayer index={1}>
+        <CalendarSection />
+      </ParallaxLayer>
+      <ParallaxLayer index={2}>
+        <PrivateEventsSection />
+      </ParallaxLayer>
     </div>
   )
 }
@@ -38,17 +46,17 @@ function EventsPage() {
 function HeroSection() {
   return (
     <section className="relative bg-aberdeen-blue text-aberdeen-peach">
-      <img
+      <RevealImage
         alt="People gathered around a restaurant table with drinks"
         className="absolute inset-y-0 right-0 h-full w-full object-cover opacity-40 mix-blend-luminosity md:w-[52%]"
         src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1800&q=85"
       />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,#2A3B92_0%,rgba(42,59,146,0.96)_45%,rgba(42,59,146,0.34)_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,#2A3B92_0%,rgba(42,59,146,0.92)_45%,rgba(42,59,146,0)_100%)]" />
       <div className="relative z-10 grid gap-10 px-5 pt-32 pb-16 md:px-8 md:pt-40 md:pb-24">
         <p className="font-utility text-sm tracking-[0.22em] uppercase">Events</p>
-        <h1 className="max-w-5xl font-display text-6xl leading-none md:text-8xl">
+        <Rise as="h1" className="max-w-5xl font-display text-6xl leading-none md:text-8xl">
           Seasonal nights worth circling.
-        </h1>
+        </Rise>
       </div>
     </section>
   )
@@ -65,9 +73,12 @@ function CalendarSection() {
           <p className="font-utility text-sm tracking-[0.22em] text-aberdeen-blue uppercase">
             June
           </p>
-          <h2 className="mt-4 font-display text-5xl leading-none text-aberdeen-blue md:text-7xl">
+          <Rise
+            as="h2"
+            className="mt-4 font-display text-5xl leading-none text-aberdeen-blue md:text-7xl"
+          >
             Aberdeen calendar
-          </h2>
+          </Rise>
         </div>
         <p className="max-w-md leading-7 text-kelp-ink/80">
           Event details open inline in this calendar-style view. Future CMS entries will replace
@@ -133,9 +144,9 @@ function PrivateEventsSection() {
     <section className="grid gap-10 bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:grid-cols-[1fr_0.9fr] md:px-8 md:py-24">
       <div>
         <p className="font-utility text-sm tracking-[0.22em] uppercase">Private events</p>
-        <h2 className="mt-5 max-w-3xl font-playful text-5xl leading-none md:text-7xl">
+        <Rise as="h2" className="mt-5 max-w-3xl font-playful text-5xl leading-none md:text-7xl">
           Gatherings with seafood, spirits, and a room already dressed for it.
-        </h2>
+        </Rise>
       </div>
       <div className="self-end border border-aberdeen-peach p-5">
         <p className="mb-6 text-lg leading-8">

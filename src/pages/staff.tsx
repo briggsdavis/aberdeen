@@ -1,3 +1,5 @@
+import { ParallaxLayer, RevealImage, Rise } from "../components/motion"
+
 const staff = [
   {
     name: "Marin Vale",
@@ -46,9 +48,15 @@ const staff = [
 function StaffPage() {
   return (
     <div className="overflow-hidden">
-      <HeroSection />
-      <RosterSection />
-      <HiringSection />
+      <ParallaxLayer index={0}>
+        <HeroSection />
+      </ParallaxLayer>
+      <ParallaxLayer index={1}>
+        <RosterSection />
+      </ParallaxLayer>
+      <ParallaxLayer index={2}>
+        <HiringSection />
+      </ParallaxLayer>
     </div>
   )
 }
@@ -56,17 +64,17 @@ function StaffPage() {
 function HeroSection() {
   return (
     <section className="relative bg-aberdeen-blue text-aberdeen-peach">
-      <img
+      <RevealImage
         alt="Restaurant team preparing a dining room"
         className="absolute inset-y-0 right-0 h-full w-full object-cover opacity-40 mix-blend-luminosity md:w-[52%]"
         src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1800&q=85"
       />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,#2A3B92_0%,rgba(42,59,146,0.96)_45%,rgba(42,59,146,0.34)_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,#2A3B92_0%,rgba(42,59,146,0.92)_45%,rgba(42,59,146,0)_100%)]" />
       <div className="relative z-10 grid gap-10 px-5 pt-32 pb-16 md:px-8 md:pt-40 md:pb-24">
         <p className="font-utility text-sm tracking-[0.22em] uppercase">Staff</p>
-        <h1 className="max-w-5xl font-display text-6xl leading-none md:text-8xl">
+        <Rise as="h1" className="max-w-5xl font-display text-6xl leading-none md:text-8xl">
           The people who keep the room glowing.
-        </h1>
+        </Rise>
       </div>
     </section>
   )
@@ -84,11 +92,13 @@ function RosterSection() {
             key={person.name}
           >
             <div className="aspect-[3/4] overflow-hidden">
-              <img
-                alt={person.name}
-                className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                src={person.image}
-              />
+              <div className="h-full w-full transition duration-700 group-hover:scale-105">
+                <RevealImage
+                  alt={person.name}
+                  className="h-full w-full object-cover"
+                  src={person.image}
+                />
+              </div>
             </div>
             <div className="absolute top-4 left-4 bg-aberdeen-blue px-3 py-2 font-utility text-xs tracking-[0.16em] text-aberdeen-peach uppercase">
               {person.role}
@@ -107,9 +117,9 @@ function RosterSection() {
 function HiringSection() {
   return (
     <section className="grid gap-10 bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:grid-cols-[1fr_0.9fr] md:px-8 md:py-24">
-      <h2 className="max-w-3xl font-playful text-5xl leading-none md:text-7xl">
+      <Rise as="h2" className="max-w-3xl font-playful text-5xl leading-none md:text-7xl">
         Hospitality is the house style.
-      </h2>
+      </Rise>
       <p className="self-end text-lg leading-8">
         The Aberdeen team is built around warmth, precision, and the good timing that makes a busy
         room feel effortless.

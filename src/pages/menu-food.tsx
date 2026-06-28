@@ -1,18 +1,14 @@
 import { Link } from "react-router"
+import {
+  attachImages,
+  MenuCardSection,
+  type MenuGroup,
+  MenuTabs,
+  type RawGroup,
+} from "../components/menu"
+import { ParallaxLayer, RevealImage, Rise } from "../components/motion"
 
-type MenuItem = {
-  name: string
-  description: string
-  price: string
-}
-
-type MenuGroup = {
-  title: string
-  note?: string
-  items: MenuItem[]
-}
-
-const rawBar: MenuGroup = {
+const rawBar: RawGroup = {
   title: "Raw Bar",
   note: "Shucked to order",
   items: [
@@ -44,7 +40,7 @@ const rawBar: MenuGroup = {
   ],
 }
 
-const towers: MenuGroup = {
+const towers: RawGroup = {
   title: "For the Table",
   note: "Built on ice",
   items: [
@@ -61,7 +57,7 @@ const towers: MenuGroup = {
   ],
 }
 
-const starters: MenuGroup = {
+const starters: RawGroup = {
   title: "Starters",
   items: [
     {
@@ -97,7 +93,7 @@ const starters: MenuGroup = {
   ],
 }
 
-const mains: MenuGroup = {
+const mains: RawGroup = {
   title: "From the Sea",
   items: [
     {
@@ -133,7 +129,7 @@ const mains: MenuGroup = {
   ],
 }
 
-const land: MenuGroup = {
+const land: RawGroup = {
   title: "From the Land",
   items: [
     {
@@ -149,7 +145,7 @@ const land: MenuGroup = {
   ],
 }
 
-const sides: MenuGroup = {
+const sides: RawGroup = {
   title: "Sides",
   items: [
     { name: "Hand-Cut Fries", description: "Old Bay, lemon aioli", price: "10" },
@@ -159,7 +155,7 @@ const sides: MenuGroup = {
   ],
 }
 
-const desserts: MenuGroup = {
+const desserts: RawGroup = {
   title: "Dessert",
   items: [
     {
@@ -185,202 +181,76 @@ const desserts: MenuGroup = {
   ],
 }
 
+const POOL = [
+  "https://images.unsplash.com/photo-1606851091851-e8c8c0fca5ba?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1679694140422-aecfd3d5dd0b?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1595579547936-c3a0e6c171fc?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1777891257650-5dedbba89dd4?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1523905330026-b8bd1f5f320e?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1633321094192-388268512e0f?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=800&q=80",
+]
+
+const tones = ["light", "peach", "blue"] as const
+const groups: MenuGroup[] = attachImages(
+  [rawBar, towers, starters, mains, land, sides, desserts],
+  POOL,
+)
+
 function FoodMenuPage() {
   return (
     <div className="overflow-hidden">
-      <MenuHero />
-      <RawBarSection />
-      <StartersSection />
-      <MainsSection />
-      <SidesAndDessertSection />
-      <ReserveSection />
-    </div>
-  )
-}
-
-function MenuTabs() {
-  const tabs = [
-    { label: "Food", to: "/menu/food", active: true },
-    { label: "Spirits", to: "/menu/spirits", active: false },
-    { label: "Beverages", to: "/menu/beverages", active: false },
-  ]
-
-  return (
-    <nav className="flex flex-wrap gap-x-6 gap-y-2 font-utility text-sm tracking-[0.18em] uppercase">
-      {tabs.map((tab) => (
-        <Link
-          className={
-            tab.active
-              ? "underline decoration-citrus decoration-2 underline-offset-8"
-              : "opacity-70 transition hover:opacity-100"
-          }
-          key={tab.label}
-          to={tab.to}
-        >
-          {tab.label}
-        </Link>
+      <ParallaxLayer index={0}>
+        <MenuHero />
+      </ParallaxLayer>
+      {groups.map((group, index) => (
+        <ParallaxLayer index={index + 1} key={group.title}>
+          <MenuCardSection group={group} tone={tones[index % tones.length]} />
+        </ParallaxLayer>
       ))}
-    </nav>
+      <ParallaxLayer index={groups.length + 1}>
+        <ClosingNote />
+      </ParallaxLayer>
+      <ParallaxLayer index={groups.length + 2}>
+        <ReserveSection />
+      </ParallaxLayer>
+    </div>
   )
 }
 
 function MenuHero() {
   return (
     <section className="relative bg-aberdeen-blue text-aberdeen-peach">
-      <img
+      <RevealImage
         alt="A plate of oysters on ice with lemon wedges"
         className="absolute inset-y-0 right-0 h-full w-full object-cover opacity-40 mix-blend-luminosity md:w-[52%]"
         src="https://images.unsplash.com/photo-1633321094192-388268512e0f?auto=format&fit=crop&w=1800&q=85"
       />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,#2A3B92_0%,rgba(42,59,146,0.96)_44%,rgba(42,59,146,0.36)_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,#2A3B92_0%,rgba(42,59,146,0.92)_44%,rgba(42,59,146,0)_100%)]" />
       <div className="relative z-10 grid gap-10 px-5 pt-32 pb-16 md:px-8 md:pt-40 md:pb-24">
         <p className="font-utility text-sm tracking-[0.22em] uppercase">Menus</p>
         <div className="max-w-5xl">
-          <h1 className="font-display text-6xl leading-none md:text-8xl">Food</h1>
+          <Rise as="h1" className="font-display text-6xl leading-none md:text-8xl">
+            Food
+          </Rise>
           <p className="mt-8 max-w-2xl text-lg leading-8">
             Cold oysters, coastal plates, and generous mains. Sourced from both coasts, served in a
             room that keeps the afternoon glowing after dark.
           </p>
         </div>
-        <MenuTabs />
+        <MenuTabs active="food" />
       </div>
     </section>
   )
 }
 
-function MenuList({ group }: { group: MenuGroup }) {
+function ClosingNote() {
   return (
-    <div>
-      <div className="mb-6 flex items-baseline justify-between gap-4 border-b border-aberdeen-blue/20 pb-3">
-        <h3 className="font-display text-3xl text-aberdeen-blue md:text-4xl">{group.title}</h3>
-        {group.note ? (
-          <p className="font-utility text-xs tracking-[0.18em] text-aberdeen-blue/70 uppercase">
-            {group.note}
-          </p>
-        ) : null}
-      </div>
-      <ul className="space-y-5">
-        {group.items.map((item) => (
-          <li className="flex items-baseline gap-4" key={item.name}>
-            <div className="min-w-0">
-              <p className="font-display text-xl text-aberdeen-blue">{item.name}</p>
-              <p className="mt-1 leading-7 text-kelp-ink/80">{item.description}</p>
-            </div>
-            <span className="grow border-b border-dotted border-aberdeen-blue/25" />
-            <span className="font-utility text-sm tracking-[0.12em] text-aberdeen-blue uppercase">
-              {item.price}
-            </span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
-}
-
-function RawBarSection() {
-  return (
-    <section className="bg-oyster-white px-5 py-16 md:px-8 md:py-24">
-      <div className="grid gap-12 md:grid-cols-[1fr_0.9fr] md:gap-16">
-        <div className="space-y-12">
-          <MenuList group={rawBar} />
-          <MenuList group={towers} />
-        </div>
-        <div className="self-start md:sticky md:top-8">
-          <div className="aspect-[4/5] overflow-hidden">
-            <img
-              alt="An oyster platter on ice with lemon"
-              className="h-full w-full object-cover"
-              src="https://images.unsplash.com/photo-1679694140422-aecfd3d5dd0b?auto=format&fit=crop&w=1000&q=85"
-            />
-          </div>
-          <p className="mt-4 max-w-sm font-utility text-xs tracking-[0.18em] text-aberdeen-blue/70 uppercase">
-            Daily selection from both coasts, shucked at the bar.
-          </p>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function StartersSection() {
-  return (
-    <section className="bg-aberdeen-peach px-5 py-16 md:px-8 md:py-24">
-      <div className="grid gap-12 md:grid-cols-[0.9fr_1fr] md:gap-16">
-        <div className="order-2 md:order-1">
-          <div className="aspect-[4/5] overflow-hidden">
-            <img
-              alt="Cooked shrimp with greens in a blue ceramic bowl"
-              className="h-full w-full object-cover"
-              src="https://images.unsplash.com/photo-1595579547936-c3a0e6c171fc?auto=format&fit=crop&w=1000&q=85"
-            />
-          </div>
-        </div>
-        <div className="order-1 md:order-2">
-          <MenuList group={starters} />
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function MainsSection() {
-  return (
-    <section className="bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24">
-      <div className="mb-12 grid gap-10 md:grid-cols-[1fr_1fr] md:items-end">
-        <h2 className="font-display text-5xl leading-none md:text-7xl">
-          Plates that carry the table.
-        </h2>
-        <div className="aspect-[16/10] overflow-hidden">
-          <img
-            alt="Whole grilled fish topped with fresh salsa on a plate"
-            className="h-full w-full object-cover"
-            src="https://images.unsplash.com/photo-1777891257650-5dedbba89dd4?auto=format&fit=crop&w=1200&q=85"
-          />
-        </div>
-      </div>
-      <div className="grid gap-12 md:grid-cols-2 md:gap-16">
-        <MainsList group={mains} />
-        <MainsList group={land} />
-      </div>
-    </section>
-  )
-}
-
-function MainsList({ group }: { group: MenuGroup }) {
-  return (
-    <div>
-      <div className="mb-6 flex items-baseline justify-between gap-4 border-b border-aberdeen-peach/25 pb-3">
-        <h3 className="font-display text-3xl md:text-4xl">{group.title}</h3>
-        {group.note ? (
-          <p className="font-utility text-xs tracking-[0.18em] text-aberdeen-peach/70 uppercase">
-            {group.note}
-          </p>
-        ) : null}
-      </div>
-      <ul className="space-y-5">
-        {group.items.map((item) => (
-          <li className="flex items-baseline gap-4" key={item.name}>
-            <div className="min-w-0">
-              <p className="font-display text-xl">{item.name}</p>
-              <p className="mt-1 leading-7 text-aberdeen-peach/80">{item.description}</p>
-            </div>
-            <span className="grow border-b border-dotted border-aberdeen-peach/30" />
-            <span className="font-utility text-sm tracking-[0.12em] uppercase">{item.price}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
-}
-
-function SidesAndDessertSection() {
-  return (
-    <section className="bg-oyster-white px-5 py-16 md:px-8 md:py-24">
-      <div className="grid gap-12 md:grid-cols-2 md:gap-16">
-        <MenuList group={sides} />
-        <MenuList group={desserts} />
-      </div>
-      <p className="mt-12 max-w-3xl leading-8 text-kelp-ink/80">
+    <section className="bg-oyster-white px-5 pb-16 md:px-8 md:pb-24">
+      <p className="max-w-3xl leading-8 text-kelp-ink/80">
         Menus change with the season and the day's catch. Please let us know about any allergies — a
         20% service charge is added to parties of six or more.
       </p>
@@ -393,9 +263,9 @@ function ReserveSection() {
     <section className="grid gap-10 bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:grid-cols-[1fr_0.9fr] md:px-8 md:py-24">
       <div>
         <p className="font-utility text-sm tracking-[0.22em] uppercase">Reservations</p>
-        <h2 className="mt-5 max-w-3xl font-display text-5xl leading-none md:text-7xl">
+        <Rise as="h2" className="mt-5 max-w-3xl font-display text-5xl leading-none md:text-7xl">
           Come hungry, stay for the light.
-        </h2>
+        </Rise>
       </div>
       <div className="self-end border border-aberdeen-peach p-5">
         <p className="mb-6 text-lg leading-8">

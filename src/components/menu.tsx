@@ -158,27 +158,29 @@ export function MenuHero({
   active: MenuKey
 }) {
   return (
-    <section className="relative bg-aberdeen-blue text-aberdeen-peach">
-      <RevealImage
-        alt={imageAlt}
-        className="absolute inset-y-0 right-0 h-full w-full object-cover mix-blend-luminosity md:w-[52%]"
-        finalOpacity={0.4}
-        src={image}
-      />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(42,59,146,0.7)_0%,rgba(42,59,146,0.3)_45%,rgba(42,59,146,0)_100%)]" />
-      <div className="relative z-10 grid gap-10 px-5 pt-32 pb-16 md:px-8 md:pt-40 md:pb-24">
-        <Reveal as="p" className="font-utility text-sm tracking-[0.22em] uppercase">
-          Menus
-        </Reveal>
-        <div className="max-w-5xl">
-          <Rise as="h1" className="font-display text-6xl leading-none md:text-8xl">
-            {title}
-          </Rise>
-          <Reveal as="p" className="mt-8 max-w-2xl text-lg leading-8" delay={120}>
-            {intro}
+    <section className="bg-aberdeen-blue text-aberdeen-peach">
+      <div className="grid md:grid-cols-2">
+        <div className="grid content-start gap-10 px-5 pt-32 pb-16 md:px-8 md:pt-40 md:pb-24">
+          <Reveal as="p" className="font-utility text-sm tracking-[0.22em] uppercase">
+            Menus
           </Reveal>
+          <div className="max-w-xl">
+            <Rise as="h1" className="font-display text-6xl leading-none md:text-7xl">
+              {title}
+            </Rise>
+            <Reveal as="p" className="mt-8 text-lg leading-8" delay={120}>
+              {intro}
+            </Reveal>
+          </div>
+          <MenuTabs active={active} />
         </div>
-        <MenuTabs active={active} />
+        <div className="relative order-first min-h-[40svh] md:order-none md:min-h-0">
+          <RevealImage
+            alt={imageAlt}
+            className="absolute inset-0 h-full w-full object-cover"
+            src={image}
+          />
+        </div>
       </div>
     </section>
   )

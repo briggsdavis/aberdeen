@@ -45,21 +45,23 @@ function EventsPage() {
 
 function HeroSection() {
   return (
-    <section className="relative bg-aberdeen-blue text-aberdeen-peach">
-      <RevealImage
-        alt="People gathered around a restaurant table with drinks"
-        className="absolute inset-y-0 right-0 h-full w-full object-cover mix-blend-luminosity md:w-[52%]"
-        finalOpacity={0.4}
-        src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1800&q=85"
-      />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(42,59,146,0.7)_0%,rgba(42,59,146,0.3)_45%,rgba(42,59,146,0)_100%)]" />
-      <div className="relative z-10 grid gap-10 px-5 pt-32 pb-16 md:px-8 md:pt-40 md:pb-24">
-        <Reveal as="p" className="font-utility text-sm tracking-[0.22em] uppercase">
-          Events
-        </Reveal>
-        <Rise as="h1" className="max-w-5xl font-display text-6xl leading-none md:text-8xl">
-          Seasonal nights worth circling.
-        </Rise>
+    <section className="bg-aberdeen-blue text-aberdeen-peach">
+      <div className="grid md:grid-cols-2">
+        <div className="grid content-start gap-10 px-5 pt-32 pb-16 md:px-8 md:pt-40 md:pb-24">
+          <Reveal as="p" className="font-utility text-sm tracking-[0.22em] uppercase">
+            Events
+          </Reveal>
+          <Rise as="h1" className="font-display text-5xl leading-none md:text-7xl">
+            Seasonal nights worth circling.
+          </Rise>
+        </div>
+        <div className="relative order-first min-h-[40svh] md:order-none md:min-h-0">
+          <RevealImage
+            alt="People gathered around a restaurant table with drinks"
+            className="absolute inset-0 h-full w-full object-cover"
+            src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1800&q=85"
+          />
+        </div>
       </div>
     </section>
   )

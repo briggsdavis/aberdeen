@@ -29,51 +29,53 @@ function HomePage() {
 function HeroSection() {
   return (
     <section className="relative min-h-svh bg-aberdeen-blue text-aberdeen-peach">
-      <RevealImage
-        alt="Sunlit coastal restaurant dining room"
-        className="absolute inset-y-0 right-0 h-full w-full object-cover mix-blend-luminosity md:w-[58%]"
-        finalOpacity={0.45}
-        src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1800&q=85"
-      />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(42,59,146,0.7)_0%,rgba(42,59,146,0.3)_45%,rgba(42,59,146,0)_100%)]" />
-      <aside className="absolute right-5 bottom-8 z-10 hidden w-72 bg-aberdeen-peach p-5 text-aberdeen-blue md:right-8 md:bottom-10 md:block">
-        <Reveal as="p" className="font-utility text-xs tracking-[0.18em] uppercase">
-          Today at the bar
-        </Reveal>
-        <ul className="mt-8 space-y-5">
-          {["East Coast oysters", "Blue Hour Martini", "Citrus olive oil cake"].map(
-            (item, index) => (
-              <Reveal
-                as="li"
-                className="border-t border-aberdeen-blue pt-3 font-display text-2xl leading-none"
-                delay={120 + index * 90}
-                key={item}
+      <div className="grid min-h-svh md:grid-cols-2">
+        <div className="order-2 flex flex-col justify-end px-5 pt-10 pb-8 md:order-1 md:px-8 md:pt-28 md:pb-10">
+          <div className="flex max-w-2xl flex-col items-start gap-7">
+            <Rise as="p" className="font-playful text-3xl leading-tight md:text-5xl">
+              Seafood, bright spirits, and a room that keeps the afternoon glowing after dark.
+            </Rise>
+            <Reveal className="flex flex-wrap items-center gap-3" delay={160}>
+              <a
+                className="border border-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] uppercase transition-colors duration-300 hover:bg-aberdeen-peach hover:text-aberdeen-blue"
+                href="#reservations"
               >
-                {item}
-              </Reveal>
-            ),
-          )}
-        </ul>
-      </aside>
-      <div className="relative z-10 grid min-h-svh items-end px-5 pt-24 pb-8 md:px-8 md:pt-28 md:pb-10">
-        <div className="flex max-w-6xl flex-col items-start gap-7">
-          <Rise as="p" className="max-w-[42rem] font-playful text-3xl leading-tight md:text-5xl">
-            Seafood, bright spirits, and a room that keeps the afternoon glowing after dark.
-          </Rise>
-          <Reveal className="flex flex-wrap items-center gap-3" delay={160}>
-            <a
-              className="border border-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] uppercase transition-colors duration-300 hover:bg-aberdeen-peach hover:text-aberdeen-blue"
-              href="#reservations"
-            >
-              Reserve a table
-            </a>
-            <Link
-              className="bg-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase transition-colors duration-300 hover:bg-citrus"
-              to="/menu/food"
-            >
-              View menu
-            </Link>
-          </Reveal>
+                Reserve a table
+              </a>
+              <Link
+                className="bg-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase transition-colors duration-300 hover:bg-citrus"
+                to="/menu/food"
+              >
+                View menu
+              </Link>
+            </Reveal>
+          </div>
+        </div>
+        <div className="relative order-1 min-h-[45svh] md:order-2 md:min-h-svh">
+          <RevealImage
+            alt="Sunlit coastal restaurant dining room"
+            className="absolute inset-0 h-full w-full object-cover"
+            src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1800&q=85"
+          />
+          <aside className="absolute right-5 bottom-8 z-10 hidden w-72 bg-aberdeen-peach p-5 text-aberdeen-blue md:right-8 md:bottom-10 md:block">
+            <Reveal as="p" className="font-utility text-xs tracking-[0.18em] uppercase">
+              Today at the bar
+            </Reveal>
+            <ul className="mt-8 space-y-5">
+              {["East Coast oysters", "Blue Hour Martini", "Citrus olive oil cake"].map(
+                (item, index) => (
+                  <Reveal
+                    as="li"
+                    className="border-t border-aberdeen-blue pt-3 font-display text-2xl leading-none"
+                    delay={120 + index * 90}
+                    key={item}
+                  >
+                    {item}
+                  </Reveal>
+                ),
+              )}
+            </ul>
+          </aside>
         </div>
       </div>
     </section>

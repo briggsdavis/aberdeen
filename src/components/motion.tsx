@@ -23,7 +23,7 @@ import {
  * so it composes with the existing Tailwind classes and ships no new deps.
  */
 
-export function useInView<T extends HTMLElement>(rootMargin = "0px 0px -12% 0px") {
+export function useInView<T extends HTMLElement>(rootMargin = "0px") {
   const ref = useRef<T>(null)
   const [inView, setInView] = useState(false)
 

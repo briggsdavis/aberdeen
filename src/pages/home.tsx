@@ -62,13 +62,13 @@ function HeroSection() {
           </Rise>
           <Reveal className="flex flex-wrap items-center gap-3" delay={160}>
             <a
-              className="border border-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] uppercase transition hover:bg-aberdeen-peach hover:text-aberdeen-blue"
+              className="border border-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] uppercase transition-colors duration-300 hover:bg-aberdeen-peach hover:text-aberdeen-blue"
               href="#reservations"
             >
               Reserve a table
             </a>
             <Link
-              className="bg-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase transition hover:bg-citrus"
+              className="bg-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase transition-colors duration-300 hover:bg-citrus"
               to="/menu/food"
             >
               View menu
@@ -135,7 +135,7 @@ function MenuSection() {
         </Rise>
         <Reveal className="hidden md:block" delay={120}>
           <Link
-            className="font-utility text-sm tracking-[0.18em] text-aberdeen-blue uppercase underline decoration-citrus decoration-2 underline-offset-8"
+            className="font-utility text-sm tracking-[0.18em] text-aberdeen-blue uppercase underline decoration-citrus decoration-2 underline-offset-8 transition-colors duration-300 hover:text-citrus"
             to="/menu/food"
           >
             View food menu
@@ -161,7 +161,9 @@ function MenuSection() {
               </div>
             </div>
             <Reveal className="min-h-44 p-5" delay={index * 80 + 100}>
-              <h3 className="font-display text-5xl">{menu.title}</h3>
+              <h3 className="font-display text-5xl underline decoration-citrus decoration-transparent decoration-2 underline-offset-4 transition-colors duration-300 group-hover:decoration-citrus">
+                {menu.title}
+              </h3>
               <p className="mt-3 max-w-sm text-base leading-7 text-kelp-ink">{menu.copy}</p>
             </Reveal>
           </Link>
@@ -214,7 +216,7 @@ function ReservationsSection() {
         </Reveal>
         <Reveal delay={120}>
           <Link
-            className="inline-block bg-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase"
+            className="inline-block bg-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase transition-colors duration-300 hover:bg-citrus"
             to="/contact"
           >
             Plan a visit
@@ -238,7 +240,7 @@ function EventsSection() {
         </Reveal>
         <Reveal delay={120}>
           <Link
-            className="mt-8 inline-block border border-aberdeen-blue px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase"
+            className="mt-8 inline-block border border-aberdeen-blue px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase transition-colors duration-300 hover:bg-aberdeen-blue hover:text-aberdeen-peach"
             to="/events"
           >
             View events

@@ -17,19 +17,27 @@ function SiteHeader() {
   return (
     <header className="absolute inset-x-0 top-0 z-20 text-aberdeen-peach">
       <div className="flex items-center justify-between px-5 py-5 md:px-8">
-        <Link className="block w-36 md:w-44" onClick={closeMenu} to="/">
+        <Link
+          className="block w-36 transition-opacity duration-300 hover:opacity-80 md:w-44"
+          onClick={closeMenu}
+          to="/"
+        >
           <img alt="Aberdeen" src="/wordmark-peach.png" />
         </Link>
         <nav className="hidden items-center gap-7 font-utility text-sm tracking-[0.16em] uppercase md:flex">
           {navItems.map((item) => (
-            <Link key={item.label} to={item.to}>
+            <Link
+              className="transition-colors duration-300 hover:text-citrus"
+              key={item.label}
+              to={item.to}
+            >
               {item.label}
             </Link>
           ))}
         </nav>
         <div className="hidden md:block">
           <Link
-            className="border border-aberdeen-peach px-4 py-2 font-utility text-sm tracking-[0.14em] uppercase transition hover:bg-aberdeen-peach hover:text-aberdeen-blue"
+            className="border border-aberdeen-peach px-4 py-2 font-utility text-sm tracking-[0.14em] uppercase transition-colors duration-300 hover:bg-aberdeen-peach hover:text-aberdeen-blue"
             to="/contact"
           >
             Reserve
@@ -67,7 +75,7 @@ function SiteHeader() {
         <div className="grid gap-4">
           {navItems.map((item) => (
             <Link
-              className={`font-display text-4xl leading-none ${
+              className={`font-display text-4xl leading-none transition-colors duration-300 hover:text-citrus ${
                 location.pathname.startsWith(item.to) ? "text-citrus" : ""
               }`}
               key={item.label}
@@ -78,7 +86,7 @@ function SiteHeader() {
             </Link>
           ))}
           <Link
-            className="mt-3 inline-block w-fit bg-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase"
+            className="mt-3 inline-block w-fit bg-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase transition-colors duration-300 hover:bg-citrus"
             onClick={closeMenu}
             to="/contact"
           >

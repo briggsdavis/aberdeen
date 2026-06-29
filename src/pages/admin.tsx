@@ -79,14 +79,14 @@ function AdminAuthForm() {
       </label>
       {error ? <p className="text-sm text-red-700">{error}</p> : null}
       <button
-        className="w-full bg-aberdeen-blue px-5 py-3 font-medium text-white disabled:opacity-60"
+        className="w-full bg-aberdeen-blue px-5 py-3 font-medium text-white transition-opacity duration-300 hover:opacity-90 disabled:opacity-60"
         disabled={isSubmitting}
         type="submit"
       >
         {isSubmitting ? "Working..." : flow === "signIn" ? "Sign in" : "Sign up"}
       </button>
       <button
-        className="w-full border border-aberdeen-blue px-5 py-3 font-medium"
+        className="w-full border border-aberdeen-blue px-5 py-3 font-medium transition-colors duration-300 hover:bg-aberdeen-blue hover:text-white"
         onClick={handleFlowToggle}
         type="button"
       >
@@ -111,7 +111,7 @@ function AdminDashboard() {
       </div>
       <p>{admin?.email ?? "Signed in"}</p>
       <button
-        className="bg-aberdeen-blue px-5 py-3 font-medium text-white"
+        className="bg-aberdeen-blue px-5 py-3 font-medium text-white transition-opacity duration-300 hover:opacity-90"
         onClick={handleSignOut}
         type="button"
       >

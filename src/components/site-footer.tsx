@@ -32,7 +32,7 @@ function SiteFooter() {
         <p className="font-utility text-xs tracking-[0.16em] text-aberdeen-blue/70 uppercase">
           Made by{" "}
           <a
-            className="underline decoration-citrus decoration-2 underline-offset-4 transition hover:text-aberdeen-blue"
+            className="underline decoration-citrus decoration-2 underline-offset-4 transition-colors duration-300 hover:text-aberdeen-blue"
             href="https://socialsatisfaction.agency/"
             rel="noreferrer"
             target="_blank"

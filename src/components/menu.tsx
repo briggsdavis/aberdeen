@@ -97,7 +97,9 @@ export function MenuCardSection({ group, tone }: { group: MenuGroup; tone: Tone 
             </div>
             <Reveal className="flex flex-col gap-2 p-4" delay={Math.min(index, 5) * 60 + 80}>
               <div className="flex items-baseline justify-between gap-3">
-                <h3 className="font-display text-xl text-aberdeen-blue">{item.name}</h3>
+                <h3 className="font-display text-xl text-aberdeen-blue underline decoration-citrus decoration-transparent decoration-2 underline-offset-4 transition-colors duration-300 group-hover:decoration-citrus">
+                  {item.name}
+                </h3>
                 <span className="shrink-0 font-utility text-sm tracking-[0.12em] text-aberdeen-blue uppercase">
                   {item.price}
                 </span>
@@ -130,7 +132,7 @@ export function MenuTabs({ active }: { active: MenuKey }) {
           className={
             tab.key === active
               ? "underline decoration-citrus decoration-2 underline-offset-8"
-              : "opacity-70 transition hover:opacity-100"
+              : "opacity-70 transition-opacity duration-300 hover:opacity-100"
           }
           key={tab.key}
           to={tab.to}
@@ -209,7 +211,7 @@ export function MenuReserve({ heading, body }: { heading: string; body: string }
         </Reveal>
         <Reveal delay={120}>
           <Link
-            className="inline-block bg-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase"
+            className="inline-block bg-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase transition-colors duration-300 hover:bg-citrus"
             to="/contact"
           >
             Plan a visit

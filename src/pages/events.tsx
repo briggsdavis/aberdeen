@@ -167,7 +167,7 @@ function PrivateEventsSection() {
         </Reveal>
         <Reveal delay={120}>
           <a
-            className="inline-block bg-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase"
+            className="inline-block bg-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase transition-colors duration-300 hover:bg-citrus"
             href="/contact"
           >
             Start planning

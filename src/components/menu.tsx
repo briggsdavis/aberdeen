@@ -163,7 +163,7 @@ export function MenuHero({
         finalOpacity={0.4}
         src={image}
       />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,#2A3B92_0%,rgba(42,59,146,0.92)_44%,rgba(42,59,146,0)_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(42,59,146,0.7)_0%,rgba(42,59,146,0.3)_45%,rgba(42,59,146,0)_100%)]" />
       <div className="relative z-10 grid gap-10 px-5 pt-32 pb-16 md:px-8 md:pt-40 md:pb-24">
         <Reveal as="p" className="font-utility text-sm tracking-[0.22em] uppercase">
           Menus

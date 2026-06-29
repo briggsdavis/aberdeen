@@ -35,7 +35,7 @@ function HeroSection() {
         finalOpacity={0.45}
         src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1800&q=85"
       />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,#2A3B92_0%,rgba(42,59,146,0.92)_42%,rgba(42,59,146,0)_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(42,59,146,0.7)_0%,rgba(42,59,146,0.3)_45%,rgba(42,59,146,0)_100%)]" />
       <aside className="absolute right-5 bottom-8 z-10 hidden w-72 bg-aberdeen-peach p-5 text-aberdeen-blue md:right-8 md:bottom-10 md:block">
         <Reveal as="p" className="font-utility text-xs tracking-[0.18em] uppercase">
           Today at the bar

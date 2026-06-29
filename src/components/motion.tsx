@@ -49,33 +49,21 @@ export function useInView<T extends HTMLElement>(rootMargin = "0px 0px -12% 0px"
 }
 
 type RevealImageProps = ImgHTMLAttributes<HTMLImageElement> & {
-  /** Extra travel distance in px for the rise-in (default 18). */
-  rise?: number
   /** Opacity the image settles at once revealed (default 1). */
   finalOpacity?: number
   /** Delay before the reveal begins, in ms. */
   delay?: number
 }
 
-export function RevealImage({
-  rise = 18,
-  finalOpacity = 1,
-  delay = 0,
-  style,
-  ...props
-}: RevealImageProps) {
+export function RevealImage({ finalOpacity = 1, delay = 0, style, ...props }: RevealImageProps) {
   const { ref, inView } = useInView<HTMLImageElement>()
 
-  // Opacity runs longer than blur (both start together) so the reveal ends
-  // on a fade rather than an opaque image clearing its last px of blur —
-  // which is what reads as "just un-blurring".
+  // Images fade in only — no blur — so they appear rather than sharpen.
   const motionStyle: CSSProperties = {
     ...style,
     opacity: inView ? finalOpacity : 0,
-    filter: inView ? "blur(0px)" : "blur(18px)",
-    transform: inView ? "translateY(0)" : `translateY(${rise}px)`,
-    transition: `opacity 1200ms cubic-bezier(0.33, 0, 0.2, 1) ${delay}ms, filter 950ms linear ${delay}ms, transform 1100ms cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`,
-    willChange: "opacity, filter, transform",
+    transition: `opacity 1000ms ease ${delay}ms`,
+    willChange: "opacity",
   }
 
   // oxlint-disable-next-line jsx-a11y/alt-text

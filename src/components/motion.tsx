@@ -66,12 +66,15 @@ export function RevealImage({
 }: RevealImageProps) {
   const { ref, inView } = useInView<HTMLImageElement>()
 
+  // Opacity runs longer than blur (both start together) so the reveal ends
+  // on a fade rather than an opaque image clearing its last px of blur —
+  // which is what reads as "just un-blurring".
   const motionStyle: CSSProperties = {
     ...style,
     opacity: inView ? finalOpacity : 0,
-    filter: inView ? "blur(0px)" : "blur(22px)",
+    filter: inView ? "blur(0px)" : "blur(18px)",
     transform: inView ? "translateY(0)" : `translateY(${rise}px)`,
-    transition: `opacity 1100ms ease ${delay}ms, filter 1100ms ease ${delay}ms, transform 1100ms cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`,
+    transition: `opacity 1200ms cubic-bezier(0.33, 0, 0.2, 1) ${delay}ms, filter 950ms linear ${delay}ms, transform 1100ms cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`,
     willChange: "opacity, filter, transform",
   }
 
@@ -106,7 +109,7 @@ export function Reveal({
     opacity: inView ? 1 : 0,
     filter: inView ? "blur(0px)" : `blur(${blur}px)`,
     transform: inView ? "translateY(0)" : `translateY(${rise}px)`,
-    transition: `opacity 800ms ease ${delay}ms, filter 800ms ease ${delay}ms, transform 800ms cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`,
+    transition: `opacity 950ms cubic-bezier(0.33, 0, 0.2, 1) ${delay}ms, filter 760ms linear ${delay}ms, transform 950ms cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`,
     willChange: "opacity, filter, transform",
   }
 
@@ -131,9 +134,9 @@ export function Rise({ as: Tag = "div", className, children, delay = 0 }: RisePr
 
   const style: CSSProperties = {
     opacity: inView ? 1 : 0,
-    filter: inView ? "blur(0px)" : "blur(10px)",
+    filter: inView ? "blur(0px)" : "blur(12px)",
     transform: inView ? "translateY(0)" : "translateY(42px)",
-    transition: `opacity 900ms ease ${delay}ms, filter 900ms ease ${delay}ms, transform 900ms cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`,
+    transition: `opacity 1050ms cubic-bezier(0.33, 0, 0.2, 1) ${delay}ms, filter 840ms linear ${delay}ms, transform 1050ms cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`,
     willChange: "opacity, filter, transform",
   }
 

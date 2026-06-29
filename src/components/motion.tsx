@@ -62,7 +62,7 @@ export function RevealImage({ finalOpacity = 1, delay = 0, style, ...props }: Re
   const motionStyle: CSSProperties = {
     ...style,
     opacity: inView ? finalOpacity : 0,
-    transition: `opacity 1000ms ease ${delay}ms`,
+    transition: `opacity 650ms ease ${delay}ms`,
     willChange: "opacity",
   }
 
@@ -97,7 +97,7 @@ export function Reveal({
     opacity: inView ? 1 : 0,
     filter: inView ? "blur(0px)" : `blur(${blur}px)`,
     transform: inView ? "translateY(0)" : `translateY(${rise}px)`,
-    transition: `opacity 950ms cubic-bezier(0.33, 0, 0.2, 1) ${delay}ms, filter 760ms linear ${delay}ms, transform 950ms cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`,
+    transition: `opacity 620ms cubic-bezier(0.33, 0, 0.2, 1) ${delay}ms, filter 500ms linear ${delay}ms, transform 620ms cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`,
     willChange: "opacity, filter, transform",
   }
 
@@ -124,7 +124,7 @@ export function Rise({ as: Tag = "div", className, children, delay = 0 }: RisePr
     opacity: inView ? 1 : 0,
     filter: inView ? "blur(0px)" : "blur(12px)",
     transform: inView ? "translateY(0)" : "translateY(42px)",
-    transition: `opacity 1050ms cubic-bezier(0.33, 0, 0.2, 1) ${delay}ms, filter 840ms linear ${delay}ms, transform 1050ms cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`,
+    transition: `opacity 700ms cubic-bezier(0.33, 0, 0.2, 1) ${delay}ms, filter 560ms linear ${delay}ms, transform 700ms cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`,
     willChange: "opacity, filter, transform",
   }
 

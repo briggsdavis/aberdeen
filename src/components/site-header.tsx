@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react"
-import { Link, useLocation } from "react-router"
+import { useLocation } from "react-router"
+import { TransitionLink } from "./page-transition"
 
 const navItems = [
   { label: "About", to: "/about" },
@@ -17,23 +18,27 @@ function SiteHeader() {
   return (
     <header className="absolute inset-x-0 top-0 z-20 text-aberdeen-peach">
       <div className="flex items-center justify-between px-5 py-5 md:px-8">
-        <Link className="block w-36 md:w-44" onClick={closeMenu} to="/">
+        <TransitionLink className="block w-36 md:w-44" onClick={closeMenu} to="/">
           <img alt="Aberdeen" src="/wordmark-peach.png" />
-        </Link>
+        </TransitionLink>
         <nav className="hidden items-center gap-7 font-utility text-sm tracking-[0.16em] uppercase md:flex">
           {navItems.map((item) => (
-            <Link key={item.label} to={item.to}>
+            <TransitionLink
+              className="decoration-citrus decoration-2 underline-offset-8 hover:underline"
+              key={item.label}
+              to={item.to}
+            >
               {item.label}
-            </Link>
+            </TransitionLink>
           ))}
         </nav>
         <div className="hidden md:block">
-          <Link
+          <TransitionLink
             className="border border-aberdeen-peach px-4 py-2 font-utility text-sm tracking-[0.14em] uppercase transition hover:bg-aberdeen-peach hover:text-aberdeen-blue"
             to="/contact"
           >
             Reserve
-          </Link>
+          </TransitionLink>
         </div>
         <button
           aria-controls="mobile-navigation"
@@ -66,8 +71,8 @@ function SiteHeader() {
       >
         <div className="grid gap-4">
           {navItems.map((item) => (
-            <Link
-              className={`font-display text-4xl leading-none ${
+            <TransitionLink
+              className={`font-display text-4xl leading-none decoration-citrus decoration-2 underline-offset-8 hover:underline ${
                 location.pathname.startsWith(item.to) ? "text-citrus" : ""
               }`}
               key={item.label}
@@ -75,15 +80,15 @@ function SiteHeader() {
               to={item.to}
             >
               {item.label}
-            </Link>
+            </TransitionLink>
           ))}
-          <Link
+          <TransitionLink
             className="mt-3 inline-block w-fit bg-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase"
             onClick={closeMenu}
             to="/contact"
           >
             Reserve
-          </Link>
+          </TransitionLink>
         </div>
       </nav>
     </header>

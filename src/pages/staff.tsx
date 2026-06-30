@@ -1,3 +1,6 @@
+import { motion } from "motion/react"
+import { fadeIn } from "../lib/motion"
+
 const staff = [
   {
     name: "Marin Vale",
@@ -58,16 +61,19 @@ function HeroSection() {
     <section className="relative bg-aberdeen-blue text-aberdeen-peach">
       <img
         alt="Restaurant team preparing a dining room"
-        className="absolute inset-y-0 right-0 h-full w-full object-cover opacity-40 mix-blend-luminosity md:w-[52%]"
+        className="absolute inset-y-0 right-0 h-full w-full object-cover md:w-[52%]"
         src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1800&q=85"
       />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,#2A3B92_0%,rgba(42,59,146,0.96)_45%,rgba(42,59,146,0.34)_100%)]" />
-      <div className="relative z-10 grid gap-10 px-5 pt-32 pb-16 md:px-8 md:pt-40 md:pb-24">
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,#2A3B92_0%,#2A3B92_48%,rgba(42,59,146,0.86)_56%,rgba(42,59,146,0.38)_70%,rgba(42,59,146,0)_90%)]" />
+      <motion.div
+        className="relative z-10 grid gap-10 px-5 pt-32 pb-16 md:px-8 md:pt-40 md:pb-24"
+        {...fadeIn()}
+      >
         <p className="font-utility text-sm tracking-[0.22em] uppercase">Staff</p>
         <h1 className="max-w-5xl font-display text-6xl leading-none md:text-8xl">
           The people who keep the room glowing.
         </h1>
-      </div>
+      </motion.div>
     </section>
   )
 }
@@ -77,11 +83,12 @@ function RosterSection() {
     <section className="bg-oyster-white px-5 py-16 md:px-8 md:py-24">
       <div className="grid gap-5 md:grid-cols-3">
         {staff.map((person, index) => (
-          <article
+          <motion.article
             className={`group relative bg-aberdeen-peach text-aberdeen-blue ${
               index % 3 === 1 ? "md:mt-16" : index % 3 === 2 ? "md:mt-8" : ""
             }`}
             key={person.name}
+            {...fadeIn(index * 0.06)}
           >
             <div className="aspect-[3/4] overflow-hidden">
               <img
@@ -97,7 +104,7 @@ function RosterSection() {
               <h2 className="font-display text-4xl leading-none">{person.name}</h2>
               <p className="mt-4 leading-7 text-kelp-ink/80">{person.note}</p>
             </div>
-          </article>
+          </motion.article>
         ))}
       </div>
     </section>
@@ -107,13 +114,13 @@ function RosterSection() {
 function HiringSection() {
   return (
     <section className="grid gap-10 bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:grid-cols-[1fr_0.9fr] md:px-8 md:py-24">
-      <h2 className="max-w-3xl font-playful text-5xl leading-none md:text-7xl">
+      <motion.h2 className="max-w-3xl font-playful text-5xl leading-none md:text-7xl" {...fadeIn()}>
         Hospitality is the house style.
-      </h2>
-      <p className="self-end text-lg leading-8">
+      </motion.h2>
+      <motion.p className="self-end text-lg leading-8" {...fadeIn(0.12)}>
         The Aberdeen team is built around warmth, precision, and the good timing that makes a busy
         room feel effortless.
-      </p>
+      </motion.p>
     </section>
   )
 }

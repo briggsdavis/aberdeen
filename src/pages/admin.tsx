@@ -1,7 +1,9 @@
 import { useAuthActions } from "@convex-dev/auth/react"
 import { Authenticated, AuthLoading, Unauthenticated, useQuery } from "convex/react"
+import { motion } from "motion/react"
 import { useCallback, useState } from "react"
 import { api } from "../../convex/_generated/api"
+import { fadeIn } from "../lib/motion"
 
 type AuthFlow = "signIn" | "signUp"
 
@@ -9,7 +11,9 @@ function AdminPage() {
   return (
     <section className="mx-auto flex min-h-svh w-full max-w-md flex-col justify-center px-6 py-12">
       <AuthLoading>
-        <p className="text-sm tracking-widest uppercase">Loading</p>
+        <motion.p className="text-sm tracking-widest uppercase" {...fadeIn()}>
+          Loading
+        </motion.p>
       </AuthLoading>
       <Unauthenticated>
         <AdminAuthForm />
@@ -49,7 +53,7 @@ function AdminAuthForm() {
   }, [])
 
   return (
-    <form className="space-y-5" onSubmit={handleSubmit}>
+    <motion.form className="space-y-5" onSubmit={handleSubmit} {...fadeIn()}>
       <div className="space-y-2">
         <p className="text-sm tracking-widest uppercase">Aberdeen Admin</p>
         <h1 className="text-4xl font-semibold">
@@ -92,7 +96,7 @@ function AdminAuthForm() {
       >
         {flow === "signIn" ? "Need to sign up?" : "Already have an account?"}
       </button>
-    </form>
+    </motion.form>
   )
 }
 
@@ -104,7 +108,7 @@ function AdminDashboard() {
   }, [signOut])
 
   return (
-    <div className="space-y-5">
+    <motion.div className="space-y-5" {...fadeIn()}>
       <div className="space-y-2">
         <p className="text-sm tracking-widest uppercase">Aberdeen Admin</p>
         <h1 className="text-4xl font-semibold">Dashboard</h1>
@@ -117,7 +121,7 @@ function AdminDashboard() {
       >
         Sign out
       </button>
-    </div>
+    </motion.div>
   )
 }
 

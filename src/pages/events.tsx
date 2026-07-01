@@ -1,4 +1,5 @@
 import { motion } from "motion/react"
+import { MaritimeFlags, RopeDivider } from "../components/nautical-details"
 import { fadeIn, fadeInPlace } from "../lib/motion"
 
 const events = [
@@ -47,6 +48,9 @@ function HeroSection() {
         src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1800&q=85"
       />
       <div className="absolute inset-0 bg-[linear-gradient(90deg,#2A3B92_0%,#2A3B92_48%,rgba(42,59,146,0.86)_56%,rgba(42,59,146,0.38)_70%,rgba(42,59,146,0)_90%)]" />
+      <motion.div className="absolute right-5 bottom-8 z-10 md:right-8" {...fadeIn(0.18)}>
+        <MaritimeFlags />
+      </motion.div>
       <motion.div
         className="relative z-10 grid gap-10 px-5 pt-32 pb-16 md:px-8 md:pt-40 md:pb-24"
         {...fadeIn()}
@@ -74,6 +78,7 @@ function CalendarSection() {
           <h2 className="mt-4 font-display text-5xl leading-none text-aberdeen-blue md:text-7xl">
             Aberdeen calendar
           </h2>
+          <RopeDivider className="mt-5 w-64" />
         </div>
         <p className="max-w-md leading-7 text-kelp-ink/80">
           Event details open inline in this calendar-style view. Future CMS entries will replace
@@ -97,13 +102,17 @@ function CalendarSection() {
         ))}
         {events.map((event, index) => (
           <motion.article
-            className="min-h-48 border-r border-b border-aberdeen-blue/25 bg-aberdeen-peach p-3 text-aberdeen-blue md:p-5"
+            className="relative min-h-48 border-r border-b border-aberdeen-blue/25 bg-aberdeen-peach p-3 text-aberdeen-blue md:p-5"
             key={event.title}
             {...fadeInPlace(index * 0.06)}
           >
-            <p className="font-utility text-xs tracking-[0.16em] uppercase">{event.day}</p>
+            <div className="flex items-start justify-between gap-3">
+              <p className="grid h-12 w-12 place-items-center bg-citrus font-display text-3xl leading-none">
+                {event.day}
+              </p>
+              <p className="font-utility text-xs tracking-[0.14em] uppercase">{event.time}</p>
+            </div>
             <h3 className="mt-8 font-display text-3xl leading-none">{event.title}</h3>
-            <p className="mt-2 font-utility text-xs tracking-[0.14em] uppercase">{event.time}</p>
             <p className="mt-4 text-sm leading-6 text-kelp-ink/80">{event.copy}</p>
           </motion.article>
         ))}
@@ -127,19 +136,50 @@ function PrivateEventsSection() {
           Gatherings with seafood, spirits, and a room already dressed for it.
         </h2>
       </motion.div>
-      <motion.div className="self-end border border-aberdeen-peach p-5" {...fadeIn(0.12)}>
-        <p className="mb-6 text-lg leading-8">
-          For birthdays, group dinners, brand nights, and seasonal parties, Aberdeen can shape the
-          table around the moment.
-        </p>
-        <a
-          className="inline-block bg-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase"
-          href="/contact"
-        >
-          Start planning
-        </a>
-      </motion.div>
+      <FerryTicket />
     </section>
+  )
+}
+
+function FerryTicket() {
+  return (
+    <motion.div className="self-end bg-oyster-white text-aberdeen-blue" {...fadeIn(0.12)}>
+      <div className="grid md:grid-cols-[1fr_auto]">
+        <div className="p-6">
+          <div className="flex items-start justify-between gap-6">
+            <div>
+              <p className="font-utility text-xs tracking-[0.18em] uppercase">Ferry ticket</p>
+              <p className="mt-3 font-playful text-5xl leading-none">Private Passage</p>
+            </div>
+            <div className="grid h-16 w-16 place-items-center bg-citrus font-display text-4xl leading-none">
+              27
+            </div>
+          </div>
+          <RopeDivider className="mt-6 rounded-none" />
+          <p className="mt-8 text-lg leading-8">
+            For birthdays, group dinners, brand nights, and seasonal parties, Aberdeen can shape the
+            table around the moment.
+          </p>
+          <a
+            className="mt-8 inline-block bg-aberdeen-blue px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-peach uppercase"
+            href="/contact"
+          >
+            Start planning
+          </a>
+        </div>
+        <div className="hidden border-l border-dotted border-aberdeen-blue/35 p-5 md:grid">
+          <div className="flex flex-col items-center justify-between gap-8">
+            <span className="font-utility text-xs tracking-[0.18em] uppercase [writing-mode:vertical-rl]">
+              Savannah GA
+            </span>
+            <span className="h-24 w-px border-l border-dotted border-aberdeen-blue/35" />
+            <span className="font-utility text-xs tracking-[0.18em] uppercase [writing-mode:vertical-rl]">
+              Aberdeen
+            </span>
+          </div>
+        </div>
+      </div>
+    </motion.div>
   )
 }
 

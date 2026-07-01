@@ -1,5 +1,6 @@
 import { motion } from "motion/react"
 import { Link } from "react-router"
+import { PhotoCorners, RopeDivider } from "../components/nautical-details"
 import { fadeIn } from "../lib/motion"
 
 type MenuItem = {
@@ -392,6 +393,7 @@ function MenuHero() {
 function MenuList({ delay = 0, group }: { delay?: number; group: MenuGroup }) {
   return (
     <motion.div {...fadeIn(delay)}>
+      <RopeDivider className="mb-6 rounded-none" />
       <div className="mb-6 flex items-baseline justify-between gap-4 border-b border-aberdeen-blue/20 pb-3">
         <h3 className="font-display text-3xl text-aberdeen-blue md:text-4xl">{group.title}</h3>
         {group.note ? (
@@ -434,12 +436,13 @@ function RawBarSection() {
           <MenuList delay={0.08} group={towers} />
         </div>
         <motion.div className="self-start md:sticky md:top-8" {...fadeIn(0.12)}>
-          <div className="aspect-[4/5] overflow-hidden">
+          <div className="relative aspect-[4/5]">
             <img
               alt="An oyster platter on ice with lemon"
               className="h-full w-full object-cover"
               src="https://images.unsplash.com/photo-1679694140422-aecfd3d5dd0b?auto=format&fit=crop&w=1000&q=85"
             />
+            <PhotoCorners />
           </div>
           <p className="mt-4 max-w-sm font-utility text-xs tracking-[0.18em] text-aberdeen-blue/70 uppercase">
             Daily selection from both coasts, shucked at the bar.
@@ -455,12 +458,13 @@ function StartersSection() {
     <section className="bg-aberdeen-peach px-5 py-16 md:px-8 md:py-24">
       <div className="grid gap-12 md:grid-cols-[0.9fr_1fr] md:gap-16">
         <motion.div className="order-2 md:order-1" {...fadeIn(0.08)}>
-          <div className="aspect-[4/5] overflow-hidden">
+          <div className="relative aspect-[4/5]">
             <img
               alt="Cooked shrimp with greens in a blue ceramic bowl"
               className="h-full w-full object-cover"
               src="https://images.unsplash.com/photo-1595579547936-c3a0e6c171fc?auto=format&fit=crop&w=1000&q=85"
             />
+            <PhotoCorners />
           </div>
         </motion.div>
         <div className="order-1 md:order-2">
@@ -482,12 +486,13 @@ function MainsSection() {
           <MainsList delay={0.08} group={mains} />
         </div>
         <div className="space-y-12">
-          <motion.div className="aspect-[16/10] overflow-hidden" {...fadeIn(0.08)}>
+          <motion.div className="relative aspect-[16/10]" {...fadeIn(0.08)}>
             <img
               alt="Whole grilled fish topped with fresh salsa on a plate"
               className="h-full w-full object-cover"
               src="https://images.unsplash.com/photo-1777891257650-5dedbba89dd4?auto=format&fit=crop&w=1200&q=85"
             />
+            <PhotoCorners />
           </motion.div>
           <MainsList delay={0.16} group={land} />
         </div>
@@ -499,6 +504,7 @@ function MainsSection() {
 function MainsList({ delay = 0, group }: { delay?: number; group: MenuGroup }) {
   return (
     <motion.div {...fadeIn(delay)}>
+      <RopeDivider className="mb-6 rounded-none" />
       <div className="mb-6 flex items-baseline justify-between gap-4 border-b border-aberdeen-peach/25 pb-3">
         <h3 className="font-display text-3xl md:text-4xl">{group.title}</h3>
         {group.note ? (
@@ -556,12 +562,22 @@ function ReserveSection() {
           Come hungry, stay for the light.
         </h2>
       </motion.div>
-      <motion.div className="self-end border border-aberdeen-peach p-5" {...fadeIn(0.12)}>
+      <motion.div className="self-end bg-oyster-white p-6 text-aberdeen-blue" {...fadeIn(0.12)}>
+        <RopeDivider className="mb-6 rounded-none" />
+        <div className="mb-8 grid grid-cols-[auto_1fr] gap-5 border-b border-dotted border-aberdeen-blue/35 pb-5">
+          <div className="grid h-20 w-20 place-items-center bg-citrus font-display text-5xl leading-none">
+            01
+          </div>
+          <div>
+            <p className="font-utility text-xs tracking-[0.18em] uppercase">Harbor check</p>
+            <p className="mt-2 font-playful text-4xl leading-none">Raw Bar Seat</p>
+          </div>
+        </div>
         <p className="mb-6 text-lg leading-8">
           Book a table and let the kitchen send out the day's best from the raw bar.
         </p>
         <Link
-          className="inline-block bg-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase"
+          className="inline-block bg-aberdeen-blue px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-peach uppercase"
           to="/contact"
         >
           Plan a visit

@@ -9,6 +9,7 @@ import BeveragesMenuPage from "./pages/menu-beverages"
 import FoodMenuPage from "./pages/menu-food"
 import SpiritsMenuPage from "./pages/menu-spirits"
 import StaffPage from "./pages/staff"
+import TestHomePage from "./pages/test-home"
 
 const siteLayoutRoute = <SiteLayout />
 const homeRoute = <HomePage />
@@ -21,6 +22,7 @@ const contactRoute = <ContactPage />
 const staffRoute = <StaffPage />
 const eventsRoute = <EventsPage />
 const adminRoute = <AdminPage />
+const testHomeRoute = <TestHomePage />
 
 function App() {
   return (
@@ -36,6 +38,7 @@ function App() {
         <Route path="staff" element={staffRoute} />
         <Route path="events" element={eventsRoute} />
         <Route path="admin" element={adminRoute} />
+        <Route path="test" element={testHomeRoute} />
       </Route>
     </Routes>
   )

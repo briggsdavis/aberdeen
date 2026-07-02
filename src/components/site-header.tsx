@@ -34,7 +34,7 @@ function SiteHeader() {
         </nav>
         <div className="hidden md:block">
           <TransitionLink
-            className="border border-aberdeen-peach px-4 py-2 font-utility text-sm tracking-[0.14em] uppercase transition hover:bg-aberdeen-peach hover:text-aberdeen-blue"
+            className="border border-white bg-white px-4 py-2 font-utility text-sm tracking-[0.14em] text-black uppercase transition hover:bg-transparent hover:text-white"
             to="/contact"
           >
             Reserve

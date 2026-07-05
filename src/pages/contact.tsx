@@ -145,14 +145,14 @@ function MapSection() {
       </motion.div>
       <motion.div className="min-h-[28rem] bg-aberdeen-blue p-5 md:p-8" {...fadeIn(0.12)}>
         <div className="relative h-full min-h-[28rem]">
-        <iframe
-          className="h-full min-h-[28rem] w-full"
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-          sandbox="allow-scripts allow-popups"
-          src="https://www.google.com/maps?q=Savannah%2C%20Georgia&output=embed"
-          title="Map showing Savannah, Georgia"
-        />
+          <iframe
+            className="h-full min-h-[28rem] w-full"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            sandbox="allow-scripts allow-popups"
+            src="https://www.google.com/maps?q=Savannah%2C%20Georgia&output=embed"
+            title="Map showing Savannah, Georgia"
+          />
           <PhotoCorners />
         </div>
       </motion.div>

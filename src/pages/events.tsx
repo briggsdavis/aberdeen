@@ -1,5 +1,5 @@
-import { useState } from "react"
 import { motion } from "motion/react"
+import { useState } from "react"
 import { MaritimeFlags, RopeDivider } from "../components/nautical-details"
 import { fadeIn, fadeInPlace } from "../lib/motion"
 
@@ -45,6 +45,28 @@ const events = [
       "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=900&q=85",
   },
 ]
+
+const calendarWeekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+const calendarWeekdayNames = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+]
+const calendarDays = Array.from({ length: 30 }, (_, index) => index + 1)
+const firstEventDay = Number(events[0]?.day ?? 1)
+const firstEventWeekdayIndex = events[0] ? calendarWeekdayNames.indexOf(events[0].weekday) : 0
+const calendarStartOffset =
+  firstEventWeekdayIndex >= 0 ? (firstEventWeekdayIndex - ((firstEventDay - 1) % 7) + 7) % 7 : 0
+const leadingCalendarDays = Array.from({ length: calendarStartOffset }, (_, index) => index)
+const trailingCalendarDays = Array.from(
+  { length: (7 - ((calendarStartOffset + calendarDays.length) % 7)) % 7 },
+  (_, index) => index,
+)
+const eventsByDay = new Map(events.map((event, index) => [Number(event.day), { event, index }]))
 
 type EventsView = "list" | "calendar"
 
@@ -125,11 +147,9 @@ function UpcomingList() {
           key={event.title}
           {...fadeInPlace(index * 0.06)}
         >
-          <img
-            alt={event.title}
-            className="h-52 w-full object-cover md:h-full"
-            src={event.image}
-          />
+          <div className="aspect-[4/3] w-full overflow-hidden md:self-start">
+            <img alt={event.title} className="h-full w-full object-cover" src={event.image} />
+          </div>
           <div className="p-6 md:p-10">
             <p className="font-utility text-sm tracking-[0.18em] text-aberdeen-blue uppercase">
               {event.weekday}, {event.month} {event.day} · {event.time}
@@ -171,13 +191,10 @@ function HeroSection() {
 }
 
 function CalendarGrid() {
-  const emptyDays = Array.from({ length: 3 }, (_, index) => index)
-  const trailingDays = Array.from({ length: 21 }, (_, index) => index)
-
   return (
     <motion.div {...fadeInPlace()}>
       <div className="grid grid-cols-7 border-t border-l border-aberdeen-blue/25">
-        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
+        {calendarWeekdays.map((day) => (
           <div
             className="border-r border-b border-aberdeen-blue/25 p-3 font-utility text-xs tracking-[0.14em] text-aberdeen-blue uppercase"
             key={day}
@@ -185,32 +202,49 @@ function CalendarGrid() {
             {day}
           </div>
         ))}
-        {emptyDays.map((day) => (
+        {leadingCalendarDays.map((day) => (
           <div
             className="min-h-24 border-r border-b border-aberdeen-blue/25 bg-aberdeen-peach/40"
-            key={day}
+            key={`leading-${day}`}
           />
         ))}
-        {events.map((event, index) => (
-          <motion.article
-            className="relative min-h-48 border-r border-b border-aberdeen-blue/25 bg-aberdeen-peach p-3 text-aberdeen-blue md:p-5"
-            key={event.title}
-            {...fadeInPlace(index * 0.06)}
-          >
-            <div className="flex items-start justify-between gap-3">
-              <p className="grid h-12 w-12 place-items-center bg-citrus font-display text-3xl leading-none">
-                {event.day}
-              </p>
-              <p className="font-utility text-xs tracking-[0.14em] uppercase">{event.time}</p>
-            </div>
-            <h3 className="mt-8 font-display text-3xl leading-none">{event.title}</h3>
-            <p className="mt-4 text-sm leading-6 text-kelp-ink/80">{event.copy}</p>
-          </motion.article>
-        ))}
-        {trailingDays.map((day) => (
+        {calendarDays.map((day) => {
+          const scheduledEvent = eventsByDay.get(day)
+
+          if (!scheduledEvent) {
+            return (
+              <div
+                className="min-h-24 border-r border-b border-aberdeen-blue/25 bg-white/35 p-3 font-utility text-xs tracking-[0.14em] text-aberdeen-blue/45 uppercase md:min-h-48 md:p-5"
+                key={`day-${day}`}
+              >
+                {day}
+              </div>
+            )
+          }
+
+          const { event, index } = scheduledEvent
+
+          return (
+            <motion.article
+              className="relative min-h-48 border-r border-b border-aberdeen-blue/25 bg-aberdeen-peach p-3 text-aberdeen-blue md:p-5"
+              key={`event-${event.day}`}
+              {...fadeInPlace(index * 0.06)}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <p className="grid h-12 w-12 place-items-center bg-citrus font-display text-3xl leading-none">
+                  {event.day}
+                </p>
+                <p className="font-utility text-xs tracking-[0.14em] uppercase">{event.time}</p>
+              </div>
+              <h3 className="mt-8 font-display text-3xl leading-none">{event.title}</h3>
+              <p className="mt-4 text-sm leading-6 text-kelp-ink/80">{event.copy}</p>
+            </motion.article>
+          )
+        })}
+        {trailingCalendarDays.map((day) => (
           <div
             className="min-h-24 border-r border-b border-aberdeen-blue/25 bg-white/35"
-            key={day}
+            key={`trailing-${day}`}
           />
         ))}
       </div>

@@ -270,7 +270,7 @@ function MenuTabs() {
           className={
             tab.active
               ? "underline decoration-citrus decoration-2 underline-offset-8"
-              : "opacity-70 decoration-citrus decoration-2 underline-offset-8 transition hover:underline hover:opacity-100"
+              : "decoration-citrus decoration-2 underline-offset-8 opacity-70 transition hover:underline hover:opacity-100"
           }
           key={tab.label}
           to={tab.to}

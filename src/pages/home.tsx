@@ -106,11 +106,7 @@ function MaritimeFlags() {
   return (
     <div aria-hidden="true" className="flex gap-2">
       {maritimeFlagPatterns.map((background) => (
-        <span
-          className="h-8 w-8"
-          key={background}
-          style={{ background }}
-        />
+        <span className="h-8 w-8" key={background} style={{ background }} />
       ))}
     </div>
   )
@@ -294,7 +290,7 @@ function ReservationsSection() {
         </h2>
       </motion.div>
       <motion.div
-        className="relative self-end rotate-1 bg-oyster-white p-6 text-aberdeen-blue shadow-[10px_10px_0_#f7b733]"
+        className="relative rotate-1 self-end bg-oyster-white p-6 text-aberdeen-blue shadow-[10px_10px_0_#f7b733]"
         {...fadeIn(0.12)}
       >
         <div className="mb-8 flex items-start justify-between gap-6">

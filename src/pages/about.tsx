@@ -149,7 +149,10 @@ function HeroSection() {
 function StorySection() {
   return (
     <section className="grid gap-12 bg-oyster-white px-5 py-16 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:py-24">
-      <motion.div className="self-start bg-aberdeen-peach p-6 text-aberdeen-blue shadow-[8px_8px_0_rgba(42,59,146,0.16)]" {...fadeIn()}>
+      <motion.div
+        className="self-start bg-aberdeen-peach p-6 text-aberdeen-blue shadow-[8px_8px_0_rgba(42,59,146,0.16)]"
+        {...fadeIn()}
+      >
         <p className="font-utility text-xs tracking-[0.18em] uppercase">Postcard note</p>
         <p className="mt-4 font-playful text-5xl leading-none">The story</p>
         <div className="mt-8 flex items-center justify-between gap-6">

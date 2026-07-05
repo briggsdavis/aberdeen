@@ -1,3 +1,4 @@
+import { motion } from "motion/react"
 import {
   createContext,
   type MouseEvent,
@@ -9,7 +10,6 @@ import {
   useRef,
   useState,
 } from "react"
-import { motion } from "motion/react"
 import {
   createPath,
   Link,

@@ -69,7 +69,13 @@ function TestHomePage() {
 const tornClip =
   "polygon(0% 2%,7% 0%,15% 3%,24% 1%,34% 3%,43% 0%,55% 2%,66% 0%,75% 3%,86% 1%,100% 3%,98% 15%,100% 26%,97% 39%,100% 52%,98% 65%,100% 78%,97% 91%,99% 100%,88% 98%,76% 100%,64% 97%,52% 100%,39% 98%,27% 100%,15% 97%,3% 100%,1% 88%,3% 76%,0% 63%,2% 50%,0% 38%,3% 25%,0% 13%)"
 
-function TornPaper({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+function TornPaper({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode
+  className?: string
+}) {
   return (
     <div
       className={`relative bg-oyster-white p-3 shadow-[0_18px_34px_rgba(29,42,47,0.26)] ${className}`}
@@ -89,15 +95,7 @@ function TornPaper({ children, className = "" }: { children: React.ReactNode; cl
   )
 }
 
-function CutImage({
-  alt,
-  className = "",
-  src,
-}: {
-  alt: string
-  className?: string
-  src: string
-}) {
+function CutImage({ alt, className = "", src }: { alt: string; className?: string; src: string }) {
   return (
     <img
       alt={alt}
@@ -132,11 +130,7 @@ function FramedPhoto({
           maskSize: "100% 100%",
         }}
       >
-        <img
-          alt={alt}
-          className="h-full w-full object-cover"
-          src={src}
-        />
+        <img alt={alt} className="h-full w-full object-cover" src={src} />
       </div>
       <img
         alt=""
@@ -362,11 +356,7 @@ function MenuSection() {
             {...fadeIn(index * 0.08)}
           >
             <div className="relative">
-              <CutImage
-                alt=""
-                className="aspect-[4/5] w-full"
-                src={menu.image}
-              />
+              <CutImage alt="" className="aspect-[4/5] w-full" src={menu.image} />
               <span className="absolute top-4 right-3 z-20 rotate-6 bg-citrus px-3 py-2 font-utility text-xs tracking-[0.14em] uppercase">
                 {menu.sticker}
               </span>
@@ -405,7 +395,10 @@ function BoatClubSection() {
           <p className="mt-5 font-playful text-4xl leading-none">Savannah Yacht Lunch, clipped.</p>
         </div>
       </motion.div>
-      <motion.div className="flex flex-col justify-center px-5 py-16 md:px-8 md:py-24" {...fadeIn(0.12)}>
+      <motion.div
+        className="flex flex-col justify-center px-5 py-16 md:px-8 md:py-24"
+        {...fadeIn(0.12)}
+      >
         <p className="font-utility text-sm tracking-[0.22em] uppercase">Boat club mood</p>
         <h2 className="mt-5 max-w-2xl font-display text-5xl leading-none md:text-7xl">
           Rope, flags, stamps, sun, and sharp blue shadows.
@@ -538,7 +531,9 @@ function StickerLabSection() {
             />
           </div>
           <ObjectSticker className="absolute top-40 left-52 rotate-12">⚓</ObjectSticker>
-          <ObjectSticker className="absolute right-56 bottom-28 -rotate-12 bg-shell-pink">☼</ObjectSticker>
+          <ObjectSticker className="absolute right-56 bottom-28 -rotate-12 bg-shell-pink">
+            ☼
+          </ObjectSticker>
           <CompassStamp className="absolute top-10 right-20 bg-oyster-white/85" />
         </motion.div>
         <motion.div className="self-center" {...fadeIn(0.12)}>
@@ -589,7 +584,9 @@ function EventsSection() {
             }}
           >
             <Tape className="-top-4 left-8" />
-            {index === 2 ? <CompassStamp className="absolute top-4 right-5 h-20 w-20 opacity-30" /> : null}
+            {index === 2 ? (
+              <CompassStamp className="absolute top-4 right-5 h-20 w-20 opacity-30" />
+            ) : null}
             <p className="font-utility text-sm tracking-[0.2em] uppercase">June {day}</p>
             <h3 className="mt-12 font-display text-5xl leading-none">{title}</h3>
             <p className="mt-6 leading-7 text-kelp-ink/80">{copy}</p>

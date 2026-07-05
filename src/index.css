@@ -52,4 +52,8 @@
     outline-color: var(--color-citrus);
     outline-offset: 4px;
   }
+
+  button {
+    @apply cursor-pointer;
+  }
 }

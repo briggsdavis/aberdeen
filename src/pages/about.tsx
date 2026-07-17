@@ -1,4 +1,5 @@
 import { motion } from "motion/react"
+import { RestaurantGroupSection, RippleSection } from "../components/site-extras"
 import { fadeIn } from "../lib/motion"
 
 function AboutPage() {
@@ -6,8 +7,10 @@ function AboutPage() {
     <div className="overflow-hidden">
       <HeroSection />
       <StorySection />
+      <OwnerSection />
       <GroupSection />
       <RoomSection />
+      <RestaurantGroupSection />
     </div>
   )
 }
@@ -117,10 +120,10 @@ function HeroSection() {
     <section className="relative min-h-[44rem] bg-aberdeen-blue text-aberdeen-peach">
       <img
         alt="Sunlit restaurant table with glassware and coastal plates"
-        className="absolute inset-y-0 right-0 h-full w-full object-cover md:w-[55%]"
+        className="absolute inset-0 h-full w-full object-cover"
         src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1800&q=85"
       />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,#2A3B92_0%,#2A3B92_45%,rgba(42,59,146,0.86)_53%,rgba(42,59,146,0.38)_68%,rgba(42,59,146,0)_90%)]" />
+      <div className="hero-radial-glow absolute inset-0 z-[1]" />
       <motion.div
         className="absolute right-5 bottom-10 z-10 hidden w-[26rem] rotate-3 text-aberdeen-blue md:right-8 md:block"
         {...fadeIn(0.2)}
@@ -175,6 +178,40 @@ function StorySection() {
   )
 }
 
+function OwnerSection() {
+  return (
+    <section className="grid gap-12 bg-oyster-white px-5 py-16 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:py-24">
+      <motion.div className="text-center text-aberdeen-blue" {...fadeIn()}>
+        <div className="mx-auto h-72 w-72 overflow-hidden rounded-full border-8 border-aberdeen-peach">
+          <img
+            alt="Portrait of Aberdeen owner"
+            className="h-full w-full object-cover"
+            src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=700&q=85"
+          />
+        </div>
+        <h2 className="mt-6 font-display text-4xl leading-none">Richard DeShantz</h2>
+        <p className="mt-2 font-utility text-xs tracking-[0.18em] uppercase">
+          Restaurant Group Founder
+        </p>
+      </motion.div>
+      <motion.div className="max-w-3xl self-center space-y-6 text-lg leading-8" {...fadeIn(0.12)}>
+        <p>
+          Aberdeen is imagined as a coastal room with a city pulse: bright enough for lunch, polished
+          enough for celebrations, and relaxed enough to make one more round feel inevitable.
+        </p>
+        <p>
+          The restaurant group brings a practiced eye for warm service, sharp menus, and rooms that
+          feel alive without feeling rushed.
+        </p>
+        <p>
+          Here, that hospitality is filtered through seafood, citrus, cold glass, and a Savannah
+          sense of lingering.
+        </p>
+      </motion.div>
+    </section>
+  )
+}
+
 function GroupSection() {
   return (
     <section className="bg-aberdeen-peach px-5 py-16 md:px-8 md:py-24">
@@ -216,7 +253,8 @@ function GroupSection() {
 
 function RoomSection() {
   return (
-    <section className="grid gap-6 bg-aberdeen-blue p-5 md:grid-cols-[1.2fr_0.8fr] md:gap-10 md:p-8">
+    <RippleSection className="bg-aberdeen-blue p-5 md:p-8">
+      <div className="grid gap-6 md:grid-cols-[1.2fr_0.8fr] md:gap-10">
       <motion.div className="relative h-[30rem] w-full md:h-[42rem]" {...fadeIn()}>
         <img
           alt="Restaurant bar with warm lights and bottles"
@@ -244,7 +282,8 @@ function RoomSection() {
           </p>
         </motion.div>
       </div>
-    </section>
+      </div>
+    </RippleSection>
   )
 }
 

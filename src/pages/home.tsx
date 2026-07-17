@@ -1,5 +1,13 @@
 import { motion } from "motion/react"
 import { fadeIn } from "../lib/motion"
+import {
+  FAQSection,
+  HeroCarouselButtons,
+  RestaurantGroupSection,
+  RippleSection,
+  TiltWrap,
+  useHeroCarousel,
+} from "../components/site-extras"
 
 function HomePage() {
   return (
@@ -7,22 +15,26 @@ function HomePage() {
       <HeroSection />
       <IntroSection />
       <MenuSection />
-      <GallerySection />
       <ReservationsSection />
+      <GallerySection />
       <EventsSection />
+      <FAQSection />
+      <RestaurantGroupSection />
     </div>
   )
 }
 
 function HeroSection() {
+  const { image, next, previous } = useHeroCarousel()
+
   return (
     <section className="relative min-h-svh bg-aberdeen-blue text-aberdeen-peach">
       <img
         alt="Sunlit coastal restaurant dining room"
-        className="absolute inset-y-0 right-0 h-full w-full object-cover md:w-[58%]"
-        src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1800&q=85"
+        className="absolute inset-0 h-full w-full object-cover"
+        src={image}
       />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,#2A3B92_0%,#2A3B92_42%,rgba(42,59,146,0.88)_50%,rgba(42,59,146,0.42)_66%,rgba(42,59,146,0)_88%)]" />
+      <div className="hero-radial-glow absolute inset-0 z-[1]" />
       <motion.div
         className="absolute right-5 bottom-8 z-10 hidden w-[28.8rem] -rotate-3 text-aberdeen-blue md:right-8 md:bottom-10 md:block"
         {...fadeIn(0.25)}
@@ -40,18 +52,19 @@ function HeroSection() {
           </p>
           <div className="flex flex-wrap gap-3">
             <a
-              className="border border-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] uppercase transition hover:bg-aberdeen-peach hover:text-aberdeen-blue"
+              className="aberdeen-action border border-aberdeen-peach text-aberdeen-peach hover:bg-aberdeen-peach hover:text-aberdeen-blue"
               href="#reservations"
             >
               Reserve a table
             </a>
             <a
-              className="bg-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase transition hover:bg-oyster-white"
+              className="aberdeen-action bg-aberdeen-peach text-aberdeen-blue hover:bg-oyster-white"
               href="/menu/food"
             >
               View menu
             </a>
           </div>
+          <HeroCarouselButtons onNext={next} onPrevious={previous} />
         </motion.div>
       </div>
     </section>
@@ -148,22 +161,71 @@ function Postmark() {
 
 function IntroSection() {
   return (
-    <section className="grid gap-10 px-5 py-16 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:py-24">
-      <motion.div className="space-y-5" {...fadeIn()}>
-        <p className="font-utility text-sm tracking-[0.22em] text-aberdeen-blue uppercase">
-          Richard DeShantz Restaurant Group
-        </p>
-        <MaritimeFlags />
-      </motion.div>
-      <motion.div className="max-w-4xl" {...fadeIn(0.1)}>
-        <h2 className="font-display text-5xl leading-none text-aberdeen-blue md:text-7xl">
-          Built like a coastal postcard, served with Savannah appetite.
-        </h2>
-        <p className="mt-8 max-w-2xl text-lg leading-8">
-          Aberdeen is a bright, editorial restaurant centered on seafood, cocktails, and the easy
-          ceremony of gathering around a good table.
-        </p>
-      </motion.div>
+    <section className="px-5 py-16 md:px-8 md:py-24">
+      <div className="grid gap-10 md:grid-cols-[0.85fr_1.15fr] md:items-stretch">
+        <motion.div className="relative h-[34rem] md:h-auto md:self-stretch" {...fadeIn()}>
+          <img
+            alt="Portrait of a warmly lit restaurant dining detail"
+            className="h-full w-full object-cover"
+            src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1000&q=85"
+          />
+          <PhotoCorners />
+        </motion.div>
+        <motion.div className="max-w-4xl" {...fadeIn(0.1)}>
+          <p className="font-utility text-sm tracking-[0.22em] text-aberdeen-blue uppercase">
+            Richard DeShantz Restaurant Group
+          </p>
+          <h2 className="mt-5 font-display text-5xl leading-none text-aberdeen-blue md:text-7xl">
+            Built like a coastal postcard, served with Savannah appetite.
+          </h2>
+          <p className="mt-8 max-w-2xl text-lg leading-8">
+            Aberdeen is a bright, editorial restaurant centered on seafood, cocktails, and the easy
+            ceremony of gathering around a good table.
+          </p>
+          <div className="relative mt-10 h-72">
+            <img
+              alt="Seafood spread on a restaurant table"
+              className="h-full w-full object-cover"
+              src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1200&q=85"
+            />
+            <PhotoCorners />
+          </div>
+        </motion.div>
+      </div>
+      <div className="mt-20 grid gap-5 md:mt-28 md:grid-cols-4">
+        {[
+          ["Who we are", "Coastal hospitality with city polish."],
+          ["What we do", "Seafood, spirits, and easy ceremony."],
+          ["By the sea", "Oysters, citrus, cold glass, warm rooms."],
+          ["For the table", "Long dinners made to linger."],
+        ].map(([title, copy], index) => (
+          <TiltWrap className="relative h-72 bg-aberdeen-blue" key={title}>
+            <img
+              alt=""
+              className="h-full w-full object-cover"
+              src={[
+                "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=700&q=85",
+                "https://images.unsplash.com/photo-1523905330026-b8bd1f5f320e?auto=format&fit=crop&w=700&q=85",
+                "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&w=700&q=85",
+                "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=700&q=85",
+              ][index]}
+            />
+            <div className="absolute inset-x-4 bottom-4 text-oyster-white">
+              <h3 className="font-display text-4xl leading-none">{title}</h3>
+              <p className="mt-2 text-sm leading-6">{copy}</p>
+            </div>
+            <PhotoCorners />
+          </TiltWrap>
+        ))}
+      </div>
+      <div
+        aria-label="Coastal restaurant table"
+        className="parallax-break mt-16 h-[24rem] bg-aberdeen-blue md:h-[34rem]"
+        style={{
+          backgroundImage:
+            "url('https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=1800&q=85')",
+        }}
+      />
     </section>
   )
 }
@@ -205,7 +267,7 @@ function MenuSection() {
           </h2>
         </div>
         <a
-          className="hidden font-utility text-sm tracking-[0.18em] text-aberdeen-blue uppercase underline decoration-citrus decoration-2 underline-offset-8 md:block"
+          className="aberdeen-action hidden border border-aberdeen-blue text-aberdeen-blue md:inline-flex"
           href="/menu/food"
         >
           View food menu
@@ -268,8 +330,10 @@ function GallerySection() {
             key={image}
             {...fadeIn(index * 0.08)}
           >
-            <img alt="" className="h-full w-full object-cover" src={image} />
-            <PhotoCorners />
+            <TiltWrap className="h-full w-full">
+              <img alt="" className="h-full w-full object-cover" src={image} />
+              <PhotoCorners />
+            </TiltWrap>
           </motion.div>
         ))}
       </div>
@@ -279,44 +343,43 @@ function GallerySection() {
 
 function ReservationsSection() {
   return (
-    <section
-      className="grid gap-10 bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:grid-cols-[1fr_0.9fr] md:px-8 md:py-24"
+    <RippleSection
+      className="bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24"
       id="reservations"
     >
-      <motion.div {...fadeIn()}>
-        <p className="font-utility text-sm tracking-[0.22em] uppercase">Reservations</p>
-        <h2 className="mt-5 max-w-3xl font-display text-5xl leading-none md:text-8xl">
-          Join us where the table catches the light.
-        </h2>
-      </motion.div>
-      <motion.div
-        className="relative rotate-1 self-end bg-oyster-white p-6 text-aberdeen-blue shadow-[10px_10px_0_#f7b733]"
-        {...fadeIn(0.12)}
-      >
-        <div className="mb-8 flex items-start justify-between gap-6">
-          <div>
-            <p className="font-utility text-xs tracking-[0.18em] uppercase">Postcard from</p>
-            <p className="mt-2 font-playful text-5xl leading-none">Aberdeen</p>
-          </div>
-          <div className="grid h-20 w-16 place-items-center border border-dashed border-aberdeen-blue bg-aberdeen-peach p-2">
-            <img alt="" className="h-full w-full object-contain" src="/circle-a-blue.png" />
-          </div>
-        </div>
-        <p className="mb-6 text-lg leading-8">
-          OpenTable will live here once the client provides the embed snippet.
-        </p>
-        <div className="mb-8 flex items-center justify-between gap-6">
-          <Postmark />
-          <MaritimeFlags />
-        </div>
-        <a
-          className="inline-block bg-aberdeen-blue px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-peach uppercase"
-          href="/contact"
+      <div className="grid gap-10 md:grid-cols-[0.9fr_1fr]">
+        <motion.div
+          className="relative rotate-1 self-end bg-oyster-white p-6 text-aberdeen-blue shadow-[10px_10px_0_#f7b733]"
+          {...fadeIn(0.12)}
         >
-          Plan a visit
-        </a>
-      </motion.div>
-    </section>
+          <div className="mb-8 flex items-start justify-between gap-6">
+            <div>
+              <p className="font-utility text-xs tracking-[0.18em] uppercase">Postcard from</p>
+              <p className="mt-2 font-playful text-5xl leading-none">Aberdeen</p>
+            </div>
+            <div className="grid h-20 w-16 place-items-center border border-dashed border-aberdeen-blue bg-aberdeen-peach p-2">
+              <img alt="" className="h-full w-full object-contain" src="/circle-a-blue.png" />
+            </div>
+          </div>
+          <p className="mb-6 text-lg leading-8">
+            OpenTable will live here once the client provides the embed snippet.
+          </p>
+          <div className="mb-8 flex items-center justify-between gap-6">
+            <Postmark />
+            <MaritimeFlags />
+          </div>
+          <a className="aberdeen-action bg-aberdeen-blue text-aberdeen-peach" href="/contact">
+            Plan a visit
+          </a>
+        </motion.div>
+        <motion.div {...fadeIn()}>
+          <p className="font-utility text-sm tracking-[0.22em] uppercase">Reservations</p>
+          <h2 className="mt-5 max-w-3xl font-display text-5xl leading-none md:text-8xl">
+            Join us where the table catches the light.
+          </h2>
+        </motion.div>
+      </div>
+    </RippleSection>
   )
 }
 
@@ -347,7 +410,7 @@ function EventsSection() {
           around the calendar.
         </p>
         <a
-          className="mt-8 inline-block bg-aberdeen-blue px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-peach uppercase"
+          className="aberdeen-action mt-8 bg-aberdeen-blue text-aberdeen-peach"
           href="/events"
         >
           View events

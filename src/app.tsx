@@ -21,7 +21,19 @@ const beveragesMenuRoute = <BeveragesMenuPage />
 const contactRoute = <ContactPage />
 const staffRoute = <StaffPage />
 const eventsRoute = <EventsPage />
-const adminRoute = <AdminPage />
+const adminRoute = import.meta.env.VITE_CONVEX_URL ? (
+  <AdminPage />
+) : (
+  <section className="grid min-h-svh place-items-center bg-oyster-white px-5 text-center text-aberdeen-blue">
+    <div className="max-w-md">
+      <p className="font-utility text-sm tracking-[0.22em] uppercase">Admin unavailable</p>
+      <h1 className="mt-4 font-display text-5xl leading-none">Convex is not configured.</h1>
+      <p className="mt-6 leading-7 text-kelp-ink/80">
+        Run the full Convex development command or add VITE_CONVEX_URL to enable the admin tools.
+      </p>
+    </div>
+  </section>
+)
 const testHomeRoute = <TestHomePage />
 
 function App() {

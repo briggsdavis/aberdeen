@@ -1,6 +1,7 @@
 import { motion } from "motion/react"
 import { useState } from "react"
 import { MaritimeFlags, RopeDivider } from "../components/nautical-details"
+import { HeroCarouselButtons, RippleSection, useHeroCarousel } from "../components/site-extras"
 import { fadeIn, fadeInPlace } from "../lib/motion"
 
 const events = [
@@ -131,7 +132,17 @@ function ScheduleSection() {
           </h2>
           <RopeDivider className="mt-5 w-64" />
         </div>
-        <ViewToggle onChange={setView} view={view} />
+        <div className="flex flex-wrap items-center gap-3">
+          <ViewToggle onChange={setView} view={view} />
+          <a
+            className="aberdeen-action bg-aberdeen-blue text-aberdeen-peach"
+            href="https://example.com"
+            rel="noreferrer"
+            target="_blank"
+          >
+            Book now
+          </a>
+        </div>
       </motion.div>
       {view === "list" ? <UpcomingList /> : <CalendarGrid />}
     </section>
@@ -166,14 +177,20 @@ function UpcomingList() {
 }
 
 function HeroSection() {
+  const { image, next, previous } = useHeroCarousel([
+    "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1800&q=85",
+    "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=1800&q=85",
+    "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=1800&q=85",
+  ])
+
   return (
     <section className="relative bg-aberdeen-blue text-aberdeen-peach">
       <img
         alt="People gathered around a restaurant table with drinks"
-        className="absolute inset-y-0 right-0 h-full w-full object-cover md:w-[52%]"
-        src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1800&q=85"
+        className="absolute inset-0 h-full w-full object-cover"
+        src={image}
       />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,#2A3B92_0%,#2A3B92_48%,rgba(42,59,146,0.86)_56%,rgba(42,59,146,0.38)_70%,rgba(42,59,146,0)_90%)]" />
+      <div className="hero-radial-glow absolute inset-0 z-[1]" />
       <motion.div className="absolute right-5 bottom-8 z-10 md:right-8" {...fadeIn(0.18)}>
         <MaritimeFlags />
       </motion.div>
@@ -185,6 +202,7 @@ function HeroSection() {
         <h1 className="max-w-5xl font-display text-6xl leading-none md:text-8xl">
           Seasonal nights worth circling.
         </h1>
+        <HeroCarouselButtons onNext={next} onPrevious={previous} />
       </motion.div>
     </section>
   )
@@ -254,15 +272,17 @@ function CalendarGrid() {
 
 function PrivateEventsSection() {
   return (
-    <section className="grid gap-10 bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:grid-cols-[1fr_0.9fr] md:px-8 md:py-24">
-      <motion.div {...fadeIn()}>
-        <p className="font-utility text-sm tracking-[0.22em] uppercase">Private events</p>
-        <h2 className="mt-5 max-w-3xl font-playful text-5xl leading-none md:text-7xl">
-          Gatherings with seafood, spirits, and a room already dressed for it.
-        </h2>
-      </motion.div>
-      <FerryTicket />
-    </section>
+    <RippleSection className="bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24">
+      <div className="grid gap-10 md:grid-cols-[1fr_0.9fr]">
+        <motion.div {...fadeIn()}>
+          <p className="font-utility text-sm tracking-[0.22em] uppercase">Private events</p>
+          <h2 className="mt-5 max-w-3xl font-playful text-5xl leading-none md:text-7xl">
+            Gatherings with seafood, spirits, and a room already dressed for it.
+          </h2>
+        </motion.div>
+        <FerryTicket />
+      </div>
+    </RippleSection>
   )
 }
 
@@ -286,7 +306,7 @@ function FerryTicket() {
             table around the moment.
           </p>
           <a
-            className="mt-8 inline-block bg-aberdeen-blue px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-peach uppercase"
+            className="aberdeen-action mt-8 bg-aberdeen-blue text-aberdeen-peach"
             href="/contact"
           >
             Start planning

@@ -1,6 +1,7 @@
 import { motion } from "motion/react"
 import { Link } from "react-router"
 import { PhotoCorners, RopeDivider } from "../components/nautical-details"
+import { MenuLikeButton, PostcardImageStack, RippleSection } from "../components/site-extras"
 import { fadeIn } from "../lib/motion"
 
 type MenuItem = {
@@ -368,10 +369,10 @@ function MenuHero() {
     <section className="relative bg-aberdeen-blue text-aberdeen-peach">
       <img
         alt="A plate of oysters on ice with lemon wedges"
-        className="absolute inset-y-0 right-0 h-full w-full object-cover md:w-[52%]"
+        className="absolute inset-0 h-full w-full object-cover"
         src="https://images.unsplash.com/photo-1633321094192-388268512e0f?auto=format&fit=crop&w=1800&q=85"
       />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,#2A3B92_0%,#2A3B92_48%,rgba(42,59,146,0.86)_56%,rgba(42,59,146,0.38)_70%,rgba(42,59,146,0)_90%)]" />
+      <div className="hero-radial-glow absolute inset-0 z-[1]" />
       <motion.div
         className="relative z-10 grid gap-10 px-5 pt-32 pb-16 md:px-8 md:pt-40 md:pb-24"
         {...fadeIn()}
@@ -405,11 +406,6 @@ function MenuList({ delay = 0, group }: { delay?: number; group: MenuGroup }) {
       <ul className="space-y-5">
         {group.items.map((item) => (
           <li className="flex items-center gap-4" key={item.name}>
-            <img
-              alt={item.image.alt}
-              className="aspect-square w-20 shrink-0 object-cover md:w-24"
-              src={item.image.src}
-            />
             <div className="min-w-0 grow">
               <div className="grid grid-cols-[auto_minmax(1rem,1fr)_auto] items-end gap-4">
                 <p className="font-display text-xl leading-none text-aberdeen-blue">{item.name}</p>
@@ -420,6 +416,7 @@ function MenuList({ delay = 0, group }: { delay?: number; group: MenuGroup }) {
               </div>
               <p className="mt-2 leading-7 text-kelp-ink/80">{item.description}</p>
             </div>
+            <MenuLikeButton itemName={item.name} />
           </li>
         ))}
       </ul>
@@ -442,6 +439,7 @@ function RawBarSection() {
               className="h-full w-full object-cover"
               src="https://images.unsplash.com/photo-1679694140422-aecfd3d5dd0b?auto=format&fit=crop&w=1000&q=85"
             />
+            <PostcardImageStack />
             <PhotoCorners />
           </div>
           <p className="mt-4 max-w-sm font-utility text-xs tracking-[0.18em] text-aberdeen-blue/70 uppercase">
@@ -464,6 +462,7 @@ function StartersSection() {
               className="h-full w-full object-cover"
               src="https://images.unsplash.com/photo-1595579547936-c3a0e6c171fc?auto=format&fit=crop&w=1000&q=85"
             />
+            <PostcardImageStack />
             <PhotoCorners />
           </div>
         </motion.div>
@@ -477,7 +476,7 @@ function StartersSection() {
 
 function MainsSection() {
   return (
-    <section className="bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24">
+    <RippleSection className="bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24">
       <div className="grid gap-12 md:grid-cols-[0.9fr_1.1fr] md:gap-16">
         <div className="space-y-12">
           <motion.h2 className="font-display text-5xl leading-none md:text-7xl" {...fadeIn()}>
@@ -492,12 +491,13 @@ function MainsSection() {
               className="h-full w-full object-cover"
               src="https://images.unsplash.com/photo-1777891257650-5dedbba89dd4?auto=format&fit=crop&w=1200&q=85"
             />
+            <PostcardImageStack />
             <PhotoCorners />
           </motion.div>
           <MainsList delay={0.16} group={land} />
         </div>
       </div>
-    </section>
+    </RippleSection>
   )
 }
 
@@ -516,11 +516,6 @@ function MainsList({ delay = 0, group }: { delay?: number; group: MenuGroup }) {
       <ul className="space-y-5">
         {group.items.map((item) => (
           <li className="flex items-center gap-4" key={item.name}>
-            <img
-              alt={item.image.alt}
-              className="aspect-square w-20 shrink-0 object-cover md:w-24"
-              src={item.image.src}
-            />
             <div className="min-w-0 grow">
               <div className="grid grid-cols-[auto_minmax(1rem,1fr)_auto] items-end gap-4">
                 <p className="font-display text-xl leading-none">{item.name}</p>
@@ -531,6 +526,7 @@ function MainsList({ delay = 0, group }: { delay?: number; group: MenuGroup }) {
               </div>
               <p className="mt-2 leading-7 text-aberdeen-peach/80">{item.description}</p>
             </div>
+            <MenuLikeButton itemName={item.name} />
           </li>
         ))}
       </ul>
@@ -555,35 +551,34 @@ function SidesAndDessertSection() {
 
 function ReserveSection() {
   return (
-    <section className="grid gap-10 bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:grid-cols-[1fr_0.9fr] md:px-8 md:py-24">
-      <motion.div {...fadeIn()}>
-        <p className="font-utility text-sm tracking-[0.22em] uppercase">Reservations</p>
-        <h2 className="mt-5 max-w-3xl font-display text-5xl leading-none md:text-7xl">
-          Come hungry, stay for the light.
-        </h2>
-      </motion.div>
-      <motion.div className="self-end bg-oyster-white p-6 text-aberdeen-blue" {...fadeIn(0.12)}>
-        <RopeDivider className="mb-6 rounded-none" />
-        <div className="mb-8 grid grid-cols-[auto_1fr] gap-5 border-b border-dotted border-aberdeen-blue/35 pb-5">
-          <div className="grid h-20 w-20 place-items-center bg-citrus font-display text-5xl leading-none">
-            01
+    <RippleSection className="bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24">
+      <div className="grid gap-10 md:grid-cols-[1fr_0.9fr]">
+        <motion.div {...fadeIn()}>
+          <p className="font-utility text-sm tracking-[0.22em] uppercase">Reservations</p>
+          <h2 className="mt-5 max-w-3xl font-display text-5xl leading-none md:text-7xl">
+            Come hungry, stay for the light.
+          </h2>
+        </motion.div>
+        <motion.div className="self-end bg-oyster-white p-6 text-aberdeen-blue" {...fadeIn(0.12)}>
+          <RopeDivider className="mb-6 rounded-none" />
+          <div className="mb-8 grid grid-cols-[auto_1fr] gap-5 border-b border-dotted border-aberdeen-blue/35 pb-5">
+            <div className="grid h-20 w-20 place-items-center bg-citrus font-display text-5xl leading-none">
+              01
+            </div>
+            <div>
+              <p className="font-utility text-xs tracking-[0.18em] uppercase">Harbor check</p>
+              <p className="mt-2 font-playful text-4xl leading-none">Raw Bar Seat</p>
+            </div>
           </div>
-          <div>
-            <p className="font-utility text-xs tracking-[0.18em] uppercase">Harbor check</p>
-            <p className="mt-2 font-playful text-4xl leading-none">Raw Bar Seat</p>
-          </div>
-        </div>
-        <p className="mb-6 text-lg leading-8">
-          Book a table and let the kitchen send out the day's best from the raw bar.
-        </p>
-        <Link
-          className="inline-block bg-aberdeen-blue px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-peach uppercase"
-          to="/contact"
-        >
-          Plan a visit
-        </Link>
-      </motion.div>
-    </section>
+          <p className="mb-6 text-lg leading-8">
+            Book a table and let the kitchen send out the day's best from the raw bar.
+          </p>
+          <Link className="aberdeen-action bg-aberdeen-blue text-aberdeen-peach" to="/contact">
+            Plan a visit
+          </Link>
+        </motion.div>
+      </div>
+    </RippleSection>
   )
 }
 

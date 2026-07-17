@@ -1,5 +1,4 @@
 import { motion } from "motion/react"
-import { fadeIn } from "../lib/motion"
 import {
   FAQSection,
   HeroCarouselButtons,
@@ -8,6 +7,7 @@ import {
   TiltWrap,
   useHeroCarousel,
 } from "../components/site-extras"
+import { fadeIn } from "../lib/motion"
 
 function HomePage() {
   return (
@@ -203,12 +203,14 @@ function IntroSection() {
             <img
               alt=""
               className="h-full w-full object-cover"
-              src={[
-                "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=700&q=85",
-                "https://images.unsplash.com/photo-1523905330026-b8bd1f5f320e?auto=format&fit=crop&w=700&q=85",
-                "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&w=700&q=85",
-                "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=700&q=85",
-              ][index]}
+              src={
+                [
+                  "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=700&q=85",
+                  "https://images.unsplash.com/photo-1523905330026-b8bd1f5f320e?auto=format&fit=crop&w=700&q=85",
+                  "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&w=700&q=85",
+                  "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=700&q=85",
+                ][index]
+              }
             />
             <div className="absolute inset-x-4 bottom-4 text-oyster-white">
               <h3 className="font-display text-4xl leading-none">{title}</h3>
@@ -409,10 +411,7 @@ function EventsSection() {
           Aberdeen events bring the coastal mood into dinners, tastings, and gathered evenings built
           around the calendar.
         </p>
-        <a
-          className="aberdeen-action mt-8 bg-aberdeen-blue text-aberdeen-peach"
-          href="/events"
-        >
+        <a className="aberdeen-action mt-8 bg-aberdeen-blue text-aberdeen-peach" href="/events">
           View events
         </a>
       </motion.div>

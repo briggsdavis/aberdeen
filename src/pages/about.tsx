@@ -194,10 +194,11 @@ function OwnerSection() {
           Restaurant Group Founder
         </p>
       </motion.div>
-      <motion.div className="max-w-3xl self-center space-y-6 text-lg leading-8" {...fadeIn(0.12)}>
+      <motion.div className="max-w-3xl space-y-6 self-center text-lg leading-8" {...fadeIn(0.12)}>
         <p>
-          Aberdeen is imagined as a coastal room with a city pulse: bright enough for lunch, polished
-          enough for celebrations, and relaxed enough to make one more round feel inevitable.
+          Aberdeen is imagined as a coastal room with a city pulse: bright enough for lunch,
+          polished enough for celebrations, and relaxed enough to make one more round feel
+          inevitable.
         </p>
         <p>
           The restaurant group brings a practiced eye for warm service, sharp menus, and rooms that
@@ -255,33 +256,33 @@ function RoomSection() {
   return (
     <RippleSection className="bg-aberdeen-blue p-5 md:p-8">
       <div className="grid gap-6 md:grid-cols-[1.2fr_0.8fr] md:gap-10">
-      <motion.div className="relative h-[30rem] w-full md:h-[42rem]" {...fadeIn()}>
-        <img
-          alt="Restaurant bar with warm lights and bottles"
-          className="h-full w-full object-cover"
-          src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=1400&q=85"
-        />
-        <PhotoCorners />
-      </motion.div>
-      <div className="grid gap-3 md:gap-8">
-        <motion.div className="relative h-64 w-full md:h-full" {...fadeIn(0.08)}>
+        <motion.div className="relative h-[30rem] w-full md:h-[42rem]" {...fadeIn()}>
           <img
-            alt="Seafood dish with wine on a dining table"
+            alt="Restaurant bar with warm lights and bottles"
             className="h-full w-full object-cover"
-            src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1000&q=85"
+            src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=1400&q=85"
           />
           <PhotoCorners />
         </motion.div>
-        <motion.div className="bg-aberdeen-peach p-6 text-aberdeen-blue md:p-8" {...fadeIn(0.16)}>
-          <div className="flex items-center justify-between gap-6">
-            <p className="font-utility text-sm tracking-[0.18em] uppercase">The room</p>
-            <MaritimeFlags />
-          </div>
-          <p className="mt-6 font-playful text-4xl leading-none">
-            Bright by day. Blue by night. Always built around the table.
-          </p>
-        </motion.div>
-      </div>
+        <div className="grid gap-3 md:gap-8">
+          <motion.div className="relative h-64 w-full md:h-full" {...fadeIn(0.08)}>
+            <img
+              alt="Seafood dish with wine on a dining table"
+              className="h-full w-full object-cover"
+              src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1000&q=85"
+            />
+            <PhotoCorners />
+          </motion.div>
+          <motion.div className="bg-aberdeen-peach p-6 text-aberdeen-blue md:p-8" {...fadeIn(0.16)}>
+            <div className="flex items-center justify-between gap-6">
+              <p className="font-utility text-sm tracking-[0.18em] uppercase">The room</p>
+              <MaritimeFlags />
+            </div>
+            <p className="mt-6 font-playful text-4xl leading-none">
+              Bright by day. Blue by night. Always built around the table.
+            </p>
+          </motion.div>
+        </div>
       </div>
     </RippleSection>
   )

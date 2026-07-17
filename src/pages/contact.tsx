@@ -126,7 +126,10 @@ function ContactDetails() {
           </motion.article>
         ))}
       </div>
-      <motion.div className="relative min-h-[42rem] overflow-hidden bg-aberdeen-blue" {...fadeIn(0.12)}>
+      <motion.div
+        className="relative min-h-[42rem] overflow-hidden bg-aberdeen-blue"
+        {...fadeIn(0.12)}
+      >
         <img
           alt="Aberdeen dining room table"
           className="h-full min-h-[42rem] w-full object-cover"
@@ -147,10 +150,20 @@ function ContactDetails() {
           <h2 className="font-display text-5xl leading-none">Send a note</h2>
           <form className="mt-8 grid gap-4">
             <div className="grid gap-4 md:grid-cols-2">
-              <input className="border border-aberdeen-blue/25 bg-white px-4 py-3" placeholder="First name" />
-              <input className="border border-aberdeen-blue/25 bg-white px-4 py-3" placeholder="Last name" />
+              <input
+                className="border border-aberdeen-blue/25 bg-white px-4 py-3"
+                placeholder="First name"
+              />
+              <input
+                className="border border-aberdeen-blue/25 bg-white px-4 py-3"
+                placeholder="Last name"
+              />
             </div>
-            <input className="border border-aberdeen-blue/25 bg-white px-4 py-3" placeholder="Email" type="email" />
+            <input
+              className="border border-aberdeen-blue/25 bg-white px-4 py-3"
+              placeholder="Email"
+              type="email"
+            />
             <select className="border border-aberdeen-blue/25 bg-white px-4 py-3" defaultValue="">
               <option disabled value="">
                 Topic
@@ -160,8 +173,14 @@ function ContactDetails() {
               <option>Press</option>
               <option>General inquiry</option>
             </select>
-            <textarea className="min-h-36 border border-aberdeen-blue/25 bg-white px-4 py-3" placeholder="Message" />
-            <button className="aberdeen-action w-fit bg-aberdeen-blue text-aberdeen-peach" type="button">
+            <textarea
+              className="min-h-36 border border-aberdeen-blue/25 bg-white px-4 py-3"
+              placeholder="Message"
+            />
+            <button
+              className="aberdeen-action w-fit bg-aberdeen-blue text-aberdeen-peach"
+              type="button"
+            >
               Send
             </button>
           </form>

@@ -340,7 +340,7 @@ function MenuList({ delay = 0, group }: { delay?: number; group: MenuGroup }) {
                 </div>
                 <p className="mt-2 leading-7 text-kelp-ink/80">{item.description}</p>
               </div>
-            <MenuLikeButton itemName={item.name} />
+              <MenuLikeButton itemName={item.name} />
             </li>
           )
         })}
@@ -454,7 +454,7 @@ function MainsList({ delay = 0, group }: { delay?: number; group: MenuGroup }) {
                 </div>
                 <p className="mt-2 leading-7 text-aberdeen-peach/80">{item.description}</p>
               </div>
-            <MenuLikeButton itemName={item.name} />
+              <MenuLikeButton itemName={item.name} />
             </li>
           )
         })}
@@ -488,24 +488,24 @@ function ReserveSection() {
           </h2>
         </motion.div>
         <motion.div className="self-end bg-oyster-white p-6 text-aberdeen-blue" {...fadeIn(0.12)}>
-        <RopeDivider className="mb-6 rounded-none" />
-        <div className="mb-8 grid grid-cols-[auto_1fr] gap-5 border-b border-dotted border-aberdeen-blue/35 pb-5">
-          <div className="grid h-20 w-20 place-items-center bg-citrus font-display text-5xl leading-none">
-            03
+          <RopeDivider className="mb-6 rounded-none" />
+          <div className="mb-8 grid grid-cols-[auto_1fr] gap-5 border-b border-dotted border-aberdeen-blue/35 pb-5">
+            <div className="grid h-20 w-20 place-items-center bg-citrus font-display text-5xl leading-none">
+              03
+            </div>
+            <div>
+              <p className="font-utility text-xs tracking-[0.18em] uppercase">Harbor check</p>
+              <p className="mt-2 font-playful text-4xl leading-none">Sparkling</p>
+            </div>
           </div>
-          <div>
-            <p className="font-utility text-xs tracking-[0.18em] uppercase">Harbor check</p>
-            <p className="mt-2 font-playful text-4xl leading-none">Sparkling</p>
-          </div>
-        </div>
-        <p className="mb-6 text-lg leading-8">
-          Book a table for bright refreshers, coffee after dinner, and something sparkling between
-          courses.
-        </p>
-        <Link className="aberdeen-action bg-aberdeen-blue text-aberdeen-peach" to="/contact">
-          Plan a visit
-        </Link>
-      </motion.div>
+          <p className="mb-6 text-lg leading-8">
+            Book a table for bright refreshers, coffee after dinner, and something sparkling between
+            courses.
+          </p>
+          <Link className="aberdeen-action bg-aberdeen-blue text-aberdeen-peach" to="/contact">
+            Plan a visit
+          </Link>
+        </motion.div>
       </div>
     </RippleSection>
   )

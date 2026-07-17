@@ -84,10 +84,7 @@ function RosterSection() {
   return (
     <section className="relative bg-oyster-white px-5 py-16 md:px-8 md:py-24">
       <div className="relative grid gap-12 md:grid-cols-[0.75fr_1.25fr]">
-        <div
-          className="self-start md:sticky md:top-28"
-          data-testid="staff-intro"
-        >
+        <div className="self-start md:sticky md:top-28" data-testid="staff-intro">
           <motion.div {...fadeIn()}>
             <p className="font-utility text-sm tracking-[0.22em] text-aberdeen-blue uppercase">
               Aberdeen staff
@@ -96,8 +93,8 @@ function RosterSection() {
               Careful hands, clear timing, warm rooms.
             </h2>
             <p className="mt-8 max-w-lg text-lg leading-8 text-kelp-ink/80">
-              The team is built around craft and ease: people who know when to guide, when to vanish,
-              and when to make the night feel a little brighter.
+              The team is built around craft and ease: people who know when to guide, when to
+              vanish, and when to make the night feel a little brighter.
             </p>
           </motion.div>
         </div>
@@ -110,7 +107,11 @@ function RosterSection() {
             >
               <TiltWrap className="relative mx-auto w-full max-w-xl rotate-1 bg-aberdeen-peach p-4 text-aberdeen-blue shadow-[12px_12px_0_rgb(42_59_146/0.14)]">
                 <div className="relative aspect-[4/5] overflow-hidden">
-                  <img alt={person.name} className="h-full w-full object-cover" src={person.image} />
+                  <img
+                    alt={person.name}
+                    className="h-full w-full object-cover"
+                    src={person.image}
+                  />
                   <PhotoCorners />
                 </div>
                 <div className="p-5">

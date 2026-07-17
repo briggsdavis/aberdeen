@@ -305,10 +305,7 @@ function FerryTicket() {
             For birthdays, group dinners, brand nights, and seasonal parties, Aberdeen can shape the
             table around the moment.
           </p>
-          <a
-            className="aberdeen-action mt-8 bg-aberdeen-blue text-aberdeen-peach"
-            href="/contact"
-          >
+          <a className="aberdeen-action mt-8 bg-aberdeen-blue text-aberdeen-peach" href="/contact">
             Start planning
           </a>
         </div>

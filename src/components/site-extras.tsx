@@ -1,6 +1,6 @@
+import { AnimatePresence, motion } from "motion/react"
 import type { CSSProperties, MouseEvent, ReactNode } from "react"
 import { useState } from "react"
-import { AnimatePresence, motion } from "motion/react"
 import { fadeIn } from "../lib/motion"
 
 export const heroImages = [
@@ -28,7 +28,12 @@ export function HeroCarouselButtons({
 }) {
   return (
     <div className={`flex items-center gap-3 ${className}`}>
-      <button aria-label="Previous image" className="nautical-arrow" onClick={onPrevious} type="button">
+      <button
+        aria-label="Previous image"
+        className="nautical-arrow"
+        onClick={onPrevious}
+        type="button"
+      >
         ‹
       </button>
       <button aria-label="Next image" className="nautical-arrow" onClick={onNext} type="button">
@@ -54,7 +59,13 @@ export function RippleSection({
   )
 }
 
-export function TiltWrap({ children, className = "" }: { children: ReactNode; className?: string }) {
+export function TiltWrap({
+  children,
+  className = "",
+}: {
+  children: ReactNode
+  className?: string
+}) {
   const [tilt, setTilt] = useState({ x: 0, y: 0 })
 
   function handleMove(event: MouseEvent<HTMLDivElement>) {
@@ -156,12 +167,21 @@ export function RestaurantGroupSection() {
 export function FAQSection({ expanded = false }: { expanded?: boolean }) {
   const questions = [
     ["Do you take reservations?", "Yes. Reservation links will be connected when booking opens."],
-    ["Do you host private events?", "Yes. Aberdeen can shape group dinners and seasonal gatherings."],
-    ["Are menus seasonal?", "Yes. Dishes and drinks shift with the catch, the market, and the weather."],
+    [
+      "Do you host private events?",
+      "Yes. Aberdeen can shape group dinners and seasonal gatherings.",
+    ],
+    [
+      "Are menus seasonal?",
+      "Yes. Dishes and drinks shift with the catch, the market, and the weather.",
+    ],
     ["Where are you located?", "The Savannah address is coming soon."],
     ["Can you handle allergies?", "Tell the team when booking and again when you arrive."],
     ["Is there a raw bar?", "Yes, oysters and chilled seafood are core to the room."],
-    ["Do you offer zero-proof drinks?", "Yes, the beverage menu includes bright nonalcoholic builds."],
+    [
+      "Do you offer zero-proof drinks?",
+      "Yes, the beverage menu includes bright nonalcoholic builds.",
+    ],
     ["Is there outdoor seating?", "Details will be confirmed closer to opening."],
     ["Can I buy a gift card?", "Gift card information will be added soon."],
     ["How do I contact the team?", "Use the contact form or write to hello@aberdeen.example."],
@@ -299,7 +319,9 @@ export function PostcardImageStack({ tone = "blue" }: { tone?: "blue" | "peach" 
           }}
         >
           <img alt="" className="aspect-[4/3] w-full object-cover" src={image} />
-          <div className={`mt-2 h-2 ${tone === "blue" ? "bg-aberdeen-blue" : "bg-aberdeen-peach"}`} />
+          <div
+            className={`mt-2 h-2 ${tone === "blue" ? "bg-aberdeen-blue" : "bg-aberdeen-peach"}`}
+          />
         </motion.div>
       ))}
     </div>

@@ -120,7 +120,6 @@
 
   .faq-item {
     transition:
-      transform 240ms ease,
       box-shadow 240ms ease,
       background-color 240ms ease;
   }
@@ -128,7 +127,6 @@
   .faq-item:hover {
     background: #fffdf9;
     box-shadow: 8px 8px 0 rgb(42 59 146 / 0.12);
-    transform: translate(-4px, -2px);
   }
 
   .faq-toggle {

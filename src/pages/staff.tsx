@@ -105,7 +105,11 @@ function RosterSection() {
               key={person.name}
               {...fadeIn(index * 0.04)}
             >
-              <TiltWrap className="relative mx-auto w-full max-w-xl rotate-1 bg-aberdeen-peach p-4 text-aberdeen-blue shadow-[12px_12px_0_rgb(42_59_146/0.14)]">
+              <TiltWrap
+                className={`relative mx-auto w-full max-w-xl bg-aberdeen-peach p-4 text-aberdeen-blue shadow-[12px_12px_0_rgb(42_59_146/0.14)] ${
+                  index % 2 === 0 ? "-rotate-1" : "rotate-1"
+                }`}
+              >
                 <div className="relative aspect-[4/5] overflow-hidden">
                   <img
                     alt={person.name}

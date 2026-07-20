@@ -97,10 +97,10 @@ function RopeDivider({ className = "" }: { className?: string }) {
 function PhotoCorners() {
   return (
     <>
-      <span className="absolute -top-1 -left-1 z-10 h-14 w-14 bg-oyster-white [clip-path:polygon(0_0,100%_0,0_100%)]" />
-      <span className="absolute -top-1 -right-1 z-10 h-14 w-14 bg-oyster-white [clip-path:polygon(0_0,100%_0,100%_100%)]" />
-      <span className="absolute -bottom-1 -left-1 z-10 h-14 w-14 bg-oyster-white [clip-path:polygon(0_0,100%_100%,0_100%)]" />
-      <span className="absolute -right-1 -bottom-1 z-10 h-14 w-14 bg-oyster-white [clip-path:polygon(100%_0,100%_100%,0_100%)]" />
+      <span className="absolute -top-1 -left-1 z-10 h-14 w-14 bg-aberdeen-peach [clip-path:polygon(0_0,100%_0,0_100%)]" />
+      <span className="absolute -top-1 -right-1 z-10 h-14 w-14 bg-aberdeen-peach [clip-path:polygon(0_0,100%_0,100%_100%)]" />
+      <span className="absolute -bottom-1 -left-1 z-10 h-14 w-14 bg-aberdeen-peach [clip-path:polygon(0_0,100%_100%,0_100%)]" />
+      <span className="absolute -right-1 -bottom-1 z-10 h-14 w-14 bg-aberdeen-peach [clip-path:polygon(100%_0,100%_100%,0_100%)]" />
     </>
   )
 }
@@ -151,7 +151,7 @@ function HeroSection() {
 
 function StorySection() {
   return (
-    <section className="grid gap-12 bg-oyster-white px-5 py-16 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:py-24">
+    <section className="grid gap-12 bg-oyster-white px-5 pt-16 pb-8 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:pt-24 md:pb-12">
       <motion.div
         className="self-start bg-aberdeen-peach p-6 text-aberdeen-blue shadow-[8px_8px_0_rgba(42,59,146,0.16)]"
         {...fadeIn()}
@@ -180,7 +180,7 @@ function StorySection() {
 
 function OwnerSection() {
   return (
-    <section className="grid gap-12 bg-oyster-white px-5 py-16 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:py-24">
+    <section className="grid gap-12 bg-oyster-white px-5 pt-8 pb-16 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:pt-12 md:pb-24">
       <motion.div className="text-center text-aberdeen-blue" {...fadeIn()}>
         <div className="mx-auto h-72 w-72 overflow-hidden rounded-full border-8 border-aberdeen-peach">
           <img
@@ -254,7 +254,7 @@ function GroupSection() {
 
 function RoomSection() {
   return (
-    <RippleSection className="bg-aberdeen-blue p-5 md:p-8">
+    <RippleSection className="bg-oyster-white p-5 md:p-8">
       <div className="grid gap-6 md:grid-cols-[1.2fr_0.8fr] md:gap-10">
         <motion.div className="relative h-[30rem] w-full md:h-[42rem]" {...fadeIn()}>
           <img

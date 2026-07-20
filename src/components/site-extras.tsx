@@ -1,3 +1,4 @@
+import { CaretLeft, CaretRight, Heart } from "@phosphor-icons/react"
 import { AnimatePresence, motion } from "motion/react"
 import type { CSSProperties, MouseEvent, ReactNode } from "react"
 import { useState } from "react"
@@ -34,10 +35,10 @@ export function HeroCarouselButtons({
         onClick={onPrevious}
         type="button"
       >
-        ‹
+        <CaretLeft aria-hidden="true" size={20} />
       </button>
       <button aria-label="Next image" className="nautical-arrow" onClick={onNext} type="button">
-        ›
+        <CaretRight aria-hidden="true" size={20} />
       </button>
     </div>
   )
@@ -121,12 +122,10 @@ const restaurantCards = restaurantNames.map((name, index) => ({
 
 export function RestaurantGroupSection() {
   return (
-    <section className="bg-oyster-white px-5 py-16 md:px-8 md:py-24">
-      <motion.div className="mx-auto max-w-6xl text-center" {...fadeIn()}>
-        <p className="font-utility text-sm tracking-[0.22em] text-aberdeen-blue uppercase">
-          Proud to be part of
-        </p>
-        <h2 className="mt-4 font-display text-5xl leading-none text-aberdeen-blue md:text-7xl">
+    <section className="bg-aberdeen-blue px-5 py-16 md:px-8 md:py-24">
+      <motion.div className="mx-auto max-w-6xl text-center text-oyster-white" {...fadeIn()}>
+        <p className="font-utility text-sm tracking-[0.22em] uppercase">Proud to be part of</p>
+        <h2 className="mt-4 font-display text-5xl leading-none md:text-7xl">
           Richard DeShantz Restaurant Group
         </h2>
       </motion.div>
@@ -152,7 +151,7 @@ export function RestaurantGroupSection() {
       </div>
       <div className="mt-10 text-center">
         <a
-          className="aberdeen-action bg-aberdeen-blue text-aberdeen-peach"
+          className="aberdeen-action bg-oyster-white text-aberdeen-blue hover:bg-aberdeen-peach"
           href="https://richarddeshantz.com/"
           rel="noreferrer"
           target="_blank"
@@ -164,7 +163,13 @@ export function RestaurantGroupSection() {
   )
 }
 
-export function FAQSection({ expanded = false }: { expanded?: boolean }) {
+export function FAQSection({
+  blue = false,
+  expanded = false,
+}: {
+  blue?: boolean
+  expanded?: boolean
+}) {
   const questions = [
     ["Do you take reservations?", "Yes. Reservation links will be connected when booking opens."],
     [
@@ -189,16 +194,28 @@ export function FAQSection({ expanded = false }: { expanded?: boolean }) {
   const visible = expanded ? questions : questions.slice(0, 3)
 
   return (
-    <section className="bg-aberdeen-peach px-5 py-16 md:px-8 md:py-24">
+    <section
+      className={`${blue ? "bg-aberdeen-blue" : "bg-aberdeen-peach"} px-5 py-16 md:px-8 md:py-24`}
+    >
       <div className="grid gap-10 md:grid-cols-[0.7fr_1.3fr]">
         <div>
-          <p className="font-utility text-sm tracking-[0.22em] text-aberdeen-blue uppercase">FAQ</p>
-          <h2 className="mt-4 font-display text-5xl leading-none text-aberdeen-blue md:text-7xl">
+          <p
+            className={`font-utility text-sm tracking-[0.22em] uppercase ${blue ? "text-oyster-white" : "text-aberdeen-blue"}`}
+          >
+            FAQ
+          </p>
+          <h2
+            className={`mt-4 font-display text-5xl leading-none md:text-7xl ${blue ? "text-oyster-white" : "text-aberdeen-blue"}`}
+          >
             Good things to know.
           </h2>
           {!expanded ? (
             <a
-              className="aberdeen-action mt-8 border border-aberdeen-blue text-aberdeen-blue"
+              className={`aberdeen-action mt-8 border ${
+                blue
+                  ? "border-oyster-white text-oyster-white"
+                  : "border-aberdeen-blue text-aberdeen-blue"
+              }`}
               href="/contact"
             >
               More questions
@@ -269,15 +286,20 @@ export function MenuLikeButton({ itemName }: { itemName: string }) {
     <button
       aria-label={`Like ${itemName}`}
       aria-pressed={liked}
-      className={`grid h-10 w-14 shrink-0 grid-cols-[1fr_auto] items-center gap-1 border px-2 font-utility text-xs transition ${
+      className={`group flex h-11 w-16 shrink-0 items-center justify-center gap-1.5 border px-3 font-utility text-xs transition ${
         liked
           ? "border-citrus bg-citrus text-aberdeen-blue"
-          : "border-current bg-transparent hover:bg-citrus hover:text-aberdeen-blue"
+          : "border-current bg-transparent hover:border-citrus hover:bg-citrus hover:text-aberdeen-blue"
       }`}
       onClick={handleClick}
       type="button"
     >
-      <span className="text-lg leading-none">♡</span>
+      <Heart
+        aria-hidden="true"
+        className="transition-transform group-hover:scale-110"
+        size={18}
+        weight={liked ? "fill" : "regular"}
+      />
       <span>{count}</span>
     </button>
   )

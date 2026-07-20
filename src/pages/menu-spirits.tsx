@@ -82,27 +82,27 @@ const rawBar: MenuGroup = {
     {
       name: "Blue Hour Martini",
       description: "Gin, dry vermouth, sea salt, lemon oil",
-      price: "17",
+      price: "$17",
     },
     {
       name: "Aberdeen Spritz",
       description: "Aperitivo, sparkling wine, grapefruit, soda",
-      price: "16",
+      price: "$16",
     },
     {
       name: "Pearl Diver",
       description: "Rum, pineapple, lime, almond, bitters",
-      price: "18",
+      price: "$18",
     },
     {
       name: "Sea Glass Sour",
       description: "Vodka, blue curaçao, lemon, egg white",
-      price: "17",
+      price: "$17",
     },
     {
       name: "Low Tide Negroni",
       description: "Gin, bitter orange, blanc vermouth, saline",
-      price: "18",
+      price: "$18",
     },
   ],
 }
@@ -114,12 +114,12 @@ const towers: MenuGroup = {
     {
       name: "Harbor Punch",
       description: "Rum, citrus, passionfruit, sparkling water, mint",
-      price: "58",
+      price: "$58",
     },
     {
       name: "Spritz Service",
       description: "Aperitivo, bubbles, soda, orange, olives",
-      price: "64",
+      price: "$64",
     },
   ],
 }
@@ -130,32 +130,32 @@ const starters: MenuGroup = {
     {
       name: "Gin Martini",
       description: "London dry gin, dry vermouth, lemon or olive",
-      price: "16",
+      price: "$16",
     },
     {
       name: "Old Fashioned",
       description: "Bourbon, demerara, bitters, orange",
-      price: "17",
+      price: "$17",
     },
     {
       name: "Daiquiri",
       description: "White rum, lime, cane sugar",
-      price: "15",
+      price: "$15",
     },
     {
       name: "Margarita",
       description: "Blanco tequila, lime, orange, sea salt",
-      price: "16",
+      price: "$16",
     },
     {
       name: "French 75",
       description: "Gin, lemon, sugar, sparkling wine",
-      price: "17",
+      price: "$17",
     },
     {
       name: "Espresso Martini",
       description: "Vodka, espresso, coffee liqueur, vanilla",
-      price: "18",
+      price: "$18",
     },
   ],
 }
@@ -166,32 +166,32 @@ const mains: MenuGroup = {
     {
       name: "Plymouth Gin",
       description: "Soft juniper, citrus, coastal herbs",
-      price: "14",
+      price: "$14",
     },
     {
       name: "Hendrick's",
       description: "Cucumber, rose, clean botanical finish",
-      price: "15",
+      price: "$15",
     },
     {
       name: "Monkey 47",
       description: "Black Forest botanicals, citrus, spice",
-      price: "18",
+      price: "$18",
     },
     {
       name: "Grey Goose",
       description: "French wheat vodka, clean and round",
-      price: "15",
+      price: "$15",
     },
     {
       name: "Tito's",
       description: "Corn vodka, soft texture, easy finish",
-      price: "13",
+      price: "$13",
     },
     {
       name: "Belvedere",
       description: "Polish rye vodka, mineral and crisp",
-      price: "16",
+      price: "$16",
     },
   ],
 }
@@ -202,22 +202,22 @@ const land: MenuGroup = {
     {
       name: "Plantation 3 Star",
       description: "White rum, vanilla, citrus, cane",
-      price: "12",
+      price: "$12",
     },
     {
       name: "Don Julio Blanco",
       description: "Agave, lime peel, pepper",
-      price: "15",
+      price: "$15",
     },
     {
       name: "Casamigos Reposado",
       description: "Roasted agave, caramel, oak",
-      price: "17",
+      price: "$17",
     },
     {
       name: "Four Roses Single Barrel",
       description: "Bourbon, cherry, spice, cocoa",
-      price: "16",
+      price: "$16",
     },
   ],
 }
@@ -225,12 +225,12 @@ const land: MenuGroup = {
 const sides: MenuGroup = {
   title: "Wine by the Glass",
   items: [
-    { name: "Brut Cava", description: "Green apple, lemon, mineral", price: "14" },
-    { name: "Albariño", description: "Saline, citrus, stone fruit", price: "15" },
-    { name: "Sancerre", description: "Gooseberry, chalk, bright acid", price: "18" },
-    { name: "Chablis", description: "Oyster shell, pear, clean finish", price: "19" },
-    { name: "Rosé", description: "Strawberry, melon, sea breeze", price: "15" },
-    { name: "Pinot Noir", description: "Cherry, tea, soft spice", price: "17" },
+    { name: "Brut Cava", description: "Green apple, lemon, mineral", price: "$14" },
+    { name: "Albariño", description: "Saline, citrus, stone fruit", price: "$15" },
+    { name: "Sancerre", description: "Gooseberry, chalk, bright acid", price: "$18" },
+    { name: "Chablis", description: "Oyster shell, pear, clean finish", price: "$19" },
+    { name: "Rosé", description: "Strawberry, melon, sea breeze", price: "$15" },
+    { name: "Pinot Noir", description: "Cherry, tea, soft spice", price: "$17" },
   ],
 }
 
@@ -240,22 +240,22 @@ const desserts: MenuGroup = {
     {
       name: "Amaro Montenegro",
       description: "Orange peel, baking spice, bittersweet herbs",
-      price: "12",
+      price: "$12",
     },
     {
       name: "Averna",
       description: "Cola, herbs, caramel, bitter orange",
-      price: "12",
+      price: "$12",
     },
     {
       name: "Taylor Fladgate 10 Year Tawny",
       description: "Dried fig, walnut, orange peel",
-      price: "14",
+      price: "$14",
     },
     {
       name: "Caffè Corretto",
       description: "Espresso with a measure of grappa",
-      price: "13",
+      price: "$13",
     },
   ],
 }
@@ -344,17 +344,16 @@ function MenuList({ delay = 0, group }: { delay?: number; group: MenuGroup }) {
 
           return (
             <li className="flex items-center gap-4" data-image-src={image.src} key={item.name}>
-              <div className="min-w-0 grow">
-                <div className="grid grid-cols-[auto_minmax(1rem,1fr)_auto] items-end gap-4">
+              <div className="grid min-w-0 grow grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
+                <div className="min-w-0">
                   <p className="font-display text-xl leading-none text-aberdeen-blue">
                     {item.name}
                   </p>
-                  <span className="mb-1 border-b border-dotted border-aberdeen-blue/25" />
-                  <span className="font-utility text-sm leading-none tracking-[0.12em] text-aberdeen-blue uppercase">
-                    {item.price}
-                  </span>
+                  <p className="mt-2 leading-7 text-kelp-ink/80">{item.description}</p>
                 </div>
-                <p className="mt-2 leading-7 text-kelp-ink/80">{item.description}</p>
+                <span className="font-utility text-sm leading-none tracking-[0.12em] text-aberdeen-blue uppercase">
+                  {item.price}
+                </span>
               </div>
               <MenuLikeButton itemName={item.name} />
             </li>
@@ -460,15 +459,14 @@ function MainsList({ delay = 0, group }: { delay?: number; group: MenuGroup }) {
 
           return (
             <li className="flex items-center gap-4" data-image-src={image.src} key={item.name}>
-              <div className="min-w-0 grow">
-                <div className="grid grid-cols-[auto_minmax(1rem,1fr)_auto] items-end gap-4">
+              <div className="grid min-w-0 grow grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
+                <div className="min-w-0">
                   <p className="font-display text-xl leading-none">{item.name}</p>
-                  <span className="mb-1 border-b border-dotted border-aberdeen-peach/30" />
-                  <span className="font-utility text-sm leading-none tracking-[0.12em] uppercase">
-                    {item.price}
-                  </span>
+                  <p className="mt-2 leading-7 text-aberdeen-peach/80">{item.description}</p>
                 </div>
-                <p className="mt-2 leading-7 text-aberdeen-peach/80">{item.description}</p>
+                <span className="font-utility text-sm leading-none tracking-[0.12em] uppercase">
+                  {item.price}
+                </span>
               </div>
               <MenuLikeButton itemName={item.name} />
             </li>

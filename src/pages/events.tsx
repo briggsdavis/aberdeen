@@ -132,10 +132,10 @@ function ScheduleSection() {
           </h2>
           <RopeDivider className="mt-5 w-64" />
         </div>
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-stretch gap-3">
           <ViewToggle onChange={setView} view={view} />
           <a
-            className="aberdeen-action bg-aberdeen-blue text-aberdeen-peach"
+            className="aberdeen-action rounded-full bg-aberdeen-blue text-aberdeen-peach"
             href="https://example.com"
             rel="noreferrer"
             target="_blank"

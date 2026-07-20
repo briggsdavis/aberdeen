@@ -31,7 +31,7 @@ const rawBar: MenuGroup = {
         alt: "Oysters on ice with lemon",
         src: "https://images.unsplash.com/photo-1679694140422-aecfd3d5dd0b?auto=format&fit=crop&w=500&q=85",
       },
-      price: "4 ea",
+      price: "$4 ea",
     },
     {
       name: "West Coast Oysters",
@@ -40,7 +40,7 @@ const rawBar: MenuGroup = {
         alt: "Fresh oysters on a seafood platter",
         src: "https://images.unsplash.com/photo-1633321094192-388268512e0f?auto=format&fit=crop&w=500&q=85",
       },
-      price: "4 ea",
+      price: "$4 ea",
     },
     {
       name: "Tuna Crudo",
@@ -49,7 +49,7 @@ const rawBar: MenuGroup = {
         alt: "Thinly sliced raw fish with citrus",
         src: "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=500&q=85",
       },
-      price: "21",
+      price: "$21",
     },
     {
       name: "Hamachi",
@@ -58,7 +58,7 @@ const rawBar: MenuGroup = {
         alt: "Sliced raw fish arranged on a plate",
         src: "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=500&q=85",
       },
-      price: "23",
+      price: "$23",
     },
     {
       name: "Jumbo Shrimp Cocktail",
@@ -67,7 +67,7 @@ const rawBar: MenuGroup = {
         alt: "Shrimp with herbs in a bowl",
         src: "https://images.unsplash.com/photo-1595579547936-c3a0e6c171fc?auto=format&fit=crop&w=500&q=85",
       },
-      price: "19",
+      price: "$19",
     },
   ],
 }
@@ -92,7 +92,7 @@ const towers: MenuGroup = {
         alt: "Oysters and shellfish with lemon",
         src: "https://images.unsplash.com/photo-1633321094192-388268512e0f?auto=format&fit=crop&w=500&q=85",
       },
-      price: "68",
+      price: "$68",
     },
   ],
 }
@@ -107,7 +107,7 @@ const starters: MenuGroup = {
         alt: "Creamy seafood soup in a bowl",
         src: "https://images.unsplash.com/photo-1606851091851-e8c8c0fca5ba?auto=format&fit=crop&w=500&q=85",
       },
-      price: "14",
+      price: "$14",
     },
     {
       name: "Crispy Calamari",
@@ -116,7 +116,7 @@ const starters: MenuGroup = {
         alt: "Crispy fried seafood with lemon",
         src: "https://images.unsplash.com/photo-1523905330026-b8bd1f5f320e?auto=format&fit=crop&w=500&q=85",
       },
-      price: "17",
+      price: "$17",
     },
     {
       name: "Grilled Octopus",
@@ -125,7 +125,7 @@ const starters: MenuGroup = {
         alt: "Grilled seafood with greens on a plate",
         src: "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=500&q=85",
       },
-      price: "22",
+      price: "$22",
     },
     {
       name: "Maryland Crab Cake",
@@ -134,7 +134,7 @@ const starters: MenuGroup = {
         alt: "Golden seafood cake with greens",
         src: "https://images.unsplash.com/photo-1606851091851-e8c8c0fca5ba?auto=format&fit=crop&w=500&q=85",
       },
-      price: "24",
+      price: "$24",
     },
     {
       name: "Steamed Mussels",
@@ -143,7 +143,7 @@ const starters: MenuGroup = {
         alt: "Shellfish served in a bowl",
         src: "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&w=500&q=85",
       },
-      price: "20",
+      price: "$20",
     },
     {
       name: "Little Gem Salad",
@@ -152,7 +152,7 @@ const starters: MenuGroup = {
         alt: "Fresh green salad with herbs",
         src: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=500&q=85",
       },
-      price: "15",
+      price: "$15",
     },
   ],
 }
@@ -167,7 +167,7 @@ const mains: MenuGroup = {
         alt: "Whole grilled fish with herbs",
         src: "https://images.unsplash.com/photo-1777891257650-5dedbba89dd4?auto=format&fit=crop&w=500&q=85",
       },
-      price: "42",
+      price: "$42",
     },
     {
       name: "Pan-Seared Scallops",
@@ -176,7 +176,7 @@ const mains: MenuGroup = {
         alt: "Seared seafood on a composed plate",
         src: "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=500&q=85",
       },
-      price: "44",
+      price: "$44",
     },
     {
       name: "Cedar Plank Salmon",
@@ -185,7 +185,7 @@ const mains: MenuGroup = {
         alt: "Roasted fish with vegetables",
         src: "https://images.unsplash.com/photo-1777891257650-5dedbba89dd4?auto=format&fit=crop&w=500&q=85",
       },
-      price: "38",
+      price: "$38",
     },
     {
       name: "Cioppino",
@@ -194,7 +194,7 @@ const mains: MenuGroup = {
         alt: "Seafood stew with shellfish",
         src: "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&w=500&q=85",
       },
-      price: "46",
+      price: "$46",
     },
     {
       name: "Linguine Vongole",
@@ -203,7 +203,7 @@ const mains: MenuGroup = {
         alt: "Seafood pasta with clams",
         src: "https://images.unsplash.com/photo-1523905330026-b8bd1f5f320e?auto=format&fit=crop&w=500&q=85",
       },
-      price: "32",
+      price: "$32",
     },
     {
       name: "Aberdeen Lobster Roll",
@@ -212,7 +212,7 @@ const mains: MenuGroup = {
         alt: "Seafood sandwich with fries",
         src: "https://images.unsplash.com/photo-1606851091851-e8c8c0fca5ba?auto=format&fit=crop&w=500&q=85",
       },
-      price: "34",
+      price: "$34",
     },
   ],
 }
@@ -227,7 +227,7 @@ const land: MenuGroup = {
         alt: "Sliced steak on a plate",
         src: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=500&q=85",
       },
-      price: "52",
+      price: "$52",
     },
     {
       name: "Roast Chicken",
@@ -236,7 +236,7 @@ const land: MenuGroup = {
         alt: "Roasted entree with herbs and lemon",
         src: "https://images.unsplash.com/photo-1606851091851-e8c8c0fca5ba?auto=format&fit=crop&w=500&q=85",
       },
-      price: "34",
+      price: "$34",
     },
   ],
 }
@@ -251,7 +251,7 @@ const sides: MenuGroup = {
         alt: "Crispy fries in a bowl",
         src: "https://images.unsplash.com/photo-1523905330026-b8bd1f5f320e?auto=format&fit=crop&w=500&q=85",
       },
-      price: "10",
+      price: "$10",
     },
     {
       name: "Charred Broccolini",
@@ -260,7 +260,7 @@ const sides: MenuGroup = {
         alt: "Green vegetable side dish",
         src: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=500&q=85",
       },
-      price: "12",
+      price: "$12",
     },
     {
       name: "Heirloom Tomatoes",
@@ -269,7 +269,7 @@ const sides: MenuGroup = {
         alt: "Fresh tomatoes with herbs",
         src: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=500&q=85",
       },
-      price: "13",
+      price: "$13",
     },
     {
       name: "Whipped Potatoes",
@@ -278,7 +278,7 @@ const sides: MenuGroup = {
         alt: "Creamy potato side dish",
         src: "https://images.unsplash.com/photo-1606851091851-e8c8c0fca5ba?auto=format&fit=crop&w=500&q=85",
       },
-      price: "11",
+      price: "$11",
     },
   ],
 }
@@ -293,7 +293,7 @@ const desserts: MenuGroup = {
         alt: "Citrus cake on a plate",
         src: "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&w=500&q=85",
       },
-      price: "13",
+      price: "$13",
     },
     {
       name: "Key Lime Tart",
@@ -302,7 +302,7 @@ const desserts: MenuGroup = {
         alt: "Tart dessert with citrus",
         src: "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&w=500&q=85",
       },
-      price: "13",
+      price: "$13",
     },
     {
       name: "Chocolate Pot de Crème",
@@ -311,7 +311,7 @@ const desserts: MenuGroup = {
         alt: "Chocolate dessert in a dish",
         src: "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=500&q=85",
       },
-      price: "12",
+      price: "$12",
     },
     {
       name: "Seasonal Sorbet",
@@ -320,7 +320,7 @@ const desserts: MenuGroup = {
         alt: "Light citrus dessert with fresh garnish",
         src: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=500&q=85",
       },
-      price: "11",
+      price: "$11",
     },
   ],
 }
@@ -406,15 +406,14 @@ function MenuList({ delay = 0, group }: { delay?: number; group: MenuGroup }) {
       <ul className="space-y-5">
         {group.items.map((item) => (
           <li className="flex items-center gap-4" key={item.name}>
-            <div className="min-w-0 grow">
-              <div className="grid grid-cols-[auto_minmax(1rem,1fr)_auto] items-end gap-4">
+            <div className="grid min-w-0 grow grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
+              <div className="min-w-0">
                 <p className="font-display text-xl leading-none text-aberdeen-blue">{item.name}</p>
-                <span className="mb-1 border-b border-dotted border-aberdeen-blue/25" />
-                <span className="font-utility text-sm leading-none tracking-[0.12em] text-aberdeen-blue uppercase">
-                  {item.price}
-                </span>
+                <p className="mt-2 leading-7 text-kelp-ink/80">{item.description}</p>
               </div>
-              <p className="mt-2 leading-7 text-kelp-ink/80">{item.description}</p>
+              <span className="font-utility text-sm leading-none tracking-[0.12em] text-aberdeen-blue uppercase">
+                {item.price}
+              </span>
             </div>
             <MenuLikeButton itemName={item.name} />
           </li>
@@ -516,15 +515,14 @@ function MainsList({ delay = 0, group }: { delay?: number; group: MenuGroup }) {
       <ul className="space-y-5">
         {group.items.map((item) => (
           <li className="flex items-center gap-4" key={item.name}>
-            <div className="min-w-0 grow">
-              <div className="grid grid-cols-[auto_minmax(1rem,1fr)_auto] items-end gap-4">
+            <div className="grid min-w-0 grow grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
+              <div className="min-w-0">
                 <p className="font-display text-xl leading-none">{item.name}</p>
-                <span className="mb-1 border-b border-dotted border-aberdeen-peach/30" />
-                <span className="font-utility text-sm leading-none tracking-[0.12em] uppercase">
-                  {item.price}
-                </span>
+                <p className="mt-2 leading-7 text-aberdeen-peach/80">{item.description}</p>
               </div>
-              <p className="mt-2 leading-7 text-aberdeen-peach/80">{item.description}</p>
+              <span className="font-utility text-sm leading-none tracking-[0.12em] uppercase">
+                {item.price}
+              </span>
             </div>
             <MenuLikeButton itemName={item.name} />
           </li>

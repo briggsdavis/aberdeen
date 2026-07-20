@@ -1,6 +1,5 @@
 import { motion } from "motion/react"
-import { useState } from "react"
-import { MaritimeFlags, PhotoCorners, RopeDivider } from "../components/nautical-details"
+import { MaritimeFlags, RopeDivider } from "../components/nautical-details"
 import { FAQSection, HeroCarouselButtons, useHeroCarousel } from "../components/site-extras"
 import { fadeIn } from "../lib/motion"
 
@@ -10,7 +9,7 @@ function ContactPage() {
       <HeroSection />
       <ContactDetails />
       <MapSection />
-      <FAQSection expanded />
+      <FAQSection blue expanded />
     </div>
   )
 }
@@ -95,6 +94,11 @@ function HeroSection() {
         <h1 className="max-w-5xl font-display text-6xl leading-none md:text-8xl">
           Find the table, call the room, plan the night.
         </h1>
+      </motion.div>
+      <motion.div
+        className="absolute bottom-8 left-5 z-10 md:bottom-10 md:left-8"
+        {...fadeIn(0.12)}
+      >
         <HeroCarouselButtons onNext={next} onPrevious={previous} />
       </motion.div>
     </section>
@@ -102,8 +106,6 @@ function HeroSection() {
 }
 
 function ContactDetails() {
-  const [isFormOpen, setIsFormOpen] = useState(false)
-
   return (
     <section className="grid gap-10 bg-oyster-white px-5 py-16 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:py-24">
       <div className="grid gap-5">
@@ -126,27 +128,15 @@ function ContactDetails() {
           </motion.article>
         ))}
       </div>
-      <motion.div
-        className="relative min-h-[42rem] overflow-hidden bg-aberdeen-blue"
-        {...fadeIn(0.12)}
-      >
-        <img
-          alt="Aberdeen dining room table"
-          className="h-full min-h-[42rem] w-full object-cover"
-          src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1200&q=85"
-        />
-        <button
-          className="aberdeen-action absolute top-6 left-6 z-20 bg-aberdeen-peach text-aberdeen-blue"
-          onClick={() => setIsFormOpen((open) => !open)}
-          type="button"
-        >
-          Contact us
-        </button>
-        <div
-          className={`absolute inset-x-0 bottom-0 z-10 bg-oyster-white p-6 text-aberdeen-blue transition duration-500 md:p-8 ${
-            isFormOpen ? "translate-y-0" : "translate-y-[calc(100%-5rem)]"
-          }`}
-        >
+      <motion.div className="bg-aberdeen-blue p-5 md:p-8" {...fadeIn(0.12)}>
+        <div className="relative h-72 md:h-80">
+          <img
+            alt="Aberdeen dining room table"
+            className="h-full w-full object-cover"
+            src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1200&q=85"
+          />
+        </div>
+        <div className="mt-5 bg-oyster-white p-6 text-aberdeen-blue md:mt-8 md:p-8">
           <h2 className="font-display text-5xl leading-none">Send a note</h2>
           <form className="mt-8 grid gap-4">
             <div className="grid gap-4 md:grid-cols-2">
@@ -164,15 +154,6 @@ function ContactDetails() {
               placeholder="Email"
               type="email"
             />
-            <select className="border border-aberdeen-blue/25 bg-white px-4 py-3" defaultValue="">
-              <option disabled value="">
-                Topic
-              </option>
-              <option>Reservations</option>
-              <option>Private events</option>
-              <option>Press</option>
-              <option>General inquiry</option>
-            </select>
             <textarea
               className="min-h-36 border border-aberdeen-blue/25 bg-white px-4 py-3"
               placeholder="Message"
@@ -185,7 +166,6 @@ function ContactDetails() {
             </button>
           </form>
         </div>
-        <PhotoCorners />
       </motion.div>
     </section>
   )
@@ -218,18 +198,15 @@ function MapSection() {
           ))}
         </dl>
       </motion.div>
-      <motion.div className="min-h-[28rem] bg-aberdeen-blue p-5 md:p-8" {...fadeIn(0.12)}>
-        <div className="relative h-full min-h-[28rem]">
-          <iframe
-            className="h-full min-h-[28rem] w-full"
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            sandbox="allow-scripts allow-popups"
-            src="https://www.google.com/maps?q=Savannah%2C%20Georgia&output=embed"
-            title="Map showing Savannah, Georgia"
-          />
-          <PhotoCorners />
-        </div>
+      <motion.div className="min-h-[28rem] overflow-hidden" {...fadeIn(0.12)}>
+        <iframe
+          className="block h-full min-h-[28rem] w-full"
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          sandbox="allow-scripts allow-popups"
+          src="https://www.google.com/maps?q=Savannah%2C%20Georgia&output=embed"
+          title="Map showing Savannah, Georgia"
+        />
       </motion.div>
     </section>
   )

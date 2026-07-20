@@ -192,42 +192,6 @@ function IntroSection() {
           </div>
         </motion.div>
       </div>
-      <div className="mt-20 grid gap-5 md:mt-28 md:grid-cols-4">
-        {[
-          ["Who we are", "Coastal hospitality with city polish."],
-          ["What we do", "Seafood, spirits, and easy ceremony."],
-          ["By the sea", "Oysters, citrus, cold glass, warm rooms."],
-          ["For the table", "Long dinners made to linger."],
-        ].map(([title, copy], index) => (
-          <TiltWrap className="relative h-72 bg-aberdeen-blue" key={title}>
-            <img
-              alt=""
-              className="h-full w-full object-cover"
-              src={
-                [
-                  "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=700&q=85",
-                  "https://images.unsplash.com/photo-1523905330026-b8bd1f5f320e?auto=format&fit=crop&w=700&q=85",
-                  "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&w=700&q=85",
-                  "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=700&q=85",
-                ][index]
-              }
-            />
-            <div className="absolute inset-x-4 bottom-4 text-oyster-white">
-              <h3 className="font-display text-4xl leading-none">{title}</h3>
-              <p className="mt-2 text-sm leading-6">{copy}</p>
-            </div>
-            <PhotoCorners />
-          </TiltWrap>
-        ))}
-      </div>
-      <div
-        aria-label="Coastal restaurant table"
-        className="parallax-break mt-16 h-[24rem] bg-aberdeen-blue md:h-[34rem]"
-        style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=1800&q=85')",
-        }}
-      />
     </section>
   )
 }
@@ -387,9 +351,9 @@ function ReservationsSection() {
 
 function EventsSection() {
   return (
-    <section className="grid gap-8 px-5 py-16 md:grid-cols-[1fr_1fr] md:px-8 md:py-24">
+    <section className="grid gap-8 bg-aberdeen-blue px-5 py-16 md:grid-cols-[1fr_1fr] md:px-8 md:py-24">
       <motion.h2
-        className="font-display text-5xl leading-none text-aberdeen-blue md:text-7xl"
+        className="font-display text-5xl leading-none text-aberdeen-peach md:text-7xl"
         {...fadeIn()}
       >
         Seasonal nights, private dinners, reasons to circle the date.

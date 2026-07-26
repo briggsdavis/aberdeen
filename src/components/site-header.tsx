@@ -1,4 +1,4 @@
-import { motion } from "motion/react"
+import { motion, useReducedMotion } from "motion/react"
 import { useCallback, useEffect, useState } from "react"
 import { useLocation } from "react-router"
 import { TransitionLink } from "./page-transition"
@@ -11,11 +11,13 @@ const navItems = [
   { label: "Contact", to: "/contact" },
 ]
 
-function SiteHeader() {
+function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
+  const location = useLocation()
+  const shouldReduceMotion = useReducedMotion()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isHidden, setIsHidden] = useState(false)
+  const [isHomeIntroActive, setIsHomeIntroActive] = useState(playHomeIntro)
   const [isScrolled, setIsScrolled] = useState(false)
-  const location = useLocation()
   const closeMenu = useCallback(() => setIsMenuOpen(false), [])
   const toggleMenu = useCallback(() => setIsMenuOpen((isOpen) => !isOpen), [])
 
@@ -54,15 +56,29 @@ function SiteHeader() {
     setIsHidden(false)
   }, [location.pathname])
 
+  useEffect(() => {
+    if (!playHomeIntro || shouldReduceMotion) {
+      setIsHomeIntroActive(false)
+      return
+    }
+
+    setIsHomeIntroActive(true)
+    const introTimer = window.setTimeout(() => setIsHomeIntroActive(false), 1850)
+    return () => window.clearTimeout(introTimer)
+  }, [playHomeIntro, shouldReduceMotion])
+
   return (
     <motion.header
-      animate={{ y: isHidden ? "-100%" : "0%" }}
+      animate={{ y: isHidden || isHomeIntroActive ? "-100%" : "0%" }}
       className={`fixed inset-x-0 top-0 z-40 bg-aberdeen-blue text-aberdeen-peach will-change-transform ${
         isScrolled ? "shadow-[0_12px_30px_rgb(14_24_69/0.2)]" : "shadow-none"
       }`}
       initial={false}
       onFocusCapture={() => setIsHidden(false)}
-      transition={{ duration: 0.48, ease: [0.22, 1, 0.36, 1] }}
+      transition={{
+        duration: shouldReduceMotion ? 0 : isHomeIntroActive ? 0.25 : 0.72,
+        ease: [0.22, 1, 0.36, 1],
+      }}
     >
       <div className="flex items-center justify-between px-5 py-4 md:px-8">
         <TransitionLink className="block w-36 md:w-44" onClick={closeMenu} to="/">
@@ -70,11 +86,7 @@ function SiteHeader() {
         </TransitionLink>
         <nav className="hidden items-center gap-7 font-utility text-sm tracking-[0.16em] uppercase md:flex">
           {navItems.map((item) => (
-            <TransitionLink
-              className="decoration-citrus decoration-2 underline-offset-8 hover:underline"
-              key={item.label}
-              to={item.to}
-            >
+            <TransitionLink className="nav-underline" key={item.label} to={item.to}>
               {item.label}
             </TransitionLink>
           ))}
@@ -119,7 +131,7 @@ function SiteHeader() {
         <div className="grid gap-4">
           {navItems.map((item) => (
             <TransitionLink
-              className={`font-display text-4xl leading-none decoration-citrus decoration-2 underline-offset-8 hover:underline ${
+              className={`nav-underline font-display text-4xl leading-none ${
                 location.pathname.startsWith(item.to) ? "text-citrus" : ""
               }`}
               key={item.label}

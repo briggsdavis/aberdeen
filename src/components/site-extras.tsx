@@ -2,6 +2,19 @@ import { CaretLeft, CaretRight, Heart } from "@phosphor-icons/react"
 import { AnimatePresence, motion } from "motion/react"
 import type { CSSProperties, MouseEvent, ReactNode } from "react"
 import { useState } from "react"
+import butcherAndTheRyeLogo from "../../butcherandtherye.webp"
+import coupeDeVilleLogo from "../../coupdeville.webp"
+import fishNorFowlLogo from "../../fishnorfowl.webp"
+import goldenGaiLogo from "../../goldengai.webp"
+import giJinLogo from "../../handroll.webp"
+import meatAndPotatoesLogo from "../../meatpotatoes.webp"
+import pouletBleuLogo from "../../pouletbleu.webp"
+import ribRoomLogo from "../../ribroom.webp"
+import sallyAnnsLogo from "../../sallyannys.webp"
+import seaMonkeyLogo from "../../seamonkey.webp"
+import takoLogo from "../../tako.webp"
+import takoTortaLogo from "../../takotorta.webp"
+import vieuxCarreLogo from "../../vieuxcarre.webp"
 import { fadeIn } from "../lib/motion"
 
 export const heroImages = [
@@ -93,32 +106,22 @@ export function TiltWrap({
   )
 }
 
-const restaurantNames = [
-  "Meat and Potatoes",
-  "Butcher and the Rye",
-  "Tako",
-  "Tako Torta",
-  "Poulet Bleu",
-  "Fish Nor Fowl",
-  "Coupe de Ville",
-  "Sally Ann's",
-  "Golden Gai",
-  "Vieux Carre",
-  "Gi-Jin",
-  "Sea Monkey",
-  "Rib Room",
-  "Preamp",
+const restaurantCards = [
+  { image: meatAndPotatoesLogo, name: "Meat and Potatoes" },
+  { image: butcherAndTheRyeLogo, name: "Butcher and the Rye" },
+  { image: takoLogo, name: "Tako" },
+  { image: takoTortaLogo, name: "Tako Torta" },
+  { image: pouletBleuLogo, name: "Poulet Bleu" },
+  { image: fishNorFowlLogo, name: "Fish Nor Fowl" },
+  { image: coupeDeVilleLogo, name: "Coupe de Ville" },
+  { image: sallyAnnsLogo, name: "Sally Ann's" },
+  { image: goldenGaiLogo, name: "Golden Gai" },
+  { image: vieuxCarreLogo, name: "Vieux Carre" },
+  { image: giJinLogo, name: "Gi-Jin" },
+  { image: seaMonkeyLogo, name: "Sea Monkey" },
+  { image: ribRoomLogo, name: "Rib Room" },
+  { image: "/standalone-peach.png", name: "Aberdeen" },
 ]
-
-const restaurantCards = restaurantNames.map((name, index) => ({
-  image: [
-    "https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=700&q=85",
-    "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=700&q=85",
-    "https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=700&q=85",
-    "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=700&q=85",
-  ][index % 4],
-  name,
-}))
 
 export function RestaurantGroupSection() {
   return (
@@ -129,19 +132,21 @@ export function RestaurantGroupSection() {
           Richard DeShantz Restaurant Group
         </h2>
       </motion.div>
-      <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-7 md:gap-3">
+      <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-7">
         {restaurantCards.map((restaurant, index) => (
           <motion.article
-            className="group relative aspect-square overflow-hidden bg-aberdeen-blue"
+            className={`restaurant-logo-card group relative aspect-square overflow-hidden ${
+              restaurant.name === "Aberdeen" ? "bg-aberdeen-blue" : "bg-oyster-white"
+            }`}
             key={restaurant.name}
             {...fadeIn(index * 0.025)}
           >
             <img
-              alt=""
-              className="h-full w-full object-cover transition duration-500 group-hover:scale-108"
+              alt={`${restaurant.name} logo`}
+              className="h-full w-full object-contain transition duration-500 group-hover:scale-105"
               src={restaurant.image}
             />
-            <h3 className="absolute inset-x-2 bottom-3 text-center font-display text-sm leading-none text-oyster-white [text-shadow:0_2px_14px_rgb(14_24_69/0.9)] lg:text-lg">
+            <h3 className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#101c57]/90 via-[#101c57]/45 to-transparent px-2 pt-8 pb-2.5 text-center font-utility text-[0.62rem] leading-tight tracking-[0.08em] text-oyster-white uppercase [text-shadow:0_2px_7px_rgb(14_24_69/0.85)] lg:text-xs">
               {restaurant.name}
             </h3>
           </motion.article>
@@ -163,9 +168,11 @@ export function RestaurantGroupSection() {
 
 export function FAQSection({
   blue = false,
+  cardsFirst = false,
   expanded = false,
 }: {
   blue?: boolean
+  cardsFirst?: boolean
   expanded?: boolean
 }) {
   const questions = [
@@ -195,8 +202,12 @@ export function FAQSection({
     <section
       className={`relative isolate overflow-hidden ${blue ? "bg-aberdeen-blue" : "bg-aberdeen-peach"} px-5 py-16 md:px-8 md:py-24`}
     >
-      <div className="relative z-10 grid gap-10 md:grid-cols-[0.7fr_1.3fr]">
-        <div>
+      <div
+        className={`relative z-10 grid gap-10 ${
+          cardsFirst ? "md:grid-cols-[1.3fr_0.7fr]" : "md:grid-cols-[0.7fr_1.3fr]"
+        }`}
+      >
+        <div className={cardsFirst ? "md:order-2" : ""}>
           <p
             className={`font-utility text-sm tracking-[0.22em] uppercase ${blue ? "text-oyster-white" : "text-aberdeen-blue"}`}
           >
@@ -226,7 +237,7 @@ export function FAQSection({
             </a>
           ) : null}
         </div>
-        <div className="space-y-3">
+        <div className={`space-y-3 ${cardsFirst ? "md:order-1" : ""}`}>
           {visible.map(([question, answer]) => (
             <FAQItem answer={answer} key={question} question={question} />
           ))}

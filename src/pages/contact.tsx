@@ -1,8 +1,9 @@
 import { motion } from "motion/react"
+import mapSix from "../../map6.png"
+import { DecorativeBackdrop } from "../components/decorative-media"
 import { MaritimeFlags, RopeDivider } from "../components/nautical-details"
 import { FAQSection, HeroCarouselButtons, useHeroCarousel } from "../components/site-extras"
 import { fadeIn } from "../lib/motion"
-import { DecorativeBackdrop } from "../components/decorative-media"
 
 function ContactPage() {
   return (
@@ -109,7 +110,7 @@ function HeroSection() {
 function ContactDetails() {
   return (
     <section className="relative isolate grid gap-10 overflow-hidden bg-oyster-white px-5 py-16 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:py-24">
-      <DecorativeBackdrop imageClassName="object-cover" src="/horizontalmap.png" />
+      <DecorativeBackdrop imageClassName="object-cover" opacity={0.14} src={mapSix} />
       <div className="relative z-10 grid gap-5">
         {[
           ["Visit", "Savannah, Georgia", "Address coming soon"],

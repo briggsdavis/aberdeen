@@ -1,5 +1,8 @@
 import { motion } from "motion/react"
 import { useState } from "react"
+import shipTwo from "../../boat2.png"
+import mapSeven from "../../map7.png"
+import { DecorativeBackdrop } from "../components/decorative-media"
 import { MaritimeFlags, RopeDivider } from "../components/nautical-details"
 import { HeroCarouselButtons, RippleSection, useHeroCarousel } from "../components/site-extras"
 import { fadeIn, fadeInPlace } from "../lib/motion"
@@ -121,7 +124,8 @@ function ScheduleSection() {
   const [view, setView] = useState<EventsView>("list")
 
   return (
-    <section className="relative bg-oyster-white px-5 py-16 md:px-8 md:py-24">
+    <section className="relative isolate overflow-hidden bg-oyster-white px-5 py-16 md:px-8 md:py-24">
+      <DecorativeBackdrop imageClassName="object-cover" opacity={0.16} src={mapSeven} />
       <motion.div
         className="relative z-10 mb-10 flex flex-wrap items-end justify-between gap-6"
         {...fadeIn()}
@@ -282,6 +286,12 @@ function PrivateEventsSection() {
           <h2 className="mt-5 max-w-3xl font-playful text-5xl leading-none md:text-7xl">
             Gatherings with seafood, spirits, and a room already dressed for it.
           </h2>
+          <img
+            alt=""
+            aria-hidden="true"
+            className="mt-8 h-auto w-full max-w-md object-contain opacity-75"
+            src={shipTwo}
+          />
         </motion.div>
         <FerryTicket />
       </div>

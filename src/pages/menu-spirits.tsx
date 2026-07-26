@@ -1,8 +1,10 @@
 import { motion } from "motion/react"
 import { Link } from "react-router"
+import shipThree from "../../boat3.png"
+import mapFive from "../../map5.png"
+import { DecorativeBackdrop } from "../components/decorative-media"
 import { PhotoCorners, RopeDivider } from "../components/nautical-details"
 import { MenuLikeButton, PostcardImageStack, RippleSection } from "../components/site-extras"
-import { DecorativeBackdrop } from "../components/decorative-media"
 import { fadeIn } from "../lib/motion"
 
 type MenuItem = {
@@ -368,7 +370,7 @@ function MenuList({ delay = 0, group }: { delay?: number; group: MenuGroup }) {
 function RawBarSection() {
   return (
     <section className="relative isolate overflow-hidden bg-oyster-white px-5 py-16 md:px-8 md:py-24">
-      <DecorativeBackdrop imageClassName="object-cover" src="/alternatehorizontalmap.png" />
+      <DecorativeBackdrop imageClassName="object-cover" opacity={0.15} src={mapFive} />
       <div className="relative z-10 grid gap-12 md:grid-cols-[1fr_0.9fr] md:gap-16">
         <div className="space-y-12">
           <MenuList group={rawBar} />
@@ -419,8 +421,8 @@ function StartersSection() {
 
 function MainsSection() {
   return (
-    <RippleSection className="relative isolate overflow-hidden bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24">
-      <DecorativeBackdrop imageClassName="object-cover" src="/detailedhorizontalmap.png" />
+    <RippleSection className="relative isolate overflow-hidden bg-oyster-white px-5 py-16 text-aberdeen-blue md:px-8 md:py-24">
+      <DecorativeBackdrop imageClassName="object-cover" src="/horizontalmap.png" />
       <div className="relative z-10 grid gap-12 md:grid-cols-[0.9fr_1.1fr] md:gap-16">
         <div className="space-y-12">
           <motion.h2 className="font-display text-5xl leading-none md:text-7xl" {...fadeIn()}>
@@ -449,10 +451,10 @@ function MainsList({ delay = 0, group }: { delay?: number; group: MenuGroup }) {
   return (
     <motion.div {...fadeIn(delay)}>
       <RopeDivider className="mb-6 rounded-none" />
-      <div className="mb-6 flex items-baseline justify-between gap-4 border-b border-aberdeen-peach/25 pb-3">
+      <div className="mb-6 flex items-baseline justify-between gap-4 border-b border-aberdeen-blue/20 pb-3">
         <h3 className="font-display text-3xl md:text-4xl">{group.title}</h3>
         {group.note ? (
-          <p className="font-utility text-xs tracking-[0.18em] text-aberdeen-peach/70 uppercase">
+          <p className="font-utility text-xs tracking-[0.18em] text-aberdeen-blue/70 uppercase">
             {group.note}
           </p>
         ) : null}
@@ -466,7 +468,7 @@ function MainsList({ delay = 0, group }: { delay?: number; group: MenuGroup }) {
               <div className="grid min-w-0 grow grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
                 <div className="min-w-0">
                   <p className="font-display text-xl leading-none">{item.name}</p>
-                  <p className="mt-2 leading-7 text-aberdeen-peach/80">{item.description}</p>
+                  <p className="mt-2 leading-7 text-kelp-ink/80">{item.description}</p>
                 </div>
                 <span className="font-utility text-sm leading-none tracking-[0.12em] uppercase">
                   {item.price}
@@ -486,8 +488,9 @@ function SidesAndDessertSection() {
     <section className="relative isolate overflow-hidden bg-oyster-white px-5 py-16 md:px-8 md:py-24">
       <DecorativeBackdrop
         className="grid place-items-center"
-        imageClassName="h-[min(78%,42rem)] w-auto object-contain"
-        src="/anchor.png"
+        imageClassName="!h-auto !w-[min(38vw,18rem)] object-contain"
+        opacity={0.15}
+        src="/shipwheel.png"
       />
       <div className="relative z-10 grid gap-12 md:grid-cols-2 md:gap-16">
         <MenuList group={sides} />
@@ -506,17 +509,18 @@ function SidesAndDessertSection() {
 function ReserveSection() {
   return (
     <RippleSection className="relative isolate overflow-hidden bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24">
-      <DecorativeBackdrop
-        className="grid place-items-center"
-        imageClassName="h-[82%] w-auto object-contain"
-        src="/compas1.png"
-      />
       <div className="relative z-10 grid gap-10 md:grid-cols-[1fr_0.9fr]">
         <motion.div {...fadeIn()}>
           <p className="font-utility text-sm tracking-[0.22em] uppercase">Reservations</p>
           <h2 className="mt-5 max-w-3xl font-display text-5xl leading-none md:text-7xl">
             Come hungry, stay for the light.
           </h2>
+          <img
+            alt=""
+            aria-hidden="true"
+            className="mt-8 h-auto w-full max-w-md object-contain opacity-75"
+            src={shipThree}
+          />
         </motion.div>
         <motion.div className="self-end bg-oyster-white p-6 text-aberdeen-blue" {...fadeIn(0.12)}>
           <RopeDivider className="mb-6 rounded-none" />

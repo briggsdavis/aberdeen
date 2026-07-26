@@ -1,4 +1,8 @@
-import { motion } from "motion/react"
+import { motion, useReducedMotion } from "motion/react"
+import { useOutletContext } from "react-router"
+import mapThree from "../../map3.png"
+import mapFour from "../../map4.png"
+import mapFive from "../../map5.png"
 import { DecorativeBackdrop } from "../components/decorative-media"
 import {
   FAQSection,
@@ -11,34 +15,69 @@ import {
 import { fadeIn } from "../lib/motion"
 
 function HomePage() {
+  const { playHomeIntro } = useOutletContext<{ playHomeIntro: boolean }>()
+
   return (
     <div className="page-shell">
-      <HeroSection />
+      <HeroSection playIntro={playHomeIntro} />
       <IntroSection />
       <MenuSection />
       <ReservationsSection />
       <GallerySection />
       <EventsSection />
-      <FAQSection />
+      <FAQSection cardsFirst />
       <RestaurantGroupSection />
     </div>
   )
 }
 
-function HeroSection() {
+function HeroSection({ playIntro }: { playIntro: boolean }) {
   const { image, next, previous } = useHeroCarousel()
+  const shouldReduceMotion = useReducedMotion()
+  const animateIntro = playIntro && !shouldReduceMotion
+  const introDelay = animateIntro ? 2.02 : 0
 
   return (
-    <section className="relative min-h-svh bg-aberdeen-blue text-aberdeen-peach">
-      <img
+    <section className="relative min-h-svh overflow-hidden bg-aberdeen-blue text-aberdeen-peach">
+      <motion.img
         alt="Sunlit coastal restaurant dining room"
-        className="absolute inset-0 h-full w-full object-cover"
+        animate={{ opacity: 1, scale: 1, x: "0%" }}
+        className="absolute inset-0 h-full w-full object-cover will-change-transform"
+        fetchPriority="high"
+        initial={
+          !animateIntro
+            ? { opacity: 1, scale: 1, x: "0%" }
+            : { opacity: 0.45, scale: 1.08, x: "12%" }
+        }
         src={image}
+        transition={{
+          delay: animateIntro ? 1.02 : 0,
+          duration: animateIntro ? 1.12 : 0,
+          ease: [0.22, 1, 0.36, 1],
+        }}
       />
-      <div className="hero-radial-glow absolute inset-0 z-[1]" />
       <motion.div
-        className="absolute right-5 bottom-8 z-10 hidden w-[28.8rem] -rotate-3 text-aberdeen-blue md:right-8 md:bottom-10 md:block"
-        {...fadeIn(0.25)}
+        animate={{ opacity: 1 }}
+        className="hero-radial-glow absolute inset-0 z-[1]"
+        initial={{ opacity: animateIntro ? 0 : 1 }}
+        transition={{
+          delay: animateIntro ? 1.36 : 0,
+          duration: animateIntro ? 0.72 : 0,
+        }}
+      />
+      <motion.div
+        animate={{ opacity: 1, rotate: -3, scale: 1, x: 0, y: 0 }}
+        className="absolute top-28 right-4 z-10 w-[min(64vw,18rem)] text-aberdeen-blue will-change-transform md:top-auto md:right-8 md:bottom-10 md:w-[28.8rem]"
+        initial={
+          !animateIntro
+            ? { opacity: 1, rotate: -3, scale: 1, x: 0, y: 0 }
+            : { opacity: 0, rotate: -10, scale: 0.86, x: 90, y: 30 }
+        }
+        transition={{
+          delay: animateIntro ? 2.5 : 0,
+          duration: animateIntro ? 0.94 : 0,
+          ease: [0.22, 1, 0.36, 1],
+        }}
       >
         <Tape className="top-2 left-44" />
         <FramedPhoto
@@ -47,11 +86,33 @@ function HeroSection() {
         />
       </motion.div>
       <div className="relative z-10 grid min-h-svh items-end px-5 pt-24 pb-8 md:px-8 md:pt-28 md:pb-10">
-        <motion.div className="flex max-w-6xl flex-col items-start gap-7" {...fadeIn()}>
-          <p className="max-w-[42rem] font-playful text-3xl leading-tight md:text-5xl">
+        <div className="flex max-w-6xl flex-col items-start gap-7">
+          <motion.p
+            animate={{ filter: "blur(0px)", opacity: 1, y: 0 }}
+            className="max-w-[42rem] font-playful text-3xl leading-tight md:text-5xl"
+            initial={
+              !animateIntro
+                ? { filter: "blur(0px)", opacity: 1, y: 0 }
+                : { filter: "blur(18px)", opacity: 0, y: 22 }
+            }
+            transition={{
+              delay: introDelay,
+              duration: animateIntro ? 0.9 : 0,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          >
             Seafood, bright spirits, and a room that keeps the afternoon glowing after dark.
-          </p>
-          <div className="flex flex-wrap gap-3">
+          </motion.p>
+          <motion.div
+            animate={{ opacity: 1, y: 0 }}
+            className="flex flex-wrap gap-3"
+            initial={animateIntro ? { opacity: 0, y: 16 } : { opacity: 1, y: 0 }}
+            transition={{
+              delay: animateIntro ? 2.28 : 0,
+              duration: animateIntro ? 0.72 : 0,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          >
             <a
               className="aberdeen-action border border-aberdeen-peach text-aberdeen-peach hover:bg-aberdeen-peach hover:text-aberdeen-blue"
               href="#reservations"
@@ -64,10 +125,46 @@ function HeroSection() {
             >
               View menu
             </a>
-          </div>
-          <HeroCarouselButtons onNext={next} onPrevious={previous} />
-        </motion.div>
+          </motion.div>
+          <motion.div
+            animate={{ opacity: 1, y: 0 }}
+            initial={animateIntro ? { opacity: 0, y: 12 } : { opacity: 1, y: 0 }}
+            transition={{
+              delay: animateIntro ? 2.46 : 0,
+              duration: animateIntro ? 0.68 : 0,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          >
+            <HeroCarouselButtons onNext={next} onPrevious={previous} />
+          </motion.div>
+        </div>
       </div>
+      <motion.div
+        animate={{ x: "-101%" }}
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-30 grid place-items-center bg-aberdeen-blue will-change-transform"
+        initial={animateIntro ? { x: "0%" } : { x: "-101%" }}
+        transition={{
+          delay: animateIntro ? 1.08 : 0,
+          duration: animateIntro ? 0.94 : 0,
+          ease: [0.76, 0, 0.24, 1],
+        }}
+      >
+        <motion.img
+          alt=""
+          animate={{ clipPath: "inset(0 0% 0 0)" }}
+          className="h-auto w-[min(76vw,64rem)] object-contain"
+          initial={
+            animateIntro ? { clipPath: "inset(0 100% 0 0)" } : { clipPath: "inset(0 0% 0 0)" }
+          }
+          src="/wordmark-peach.png"
+          transition={{
+            delay: animateIntro ? 0.12 : 0,
+            duration: animateIntro ? 0.88 : 0,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+        />
+      </motion.div>
     </section>
   )
 }
@@ -163,7 +260,7 @@ function Postmark() {
 function IntroSection() {
   return (
     <section className="relative isolate overflow-hidden px-5 py-16 md:px-8 md:py-24">
-      <DecorativeBackdrop imageClassName="object-cover" src="/alternatehorizontalmap.png" />
+      <DecorativeBackdrop imageClassName="object-cover" opacity={0.15} src={mapThree} />
       <div className="relative z-10 grid gap-10 md:grid-cols-[0.85fr_1.15fr] md:items-stretch">
         <motion.div className="relative h-[34rem] md:h-auto md:self-stretch" {...fadeIn()}>
           <img
@@ -228,11 +325,7 @@ function MenuSection() {
 
   return (
     <section className="relative isolate overflow-hidden bg-oyster-white px-5 py-16 md:px-8 md:py-24">
-      <DecorativeBackdrop
-        className="grid place-items-center"
-        imageClassName="!h-auto !w-[min(30vw,22rem)] object-contain"
-        src="/anchor.png"
-      />
+      <DecorativeBackdrop imageClassName="object-cover" opacity={0.13} src={mapFour} />
       <motion.div
         className="relative z-10 mb-10 flex items-end justify-between gap-6"
         {...fadeIn()}
@@ -253,7 +346,7 @@ function MenuSection() {
         {menus.map((menu, index) => (
           <motion.a
             aria-label={`View ${menu.title} menu`}
-            className="group block bg-aberdeen-peach text-aberdeen-blue"
+            className="soft-card-shadow group block bg-aberdeen-peach text-aberdeen-blue"
             href={menu.href}
             key={menu.title}
             {...fadeIn(index * 0.08)}
@@ -285,6 +378,7 @@ function MenuSection() {
 function GallerySection() {
   return (
     <section className="relative isolate overflow-hidden bg-aberdeen-peach py-16 md:py-24">
+      <DecorativeBackdrop imageClassName="object-cover" opacity={0.13} src={mapFive} />
       <motion.div
         className="relative z-10 mb-10 flex items-center justify-between gap-6 px-5 md:px-8"
         {...fadeIn()}
@@ -306,7 +400,7 @@ function GallerySection() {
             key={image}
             {...fadeIn(index * 0.08)}
           >
-            <TiltWrap className="h-full w-full">
+            <TiltWrap className="soft-card-shadow h-full w-full">
               <img alt="" className="h-full w-full object-cover" src={image} />
               <PhotoCorners />
             </TiltWrap>
@@ -367,14 +461,19 @@ function ReservationsSection() {
 function EventsSection() {
   return (
     <section className="grid gap-8 bg-aberdeen-blue px-5 py-16 md:grid-cols-[1fr_1fr] md:px-8 md:py-24">
-      <motion.h2
-        className="font-display text-5xl leading-none text-aberdeen-peach md:text-7xl"
-        {...fadeIn()}
-      >
-        Seasonal nights, private dinners, reasons to circle the date.
-      </motion.h2>
+      <motion.div {...fadeIn()}>
+        <h2 className="font-display text-5xl leading-none text-aberdeen-peach md:text-7xl">
+          Seasonal nights, private dinners, reasons to circle the date.
+        </h2>
+        <img
+          alt=""
+          aria-hidden="true"
+          className="white-compass mt-8 h-auto w-full max-w-44 object-contain opacity-65"
+          src="/compas1.png"
+        />
+      </motion.div>
       <motion.div
-        className="relative self-end bg-oyster-white p-6 text-aberdeen-blue shadow-[8px_8px_0_rgba(42,59,146,0.18)]"
+        className="soft-card-shadow relative self-end bg-oyster-white p-6 text-aberdeen-blue"
         {...fadeIn(0.12)}
       >
         <div className="mb-8 grid grid-cols-[auto_1fr] gap-5 border-b border-dotted border-aberdeen-blue/35 pb-5">

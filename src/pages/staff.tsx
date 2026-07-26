@@ -137,9 +137,17 @@ function RosterSection() {
 function HiringSection() {
   return (
     <section className="grid gap-10 bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:grid-cols-[1fr_0.9fr] md:px-8 md:py-24">
-      <motion.h2 className="max-w-3xl font-playful text-5xl leading-none md:text-7xl" {...fadeIn()}>
-        Hospitality is the house style.
-      </motion.h2>
+      <motion.div {...fadeIn()}>
+        <h2 className="max-w-3xl font-playful text-5xl leading-none md:text-7xl">
+          Hospitality is the house style.
+        </h2>
+        <img
+          alt=""
+          aria-hidden="true"
+          className="mt-8 h-auto w-full max-w-48 object-contain opacity-70"
+          src="/compas2.png"
+        />
+      </motion.div>
       <motion.p className="self-end text-lg leading-8" {...fadeIn(0.12)}>
         The Aberdeen team is built around warmth, precision, and the good timing that makes a busy
         room feel effortless.

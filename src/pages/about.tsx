@@ -1,4 +1,9 @@
 import { motion } from "motion/react"
+import mapThree from "../../map3.png"
+import mapFour from "../../map4.png"
+import mapFive from "../../map5.png"
+import mapSix from "../../map6.png"
+import { DecorativeBackdrop } from "../components/decorative-media"
 import { RestaurantGroupSection, RippleSection } from "../components/site-extras"
 import { fadeIn } from "../lib/motion"
 
@@ -151,9 +156,10 @@ function HeroSection() {
 
 function StorySection() {
   return (
-    <section className="grid gap-12 bg-oyster-white px-5 pt-16 pb-8 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:pt-24 md:pb-12">
+    <section className="relative isolate grid gap-12 overflow-hidden bg-oyster-white px-5 pt-16 pb-8 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:pt-24 md:pb-12">
+      <DecorativeBackdrop imageClassName="object-cover" opacity={0.13} src={mapThree} />
       <motion.div
-        className="self-start bg-aberdeen-peach p-6 text-aberdeen-blue shadow-[8px_8px_0_rgba(42,59,146,0.16)]"
+        className="relative z-10 self-start bg-aberdeen-peach p-6 text-aberdeen-blue shadow-[8px_8px_0_rgba(42,59,146,0.16)]"
         {...fadeIn()}
       >
         <p className="font-utility text-xs tracking-[0.18em] uppercase">Postcard note</p>
@@ -163,7 +169,7 @@ function StorySection() {
           <img alt="" className="h-14 w-14 object-contain" src="/circle-a-blue.png" />
         </div>
       </motion.div>
-      <motion.div className="max-w-4xl space-y-8" {...fadeIn(0.1)}>
+      <motion.div className="relative z-10 max-w-4xl space-y-8" {...fadeIn(0.1)}>
         <h2 className="font-display text-5xl leading-none text-aberdeen-blue md:text-7xl">
           Seafood, bright spirits, and a dining room made for lingering.
         </h2>
@@ -180,8 +186,9 @@ function StorySection() {
 
 function OwnerSection() {
   return (
-    <section className="grid gap-12 bg-oyster-white px-5 pt-8 pb-16 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:pt-12 md:pb-24">
-      <motion.div className="text-center text-aberdeen-blue" {...fadeIn()}>
+    <section className="relative isolate grid gap-12 overflow-hidden bg-oyster-white px-5 pt-8 pb-16 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:pt-12 md:pb-24">
+      <DecorativeBackdrop imageClassName="object-cover" opacity={0.12} src={mapFour} />
+      <motion.div className="relative z-10 text-center text-aberdeen-blue" {...fadeIn()}>
         <div className="mx-auto h-72 w-72 overflow-hidden rounded-full border-8 border-aberdeen-peach">
           <img
             alt="Portrait of Aberdeen owner"
@@ -194,7 +201,10 @@ function OwnerSection() {
           Restaurant Group Founder
         </p>
       </motion.div>
-      <motion.div className="max-w-3xl space-y-6 self-center text-lg leading-8" {...fadeIn(0.12)}>
+      <motion.div
+        className="relative z-10 max-w-3xl space-y-6 self-center text-lg leading-8"
+        {...fadeIn(0.12)}
+      >
         <p>
           Aberdeen is imagined as a coastal room with a city pulse: bright enough for lunch,
           polished enough for celebrations, and relaxed enough to make one more round feel
@@ -215,8 +225,9 @@ function OwnerSection() {
 
 function GroupSection() {
   return (
-    <section className="bg-aberdeen-peach px-5 py-16 md:px-8 md:py-24">
-      <div className="grid gap-8 md:grid-cols-[1fr_1fr_1fr]">
+    <section className="relative isolate overflow-hidden bg-aberdeen-peach px-5 py-16 md:px-8 md:py-24">
+      <DecorativeBackdrop imageClassName="object-cover" opacity={0.13} src={mapFive} />
+      <div className="relative z-10 grid gap-8 md:grid-cols-[1fr_1fr_1fr]">
         {[
           [
             "01",
@@ -254,8 +265,9 @@ function GroupSection() {
 
 function RoomSection() {
   return (
-    <RippleSection className="bg-oyster-white p-5 md:p-8">
-      <div className="grid gap-6 md:grid-cols-[1.2fr_0.8fr] md:gap-10">
+    <RippleSection className="relative isolate overflow-hidden bg-oyster-white p-5 md:p-8">
+      <DecorativeBackdrop imageClassName="object-cover" opacity={0.11} src={mapSix} />
+      <div className="relative z-10 grid gap-6 md:grid-cols-[1.2fr_0.8fr] md:gap-10">
         <motion.div className="relative h-[30rem] w-full md:h-[42rem]" {...fadeIn()}>
           <img
             alt="Restaurant bar with warm lights and bottles"

@@ -19,9 +19,9 @@ export function DecorativeBackdrop({
     >
       <img
         alt=""
-        className={`h-full w-full ${imageClassName}`}
+        className={`h-full w-full ${src.includes("map") ? "no-under-shadow" : ""} ${imageClassName}`}
         src={src}
-        style={{ opacity: opacity ?? (src.includes("map") ? 0.3 : 0.6) }}
+        style={{ opacity: src.includes("map") ? 0.2 : (opacity ?? 0.6) }}
       />
     </div>
   )
@@ -35,7 +35,7 @@ export function ScrollRotatingWheel({ compact = false }: { compact?: boolean }) 
     return (
       <div
         aria-hidden="true"
-        className="pointer-events-none mt-2 grid place-items-start pb-16 pt-2"
+        className="pointer-events-none mt-2 grid place-items-start pt-2 pb-16"
       >
         <motion.img
           alt=""

@@ -49,3 +49,26 @@ export function Postmark() {
     </div>
   )
 }
+
+export function NauticalCoordinates({
+  className = "",
+  light = false,
+}: {
+  className?: string
+  light?: boolean
+}) {
+  return (
+    <div
+      aria-label="Savannah coordinates: 32 degrees 4 minutes 52 seconds north, 81 degrees 5 minutes 28 seconds west"
+      className={`inline-flex items-center gap-3 font-utility text-[0.65rem] tracking-[0.18em] uppercase ${
+        light ? "text-aberdeen-peach" : "text-aberdeen-blue"
+      } ${className}`}
+    >
+      <span aria-hidden="true" className="h-px w-8 bg-current opacity-60" />
+      <span>32° 04′ 52″ N</span>
+      <span aria-hidden="true" className="h-1 w-1 rotate-45 border border-current" />
+      <span>81° 05′ 28″ W</span>
+      <span aria-hidden="true" className="h-px w-8 bg-current opacity-60" />
+    </div>
+  )
+}

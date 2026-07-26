@@ -1,5 +1,6 @@
 import { motion } from "motion/react"
 import { Link } from "react-router"
+import { DecorativeBackdrop } from "../components/decorative-media"
 import { PhotoCorners, RopeDivider } from "../components/nautical-details"
 import { MenuLikeButton, PostcardImageStack, RippleSection } from "../components/site-extras"
 import { fadeIn } from "../lib/motion"
@@ -327,7 +328,7 @@ const desserts: MenuGroup = {
 
 function FoodMenuPage() {
   return (
-    <div className="overflow-hidden">
+    <div className="page-shell">
       <MenuHero />
       <RawBarSection />
       <StartersSection />
@@ -425,8 +426,9 @@ function MenuList({ delay = 0, group }: { delay?: number; group: MenuGroup }) {
 
 function RawBarSection() {
   return (
-    <section className="bg-oyster-white px-5 py-16 md:px-8 md:py-24">
-      <div className="grid gap-12 md:grid-cols-[1fr_0.9fr] md:gap-16">
+    <section className="relative isolate overflow-hidden bg-oyster-white px-5 py-16 md:px-8 md:py-24">
+      <DecorativeBackdrop imageClassName="object-cover" src="/detailedhorizontalmap.png" />
+      <div className="relative z-10 grid gap-12 md:grid-cols-[1fr_0.9fr] md:gap-16">
         <div className="space-y-12">
           <MenuList group={rawBar} />
           <MenuList delay={0.08} group={towers} />
@@ -452,8 +454,9 @@ function RawBarSection() {
 
 function StartersSection() {
   return (
-    <section className="bg-aberdeen-peach px-5 py-16 md:px-8 md:py-24">
-      <div className="grid gap-12 md:grid-cols-[0.9fr_1fr] md:gap-16">
+    <section className="relative isolate overflow-hidden bg-aberdeen-peach px-5 py-16 md:px-8 md:py-24">
+      <DecorativeBackdrop imageClassName="object-cover" src="/horizontalmap.png" />
+      <div className="relative z-10 grid gap-12 md:grid-cols-[0.9fr_1fr] md:gap-16">
         <motion.div className="order-2 md:order-1" {...fadeIn(0.08)}>
           <div className="relative aspect-[4/5]">
             <img
@@ -475,8 +478,9 @@ function StartersSection() {
 
 function MainsSection() {
   return (
-    <RippleSection className="bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24">
-      <div className="grid gap-12 md:grid-cols-[0.9fr_1.1fr] md:gap-16">
+    <RippleSection className="relative isolate overflow-hidden bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24">
+      <DecorativeBackdrop imageClassName="object-cover" src="/alternatehorizontalmap.png" />
+      <div className="relative z-10 grid gap-12 md:grid-cols-[0.9fr_1.1fr] md:gap-16">
         <div className="space-y-12">
           <motion.h2 className="font-display text-5xl leading-none md:text-7xl" {...fadeIn()}>
             Plates that carry the table.
@@ -534,12 +538,20 @@ function MainsList({ delay = 0, group }: { delay?: number; group: MenuGroup }) {
 
 function SidesAndDessertSection() {
   return (
-    <section className="bg-oyster-white px-5 py-16 md:px-8 md:py-24">
-      <div className="grid gap-12 md:grid-cols-2 md:gap-16">
+    <section className="relative isolate overflow-hidden bg-oyster-white px-5 py-16 md:px-8 md:py-24">
+      <DecorativeBackdrop
+        className="grid place-items-center"
+        imageClassName="!h-auto !w-[min(28%,14rem)] object-contain"
+        src="/shipwheel.png"
+      />
+      <div className="relative z-10 grid gap-12 md:grid-cols-2 md:gap-16">
         <MenuList group={sides} />
         <MenuList delay={0.08} group={desserts} />
       </div>
-      <motion.p className="mt-12 max-w-3xl leading-8 text-kelp-ink/80" {...fadeIn(0.12)}>
+      <motion.p
+        className="relative z-10 mt-12 max-w-3xl leading-8 text-kelp-ink/80"
+        {...fadeIn(0.12)}
+      >
         Menus change with the season and the day's catch. Please let us know about any allergies — a
         20% service charge is added to parties of six or more.
       </motion.p>
@@ -549,8 +561,8 @@ function SidesAndDessertSection() {
 
 function ReserveSection() {
   return (
-    <RippleSection className="bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24">
-      <div className="grid gap-10 md:grid-cols-[1fr_0.9fr]">
+    <RippleSection className="relative isolate overflow-hidden bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24">
+      <div className="relative z-10 grid gap-10 md:grid-cols-[1fr_0.9fr]">
         <motion.div {...fadeIn()}>
           <p className="font-utility text-sm tracking-[0.22em] uppercase">Reservations</p>
           <h2 className="mt-5 max-w-3xl font-display text-5xl leading-none md:text-7xl">

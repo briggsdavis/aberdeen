@@ -1,4 +1,5 @@
 import { motion } from "motion/react"
+import { ScrollRotatingWheel } from "../components/decorative-media"
 import { PhotoCorners } from "../components/nautical-details"
 import { TiltWrap } from "../components/site-extras"
 import { fadeIn } from "../lib/motion"
@@ -50,7 +51,7 @@ const staff = [
 
 function StaffPage() {
   return (
-    <div className="overflow-x-clip">
+    <div className="page-shell">
       <HeroSection />
       <RosterSection />
       <HiringSection />
@@ -97,6 +98,7 @@ function RosterSection() {
               vanish, and when to make the night feel a little brighter.
             </p>
           </motion.div>
+          <ScrollRotatingWheel compact />
         </div>
         <div className="grid gap-16">
           {staff.map((person, index) => (

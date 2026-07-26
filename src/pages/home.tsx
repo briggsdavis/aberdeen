@@ -1,4 +1,5 @@
 import { motion } from "motion/react"
+import { DecorativeBackdrop } from "../components/decorative-media"
 import {
   FAQSection,
   HeroCarouselButtons,
@@ -11,7 +12,7 @@ import { fadeIn } from "../lib/motion"
 
 function HomePage() {
   return (
-    <div className="overflow-hidden">
+    <div className="page-shell">
       <HeroSection />
       <IntroSection />
       <MenuSection />
@@ -161,8 +162,9 @@ function Postmark() {
 
 function IntroSection() {
   return (
-    <section className="px-5 py-16 md:px-8 md:py-24">
-      <div className="grid gap-10 md:grid-cols-[0.85fr_1.15fr] md:items-stretch">
+    <section className="relative isolate overflow-hidden px-5 py-16 md:px-8 md:py-24">
+      <DecorativeBackdrop imageClassName="object-cover" src="/alternatehorizontalmap.png" />
+      <div className="relative z-10 grid gap-10 md:grid-cols-[0.85fr_1.15fr] md:items-stretch">
         <motion.div className="relative h-[34rem] md:h-auto md:self-stretch" {...fadeIn()}>
           <img
             alt="Portrait of a warmly lit restaurant dining detail"
@@ -225,8 +227,16 @@ function MenuSection() {
   ]
 
   return (
-    <section className="bg-oyster-white px-5 py-16 md:px-8 md:py-24">
-      <motion.div className="mb-10 flex items-end justify-between gap-6" {...fadeIn()}>
+    <section className="relative isolate overflow-hidden bg-oyster-white px-5 py-16 md:px-8 md:py-24">
+      <DecorativeBackdrop
+        className="grid place-items-center"
+        imageClassName="!h-auto !w-[min(30vw,22rem)] object-contain"
+        src="/anchor.png"
+      />
+      <motion.div
+        className="relative z-10 mb-10 flex items-end justify-between gap-6"
+        {...fadeIn()}
+      >
         <div>
           <h2 className="font-display text-5xl leading-none text-aberdeen-blue md:text-7xl">
             Menus
@@ -239,7 +249,7 @@ function MenuSection() {
           View food menu
         </a>
       </motion.div>
-      <div className="grid gap-5 md:grid-cols-3">
+      <div className="relative z-10 grid gap-5 md:grid-cols-3">
         {menus.map((menu, index) => (
           <motion.a
             aria-label={`View ${menu.title} menu`}
@@ -274,9 +284,9 @@ function MenuSection() {
 
 function GallerySection() {
   return (
-    <section className="relative bg-aberdeen-peach py-16 md:py-24">
+    <section className="relative isolate overflow-hidden bg-aberdeen-peach py-16 md:py-24">
       <motion.div
-        className="mb-10 flex items-center justify-between gap-6 px-5 md:px-8"
+        className="relative z-10 mb-10 flex items-center justify-between gap-6 px-5 md:px-8"
         {...fadeIn()}
       >
         <p className="font-utility text-sm tracking-[0.22em] text-aberdeen-blue uppercase">
@@ -284,7 +294,7 @@ function GallerySection() {
         </p>
         <MaritimeFlags />
       </motion.div>
-      <div className="grid grid-cols-2 gap-6 px-3 md:grid-cols-4 md:px-8">
+      <div className="relative z-10 grid grid-cols-2 gap-6 px-3 md:grid-cols-4 md:px-8">
         {[
           "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=900&q=85",
           "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=900&q=85",
@@ -315,8 +325,8 @@ function ReservationsSection() {
     >
       <div className="grid gap-10 md:grid-cols-[0.9fr_1fr]">
         <motion.div
-          className="relative rotate-1 self-end bg-oyster-white p-6 text-aberdeen-blue shadow-[10px_10px_0_#f7b733]"
-          {...fadeIn(0.12)}
+          className="relative order-2 rotate-1 self-end bg-oyster-white p-6 text-aberdeen-blue shadow-[10px_10px_0_#f7b733] md:order-1"
+          {...fadeIn(0.3)}
         >
           <div className="mb-8 flex items-start justify-between gap-6">
             <div>
@@ -338,12 +348,17 @@ function ReservationsSection() {
             Plan a visit
           </a>
         </motion.div>
-        <motion.div {...fadeIn()}>
-          <p className="font-utility text-sm tracking-[0.22em] uppercase">Reservations</p>
-          <h2 className="mt-5 max-w-3xl font-display text-5xl leading-none md:text-8xl">
+        <div className="order-1 md:order-2">
+          <motion.p className="font-utility text-sm tracking-[0.22em] uppercase" {...fadeIn()}>
+            Reservations
+          </motion.p>
+          <motion.h2
+            className="mt-5 max-w-3xl font-display text-5xl leading-none md:text-8xl"
+            {...fadeIn(0.14)}
+          >
             Join us where the table catches the light.
-          </h2>
-        </motion.div>
+          </motion.h2>
+        </div>
       </div>
     </RippleSection>
   )

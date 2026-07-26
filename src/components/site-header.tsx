@@ -1,4 +1,5 @@
-import { useCallback, useState } from "react"
+import { motion } from "motion/react"
+import { useCallback, useEffect, useState } from "react"
 import { useLocation } from "react-router"
 import { TransitionLink } from "./page-transition"
 
@@ -12,13 +13,58 @@ const navItems = [
 
 function SiteHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isHidden, setIsHidden] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
   const location = useLocation()
   const closeMenu = useCallback(() => setIsMenuOpen(false), [])
   const toggleMenu = useCallback(() => setIsMenuOpen((isOpen) => !isOpen), [])
 
+  useEffect(() => {
+    let lastScrollY = window.scrollY
+    let accumulatedDistance = 0
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+      setIsScrolled(currentScrollY > 12)
+      const distance = currentScrollY - lastScrollY
+      const changedDirection =
+        (distance > 0 && accumulatedDistance < 0) || (distance < 0 && accumulatedDistance > 0)
+
+      accumulatedDistance = changedDirection ? distance : accumulatedDistance + distance
+
+      if (isMenuOpen || currentScrollY < 96) {
+        setIsHidden(false)
+        accumulatedDistance = 0
+      } else if (accumulatedDistance > 30) {
+        setIsHidden(true)
+        accumulatedDistance = 0
+      } else if (accumulatedDistance < -14) {
+        setIsHidden(false)
+        accumulatedDistance = 0
+      }
+
+      lastScrollY = currentScrollY
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [isMenuOpen])
+
+  useEffect(() => {
+    setIsHidden(false)
+  }, [location.pathname])
+
   return (
-    <header className="absolute inset-x-0 top-0 z-20 text-aberdeen-peach">
-      <div className="flex items-center justify-between px-5 py-5 md:px-8">
+    <motion.header
+      animate={{ y: isHidden ? "-100%" : "0%" }}
+      className={`fixed inset-x-0 top-0 z-40 bg-aberdeen-blue text-aberdeen-peach will-change-transform ${
+        isScrolled ? "shadow-[0_12px_30px_rgb(14_24_69/0.2)]" : "shadow-none"
+      }`}
+      initial={false}
+      onFocusCapture={() => setIsHidden(false)}
+      transition={{ duration: 0.48, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <div className="flex items-center justify-between px-5 py-4 md:px-8">
         <TransitionLink className="block w-36 md:w-44" onClick={closeMenu} to="/">
           <img alt="Aberdeen" src="/wordmark-peach.png" />
         </TransitionLink>
@@ -65,7 +111,7 @@ function SiteHeader() {
         </button>
       </div>
       <nav
-        className={`mx-5 border border-aberdeen-peach bg-aberdeen-blue/95 p-5 backdrop-blur md:hidden ${
+        className={`mx-5 border border-aberdeen-peach bg-aberdeen-blue p-5 md:hidden ${
           isMenuOpen ? "block" : "hidden"
         }`}
         id="mobile-navigation"
@@ -92,7 +138,7 @@ function SiteHeader() {
           </TransitionLink>
         </div>
       </nav>
-    </header>
+    </motion.header>
   )
 }
 

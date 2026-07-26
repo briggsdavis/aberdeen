@@ -52,7 +52,7 @@ const events = [
 
 function TestHomePage() {
   return (
-    <div className="overflow-hidden bg-aberdeen-peach">
+    <div className="page-shell bg-aberdeen-peach">
       <HeroSection />
       <ScrapbookStrip />
       <MenuSection />

@@ -6,6 +6,8 @@ import type { ReactNode } from "react"
 import { createRoot } from "react-dom/client"
 import { BrowserRouter } from "react-router"
 // oxlint-disable-next-line import/no-unassigned-import
+import "lenis/dist/lenis.css"
+// oxlint-disable-next-line import/no-unassigned-import
 import "./index.css"
 import App from "./app.tsx"
 

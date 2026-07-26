@@ -75,6 +75,10 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
   const navigate = useNavigate()
   const prefersReducedMotion = usePrefersReducedMotion()
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" })
+  }, [location.pathname])
+
   const startPageTransition = useCallback(
     async (to: To, options?: NavigateOptions) => {
       if (isTransitioning.current) {

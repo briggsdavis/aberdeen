@@ -122,19 +122,17 @@ const restaurantCards = restaurantNames.map((name, index) => ({
 
 export function RestaurantGroupSection() {
   return (
-    <section className="bg-aberdeen-blue px-5 py-16 md:px-8 md:py-24">
+    <section className="flex min-h-svh flex-col justify-center bg-aberdeen-blue px-5 py-12 md:px-8 md:py-14">
       <motion.div className="mx-auto max-w-6xl text-center text-oyster-white" {...fadeIn()}>
         <p className="font-utility text-sm tracking-[0.22em] uppercase">Proud to be part of</p>
-        <h2 className="mt-4 font-display text-5xl leading-none md:text-7xl">
+        <h2 className="mt-3 font-display text-5xl leading-none md:text-6xl">
           Richard DeShantz Restaurant Group
         </h2>
       </motion.div>
-      <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-6">
+      <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-7 md:gap-3">
         {restaurantCards.map((restaurant, index) => (
           <motion.article
-            className={`group relative aspect-square overflow-hidden bg-aberdeen-blue ${
-              index === restaurantCards.length - 2 ? "lg:col-start-3" : ""
-            }`}
+            className="group relative aspect-square overflow-hidden bg-aberdeen-blue"
             key={restaurant.name}
             {...fadeIn(index * 0.025)}
           >
@@ -143,13 +141,13 @@ export function RestaurantGroupSection() {
               className="h-full w-full object-cover transition duration-500 group-hover:scale-108"
               src={restaurant.image}
             />
-            <h3 className="absolute inset-x-3 bottom-3 font-display text-xl leading-none text-oyster-white">
+            <h3 className="absolute inset-x-2 bottom-3 text-center font-display text-sm leading-none text-oyster-white [text-shadow:0_2px_14px_rgb(14_24_69/0.9)] lg:text-lg">
               {restaurant.name}
             </h3>
           </motion.article>
         ))}
       </div>
-      <div className="mt-10 text-center">
+      <div className="mt-8 text-center">
         <a
           className="aberdeen-action bg-oyster-white text-aberdeen-blue hover:bg-aberdeen-peach"
           href="https://richarddeshantz.com/"
@@ -195,9 +193,9 @@ export function FAQSection({
 
   return (
     <section
-      className={`${blue ? "bg-aberdeen-blue" : "bg-aberdeen-peach"} px-5 py-16 md:px-8 md:py-24`}
+      className={`relative isolate overflow-hidden ${blue ? "bg-aberdeen-blue" : "bg-aberdeen-peach"} px-5 py-16 md:px-8 md:py-24`}
     >
-      <div className="grid gap-10 md:grid-cols-[0.7fr_1.3fr]">
+      <div className="relative z-10 grid gap-10 md:grid-cols-[0.7fr_1.3fr]">
         <div>
           <p
             className={`font-utility text-sm tracking-[0.22em] uppercase ${blue ? "text-oyster-white" : "text-aberdeen-blue"}`}
@@ -209,6 +207,12 @@ export function FAQSection({
           >
             Good things to know.
           </h2>
+          <img
+            alt=""
+            aria-hidden="true"
+            className="pointer-events-none mt-8 h-auto w-full max-w-64 scale-x-[-1] -rotate-6 object-contain opacity-60 md:mt-10"
+            src="/ship.png"
+          />
           {!expanded ? (
             <a
               className={`aberdeen-action mt-8 border ${

@@ -2,10 +2,11 @@ import { motion } from "motion/react"
 import { MaritimeFlags, RopeDivider } from "../components/nautical-details"
 import { FAQSection, HeroCarouselButtons, useHeroCarousel } from "../components/site-extras"
 import { fadeIn } from "../lib/motion"
+import { DecorativeBackdrop } from "../components/decorative-media"
 
 function ContactPage() {
   return (
-    <div className="overflow-hidden">
+    <div className="page-shell">
       <HeroSection />
       <ContactDetails />
       <MapSection />
@@ -107,8 +108,9 @@ function HeroSection() {
 
 function ContactDetails() {
   return (
-    <section className="grid gap-10 bg-oyster-white px-5 py-16 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:py-24">
-      <div className="grid gap-5">
+    <section className="relative isolate grid gap-10 overflow-hidden bg-oyster-white px-5 py-16 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:py-24">
+      <DecorativeBackdrop imageClassName="object-cover" src="/horizontalmap.png" />
+      <div className="relative z-10 grid gap-5">
         {[
           ["Visit", "Savannah, Georgia", "Address coming soon"],
           ["Call", "Phone coming soon", "For reservations, private dinners, and general questions"],
@@ -128,7 +130,7 @@ function ContactDetails() {
           </motion.article>
         ))}
       </div>
-      <motion.div className="bg-aberdeen-blue p-5 md:p-8" {...fadeIn(0.12)}>
+      <motion.div className="relative z-10 bg-aberdeen-blue p-5 md:p-8" {...fadeIn(0.12)}>
         <div className="relative h-72 md:h-80">
           <img
             alt="Aberdeen dining room table"

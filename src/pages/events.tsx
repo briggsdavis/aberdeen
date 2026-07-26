@@ -73,7 +73,7 @@ type EventsView = "list" | "calendar"
 
 function EventsPage() {
   return (
-    <div className="overflow-hidden">
+    <div className="page-shell">
       <HeroSection />
       <ScheduleSection />
       <PrivateEventsSection />
@@ -121,8 +121,11 @@ function ScheduleSection() {
   const [view, setView] = useState<EventsView>("list")
 
   return (
-    <section className="bg-oyster-white px-5 py-16 md:px-8 md:py-24">
-      <motion.div className="mb-10 flex flex-wrap items-end justify-between gap-6" {...fadeIn()}>
+    <section className="relative bg-oyster-white px-5 py-16 md:px-8 md:py-24">
+      <motion.div
+        className="relative z-10 mb-10 flex flex-wrap items-end justify-between gap-6"
+        {...fadeIn()}
+      >
         <div>
           <p className="font-utility text-sm tracking-[0.22em] text-aberdeen-blue uppercase">
             June
@@ -144,7 +147,7 @@ function ScheduleSection() {
           </a>
         </div>
       </motion.div>
-      {view === "list" ? <UpcomingList /> : <CalendarGrid />}
+      <div className="relative z-10">{view === "list" ? <UpcomingList /> : <CalendarGrid />}</div>
     </section>
   )
 }

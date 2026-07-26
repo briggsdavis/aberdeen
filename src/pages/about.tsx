@@ -4,7 +4,7 @@ import { fadeIn } from "../lib/motion"
 
 function AboutPage() {
   return (
-    <div className="overflow-hidden">
+    <div className="page-shell">
       <HeroSection />
       <StorySection />
       <OwnerSection />

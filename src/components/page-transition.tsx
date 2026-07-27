@@ -122,7 +122,7 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
             ease: [0.76, 0, 0.24, 1],
           }}
         >
-          <img alt="" className="w-24 md:w-32" src="/standalone-peach.png" />
+          <img alt="" className="w-24 md:w-32" src="/brand/aberdeen-monogram-peach.png" />
         </motion.div>
       ) : null}
     </PageTransitionContext>

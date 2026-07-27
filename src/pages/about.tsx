@@ -1,11 +1,12 @@
 import { motion } from "motion/react"
-import mapThree from "../../map3.png"
-import mapFour from "../../map4.png"
-import mapFive from "../../map5.png"
-import mapSix from "../../map6.png"
 import { DecorativeBackdrop } from "../components/decorative-media"
 import { RestaurantGroupSection, RippleSection } from "../components/site-extras"
 import { fadeIn } from "../lib/motion"
+
+const antiqueMapOne = "/maps/antique-map-01.png"
+const antiqueMapTwo = "/maps/antique-map-02.png"
+const antiqueMapThree = "/maps/antique-map-03.png"
+const antiqueMapFour = "/maps/antique-map-04.png"
 
 function AboutPage() {
   return (
@@ -23,8 +24,8 @@ function AboutPage() {
 function FramedPhoto({
   alt,
   className = "",
-  frameSrc = "/frame.png",
-  maskSrc = "/frame-inner-mask.png",
+  frameSrc = "/frames/torn-paper/frame-01.png",
+  maskSrc = "/frames/torn-paper/mask-01.png",
   src,
 }: {
   alt: string
@@ -136,8 +137,8 @@ function HeroSection() {
         <Tape className="top-2 left-40" />
         <FramedPhoto
           alt="People on a catamaran sailboat in the ocean"
-          frameSrc="/frame-180.png"
-          maskSrc="/frame-inner-mask-180.png"
+          frameSrc="/frames/torn-paper/frame-01-rotated.png"
+          maskSrc="/frames/torn-paper/mask-01-rotated.png"
           src="https://images.unsplash.com/photo-1756163251150-3d4bfcfa52fe?auto=format&fit=crop&w=900&q=85"
         />
       </motion.div>
@@ -157,7 +158,7 @@ function HeroSection() {
 function StorySection() {
   return (
     <section className="relative isolate grid gap-12 overflow-hidden bg-oyster-white px-5 pt-16 pb-8 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:pt-24 md:pb-12">
-      <DecorativeBackdrop imageClassName="object-cover" opacity={0.13} src={mapThree} />
+      <DecorativeBackdrop imageClassName="object-cover" opacity={0.13} src={antiqueMapOne} />
       <motion.div
         className="relative z-10 self-start bg-aberdeen-peach p-6 text-aberdeen-blue shadow-[8px_8px_0_rgba(42,59,146,0.16)]"
         {...fadeIn()}
@@ -166,7 +167,11 @@ function StorySection() {
         <p className="mt-4 font-playful text-5xl leading-none">The story</p>
         <div className="mt-8 flex items-center justify-between gap-6">
           <Postmark />
-          <img alt="" className="h-14 w-14 object-contain" src="/circle-a-blue.png" />
+          <img
+            alt=""
+            className="h-14 w-14 object-contain"
+            src="/brand/aberdeen-monogram-circle-blue.png"
+          />
         </div>
       </motion.div>
       <motion.div className="relative z-10 max-w-4xl space-y-8" {...fadeIn(0.1)}>
@@ -187,7 +192,7 @@ function StorySection() {
 function OwnerSection() {
   return (
     <section className="relative isolate grid gap-12 overflow-hidden bg-oyster-white px-5 pt-8 pb-16 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:pt-12 md:pb-24">
-      <DecorativeBackdrop imageClassName="object-cover" opacity={0.12} src={mapFour} />
+      <DecorativeBackdrop imageClassName="object-cover" opacity={0.12} src={antiqueMapTwo} />
       <motion.div className="relative z-10 text-center text-aberdeen-blue" {...fadeIn()}>
         <div className="mx-auto h-72 w-72 overflow-hidden rounded-full border-8 border-aberdeen-peach">
           <img
@@ -226,7 +231,7 @@ function OwnerSection() {
 function GroupSection() {
   return (
     <section className="relative isolate overflow-hidden bg-aberdeen-peach px-5 py-16 md:px-8 md:py-24">
-      <DecorativeBackdrop imageClassName="object-cover" opacity={0.13} src={mapFive} />
+      <DecorativeBackdrop imageClassName="object-cover" opacity={0.13} src={antiqueMapThree} />
       <div className="relative z-10 grid gap-8 md:grid-cols-[1fr_1fr_1fr]">
         {[
           [
@@ -266,7 +271,7 @@ function GroupSection() {
 function RoomSection() {
   return (
     <RippleSection className="relative isolate overflow-hidden bg-oyster-white p-5 md:p-8">
-      <DecorativeBackdrop imageClassName="object-cover" opacity={0.11} src={mapSix} />
+      <DecorativeBackdrop imageClassName="object-cover" opacity={0.11} src={antiqueMapFour} />
       <div className="relative z-10 grid gap-6 md:grid-cols-[1.2fr_0.8fr] md:gap-10">
         <motion.div className="relative h-[30rem] w-full md:h-[42rem]" {...fadeIn()}>
           <img

@@ -120,11 +120,11 @@ function FramedPhoto({
       <div
         className="absolute inset-0"
         style={{
-          WebkitMaskImage: "url('/frame-inner-mask.png')",
+          WebkitMaskImage: "url('/frames/torn-paper/mask-01.png')",
           WebkitMaskPosition: "center",
           WebkitMaskRepeat: "no-repeat",
           WebkitMaskSize: "100% 100%",
-          maskImage: "url('/frame-inner-mask.png')",
+          maskImage: "url('/frames/torn-paper/mask-01.png')",
           maskPosition: "center",
           maskRepeat: "no-repeat",
           maskSize: "100% 100%",
@@ -135,7 +135,7 @@ function FramedPhoto({
       <img
         alt=""
         className="pointer-events-none absolute inset-0 z-20 h-full w-full object-fill"
-        src="/frame.png"
+        src="/frames/torn-paper/frame-01.png"
       />
     </div>
   )

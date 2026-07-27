@@ -1,5 +1,3 @@
-import { CursorCompass } from "./decorative-media"
-import { NauticalCoordinates } from "./nautical-details"
 import { TransitionLink } from "./page-transition"
 
 const pageLinks = [
@@ -14,8 +12,7 @@ const pageLinks = [
 
 const hours = [
   ["Monday – Thursday", "5 PM – 10 PM"],
-  ["Friday", "5 PM – 11 PM"],
-  ["Saturday", "4 PM – 11 PM"],
+  ["Friday – Saturday", "4 PM – 11 PM"],
   ["Sunday", "4 PM – 9 PM"],
 ]
 
@@ -40,7 +37,11 @@ function SiteFooter() {
       <div className="grid gap-6 lg:grid-cols-[1.3fr_0.7fr] lg:items-end">
         <div>
           <p className="font-utility text-xs tracking-[0.24em] uppercase">A table by the water</p>
-          <img alt="Aberdeen" className="mt-4 w-full max-w-md" src="/wordmark-blue.png" />
+          <img
+            alt="Aberdeen"
+            className="mt-4 w-full max-w-md"
+            src="/brand/aberdeen-wordmark-blue.png"
+          />
         </div>
         <p className="max-w-lg font-playful text-2xl leading-tight text-aberdeen-blue md:text-3xl lg:justify-self-end">
           Seafood, bright spirits, good evenings.
@@ -51,7 +52,7 @@ function SiteFooter() {
         <DecorativeRule />
       </div>
 
-      <div className="grid grow content-start gap-9 md:grid-cols-2 lg:grid-cols-[0.8fr_1fr_0.9fr_1.3fr] lg:gap-10">
+      <div className="grid grow content-start gap-9 md:grid-cols-2 lg:grid-cols-3 lg:gap-10">
         <div>
           <p className="font-utility text-xs tracking-[0.2em] uppercase">Explore</p>
           <nav aria-label="Footer navigation" className="mt-5 grid gap-2">
@@ -70,48 +71,29 @@ function SiteFooter() {
         <div>
           <p className="font-utility text-xs tracking-[0.2em] uppercase">Visit & call</p>
           <div className="mt-5 space-y-4 text-sm text-kelp-ink">
-            <NauticalCoordinates className="flex-wrap gap-y-2" />
             <p className="leading-7">
-              Savannah, Georgia
+              123 Harbor Way
               <br />
-              Address and telephone coming soon
+              Savannah, Georgia 31401
             </p>
-            <a
-              className="inline-block underline decoration-citrus decoration-2 underline-offset-4"
-              href="mailto:hello@aberdeen.example"
-            >
-              hello@aberdeen.example
-            </a>
+            <p>(912) 555-0147</p>
+            <p>hello@aberdeen.example</p>
           </div>
-        </div>
-
-        <div className="flex flex-col items-start justify-start md:col-span-2 lg:col-span-1">
-          <p className="mb-4 font-utility text-xs tracking-[0.2em] uppercase">Find your bearing</p>
-          <CursorCompass />
         </div>
 
         <div>
           <p className="font-utility text-xs tracking-[0.2em] uppercase">Tentative hours</p>
-          <dl className="mt-5 space-y-2 text-xs text-kelp-ink">
+          <dl className="mt-5 space-y-3 text-sm text-kelp-ink">
             {hours.map(([day, time]) => (
               <div className="flex items-baseline gap-3" key={day}>
                 <dt>{day}</dt>
                 <span className="min-w-4 grow border-b border-dotted border-aberdeen-blue/25" />
-                <dd className="shrink-0 font-utility text-xs tracking-[0.08em] uppercase">
+                <dd className="shrink-0 font-utility text-sm tracking-[0.08em] uppercase">
                   {time}
                 </dd>
               </div>
             ))}
           </dl>
-          <div className="mt-5 border-t border-aberdeen-blue/20 pt-5">
-            <p className="font-utility text-xs tracking-[0.2em] uppercase">Plan your evening</p>
-            <TransitionLink
-              className="aberdeen-action mt-4 bg-aberdeen-blue text-aberdeen-peach"
-              to="/contact"
-            >
-              Contact Aberdeen
-            </TransitionLink>
-          </div>
         </div>
       </div>
 

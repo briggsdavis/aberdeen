@@ -103,19 +103,19 @@ function RosterSection() {
         <div className="grid gap-16">
           {staff.map((person, index) => (
             <motion.article
-              className="grid min-h-[80svh] items-center"
+              className="grid min-h-[80svh] items-center shadow-none"
               key={person.name}
               {...fadeIn(index * 0.04)}
             >
               <TiltWrap
-                className={`relative mx-auto w-full max-w-xl bg-aberdeen-peach p-4 text-aberdeen-blue shadow-[12px_12px_0_rgb(42_59_146/0.14)] ${
+                className={`relative mx-auto w-full max-w-md bg-aberdeen-peach p-4 text-aberdeen-blue shadow-none hover:shadow-none ${
                   index % 2 === 0 ? "-rotate-1" : "rotate-1"
                 }`}
               >
                 <div className="relative aspect-[4/5] overflow-hidden">
                   <img
                     alt={person.name}
-                    className="h-full w-full object-cover"
+                    className="no-under-shadow h-full w-full object-cover"
                     src={person.image}
                   />
                   <PhotoCorners />
@@ -145,7 +145,7 @@ function HiringSection() {
           alt=""
           aria-hidden="true"
           className="mt-8 h-auto w-full max-w-48 object-contain opacity-70"
-          src="/compas2.png"
+          src="/illustrations/nautical/compass-rose-detailed.png"
         />
       </motion.div>
       <motion.p className="self-end text-lg leading-8" {...fadeIn(0.12)}>

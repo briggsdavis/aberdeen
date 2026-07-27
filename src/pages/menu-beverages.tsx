@@ -1,11 +1,12 @@
 import { motion } from "motion/react"
 import { Link } from "react-router"
-import shipThree from "../../boat3.png"
-import mapFour from "../../map4.png"
 import { DecorativeBackdrop } from "../components/decorative-media"
 import { PhotoCorners, RopeDivider } from "../components/nautical-details"
 import { MenuLikeButton, PostcardImageStack, RippleSection } from "../components/site-extras"
 import { fadeIn } from "../lib/motion"
+
+const antiqueMapTwo = "/maps/antique-map-02.png"
+const schooner = "/illustrations/nautical/schooner.png"
 
 type MenuItem = {
   name: string
@@ -354,7 +355,7 @@ function MenuList({ delay = 0, group }: { delay?: number; group: MenuGroup }) {
 function RawBarSection() {
   return (
     <section className="relative isolate overflow-hidden bg-oyster-white px-5 py-16 md:px-8 md:py-24">
-      <DecorativeBackdrop imageClassName="object-cover" opacity={0.15} src={mapFour} />
+      <DecorativeBackdrop imageClassName="object-cover" opacity={0.15} src={antiqueMapTwo} />
       <div className="relative z-10 grid gap-12 md:grid-cols-[1fr_0.9fr] md:gap-16">
         <div className="space-y-12">
           <MenuList group={rawBar} />
@@ -382,7 +383,7 @@ function RawBarSection() {
 function StartersSection() {
   return (
     <section className="relative isolate overflow-hidden bg-aberdeen-peach px-5 py-16 md:px-8 md:py-24">
-      <DecorativeBackdrop imageClassName="object-cover" src="/alternatehorizontalmap.png" />
+      <DecorativeBackdrop imageClassName="object-cover" src="/maps/thimble-islands-chart.png" />
       <div className="relative z-10 grid gap-12 md:grid-cols-[0.9fr_1fr] md:gap-16">
         <motion.div className="order-2 md:order-1" {...fadeIn(0.08)}>
           <div className="relative aspect-[4/5]">
@@ -406,7 +407,7 @@ function StartersSection() {
 function MainsSection() {
   return (
     <RippleSection className="relative isolate overflow-hidden bg-oyster-white px-5 py-16 text-aberdeen-blue md:px-8 md:py-24">
-      <DecorativeBackdrop imageClassName="object-cover" src="/alternatehorizontalmap.png" />
+      <DecorativeBackdrop imageClassName="object-cover" src="/maps/thimble-islands-chart.png" />
       <div className="relative z-10 grid gap-12 md:grid-cols-[0.9fr_1.1fr] md:gap-16">
         <div className="space-y-12">
           <motion.h2 className="font-display text-5xl leading-none md:text-7xl" {...fadeIn()}>
@@ -474,7 +475,7 @@ function SidesAndDessertSection() {
         className="grid place-items-center"
         imageClassName="!h-auto !w-[min(38vw,18rem)] object-contain"
         opacity={0.15}
-        src="/shipwheel.png"
+        src="/illustrations/nautical/ship-wheel.png"
       />
       <div className="relative z-10 grid gap-12 md:grid-cols-2 md:gap-16">
         <MenuList group={sides} />
@@ -503,7 +504,7 @@ function ReserveSection() {
             alt=""
             aria-hidden="true"
             className="mt-8 h-auto w-full max-w-md object-contain opacity-75"
-            src={shipThree}
+            src={schooner}
           />
         </motion.div>
         <motion.div className="self-end bg-oyster-white p-6 text-aberdeen-blue" {...fadeIn(0.12)}>

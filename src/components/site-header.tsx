@@ -82,7 +82,7 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
     >
       <div className="flex items-center justify-between px-5 py-4 md:px-8">
         <TransitionLink className="block w-36 md:w-44" onClick={closeMenu} to="/">
-          <img alt="Aberdeen" src="/wordmark-peach.png" />
+          <img alt="Aberdeen" src="/brand/aberdeen-wordmark-peach.png" />
         </TransitionLink>
         <nav className="hidden items-center gap-7 font-utility text-sm tracking-[0.16em] uppercase md:flex">
           {navItems.map((item) => (

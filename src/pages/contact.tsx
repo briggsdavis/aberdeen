@@ -1,9 +1,10 @@
 import { motion } from "motion/react"
-import mapSix from "../../map6.png"
 import { DecorativeBackdrop } from "../components/decorative-media"
 import { MaritimeFlags, RopeDivider } from "../components/nautical-details"
 import { FAQSection, HeroCarouselButtons, useHeroCarousel } from "../components/site-extras"
 import { fadeIn } from "../lib/motion"
+
+const antiqueMapFour = "/maps/antique-map-04.png"
 
 function ContactPage() {
   return (
@@ -30,11 +31,11 @@ function FramedPhoto({
       <div
         className="absolute inset-0"
         style={{
-          WebkitMaskImage: "url('/frame-inner-mask.png')",
+          WebkitMaskImage: "url('/frames/torn-paper/mask-01.png')",
           WebkitMaskPosition: "center",
           WebkitMaskRepeat: "no-repeat",
           WebkitMaskSize: "100% 100%",
-          maskImage: "url('/frame-inner-mask.png')",
+          maskImage: "url('/frames/torn-paper/mask-01.png')",
           maskPosition: "center",
           maskRepeat: "no-repeat",
           maskSize: "100% 100%",
@@ -45,7 +46,7 @@ function FramedPhoto({
       <img
         alt=""
         className="pointer-events-none absolute inset-0 z-20 h-full w-full object-fill"
-        src="/frame.png"
+        src="/frames/torn-paper/frame-01.png"
       />
     </div>
   )
@@ -110,7 +111,7 @@ function HeroSection() {
 function ContactDetails() {
   return (
     <section className="relative isolate grid gap-10 overflow-hidden bg-oyster-white px-5 py-16 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:py-24">
-      <DecorativeBackdrop imageClassName="object-cover" opacity={0.14} src={mapSix} />
+      <DecorativeBackdrop imageClassName="object-cover" opacity={0.14} src={antiqueMapFour} />
       <div className="relative z-10 grid gap-5">
         {[
           ["Visit", "Savannah, Georgia", "Address coming soon"],

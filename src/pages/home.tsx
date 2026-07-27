@@ -1,8 +1,5 @@
 import { motion, useReducedMotion } from "motion/react"
 import { useOutletContext } from "react-router"
-import mapThree from "../../map3.png"
-import mapFour from "../../map4.png"
-import mapFive from "../../map5.png"
 import { DecorativeBackdrop } from "../components/decorative-media"
 import {
   FAQSection,
@@ -13,6 +10,10 @@ import {
   useHeroCarousel,
 } from "../components/site-extras"
 import { fadeIn } from "../lib/motion"
+
+const antiqueMapOne = "/maps/antique-map-01.png"
+const antiqueMapTwo = "/maps/antique-map-02.png"
+const antiqueMapThree = "/maps/antique-map-03.png"
 
 function HomePage() {
   const { playHomeIntro } = useOutletContext<{ playHomeIntro: boolean }>()
@@ -157,7 +158,7 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
           initial={
             animateIntro ? { clipPath: "inset(0 100% 0 0)" } : { clipPath: "inset(0 0% 0 0)" }
           }
-          src="/wordmark-peach.png"
+          src="/brand/aberdeen-wordmark-peach.png"
           transition={{
             delay: animateIntro ? 0.12 : 0,
             duration: animateIntro ? 0.88 : 0,
@@ -175,11 +176,11 @@ function FramedPhoto({ alt, src }: { alt: string; src: string }) {
       <div
         className="absolute inset-0"
         style={{
-          WebkitMaskImage: "url('/frame-inner-mask.png')",
+          WebkitMaskImage: "url('/frames/torn-paper/mask-01.png')",
           WebkitMaskPosition: "center",
           WebkitMaskRepeat: "no-repeat",
           WebkitMaskSize: "100% 100%",
-          maskImage: "url('/frame-inner-mask.png')",
+          maskImage: "url('/frames/torn-paper/mask-01.png')",
           maskPosition: "center",
           maskRepeat: "no-repeat",
           maskSize: "100% 100%",
@@ -190,7 +191,7 @@ function FramedPhoto({ alt, src }: { alt: string; src: string }) {
       <img
         alt=""
         className="pointer-events-none absolute inset-0 z-20 h-full w-full object-fill"
-        src="/frame.png"
+        src="/frames/torn-paper/frame-01.png"
       />
     </div>
   )
@@ -260,7 +261,7 @@ function Postmark() {
 function IntroSection() {
   return (
     <section className="relative isolate overflow-hidden px-5 py-16 md:px-8 md:py-24">
-      <DecorativeBackdrop imageClassName="object-cover" opacity={0.15} src={mapThree} />
+      <DecorativeBackdrop imageClassName="object-cover" opacity={0.15} src={antiqueMapOne} />
       <div className="relative z-10 grid gap-10 md:grid-cols-[0.85fr_1.15fr] md:items-stretch">
         <motion.div className="relative h-[34rem] md:h-auto md:self-stretch" {...fadeIn()}>
           <img
@@ -301,7 +302,7 @@ function MenuSection() {
       title: "Food",
       href: "/menu/food",
       image:
-        "https://images.unsplash.com/photo-1606851091851-e8c8c0fca5ba?auto=format&fit=crop&w=900&q=85",
+        "https://images.unsplash.com/photo-1715249792962-5359b4b17f21?auto=format&fit=crop&w=900&q=85",
       copy: "Cold oysters, coastal plates, and generous mains.",
       label: "Raw bar",
     },
@@ -309,7 +310,7 @@ function MenuSection() {
       title: "Spirits",
       href: "/menu/spirits",
       image:
-        "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=900&q=85",
+        "https://images.unsplash.com/photo-1582993232955-39424b2cef01?auto=format&fit=crop&w=900&q=85",
       copy: "Crisp cocktails, blue-hour pours, and bottles for the table.",
       label: "Blue hour",
     },
@@ -317,7 +318,7 @@ function MenuSection() {
       title: "Beverages",
       href: "/menu/beverages",
       image:
-        "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=900&q=85",
+        "https://images.unsplash.com/photo-1683463787127-9d472af2a9e3?auto=format&fit=crop&w=900&q=85",
       copy: "Sparkling, zero-proof, coffee, tea, and easy afternoon refreshers.",
       label: "Sparkling",
     },
@@ -325,7 +326,7 @@ function MenuSection() {
 
   return (
     <section className="relative isolate overflow-hidden bg-oyster-white px-5 py-16 md:px-8 md:py-24">
-      <DecorativeBackdrop imageClassName="object-cover" opacity={0.13} src={mapFour} />
+      <DecorativeBackdrop imageClassName="object-cover" opacity={0.13} src={antiqueMapTwo} />
       <motion.div
         className="relative z-10 mb-10 flex items-end justify-between gap-6"
         {...fadeIn()}
@@ -378,7 +379,7 @@ function MenuSection() {
 function GallerySection() {
   return (
     <section className="relative isolate overflow-hidden bg-aberdeen-peach py-16 md:py-24">
-      <DecorativeBackdrop imageClassName="object-cover" opacity={0.13} src={mapFive} />
+      <DecorativeBackdrop imageClassName="object-cover" opacity={0.13} src={antiqueMapThree} />
       <motion.div
         className="relative z-10 mb-10 flex items-center justify-between gap-6 px-5 md:px-8"
         {...fadeIn()}
@@ -428,7 +429,11 @@ function ReservationsSection() {
               <p className="mt-2 font-playful text-5xl leading-none">Aberdeen</p>
             </div>
             <div className="grid h-20 w-16 place-items-center border border-dashed border-aberdeen-blue bg-aberdeen-peach p-2">
-              <img alt="" className="h-full w-full object-contain" src="/circle-a-blue.png" />
+              <img
+                alt=""
+                className="h-full w-full object-contain"
+                src="/brand/aberdeen-monogram-circle-blue.png"
+              />
             </div>
           </div>
           <p className="mb-6 text-lg leading-8">
@@ -469,7 +474,7 @@ function EventsSection() {
           alt=""
           aria-hidden="true"
           className="white-compass mt-8 h-auto w-full max-w-44 object-contain opacity-65"
-          src="/compas1.png"
+          src="/illustrations/nautical/compass-rose-simple.png"
         />
       </motion.div>
       <motion.div

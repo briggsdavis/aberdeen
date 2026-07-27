@@ -40,7 +40,7 @@ export function ScrollRotatingWheel({ compact = false }: { compact?: boolean }) 
         <motion.img
           alt=""
           className="h-auto w-[min(60%,15rem)] -translate-y-6 object-contain opacity-60 motion-reduce:!transform-none"
-          src="/shipwheel.png"
+          src="/illustrations/nautical/ship-wheel.png"
           style={{ rotate }}
         />
       </div>
@@ -53,7 +53,7 @@ export function ScrollRotatingWheel({ compact = false }: { compact?: boolean }) 
         <motion.img
           alt=""
           className="h-full w-full object-contain opacity-60 motion-reduce:!transform-none"
-          src="/shipwheel.png"
+          src="/illustrations/nautical/ship-wheel.png"
           style={{ rotate }}
         />
       </div>
@@ -84,7 +84,7 @@ export function CursorCompass() {
       <img
         alt=""
         className="aspect-[810/1013] w-full object-contain opacity-60 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:!transform-none"
-        src="/compas2.png"
+        src="/illustrations/nautical/compass-rose-detailed.png"
         style={{ transform: `rotate(${rotation}deg)` }}
       />
     </div>

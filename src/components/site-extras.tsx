@@ -2,19 +2,6 @@ import { CaretLeft, CaretRight, Heart } from "@phosphor-icons/react"
 import { AnimatePresence, motion } from "motion/react"
 import type { CSSProperties, MouseEvent, ReactNode } from "react"
 import { useState } from "react"
-import butcherAndTheRyeLogo from "../../butcherandtherye.webp"
-import coupeDeVilleLogo from "../../coupdeville.webp"
-import fishNorFowlLogo from "../../fishnorfowl.webp"
-import goldenGaiLogo from "../../goldengai.webp"
-import giJinLogo from "../../handroll.webp"
-import meatAndPotatoesLogo from "../../meatpotatoes.webp"
-import pouletBleuLogo from "../../pouletbleu.webp"
-import ribRoomLogo from "../../ribroom.webp"
-import sallyAnnsLogo from "../../sallyannys.webp"
-import seaMonkeyLogo from "../../seamonkey.webp"
-import takoLogo from "../../tako.webp"
-import takoTortaLogo from "../../takotorta.webp"
-import vieuxCarreLogo from "../../vieuxcarre.webp"
 import { fadeIn } from "../lib/motion"
 
 export const heroImages = [
@@ -107,20 +94,19 @@ export function TiltWrap({
 }
 
 const restaurantCards = [
-  { image: meatAndPotatoesLogo, name: "Meat and Potatoes" },
-  { image: butcherAndTheRyeLogo, name: "Butcher and the Rye" },
-  { image: takoLogo, name: "Tako" },
-  { image: takoTortaLogo, name: "Tako Torta" },
-  { image: pouletBleuLogo, name: "Poulet Bleu" },
-  { image: fishNorFowlLogo, name: "Fish Nor Fowl" },
-  { image: coupeDeVilleLogo, name: "Coupe de Ville" },
-  { image: sallyAnnsLogo, name: "Sally Ann's" },
-  { image: goldenGaiLogo, name: "Golden Gai" },
-  { image: vieuxCarreLogo, name: "Vieux Carre" },
-  { image: giJinLogo, name: "Gi-Jin" },
-  { image: seaMonkeyLogo, name: "Sea Monkey" },
-  { image: ribRoomLogo, name: "Rib Room" },
-  { image: "/standalone-peach.png", name: "Aberdeen" },
+  { image: "/restaurants/meat-and-potatoes.webp", name: "Meat and Potatoes" },
+  { image: "/restaurants/butcher-and-the-rye.webp", name: "Butcher and the Rye" },
+  { image: "/restaurants/tako.webp", name: "Tako" },
+  { image: "/restaurants/tako-torta.webp", name: "Tako Torta" },
+  { image: "/restaurants/poulet-bleu.webp", name: "Poulet Bleu" },
+  { image: "/restaurants/fish-nor-fowl.webp", name: "Fish Nor Fowl" },
+  { image: "/restaurants/coop-de-ville.webp", name: "Coupe de Ville" },
+  { image: "/restaurants/sally-anns.webp", name: "Sally Ann's" },
+  { image: "/restaurants/golden-gai.webp", name: "Golden Gai" },
+  { image: "/restaurants/vieux-carre.webp", name: "Vieux Carre" },
+  { image: "/restaurants/gi-jin.webp", name: "Gi-Jin" },
+  { image: "/restaurants/sea-monkey.webp", name: "Sea Monkey" },
+  { image: "/restaurants/rib-room.webp", name: "Rib Room" },
 ]
 
 export function RestaurantGroupSection() {
@@ -135,9 +121,7 @@ export function RestaurantGroupSection() {
       <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-7">
         {restaurantCards.map((restaurant, index) => (
           <motion.article
-            className={`restaurant-logo-card group relative aspect-square overflow-hidden ${
-              restaurant.name === "Aberdeen" ? "bg-aberdeen-blue" : "bg-oyster-white"
-            }`}
+            className="restaurant-logo-card group relative aspect-square overflow-hidden bg-oyster-white"
             key={restaurant.name}
             {...fadeIn(index * 0.025)}
           >
@@ -188,13 +172,6 @@ export function FAQSection({
     ["Where are you located?", "The Savannah address is coming soon."],
     ["Can you handle allergies?", "Tell the team when booking and again when you arrive."],
     ["Is there a raw bar?", "Yes, oysters and chilled seafood are core to the room."],
-    [
-      "Do you offer zero-proof drinks?",
-      "Yes, the beverage menu includes bright nonalcoholic builds.",
-    ],
-    ["Is there outdoor seating?", "Details will be confirmed closer to opening."],
-    ["Can I buy a gift card?", "Gift card information will be added soon."],
-    ["How do I contact the team?", "Use the contact form or write to hello@aberdeen.example."],
   ]
   const visible = expanded ? questions : questions.slice(0, 3)
 
@@ -222,7 +199,7 @@ export function FAQSection({
             alt=""
             aria-hidden="true"
             className="pointer-events-none mt-8 h-auto w-full max-w-64 scale-x-[-1] -rotate-6 object-contain opacity-60 md:mt-10"
-            src="/ship.png"
+            src="/illustrations/nautical/sailing-ship.png"
           />
           {!expanded ? (
             <a

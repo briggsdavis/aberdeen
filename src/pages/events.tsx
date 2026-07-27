@@ -1,11 +1,12 @@
 import { motion } from "motion/react"
 import { useState } from "react"
-import shipTwo from "../../boat2.png"
-import mapSeven from "../../map7.png"
 import { DecorativeBackdrop } from "../components/decorative-media"
 import { MaritimeFlags, RopeDivider } from "../components/nautical-details"
 import { HeroCarouselButtons, RippleSection, useHeroCarousel } from "../components/site-extras"
 import { fadeIn, fadeInPlace } from "../lib/motion"
+
+const antiqueMapFive = "/maps/antique-map-05.png"
+const sailboat = "/illustrations/nautical/sailboat.png"
 
 const events = [
   {
@@ -125,7 +126,7 @@ function ScheduleSection() {
 
   return (
     <section className="relative isolate overflow-hidden bg-oyster-white px-5 py-16 md:px-8 md:py-24">
-      <DecorativeBackdrop imageClassName="object-cover" opacity={0.16} src={mapSeven} />
+      <DecorativeBackdrop imageClassName="object-cover" opacity={0.16} src={antiqueMapFive} />
       <motion.div
         className="relative z-10 mb-10 flex flex-wrap items-end justify-between gap-6"
         {...fadeIn()}
@@ -290,7 +291,7 @@ function PrivateEventsSection() {
             alt=""
             aria-hidden="true"
             className="mt-8 h-auto w-full max-w-md object-contain opacity-75"
-            src={shipTwo}
+            src={sailboat}
           />
         </motion.div>
         <FerryTicket />

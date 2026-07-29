@@ -43,6 +43,52 @@ export default defineSchema({
     .index("by_mediaId", ["mediaId"])
     .index("by_page", ["page"])
     .index("by_page_and_slotKey", ["page", "slotKey"]),
+  menuPages: defineTable({
+    title: v.string(),
+    slug: v.string(),
+    description: v.string(),
+    heroMediaId: v.id("mediaAssets"),
+    order: v.number(),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_order", ["order"])
+    .index("by_slug", ["slug"]),
+  menuSections: defineTable({
+    pageId: v.id("menuPages"),
+    layout: v.union(
+      v.literal("imageLeft"),
+      v.literal("imageRight"),
+      v.literal("paired"),
+    ),
+    background: v.union(v.literal("oyster"), v.literal("peach"), v.literal("blue")),
+    mapImage: v.string(),
+    imageMediaId: v.optional(v.id("mediaAssets")),
+    imageCaption: v.string(),
+    showPostcardOne: v.boolean(),
+    postcardOneMediaId: v.optional(v.id("mediaAssets")),
+    showPostcardTwo: v.boolean(),
+    postcardTwoMediaId: v.optional(v.id("mediaAssets")),
+    showPostcardThree: v.boolean(),
+    postcardThreeMediaId: v.optional(v.id("mediaAssets")),
+    order: v.number(),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  }).index("by_pageId_and_order", ["pageId", "order"]),
+  menuGroups: defineTable({
+    sectionId: v.id("menuSections"),
+    title: v.string(),
+    note: v.string(),
+    order: v.number(),
+  }).index("by_sectionId_and_order", ["sectionId", "order"]),
+  menuItems: defineTable({
+    groupId: v.id("menuGroups"),
+    name: v.string(),
+    description: v.string(),
+    price: v.string(),
+    likes: v.number(),
+    order: v.number(),
+  }).index("by_groupId_and_order", ["groupId", "order"]),
   staffMembers: defineTable({
     name: v.string(),
     role: v.string(),

@@ -10,8 +10,10 @@ export type StandardMenuGroup = {
   title: string
   note?: string
   items: Array<{
+    _id?: string
     name: string
     description: string
+    likes?: number
     price: string
   }>
 }
@@ -27,16 +29,25 @@ export function MenuPageHero({
   alt,
   description,
   image,
+  menuPages,
   title,
+  usePageOverride = true,
 }: {
   activePath: string
   alt: string
   description: string
   image: string
+  menuPages?: Array<{ slug: string; title: string }>
   title: string
+  usePageOverride?: boolean
 }) {
   const { page } = useCmsRuntime()
   const managedHero = page.media.hero?.url ?? page.images.hero
+  const visibleTabs =
+    menuPages?.map((menuPage) => ({
+      label: menuPage.title,
+      to: `/menu/${menuPage.slug}`,
+    })) ?? tabs
 
   return (
     <section className="relative bg-aberdeen-blue text-aberdeen-peach">
@@ -44,7 +55,7 @@ export function MenuPageHero({
         alt={alt}
         className="absolute inset-0 h-full w-full object-cover"
         data-cms-slot="hero"
-        src={managedHero ?? image}
+        src={(usePageOverride ? managedHero : null) ?? image}
       />
       <div className="hero-radial-glow absolute inset-0 z-[1]" />
       <motion.div
@@ -57,7 +68,7 @@ export function MenuPageHero({
           <p className="mt-8 max-w-2xl text-lg leading-8">{description}</p>
         </div>
         <nav className="flex flex-wrap gap-x-6 gap-y-2 font-utility text-sm tracking-[0.18em] uppercase">
-          {tabs.map((tab) => (
+          {visibleTabs.map((tab) => (
             <Link
               className={
                 tab.to === activePath
@@ -76,16 +87,32 @@ export function MenuPageHero({
   )
 }
 
-function MenuList({ delay = 0, group }: { delay?: number; group: StandardMenuGroup }) {
+function MenuList({
+  delay = 0,
+  group,
+  inverted = false,
+}: {
+  delay?: number
+  group: StandardMenuGroup
+  inverted?: boolean
+}) {
   return (
     <motion.div {...fadeIn(delay)}>
       <RopeDivider className="mb-6 rounded-none" />
       <div className="mb-6 flex items-baseline justify-between gap-4 border-b border-aberdeen-blue/20 pb-3">
-        <h2 className="font-display text-3xl leading-none text-aberdeen-blue md:text-4xl">
+        <h2
+          className={`font-display text-3xl leading-none md:text-4xl ${
+            inverted ? "text-aberdeen-peach" : "text-aberdeen-blue"
+          }`}
+        >
           {group.title}
         </h2>
         {group.note ? (
-          <p className="font-utility text-xs tracking-[0.18em] text-aberdeen-blue/70 uppercase">
+          <p
+            className={`font-utility text-xs tracking-[0.18em] uppercase ${
+              inverted ? "text-aberdeen-peach/70" : "text-aberdeen-blue/70"
+            }`}
+          >
             {group.note}
           </p>
         ) : null}
@@ -95,14 +122,34 @@ function MenuList({ delay = 0, group }: { delay?: number; group: StandardMenuGro
           <li className="flex items-center gap-4" key={item.name}>
             <div className="grid min-w-0 grow grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
               <div className="min-w-0">
-                <p className="font-display text-xl leading-none text-aberdeen-blue">{item.name}</p>
-                <p className="mt-2 leading-7 text-kelp-ink/80">{item.description}</p>
+                <p
+                  className={`font-display text-xl leading-none ${
+                    inverted ? "text-aberdeen-peach" : "text-aberdeen-blue"
+                  }`}
+                >
+                  {item.name}
+                </p>
+                <p
+                  className={`mt-2 leading-7 ${
+                    inverted ? "text-oyster-white/75" : "text-kelp-ink/80"
+                  }`}
+                >
+                  {item.description}
+                </p>
               </div>
-              <span className="font-utility text-sm leading-none tracking-[0.12em] text-aberdeen-blue uppercase">
+              <span
+                className={`font-utility text-sm leading-none tracking-[0.12em] uppercase ${
+                  inverted ? "text-aberdeen-peach" : "text-aberdeen-blue"
+                }`}
+              >
                 {item.price}
               </span>
             </div>
-            <MenuLikeButton itemName={item.name} />
+            <MenuLikeButton
+              initialCount={item.likes}
+              itemId={item._id}
+              itemName={item.name}
+            />
           </li>
         ))}
       </ul>
@@ -118,14 +165,16 @@ export function MenuImageSection({
   image,
   imagePosition,
   map,
+  postcards,
 }: {
   alt: string
-  background?: "oyster" | "peach"
+  background?: "oyster" | "peach" | "blue"
   caption?: string
   group: StandardMenuGroup
   image: string
   imagePosition: "left" | "right"
   map: string
+  postcards?: string[]
 }) {
   const imagePanel = (
     <motion.div
@@ -134,11 +183,15 @@ export function MenuImageSection({
     >
       <div className="relative aspect-[4/5]">
         <img alt={alt} className="h-full w-full object-cover" src={image} />
-        <PostcardImageStack />
+        {postcards?.length === 0 ? null : <PostcardImageStack images={postcards} />}
         <PhotoCorners />
       </div>
       {caption ? (
-        <p className="mt-4 max-w-sm font-utility text-xs tracking-[0.18em] text-aberdeen-blue/70 uppercase">
+        <p
+          className={`mt-4 max-w-sm font-utility text-xs tracking-[0.18em] uppercase ${
+            background === "blue" ? "text-aberdeen-peach/70" : "text-aberdeen-blue/70"
+          }`}
+        >
           {caption}
         </p>
       ) : null}
@@ -148,14 +201,18 @@ export function MenuImageSection({
   return (
     <section
       className={`relative isolate overflow-hidden px-5 py-16 md:px-8 md:py-24 ${
-        background === "peach" ? "bg-aberdeen-peach" : "bg-oyster-white"
+        background === "peach"
+          ? "bg-aberdeen-peach"
+          : background === "blue"
+            ? "bg-aberdeen-blue"
+            : "bg-oyster-white"
       }`}
     >
       <DecorativeBackdrop imageClassName="object-cover" opacity={0.14} src={map} />
       <div className="relative z-10 grid gap-12 md:grid-cols-[0.9fr_1.1fr] md:gap-16">
         {imagePanel}
         <div className={imagePosition === "left" ? "md:order-2" : "md:order-1"}>
-          <MenuList group={group} />
+          <MenuList group={group} inverted={background === "blue"} />
         </div>
       </div>
     </section>
@@ -169,7 +226,7 @@ export function MenuPairSection({
   map,
   second,
 }: {
-  background?: "oyster" | "peach"
+  background?: "oyster" | "peach" | "blue"
   first: StandardMenuGroup
   footnote?: string
   map: string
@@ -178,13 +235,17 @@ export function MenuPairSection({
   return (
     <section
       className={`relative isolate overflow-hidden px-5 py-16 md:px-8 md:py-24 ${
-        background === "peach" ? "bg-aberdeen-peach" : "bg-oyster-white"
+        background === "peach"
+          ? "bg-aberdeen-peach"
+          : background === "blue"
+            ? "bg-aberdeen-blue"
+            : "bg-oyster-white"
       }`}
     >
       <DecorativeBackdrop imageClassName="object-cover" opacity={0.12} src={map} />
       <div className="relative z-10 grid gap-12 md:grid-cols-2 md:gap-16">
-        <MenuList group={first} />
-        <MenuList delay={0.08} group={second} />
+        <MenuList group={first} inverted={background === "blue"} />
+        <MenuList delay={0.08} group={second} inverted={background === "blue"} />
       </div>
       {footnote ? (
         <motion.p

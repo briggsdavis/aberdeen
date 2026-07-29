@@ -85,7 +85,7 @@ function getMenuItemImage(group: MenuGroup, index: number) {
   return images[index % images.length]
 }
 
-const rawBar: MenuGroup = {
+export const rawBar: MenuGroup = {
   title: "House Cocktails",
   note: "Bright and coastal",
   items: [
@@ -117,7 +117,7 @@ const rawBar: MenuGroup = {
   ],
 }
 
-const towers: MenuGroup = {
+export const towers: MenuGroup = {
   title: "For the Table",
   note: "Large format",
   items: [
@@ -134,7 +134,7 @@ const towers: MenuGroup = {
   ],
 }
 
-const starters: MenuGroup = {
+export const starters: MenuGroup = {
   title: "Classics",
   items: [
     {
@@ -170,7 +170,7 @@ const starters: MenuGroup = {
   ],
 }
 
-const mains: MenuGroup = {
+export const mains: MenuGroup = {
   title: "Gin & Vodka",
   items: [
     {
@@ -206,7 +206,7 @@ const mains: MenuGroup = {
   ],
 }
 
-const land: MenuGroup = {
+export const land: MenuGroup = {
   title: "Rum, Tequila & Whiskey",
   items: [
     {
@@ -232,7 +232,7 @@ const land: MenuGroup = {
   ],
 }
 
-const sides: MenuGroup = {
+export const sides: MenuGroup = {
   title: "Wine by the Glass",
   items: [
     { name: "Brut Cava", description: "Green apple, lemon, mineral", price: "$14" },
@@ -244,7 +244,7 @@ const sides: MenuGroup = {
   ],
 }
 
-const desserts: MenuGroup = {
+export const desserts: MenuGroup = {
   title: "After Dinner",
   items: [
     {

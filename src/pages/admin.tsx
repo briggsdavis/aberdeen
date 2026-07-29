@@ -11,6 +11,7 @@ import {
   ImageSquare,
   Info,
   List,
+  Plus,
   SignOut,
   SlidersHorizontal,
   Users,
@@ -20,16 +21,18 @@ import {
 import { Authenticated, AuthLoading, Unauthenticated, useMutation, useQuery } from "convex/react"
 import { useCallback, useEffect, useState } from "react"
 import type { ReactNode } from "react"
-import { Navigate, NavLink, Route, Routes, useLocation } from "react-router"
+import { Link, Navigate, NavLink, Route, Routes, useLocation } from "react-router"
 import { api } from "../../convex/_generated/api"
 import Dashboard from "../admin/dashboard"
 import EventsEditor from "../admin/events-editor"
 import InquiryInbox from "../admin/inquiry-inbox"
 import MediaLibrary from "../admin/media-library"
+import MenuPagesEditor from "../admin/menu-pages-editor"
 import PageEditor from "../admin/page-editor"
 import SettingsEditor from "../admin/settings-editor"
 import StaffEditor from "../admin/staff-editor"
 import { PageHeading } from "../admin/ui"
+import { defaultMenus } from "../data/default-menus"
 
 type AuthFlow = "signIn" | "signUp"
 
@@ -192,13 +195,22 @@ function AdminShell() {
   const { signOut } = useAuthActions()
   const admin = useQuery(api.admin.currentAdmin)
   const ensureInitialized = useMutation(api.bootstrap.ensureInitialized)
+  const initializeMenus = useMutation(api.menus.initializeDefaults)
+  const menuPages = useQuery(api.menus.listAdmin)
   const location = useLocation()
   const [editorOpen, setEditorOpen] = useState(location.pathname.includes("/pages/"))
+  const [menusOpen, setMenusOpen] = useState(location.pathname.includes("/menus/"))
   const [mobileOpen, setMobileOpen] = useState(false)
 
   useEffect(() => {
     void ensureInitialized()
   }, [ensureInitialized])
+
+  useEffect(() => {
+    if (menuPages?.length === 0) {
+      void initializeMenus({ pages: defaultMenus })
+    }
+  }, [initializeMenus, menuPages])
 
   useEffect(() => {
     setMobileOpen(false)
@@ -217,7 +229,7 @@ function AdminShell() {
           <X size={18} />
         </button>
       </div>
-      <nav className="mt-5 grid gap-1">
+      <nav className="mt-5 grid grow content-start gap-1 overflow-y-auto">
         <SidebarLink icon={<ChartLineUp size={18} />} to="/admin">
           Dashboard
         </SidebarLink>
@@ -244,15 +256,6 @@ function AdminShell() {
           <SidebarLink icon={<Info size={16} />} nested to="/admin/pages/about">
             About
           </SidebarLink>
-          <SidebarLink icon={<ForkKnife size={16} />} nested to="/admin/pages/menu-food">
-            Food menu
-          </SidebarLink>
-          <SidebarLink icon={<Wine size={16} />} nested to="/admin/pages/menu-spirits">
-            Spirits menu
-          </SidebarLink>
-          <SidebarLink icon={<Coffee size={16} />} nested to="/admin/pages/menu-beverages">
-            Beverages menu
-          </SidebarLink>
           <SidebarLink icon={<Users size={16} />} nested to="/admin/pages/staff">
             Staff
           </SidebarLink>
@@ -265,6 +268,48 @@ function AdminShell() {
           <SidebarLink icon={<SlidersHorizontal size={16} />} nested to="/admin/pages/settings">
             Contact & global
           </SidebarLink>
+        </div>
+        <button
+          className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-white/68 transition hover:bg-white/7 hover:text-white"
+          onClick={() => setMenusOpen((current) => !current)}
+          type="button"
+        >
+          <ForkKnife size={18} />
+          <span className="grow text-left">Menu pages</span>
+          <CaretDown
+            className={`transition-transform ${menusOpen ? "rotate-180" : ""}`}
+            size={14}
+          />
+        </button>
+        <div
+          className={`grid overflow-hidden transition-all ${
+            menusOpen ? "max-h-[28rem] gap-1 opacity-100" : "max-h-0 opacity-0"
+          }`}
+        >
+          {menuPages?.map((menuPage, index) => (
+            <SidebarLink
+              icon={
+                index === 0 ? (
+                  <ForkKnife size={16} />
+                ) : index === 1 ? (
+                  <Wine size={16} />
+                ) : (
+                  <Coffee size={16} />
+                )
+              }
+              key={menuPage._id}
+              nested
+              to={`/admin/menus/${menuPage._id}`}
+            >
+              {menuPage.title}
+            </SidebarLink>
+          ))}
+          <Link
+            className="ml-4 flex items-center gap-3 rounded-lg border border-dashed border-white/20 px-3 py-2.5 text-sm text-white/68 transition hover:bg-white/7 hover:text-white"
+            to="/admin/menus/new"
+          >
+            <Plus size={16} /> Add menu page
+          </Link>
         </div>
         <div className="my-2 border-t border-white/10" />
         <SidebarLink icon={<CalendarBlank size={18} />} to="/admin/events">
@@ -327,14 +372,13 @@ function AdminShell() {
             <Route index element={<Dashboard />} />
             <Route path="pages/home" element={<PageEditor page="/" />} />
             <Route path="pages/about" element={<PageEditor page="/about" />} />
-            <Route path="pages/menu-food" element={<PageEditor page="/menu/food" />} />
-            <Route path="pages/menu-spirits" element={<PageEditor page="/menu/spirits" />} />
-            <Route path="pages/menu-beverages" element={<PageEditor page="/menu/beverages" />} />
             <Route path="pages/staff" element={<StaffEditor />} />
             <Route path="pages/events" element={<PageEditor page="/events" />} />
             <Route path="pages/contact" element={<PageEditor page="/contact" />} />
             <Route path="pages/settings" element={<SettingsEditor />} />
             <Route path="events" element={<EventsEditor />} />
+            <Route path="menus/new" element={<MenuPagesEditor creating />} />
+            <Route path="menus/:pageId" element={<MenuPagesEditor />} />
             <Route path="inquiries" element={<InquiryInbox />} />
             <Route
               path="media"

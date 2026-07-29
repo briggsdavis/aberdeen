@@ -43,6 +43,38 @@ type SiteBundle = {
   socialLinks: Array<{ _id: string; platform: string; url: string; order: number }>
 }
 
+export type PublicMenuPage = {
+  _id: string
+  title: string
+  slug: string
+  description: string
+  heroImage: string | null
+  sections: Array<{
+    _id: string
+    layout: "imageLeft" | "imageRight" | "paired"
+    background: "oyster" | "peach" | "blue"
+    mapImage: string
+    image: string | null
+    imageCaption: string
+    showPostcardOne: boolean
+    showPostcardTwo: boolean
+    showPostcardThree: boolean
+    postcards: Array<string | null>
+    groups: Array<{
+      _id: string
+      title: string
+      note: string
+      items: Array<{
+        _id: string
+        name: string
+        description: string
+        price: string
+        likes: number
+      }>
+    }>
+  }>
+}
+
 type InquiryInput = {
   type: "contact" | "privateEvent"
   name: string
@@ -57,6 +89,8 @@ type CmsRuntimeValue = {
   pageReady: boolean
   staff: PublicStaffMember[] | undefined
   events: PublicEvent[] | undefined
+  menu: PublicMenuPage | null | undefined
+  menuPages: Array<{ _id: string; title: string; slug: string; order: number }> | undefined
   site: SiteBundle | undefined
   submitInquiry: ((input: InquiryInput) => Promise<unknown>) | null
 }
@@ -68,6 +102,8 @@ const CmsRuntimeContext = createContext<CmsRuntimeValue>({
   pageReady: true,
   staff: undefined,
   events: undefined,
+  menu: undefined,
+  menuPages: undefined,
   site: undefined,
   submitInquiry: null,
 })
@@ -88,6 +124,11 @@ export function CmsRuntimeProvider({ children }: { children: ReactNode }) {
   const site = useQuery(api.site.getPublicSettings, isAdmin ? "skip" : {})
   const staff = useQuery(api.staff.listPublic, location.pathname === "/staff" ? {} : "skip")
   const events = useQuery(api.events.listPublic, location.pathname === "/events" ? {} : "skip")
+  const menuSlug = location.pathname.startsWith("/menu/")
+    ? location.pathname.slice("/menu/".length)
+    : ""
+  const menu = useQuery(api.menus.getPublicBySlug, menuSlug ? { slug: menuSlug } : "skip")
+  const menuPages = useQuery(api.menus.listPublicNavigation, isAdmin ? "skip" : {})
   const trackPageView = useMutation(api.analytics.trackPageView)
   const submitInquiryMutation = useMutation(api.inquiries.submit)
 
@@ -107,10 +148,12 @@ export function CmsRuntimeProvider({ children }: { children: ReactNode }) {
       pageReady: page !== undefined || isAdmin,
       staff,
       events,
+      menu,
+      menuPages,
       site,
       submitInquiry: (input) => submitInquiryMutation(input),
     }),
-    [events, isAdmin, page, site, staff, submitInquiryMutation],
+    [events, isAdmin, menu, menuPages, page, site, staff, submitInquiryMutation],
   )
 
   return <CmsRuntimeContext.Provider value={value}>{children}</CmsRuntimeContext.Provider>

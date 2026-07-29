@@ -30,7 +30,7 @@ type MenuGroup = {
   items: MenuItem[]
 }
 
-const rawBar: MenuGroup = {
+export const rawBar: MenuGroup = {
   title: "Raw Bar",
   note: "Shucked to order",
   items: [
@@ -82,7 +82,7 @@ const rawBar: MenuGroup = {
   ],
 }
 
-const towers: MenuGroup = {
+export const towers: MenuGroup = {
   title: "For the Table",
   note: "Built on ice",
   items: [
@@ -107,7 +107,7 @@ const towers: MenuGroup = {
   ],
 }
 
-const starters: MenuGroup = {
+export const starters: MenuGroup = {
   title: "Starters",
   items: [
     {
@@ -167,7 +167,7 @@ const starters: MenuGroup = {
   ],
 }
 
-const mains: MenuGroup = {
+export const mains: MenuGroup = {
   title: "From the Sea",
   items: [
     {
@@ -227,7 +227,7 @@ const mains: MenuGroup = {
   ],
 }
 
-const land: MenuGroup = {
+export const land: MenuGroup = {
   title: "From the Land",
   items: [
     {
@@ -251,7 +251,7 @@ const land: MenuGroup = {
   ],
 }
 
-const sides: MenuGroup = {
+export const sides: MenuGroup = {
   title: "Sides",
   items: [
     {
@@ -293,7 +293,7 @@ const sides: MenuGroup = {
   ],
 }
 
-const desserts: MenuGroup = {
+export const desserts: MenuGroup = {
   title: "Dessert",
   items: [
     {

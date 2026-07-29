@@ -3,9 +3,6 @@ import { TransitionLink } from "./page-transition"
 
 const pageLinks = [
   ["About", "/about"],
-  ["Food", "/menu/food"],
-  ["Spirits", "/menu/spirits"],
-  ["Beverages", "/menu/beverages"],
   ["Events", "/events"],
   ["Our Team", "/staff"],
   ["Contact", "/contact"],
@@ -32,7 +29,18 @@ function DecorativeRule() {
 
 function SiteFooter() {
   const currentYear = new Date().getFullYear()
-  const { site } = useCmsRuntime()
+  const { menuPages, site } = useCmsRuntime()
+  const visiblePageLinks = [
+    pageLinks[0]!,
+    ...(menuPages?.length
+      ? menuPages.map((page) => [page.title, `/menu/${page.slug}`])
+      : [
+          ["Food", "/menu/food"],
+          ["Spirits", "/menu/spirits"],
+          ["Beverages", "/menu/beverages"],
+        ]),
+    ...pageLinks.slice(1),
+  ]
   const visibleHours = site?.openingHours.length
     ? site.openingHours.map(({ label, value }) => [label, value])
     : hours
@@ -66,7 +74,7 @@ function SiteFooter() {
         <div>
           <p className="font-utility text-xs tracking-[0.2em] uppercase">Explore</p>
           <nav aria-label="Footer navigation" className="mt-5 grid gap-2">
-            {pageLinks.map(([label, to]) => (
+            {visiblePageLinks.map(([label, to]) => (
               <TransitionLink
                 className="w-fit font-display text-xl leading-none decoration-citrus decoration-2 underline-offset-6 hover:underline"
                 key={to}

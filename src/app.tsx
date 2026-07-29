@@ -5,9 +5,7 @@ import AdminPage from "./pages/admin"
 import ContactPage from "./pages/contact"
 import EventsPage from "./pages/events"
 import HomePage from "./pages/home"
-import { StandardBeveragesMenuPage } from "./pages/menu-beverages"
-import { StandardFoodMenuPage } from "./pages/menu-food"
-import { StandardSpiritsMenuPage } from "./pages/menu-spirits"
+import DynamicMenuPage from "./pages/menu-dynamic"
 import NotFoundPage from "./pages/not-found"
 import StaffPage from "./pages/staff"
 import TestHomePage from "./pages/test-home"
@@ -16,9 +14,7 @@ const siteLayoutRoute = <SiteLayout />
 const homeRoute = <HomePage />
 const aboutRoute = <AboutPage />
 const menuRedirectRoute = <Navigate replace to="/menu/food" />
-const foodMenuRoute = <StandardFoodMenuPage />
-const spiritsMenuRoute = <StandardSpiritsMenuPage />
-const beveragesMenuRoute = <StandardBeveragesMenuPage />
+const dynamicMenuRoute = <DynamicMenuPage />
 const contactRoute = <ContactPage />
 const staffRoute = <StaffPage />
 const eventsRoute = <EventsPage />
@@ -46,9 +42,7 @@ function App() {
         <Route index element={homeRoute} />
         <Route path="about" element={aboutRoute} />
         <Route path="menu" element={menuRedirectRoute} />
-        <Route path="menu/food" element={foodMenuRoute} />
-        <Route path="menu/spirits" element={spiritsMenuRoute} />
-        <Route path="menu/beverages" element={beveragesMenuRoute} />
+        <Route path="menu/:slug" element={dynamicMenuRoute} />
         <Route path="contact" element={contactRoute} />
         <Route path="staff" element={staffRoute} />
         <Route path="events" element={eventsRoute} />

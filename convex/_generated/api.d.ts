@@ -18,6 +18,7 @@ import type * as http from "../http.js";
 import type * as inquiries from "../inquiries.js";
 import type * as lib_admin from "../lib/admin.js";
 import type * as media from "../media.js";
+import type * as menus from "../menus.js";
 import type * as site from "../site.js";
 import type * as staff from "../staff.js";
 
@@ -38,6 +39,7 @@ declare const fullApi: ApiFromModules<{
   inquiries: typeof inquiries;
   "lib/admin": typeof lib_admin;
   media: typeof media;
+  menus: typeof menus;
   site: typeof site;
   staff: typeof staff;
 }>;

@@ -71,7 +71,7 @@ function getMenuItemImage(group: MenuGroup, index: number) {
   return images[index % images.length]
 }
 
-const rawBar: MenuGroup = {
+export const rawBar: MenuGroup = {
   title: "Zero-Proof",
   note: "Built like cocktails",
   items: [
@@ -103,7 +103,7 @@ const rawBar: MenuGroup = {
   ],
 }
 
-const towers: MenuGroup = {
+export const towers: MenuGroup = {
   title: "For the Table",
   note: "Pitchers",
   items: [
@@ -120,7 +120,7 @@ const towers: MenuGroup = {
   ],
 }
 
-const starters: MenuGroup = {
+export const starters: MenuGroup = {
   title: "Sparkling & Still",
   items: [
     {
@@ -156,7 +156,7 @@ const starters: MenuGroup = {
   ],
 }
 
-const mains: MenuGroup = {
+export const mains: MenuGroup = {
   title: "Coffee",
   items: [
     {
@@ -192,7 +192,7 @@ const mains: MenuGroup = {
   ],
 }
 
-const land: MenuGroup = {
+export const land: MenuGroup = {
   title: "Tea",
   items: [
     {
@@ -218,7 +218,7 @@ const land: MenuGroup = {
   ],
 }
 
-const sides: MenuGroup = {
+export const sides: MenuGroup = {
   title: "Juice",
   items: [
     { name: "Orange", description: "Fresh pressed", price: "$7" },
@@ -228,7 +228,7 @@ const sides: MenuGroup = {
   ],
 }
 
-const desserts: MenuGroup = {
+export const desserts: MenuGroup = {
   title: "After Dinner",
   items: [
     {

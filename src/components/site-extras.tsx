@@ -1,7 +1,10 @@
 import { CaretLeft, CaretRight, Heart } from "@phosphor-icons/react"
+import { useMutation } from "convex/react"
 import { AnimatePresence, motion } from "motion/react"
 import type { CSSProperties, MouseEvent, ReactNode } from "react"
 import { useState } from "react"
+import { api } from "../../convex/_generated/api"
+import type { Id } from "../../convex/_generated/dataModel"
 import { fadeIn } from "../lib/motion"
 
 export const heroImages = [
@@ -262,7 +265,27 @@ function FAQItem({ answer, question }: { answer: string; question: string }) {
   )
 }
 
-export function MenuLikeButton({ itemName }: { itemName: string }) {
+export function MenuLikeButton({
+  initialCount,
+  itemId,
+  itemName,
+}: {
+  initialCount?: number
+  itemId?: string
+  itemName: string
+}) {
+  return itemId ? (
+    <StoredMenuLikeButton
+      initialCount={initialCount ?? 0}
+      itemId={itemId as Id<"menuItems">}
+      itemName={itemName}
+    />
+  ) : (
+    <LocalMenuLikeButton itemName={itemName} />
+  )
+}
+
+function LocalMenuLikeButton({ itemName }: { itemName: string }) {
   const key = `aberdeen-liked-${itemName}`
   const [liked, setLiked] = useState(() => sessionStorage.getItem(key) === "true")
   const [count, setCount] = useState(() => 12 + (itemName.length % 9))
@@ -297,18 +320,71 @@ export function MenuLikeButton({ itemName }: { itemName: string }) {
   )
 }
 
-export function PostcardImageStack({ tone = "blue" }: { tone?: "blue" | "peach" }) {
-  const images = [
+function StoredMenuLikeButton({
+  initialCount,
+  itemId,
+  itemName,
+}: {
+  initialCount: number
+  itemId: Id<"menuItems">
+  itemName: string
+}) {
+  const likeItem = useMutation(api.menus.likeItem)
+  const key = `aberdeen-liked-menu-item-${itemId}`
+  const [liked, setLiked] = useState(() => localStorage.getItem(key) === "true")
+  const [count, setCount] = useState(initialCount)
+
+  function handleClick() {
+    if (liked) return
+    localStorage.setItem(key, "true")
+    setLiked(true)
+    setCount((current) => current + 1)
+    void likeItem({ id: itemId }).catch(() => {
+      localStorage.removeItem(key)
+      setLiked(false)
+      setCount((current) => Math.max(initialCount, current - 1))
+    })
+  }
+
+  return (
+    <button
+      aria-label={`Like ${itemName}`}
+      aria-pressed={liked}
+      className={`group flex h-11 w-16 shrink-0 items-center justify-center gap-1.5 border px-3 font-utility text-xs transition ${
+        liked
+          ? "border-citrus bg-citrus text-aberdeen-blue"
+          : "border-current bg-transparent hover:border-citrus hover:bg-citrus hover:text-aberdeen-blue"
+      }`}
+      onClick={handleClick}
+      type="button"
+    >
+      <Heart
+        aria-hidden="true"
+        className="transition-transform group-hover:scale-110"
+        size={18}
+        weight={liked ? "fill" : "regular"}
+      />
+      <span>{count}</span>
+    </button>
+  )
+}
+
+export function PostcardImageStack({
+  images: managedImages,
+  tone = "blue",
+}: {
+  images?: string[]
+  tone?: "blue" | "peach"
+}) {
+  const images = managedImages ?? [
     "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=500&q=85",
     "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=500&q=85",
     "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&w=500&q=85",
-    "https://images.unsplash.com/photo-1523905330026-b8bd1f5f320e?auto=format&fit=crop&w=500&q=85",
   ]
   const placements = [
     { left: "-3%", top: "7%", rotate: -8 },
     { right: "-3%", top: "20%", rotate: 9 },
     { bottom: "6%", left: "10%", rotate: 6 },
-    { bottom: "-2%", right: "15%", rotate: -7 },
   ]
 
   return (

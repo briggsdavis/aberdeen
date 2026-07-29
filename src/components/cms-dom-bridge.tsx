@@ -318,8 +318,8 @@ export default function CmsDomBridge() {
         window.location.origin,
       )
     }
-    root.addEventListener("click", handlePreviewLinkClick, true)
-    cleanups.push(() => root.removeEventListener("click", handlePreviewLinkClick, true))
+    document.addEventListener("click", handlePreviewLinkClick, true)
+    cleanups.push(() => document.removeEventListener("click", handlePreviewLinkClick, true))
 
     window.parent.postMessage(
       {

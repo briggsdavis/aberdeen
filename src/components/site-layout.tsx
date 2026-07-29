@@ -1,4 +1,5 @@
 import { useReducedMotion } from "motion/react"
+import { useEffect } from "react"
 import { Outlet, useLocation } from "react-router"
 import CmsDomBridge from "./cms-dom-bridge"
 import { PageTransitionProvider } from "./page-transition"
@@ -21,8 +22,32 @@ function SiteLayout() {
   const location = useLocation()
   const shouldReduceMotion = useReducedMotion()
   const playHomeIntro = isFirstSiteLoad && location.pathname === "/" && !shouldReduceMotion
+  const editorPreview = new URLSearchParams(location.search).has("cmsPreview")
   const focusedEditorPreview =
     new URLSearchParams(location.search).get("cmsScope") === "staff-introduction"
+
+  useEffect(() => {
+    if (!editorPreview) return
+
+    const blockSiteInteraction = (event: MouseEvent) => {
+      const eventTarget = event.target
+      if (!(eventTarget instanceof Element)) return
+      const interactive = eventTarget.closest<HTMLElement>(
+        "a, button, [role='button'], input[type='submit']",
+      )
+      if (!interactive) return
+
+      // The CMS bridge owns editable links and images. Everything else in a
+      // preview is display-only and must never trigger site behavior.
+      if (eventTarget.closest("[data-cms-link], [data-cms-image]")) return
+
+      event.preventDefault()
+      event.stopPropagation()
+    }
+
+    document.addEventListener("click", blockSiteInteraction, true)
+    return () => document.removeEventListener("click", blockSiteInteraction, true)
+  }, [editorPreview])
 
   return (
     <SmoothScroll>

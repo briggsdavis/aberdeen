@@ -245,3 +245,35 @@
     }
   }
 }
+html.cms-preview-mode [data-cms-text],
+html.cms-preview-mode [data-cms-image],
+html.cms-preview-mode [data-cms-link] {
+  cursor: pointer;
+  outline: 2px solid transparent;
+  outline-offset: 4px;
+  transition:
+    outline-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+html.cms-preview-mode [data-cms-editable-container] {
+  pointer-events: auto;
+}
+
+html.cms-preview-mode [data-cms-media-role="decorative"],
+html.cms-preview-mode [data-cms-media-role="background"] {
+  pointer-events: auto;
+}
+
+html.cms-preview-mode [data-cms-text]:hover,
+html.cms-preview-mode [data-cms-text]:focus,
+html.cms-preview-mode [data-cms-image]:hover,
+html.cms-preview-mode [data-cms-link]:hover {
+  outline-color: #f7b733;
+  box-shadow: 0 0 0 5px rgb(247 183 51 / 18%);
+}
+
+html.cms-preview-mode [data-cms-text]:focus {
+  background: rgb(255 255 255 / 85%);
+  color: #0e1845;
+}

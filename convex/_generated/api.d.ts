@@ -9,8 +9,17 @@
  */
 
 import type * as admin from "../admin.js";
+import type * as analytics from "../analytics.js";
 import type * as auth from "../auth.js";
+import type * as bootstrap from "../bootstrap.js";
+import type * as content from "../content.js";
+import type * as events from "../events.js";
 import type * as http from "../http.js";
+import type * as inquiries from "../inquiries.js";
+import type * as lib_admin from "../lib/admin.js";
+import type * as media from "../media.js";
+import type * as site from "../site.js";
+import type * as staff from "../staff.js";
 
 import type {
   ApiFromModules,
@@ -20,8 +29,17 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   admin: typeof admin;
+  analytics: typeof analytics;
   auth: typeof auth;
+  bootstrap: typeof bootstrap;
+  content: typeof content;
+  events: typeof events;
   http: typeof http;
+  inquiries: typeof inquiries;
+  "lib/admin": typeof lib_admin;
+  media: typeof media;
+  site: typeof site;
+  staff: typeof staff;
 }>;
 
 /**

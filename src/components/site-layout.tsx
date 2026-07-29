@@ -1,5 +1,6 @@
 import { useReducedMotion } from "motion/react"
 import { Outlet, useLocation } from "react-router"
+import CmsDomBridge from "./cms-dom-bridge"
 import { PageTransitionProvider } from "./page-transition"
 import SiteFooter from "./site-footer"
 import SiteHeader from "./site-header"
@@ -29,6 +30,7 @@ function SiteLayout() {
           <main className="relative">
             <Outlet context={{ playHomeIntro }} />
           </main>
+          <CmsDomBridge />
           <SiteFooter />
         </PageTransitionProvider>
       </div>

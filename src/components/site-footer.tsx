@@ -1,3 +1,4 @@
+import { useCmsRuntime } from "../lib/cms-runtime"
 import { TransitionLink } from "./page-transition"
 
 const pageLinks = [
@@ -31,6 +32,15 @@ function DecorativeRule() {
 
 function SiteFooter() {
   const currentYear = new Date().getFullYear()
+  const { site } = useCmsRuntime()
+  const visibleHours = site?.openingHours.length
+    ? site.openingHours.map(({ label, value }) => [label, value])
+    : hours
+  const address = site?.settings.address ?? "123 Harbor Way\nSavannah, Georgia 31401"
+  const phone = site?.settings.phone ?? "(912) 555-0147"
+  const email = site?.settings.email ?? "hello@aberdeen.example"
+  const tagline = site?.settings.footerTagline ?? "Seafood, bright spirits, good evenings."
+  const copyright = site?.settings.footerCopyright ?? "Aberdeen. All rights reserved."
 
   return (
     <footer className="site-footer flex min-h-svh flex-col bg-oyster-white px-5 py-8 text-aberdeen-blue md:px-8 md:py-10 lg:h-svh lg:overflow-hidden">
@@ -44,7 +54,7 @@ function SiteFooter() {
           />
         </div>
         <p className="max-w-lg font-playful text-2xl leading-tight text-aberdeen-blue md:text-3xl lg:justify-self-end">
-          Seafood, bright spirits, good evenings.
+          {tagline}
         </p>
       </div>
 
@@ -71,20 +81,31 @@ function SiteFooter() {
         <div>
           <p className="font-utility text-xs tracking-[0.2em] uppercase">Visit & call</p>
           <div className="mt-5 space-y-4 text-sm text-kelp-ink">
-            <p className="leading-7">
-              123 Harbor Way
-              <br />
-              Savannah, Georgia 31401
-            </p>
-            <p>(912) 555-0147</p>
-            <p>hello@aberdeen.example</p>
+            <p className="leading-7 whitespace-pre-line">{address}</p>
+            <p>{phone}</p>
+            <p>{email}</p>
+            {site?.socialLinks.some((social) => social.url) ? (
+              <div className="flex flex-wrap gap-x-4 gap-y-2">
+                {site.socialLinks
+                  .filter((social) => social.url)
+                  .map((social) => (
+                    <a
+                      className="underline decoration-citrus decoration-2 underline-offset-4"
+                      href={social.url}
+                      key={social._id}
+                    >
+                      {social.platform}
+                    </a>
+                  ))}
+              </div>
+            ) : null}
           </div>
         </div>
 
         <div>
           <p className="font-utility text-xs tracking-[0.2em] uppercase">Tentative hours</p>
           <dl className="mt-5 space-y-3 text-sm text-kelp-ink">
-            {hours.map(([day, time]) => (
+            {visibleHours.map(([day, time]) => (
               <div className="flex items-baseline gap-3" key={day}>
                 <dt>{day}</dt>
                 <span className="min-w-4 grow border-b border-dotted border-aberdeen-blue/25" />
@@ -99,7 +120,9 @@ function SiteFooter() {
 
       <div className="mt-6 border-t border-aberdeen-blue/20 pt-4">
         <div className="flex flex-col gap-4 font-utility text-[0.68rem] tracking-[0.13em] text-aberdeen-blue/65 uppercase md:flex-row md:items-center md:justify-between">
-          <p>© {currentYear} Aberdeen. All rights reserved.</p>
+          <p>
+            © {currentYear} {copyright}
+          </p>
           <p>
             Part of{" "}
             <a

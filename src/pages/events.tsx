@@ -3,12 +3,26 @@ import { useState } from "react"
 import { DecorativeBackdrop } from "../components/decorative-media"
 import { MaritimeFlags, RopeDivider } from "../components/nautical-details"
 import { HeroCarouselButtons, RippleSection, useHeroCarousel } from "../components/site-extras"
+import { useCmsRuntime } from "../lib/cms-runtime"
 import { fadeIn, fadeInPlace } from "../lib/motion"
 
 const antiqueMapFive = "/maps/antique-map-05.png"
 const sailboat = "/illustrations/nautical/sailboat.png"
 
-const events = [
+type DisplayEvent = {
+  day: string
+  weekday: string
+  month: string
+  year: number
+  title: string
+  time: string
+  copy: string
+  image: string
+  bookingUrl: string
+  startsAt: number
+}
+
+const defaultEvents: DisplayEvent[] = [
   {
     day: "06",
     weekday: "Friday",
@@ -18,6 +32,9 @@ const events = [
     copy: "A raw bar evening with both coasts on ice, bright mignonettes, and cold martinis.",
     image:
       "https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?auto=format&fit=crop&w=900&q=85",
+    year: 2027,
+    bookingUrl: "",
+    startsAt: Date.parse("2027-06-06T17:00:00-04:00"),
   },
   {
     day: "12",
@@ -28,6 +45,9 @@ const events = [
     copy: "A playful bar feature built around bubbles, citrus, and Aberdeen blue.",
     image:
       "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=900&q=85",
+    year: 2027,
+    bookingUrl: "",
+    startsAt: Date.parse("2027-06-12T18:00:00-04:00"),
   },
   {
     day: "18",
@@ -38,6 +58,9 @@ const events = [
     copy: "A family-style dinner of whole fish, shellfish, summer vegetables, and shared sides.",
     image:
       "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=900&q=85",
+    year: 2027,
+    bookingUrl: "",
+    startsAt: Date.parse("2027-06-18T19:00:00-04:00"),
   },
   {
     day: "27",
@@ -48,38 +71,43 @@ const events = [
     copy: "A slower evening menu for two, built around wine, seafood, and dessert at the bar.",
     image:
       "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=900&q=85",
+    year: 2027,
+    bookingUrl: "",
+    startsAt: Date.parse("2027-06-27T20:00:00-04:00"),
   },
 ]
 
 const calendarWeekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-const calendarWeekdayNames = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-]
-const calendarDays = Array.from({ length: 30 }, (_, index) => index + 1)
-const firstEventDay = Number(events[0]?.day ?? 1)
-const firstEventWeekdayIndex = events[0] ? calendarWeekdayNames.indexOf(events[0].weekday) : 0
-const calendarStartOffset =
-  firstEventWeekdayIndex >= 0 ? (firstEventWeekdayIndex - ((firstEventDay - 1) % 7) + 7) % 7 : 0
-const leadingCalendarDays = Array.from({ length: calendarStartOffset }, (_, index) => index)
-const trailingCalendarDays = Array.from(
-  { length: (7 - ((calendarStartOffset + calendarDays.length) % 7)) % 7 },
-  (_, index) => index,
-)
-const eventsByDay = new Map(events.map((event, index) => [Number(event.day), { event, index }]))
 
 type EventsView = "list" | "calendar"
 
 function EventsPage() {
+  const { events: managedEvents } = useCmsRuntime()
+  const events = managedEvents?.length
+    ? managedEvents.map((event) => {
+        const date = new Date(event.startsAt)
+        return {
+          day: String(date.getDate()).padStart(2, "0"),
+          weekday: new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(date),
+          month: new Intl.DateTimeFormat("en-US", { month: "long" }).format(date),
+          year: date.getFullYear(),
+          title: event.title,
+          time: new Intl.DateTimeFormat("en-US", {
+            hour: "numeric",
+            minute: date.getMinutes() ? "2-digit" : undefined,
+          }).format(date),
+          copy: event.description,
+          image: event.image,
+          bookingUrl: event.bookingUrl,
+          startsAt: event.startsAt,
+        }
+      })
+    : defaultEvents
+
   return (
     <div className="page-shell">
       <HeroSection />
-      <ScheduleSection />
+      <ScheduleSection events={events} />
       <PrivateEventsSection />
     </div>
   )
@@ -121,8 +149,10 @@ function ViewToggle({
   )
 }
 
-function ScheduleSection() {
+function ScheduleSection({ events }: { events: DisplayEvent[] }) {
   const [view, setView] = useState<EventsView>("list")
+  const firstEvent = events[0]
+  const bookingUrl = events.find((event) => event.bookingUrl)?.bookingUrl
 
   return (
     <section className="relative isolate overflow-hidden bg-oyster-white px-5 py-16 md:px-8 md:py-24">
@@ -133,7 +163,7 @@ function ScheduleSection() {
       >
         <div>
           <p className="font-utility text-sm tracking-[0.22em] text-aberdeen-blue uppercase">
-            June
+            {firstEvent ? `${firstEvent.month} ${firstEvent.year}` : "Upcoming"}
           </p>
           <h2 className="mt-4 font-display text-5xl leading-none text-aberdeen-blue md:text-7xl">
             Aberdeen calendar
@@ -142,22 +172,26 @@ function ScheduleSection() {
         </div>
         <div className="flex flex-wrap items-stretch gap-3">
           <ViewToggle onChange={setView} view={view} />
-          <a
-            className="aberdeen-action rounded-full bg-aberdeen-blue text-aberdeen-peach"
-            href="https://example.com"
-            rel="noreferrer"
-            target="_blank"
-          >
-            Book now
-          </a>
+          {bookingUrl ? (
+            <a
+              className="aberdeen-action rounded-full bg-aberdeen-blue text-aberdeen-peach"
+              href={bookingUrl}
+              rel="noreferrer"
+              target="_blank"
+            >
+              Book now
+            </a>
+          ) : null}
         </div>
       </motion.div>
-      <div className="relative z-10">{view === "list" ? <UpcomingList /> : <CalendarGrid />}</div>
+      <div className="relative z-10">
+        {view === "list" ? <UpcomingList events={events} /> : <CalendarGrid events={events} />}
+      </div>
     </section>
   )
 }
 
-function UpcomingList() {
+function UpcomingList({ events }: { events: DisplayEvent[] }) {
   return (
     <motion.div className="grid gap-6" {...fadeInPlace()}>
       {events.map((event, index) => (
@@ -216,7 +250,28 @@ function HeroSection() {
   )
 }
 
-function CalendarGrid() {
+function CalendarGrid({ events }: { events: DisplayEvent[] }) {
+  const firstEvent = events[0]
+  const calendarDate = firstEvent ? new Date(firstEvent.startsAt) : new Date()
+  const month = calendarDate.getMonth()
+  const year = calendarDate.getFullYear()
+  const daysInMonth = new Date(year, month + 1, 0).getDate()
+  const calendarDays = Array.from({ length: daysInMonth }, (_, index) => index + 1)
+  const calendarStartOffset = new Date(year, month, 1).getDay()
+  const leadingCalendarDays = Array.from({ length: calendarStartOffset }, (_, index) => index)
+  const trailingCalendarDays = Array.from(
+    { length: (7 - ((calendarStartOffset + calendarDays.length) % 7)) % 7 },
+    (_, index) => index,
+  )
+  const eventsByDay = new Map(
+    events
+      .filter((event) => {
+        const date = new Date(event.startsAt)
+        return date.getMonth() === month && date.getFullYear() === year
+      })
+      .map((event, index) => [Number(event.day), { event, index }]),
+  )
+
   return (
     <motion.div {...fadeInPlace()}>
       <div className="grid grid-cols-7 border-t border-l border-aberdeen-blue/25">

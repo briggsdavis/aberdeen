@@ -1,7 +1,9 @@
 import { motion } from "motion/react"
+import { useState } from "react"
 import { DecorativeBackdrop } from "../components/decorative-media"
 import { MaritimeFlags, RopeDivider } from "../components/nautical-details"
 import { FAQSection, HeroCarouselButtons, useHeroCarousel } from "../components/site-extras"
+import { useCmsRuntime } from "../lib/cms-runtime"
 import { fadeIn } from "../lib/motion"
 
 const antiqueMapFour = "/maps/antique-map-04.png"
@@ -109,15 +111,20 @@ function HeroSection() {
 }
 
 function ContactDetails() {
+  const { site } = useCmsRuntime()
+  const details = site?.contactDetails.length
+    ? site.contactDetails.map(({ label, value, note }) => [label, value, note])
+    : [
+        ["Visit", "Savannah, Georgia", "Address coming soon"],
+        ["Call", "Phone coming soon", "For reservations, private dinners, and general questions"],
+        ["Write", "hello@aberdeen.example", "Press, events, and restaurant inquiries"],
+      ]
+
   return (
     <section className="relative isolate grid gap-10 overflow-hidden bg-oyster-white px-5 py-16 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:py-24">
       <DecorativeBackdrop imageClassName="object-cover" opacity={0.14} src={antiqueMapFour} />
       <div className="relative z-10 grid gap-5">
-        {[
-          ["Visit", "Savannah, Georgia", "Address coming soon"],
-          ["Call", "Phone coming soon", "For reservations, private dinners, and general questions"],
-          ["Write", "hello@aberdeen.example", "Press, events, and restaurant inquiries"],
-        ].map(([label, lineOne, lineTwo], index) => (
+        {details.map(([label, lineOne, lineTwo], index) => (
           <motion.article
             className="bg-aberdeen-peach text-aberdeen-blue"
             key={label}
@@ -142,33 +149,7 @@ function ContactDetails() {
         </div>
         <div className="mt-5 bg-oyster-white p-6 text-aberdeen-blue md:mt-8 md:p-8">
           <h2 className="font-display text-5xl leading-none">Send a note</h2>
-          <form className="mt-8 grid gap-4">
-            <div className="grid gap-4 md:grid-cols-2">
-              <input
-                className="border border-aberdeen-blue/25 bg-white px-4 py-3"
-                placeholder="First name"
-              />
-              <input
-                className="border border-aberdeen-blue/25 bg-white px-4 py-3"
-                placeholder="Last name"
-              />
-            </div>
-            <input
-              className="border border-aberdeen-blue/25 bg-white px-4 py-3"
-              placeholder="Email"
-              type="email"
-            />
-            <textarea
-              className="min-h-36 border border-aberdeen-blue/25 bg-white px-4 py-3"
-              placeholder="Message"
-            />
-            <button
-              className="aberdeen-action w-fit bg-aberdeen-blue text-aberdeen-peach"
-              type="button"
-            >
-              Send
-            </button>
-          </form>
+          <InquiryForm />
         </div>
       </motion.div>
     </section>
@@ -176,6 +157,17 @@ function ContactDetails() {
 }
 
 function MapSection() {
+  const { site } = useCmsRuntime()
+  const visibleHours = site?.openingHours.length
+    ? site.openingHours.map(({ label, value }) => [label, value])
+    : [
+        ["Monday - Thursday", "5 PM - 10 PM"],
+        ["Friday", "5 PM - 11 PM"],
+        ["Saturday", "4 PM - 11 PM"],
+        ["Sunday", "4 PM - 9 PM"],
+      ]
+  const mapLocation = site?.settings.mapLocation ?? "Savannah, Georgia"
+
   return (
     <section className="grid gap-0 bg-aberdeen-peach md:grid-cols-[0.9fr_1.1fr]">
       <motion.div className="px-5 py-16 md:px-8 md:py-24" {...fadeIn()}>
@@ -186,12 +178,7 @@ function MapSection() {
           <MaritimeFlags />
         </div>
         <dl className="mt-10 space-y-5 text-lg">
-          {[
-            ["Monday - Thursday", "5 PM - 10 PM"],
-            ["Friday", "5 PM - 11 PM"],
-            ["Saturday", "4 PM - 11 PM"],
-            ["Sunday", "4 PM - 9 PM"],
-          ].map(([day, hours]) => (
+          {visibleHours.map(([day, hours]) => (
             <div className="flex items-baseline gap-4" key={day}>
               <dt className="min-w-0 font-display text-2xl text-aberdeen-blue">{day}</dt>
               <span className="grow border-b border-dotted border-aberdeen-blue/25" />
@@ -208,11 +195,124 @@ function MapSection() {
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
           sandbox="allow-scripts allow-popups"
-          src="https://www.google.com/maps?q=Savannah%2C%20Georgia&output=embed"
+          src={`https://www.google.com/maps?q=${encodeURIComponent(mapLocation)}&output=embed`}
           title="Map showing Savannah, Georgia"
         />
       </motion.div>
     </section>
+  )
+}
+
+function InquiryForm() {
+  const { submitInquiry } = useCmsRuntime()
+  const [type, setType] = useState<"contact" | "privateEvent">("contact")
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [email, setEmail] = useState("")
+  const [phone, setPhone] = useState("")
+  const [message, setMessage] = useState("")
+  const [submitting, setSubmitting] = useState(false)
+  const [result, setResult] = useState<{ kind: "success" | "error"; message: string } | null>(null)
+
+  return (
+    <form
+      className="mt-8 grid gap-4"
+      onSubmit={(event) => {
+        event.preventDefault()
+        if (!submitInquiry) {
+          setResult({ kind: "error", message: "The contact form is temporarily unavailable." })
+          return
+        }
+        setSubmitting(true)
+        setResult(null)
+        void submitInquiry({
+          type,
+          name: `${firstName} ${lastName}`.trim(),
+          email,
+          phone: phone.trim() || undefined,
+          message,
+        })
+          .then(() => {
+            setFirstName("")
+            setLastName("")
+            setEmail("")
+            setPhone("")
+            setMessage("")
+            setResult({
+              kind: "success",
+              message: "Thank you. Your message has been sent to the Aberdeen team.",
+            })
+          })
+          .catch((error: unknown) =>
+            setResult({
+              kind: "error",
+              message: error instanceof Error ? error.message : "Your message could not be sent.",
+            }),
+          )
+          .finally(() => setSubmitting(false))
+      }}
+    >
+      <div className="grid gap-4 md:grid-cols-2">
+        <input
+          className="border border-aberdeen-blue/25 bg-white px-4 py-3"
+          onChange={(event) => setFirstName(event.target.value)}
+          placeholder="First name"
+          required
+          value={firstName}
+        />
+        <input
+          className="border border-aberdeen-blue/25 bg-white px-4 py-3"
+          onChange={(event) => setLastName(event.target.value)}
+          placeholder="Last name"
+          required
+          value={lastName}
+        />
+      </div>
+      <div className="grid gap-4 md:grid-cols-2">
+        <input
+          className="border border-aberdeen-blue/25 bg-white px-4 py-3"
+          onChange={(event) => setEmail(event.target.value)}
+          placeholder="Email"
+          required
+          type="email"
+          value={email}
+        />
+        <input
+          className="border border-aberdeen-blue/25 bg-white px-4 py-3"
+          onChange={(event) => setPhone(event.target.value)}
+          placeholder="Phone (optional)"
+          type="tel"
+          value={phone}
+        />
+      </div>
+      <select
+        className="border border-aberdeen-blue/25 bg-white px-4 py-3"
+        onChange={(event) => setType(event.target.value as typeof type)}
+        value={type}
+      >
+        <option value="contact">General contact</option>
+        <option value="privateEvent">Private event inquiry</option>
+      </select>
+      <textarea
+        className="min-h-36 border border-aberdeen-blue/25 bg-white px-4 py-3"
+        onChange={(event) => setMessage(event.target.value)}
+        placeholder={type === "privateEvent" ? "Tell us about your event" : "Message"}
+        required
+        value={message}
+      />
+      {result ? (
+        <p className={`text-sm ${result.kind === "success" ? "text-emerald-700" : "text-red-700"}`}>
+          {result.message}
+        </p>
+      ) : null}
+      <button
+        className="aberdeen-action w-fit bg-aberdeen-blue text-aberdeen-peach disabled:opacity-60"
+        disabled={submitting}
+        type="submit"
+      >
+        {submitting ? "Sending…" : "Send"}
+      </button>
+    </form>
   )
 }
 

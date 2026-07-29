@@ -39,7 +39,8 @@ const testHomeRoute = <TestHomePage />
 function App() {
   return (
     <Routes>
-      <Route element={siteLayoutRoute}>
+      <Route path="/admin/*" element={adminRoute} />
+      <Route path="/" element={siteLayoutRoute}>
         <Route index element={homeRoute} />
         <Route path="about" element={aboutRoute} />
         <Route path="menu" element={menuRedirectRoute} />
@@ -49,7 +50,6 @@ function App() {
         <Route path="contact" element={contactRoute} />
         <Route path="staff" element={staffRoute} />
         <Route path="events" element={eventsRoute} />
-        <Route path="admin" element={adminRoute} />
         <Route path="test" element={testHomeRoute} />
       </Route>
     </Routes>

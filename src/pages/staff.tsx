@@ -2,6 +2,7 @@ import { motion } from "motion/react"
 import { ScrollRotatingWheel } from "../components/decorative-media"
 import { PhotoCorners } from "../components/nautical-details"
 import { TiltWrap } from "../components/site-extras"
+import { useCmsRuntime } from "../lib/cms-runtime"
 import { fadeIn } from "../lib/motion"
 
 const staff = [
@@ -82,6 +83,16 @@ function HeroSection() {
 }
 
 function RosterSection() {
+  const { staff: managedStaff } = useCmsRuntime()
+  const visibleStaff = managedStaff?.length
+    ? managedStaff.map((person) => ({
+        name: person.name,
+        role: person.role,
+        note: person.biography,
+        image: person.image,
+      }))
+    : staff
+
   return (
     <section className="relative bg-oyster-white px-5 py-16 md:px-8 md:py-24">
       <div className="relative grid gap-12 md:grid-cols-[0.75fr_1.25fr]">
@@ -100,8 +111,8 @@ function RosterSection() {
           </motion.div>
           <ScrollRotatingWheel compact />
         </div>
-        <div className="grid gap-16">
-          {staff.map((person, index) => (
+        <div className="grid gap-16" data-cms-no-edit>
+          {visibleStaff.map((person, index) => (
             <motion.article
               className="grid min-h-[80svh] items-center shadow-none"
               key={person.name}

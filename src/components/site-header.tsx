@@ -1,6 +1,7 @@
 import { motion, useReducedMotion } from "motion/react"
 import { useCallback, useEffect, useState } from "react"
 import { useLocation } from "react-router"
+import { useCmsRuntime } from "../lib/cms-runtime"
 import { TransitionLink } from "./page-transition"
 
 const navItems = [
@@ -18,6 +19,8 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
   const [isHidden, setIsHidden] = useState(false)
   const [isHomeIntroActive, setIsHomeIntroActive] = useState(playHomeIntro)
   const [isScrolled, setIsScrolled] = useState(false)
+  const { site } = useCmsRuntime()
+  const reservationUrl = site?.settings.reservationUrl ?? "/contact"
   const closeMenu = useCallback(() => setIsMenuOpen(false), [])
   const toggleMenu = useCallback(() => setIsMenuOpen((isOpen) => !isOpen), [])
 
@@ -92,12 +95,12 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
           ))}
         </nav>
         <div className="hidden md:block">
-          <TransitionLink
+          <a
             className="border border-white bg-white px-4 py-2 font-utility text-sm tracking-[0.14em] text-black uppercase transition hover:bg-transparent hover:text-white"
-            to="/contact"
+            href={reservationUrl}
           >
             Reserve
-          </TransitionLink>
+          </a>
         </div>
         <button
           aria-controls="mobile-navigation"
@@ -141,13 +144,13 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
               {item.label}
             </TransitionLink>
           ))}
-          <TransitionLink
+          <a
             className="mt-3 inline-block w-fit bg-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase"
             onClick={closeMenu}
-            to="/contact"
+            href={reservationUrl}
           >
             Reserve
-          </TransitionLink>
+          </a>
         </div>
       </nav>
     </motion.header>

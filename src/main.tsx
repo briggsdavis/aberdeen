@@ -10,22 +10,29 @@ import "lenis/dist/lenis.css"
 // oxlint-disable-next-line import/no-unassigned-import
 import "./index.css"
 import App from "./app.tsx"
+import { CmsRuntimeProvider } from "./lib/cms-runtime.tsx"
 
 const convexUrl = import.meta.env.VITE_CONVEX_URL
 const convex = convexUrl ? new ConvexReactClient(convexUrl) : null
 
 function Providers({ children }: { children: ReactNode }) {
-  const app = (
-    <MotionConfig reducedMotion="user">
-      <BrowserRouter>{children}</BrowserRouter>
-    </MotionConfig>
-  )
-
   if (!convex) {
-    return app
+    return (
+      <MotionConfig reducedMotion="user">
+        <BrowserRouter>{children}</BrowserRouter>
+      </MotionConfig>
+    )
   }
 
-  return <ConvexAuthProvider client={convex}>{app}</ConvexAuthProvider>
+  return (
+    <ConvexAuthProvider client={convex}>
+      <MotionConfig reducedMotion="user">
+        <BrowserRouter>
+          <CmsRuntimeProvider>{children}</CmsRuntimeProvider>
+        </BrowserRouter>
+      </MotionConfig>
+    </ConvexAuthProvider>
+  )
 }
 
 createRoot(document.getElementById("root")!).render(

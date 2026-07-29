@@ -293,25 +293,33 @@ export default function CmsDomBridge() {
     window.addEventListener("message", handleParentMessage)
     cleanups.push(() => window.removeEventListener("message", handleParentMessage))
 
-    for (const target of targets.links) {
-      target.element.dataset.cmsLink = target.key
-      const handleLinkClick = (event: MouseEvent) => {
-        event.preventDefault()
-        event.stopPropagation()
-        window.parent.postMessage(
-          {
-            source: "aberdeen-cms",
-            type: "link",
-            key: target.key,
-            text: target.element.textContent?.trim() ?? "",
-            href: target.element.getAttribute("href") ?? "",
-          },
-          window.location.origin,
-        )
-      }
-      target.element.addEventListener("click", handleLinkClick)
-      cleanups.push(() => target.element.removeEventListener("click", handleLinkClick))
+    for (const target of targets.links) target.element.dataset.cmsLink = target.key
+
+    const handlePreviewLinkClick = (event: MouseEvent) => {
+      const element = (event.target as Element).closest<HTMLAnchorElement>("[data-cms-link]")
+      if (!element || !root.contains(element)) return
+
+      // Let editable images nested inside a link use the media picker. The image
+      // handler will still prevent the link's default navigation.
+      if ((event.target as Element).closest("[data-cms-image]")) return
+
+      const target = targets.links.find((item) => item.key === element.dataset.cmsLink)
+      if (!target) return
+      event.preventDefault()
+      event.stopPropagation()
+      window.parent.postMessage(
+        {
+          source: "aberdeen-cms",
+          type: "link",
+          key: target.key,
+          text: target.element.textContent?.trim() ?? "",
+          href: target.element.getAttribute("href") ?? "",
+        },
+        window.location.origin,
+      )
     }
+    root.addEventListener("click", handlePreviewLinkClick, true)
+    cleanups.push(() => root.removeEventListener("click", handlePreviewLinkClick, true))
 
     window.parent.postMessage(
       {

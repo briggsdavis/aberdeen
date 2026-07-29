@@ -59,9 +59,11 @@ const pageNames: Record<string, string> = {
 export default function PageEditor({
   page,
   compact = false,
+  previewScope,
 }: {
   page: "/" | "/about" | "/staff"
   compact?: boolean
+  previewScope?: "staff-introduction"
 }) {
   const savedPage = useQuery(api.content.getPageAdmin, { page })
   const savePage = useMutation(api.content.savePage)
@@ -227,9 +229,13 @@ export default function PageEditor({
       ) : (
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h2 className="text-base font-semibold text-slate-900">Page content</h2>
+            <h2 className="text-base font-semibold text-slate-900">
+              {previewScope === "staff-introduction" ? "Hero & introduction" : "Page content"}
+            </h2>
             <p className="mt-1 text-xs text-slate-500">
-              Click text, images, and links in the preview.
+              {previewScope === "staff-introduction"
+                ? "Edit the staff page hero and introductory copy here."
+                : "Click text, images, and links in the preview."}
             </p>
           </div>
           <PrimaryButton disabled={!dirty || saving || !ready} onClick={() => void handleSave()}>
@@ -258,7 +264,7 @@ export default function PageEditor({
               className={`min-h-[76svh] bg-white transition-all ${viewport === "mobile" ? "w-[390px]" : "w-full"}`}
               key={page}
               ref={iframeRef}
-              src={`${page}?cmsPreview=1`}
+              src={`${page}?cmsPreview=1${previewScope ? `&cmsScope=${previewScope}` : ""}`}
               title={`${pageNames[page]} editable preview`}
             />
           ) : (

@@ -103,7 +103,7 @@ export default function StaffEditor() {
         title="Staff editor"
       />
       <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1.6fr)_minmax(320px,0.65fr)]">
-        <PageEditor compact page="/staff" />
+        <PageEditor compact page="/staff" previewScope="staff-introduction" />
         <aside className="sticky top-6 grid gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
           <div className="flex items-center justify-between gap-3">
             <div>

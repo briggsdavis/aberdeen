@@ -21,17 +21,19 @@ function SiteLayout() {
   const location = useLocation()
   const shouldReduceMotion = useReducedMotion()
   const playHomeIntro = isFirstSiteLoad && location.pathname === "/" && !shouldReduceMotion
+  const focusedEditorPreview =
+    new URLSearchParams(location.search).get("cmsScope") === "staff-introduction"
 
   return (
     <SmoothScroll>
       <div className="relative min-h-svh bg-aberdeen-peach text-kelp-ink">
         <PageTransitionProvider>
-          <SiteHeader playHomeIntro={playHomeIntro} />
+          {focusedEditorPreview ? null : <SiteHeader playHomeIntro={playHomeIntro} />}
           <main className="relative">
             <Outlet context={{ playHomeIntro }} />
           </main>
           <CmsDomBridge />
-          <SiteFooter />
+          {focusedEditorPreview ? null : <SiteFooter />}
         </PageTransitionProvider>
       </div>
     </SmoothScroll>

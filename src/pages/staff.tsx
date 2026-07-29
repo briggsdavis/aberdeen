@@ -1,4 +1,5 @@
 import { motion } from "motion/react"
+import { useLocation } from "react-router"
 import { ScrollRotatingWheel } from "../components/decorative-media"
 import { PhotoCorners } from "../components/nautical-details"
 import { TiltWrap } from "../components/site-extras"
@@ -51,11 +52,15 @@ const staff = [
 ]
 
 function StaffPage() {
+  const location = useLocation()
+  const previewScope = new URLSearchParams(location.search).get("cmsScope")
+  const introductionOnly = previewScope === "staff-introduction"
+
   return (
     <div className="page-shell">
       <HeroSection />
-      <RosterSection />
-      <HiringSection />
+      <RosterSection introductionOnly={introductionOnly} />
+      {introductionOnly ? null : <HiringSection />}
     </div>
   )
 }
@@ -73,7 +78,9 @@ function HeroSection() {
         className="relative z-10 grid gap-10 px-5 pt-32 pb-16 md:px-8 md:pt-40 md:pb-24"
         {...fadeIn()}
       >
-        <p className="font-utility text-sm tracking-[0.22em] uppercase">Staff</p>
+        <p className="font-utility text-sm tracking-[0.22em] uppercase" data-cms-no-edit>
+          Staff
+        </p>
         <h1 className="max-w-5xl font-display text-6xl leading-none md:text-8xl">
           The people who keep the room glowing.
         </h1>
@@ -82,7 +89,7 @@ function HeroSection() {
   )
 }
 
-function RosterSection() {
+function RosterSection({ introductionOnly = false }: { introductionOnly?: boolean }) {
   const { staff: managedStaff } = useCmsRuntime()
   const visibleStaff = managedStaff?.length
     ? managedStaff.map((person) => ({
@@ -95,8 +102,15 @@ function RosterSection() {
 
   return (
     <section className="relative bg-oyster-white px-5 py-16 md:px-8 md:py-24">
-      <div className="relative grid gap-12 md:grid-cols-[0.75fr_1.25fr]">
-        <div className="self-start md:sticky md:top-28" data-testid="staff-intro">
+      <div
+        className={`relative grid gap-12 ${
+          introductionOnly ? "mx-auto max-w-4xl" : "md:grid-cols-[0.75fr_1.25fr]"
+        }`}
+      >
+        <div
+          className={`self-start ${introductionOnly ? "" : "md:sticky md:top-28"}`}
+          data-testid="staff-intro"
+        >
           <motion.div {...fadeIn()}>
             <p className="font-utility text-sm tracking-[0.22em] text-aberdeen-blue uppercase">
               Aberdeen staff
@@ -109,37 +123,43 @@ function RosterSection() {
               vanish, and when to make the night feel a little brighter.
             </p>
           </motion.div>
-          <ScrollRotatingWheel compact />
+          <div data-cms-no-edit>
+            <ScrollRotatingWheel compact />
+          </div>
         </div>
-        <div className="grid gap-16" data-cms-no-edit>
-          {visibleStaff.map((person, index) => (
-            <motion.article
-              className="grid min-h-[80svh] items-center shadow-none"
-              key={person.name}
-              {...fadeIn(index * 0.04)}
-            >
-              <TiltWrap
-                className={`relative mx-auto w-full max-w-md bg-aberdeen-peach p-4 text-aberdeen-blue shadow-none hover:shadow-none ${
-                  index % 2 === 0 ? "-rotate-1" : "rotate-1"
-                }`}
+        {introductionOnly ? null : (
+          <div className="grid gap-16" data-cms-no-edit>
+            {visibleStaff.map((person, index) => (
+              <motion.article
+                className="grid min-h-[80svh] items-center shadow-none"
+                key={person.name}
+                {...fadeIn(index * 0.04)}
               >
-                <div className="relative aspect-[4/5] overflow-hidden">
-                  <img
-                    alt={person.name}
-                    className="no-under-shadow h-full w-full object-cover"
-                    src={person.image}
-                  />
-                  <PhotoCorners />
-                </div>
-                <div className="p-5">
-                  <p className="font-utility text-xs tracking-[0.18em] uppercase">{person.role}</p>
-                  <h2 className="mt-3 font-display text-5xl leading-none">{person.name}</h2>
-                  <p className="mt-4 leading-7 text-kelp-ink/80">{person.note}</p>
-                </div>
-              </TiltWrap>
-            </motion.article>
-          ))}
-        </div>
+                <TiltWrap
+                  className={`relative mx-auto w-full max-w-md bg-aberdeen-peach p-4 text-aberdeen-blue shadow-none hover:shadow-none ${
+                    index % 2 === 0 ? "-rotate-1" : "rotate-1"
+                  }`}
+                >
+                  <div className="relative aspect-[4/5] overflow-hidden">
+                    <img
+                      alt={person.name}
+                      className="no-under-shadow h-full w-full object-cover"
+                      src={person.image}
+                    />
+                    <PhotoCorners />
+                  </div>
+                  <div className="p-5">
+                    <p className="font-utility text-xs tracking-[0.18em] uppercase">
+                      {person.role}
+                    </p>
+                    <h2 className="mt-3 font-display text-5xl leading-none">{person.name}</h2>
+                    <p className="mt-4 leading-7 text-kelp-ink/80">{person.note}</p>
+                  </div>
+                </TiltWrap>
+              </motion.article>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   )

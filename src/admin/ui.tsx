@@ -101,7 +101,7 @@ export function Modal({
   return (
     <dialog
       aria-modal="true"
-      className="fixed inset-0 z-[100] grid place-items-center bg-slate-950/45 p-4 backdrop-blur-[2px]"
+      className="fixed inset-0 z-[100] m-0 grid h-svh max-h-none w-screen max-w-none place-items-center border-0 bg-transparent p-4"
       open
     >
       <div

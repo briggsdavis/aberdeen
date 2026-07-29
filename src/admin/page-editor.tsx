@@ -53,15 +53,30 @@ type SelectedLink = { key: string; text: string; href: string }
 const pageNames: Record<string, string> = {
   "/": "Home",
   "/about": "About",
+  "/contact": "Contact",
+  "/events": "Events",
+  "/menu/beverages": "Beverages menu",
+  "/menu/food": "Food menu",
+  "/menu/spirits": "Spirits menu",
   "/staff": "Staff page",
 }
+
+type EditablePage =
+  | "/"
+  | "/about"
+  | "/contact"
+  | "/events"
+  | "/menu/beverages"
+  | "/menu/food"
+  | "/menu/spirits"
+  | "/staff"
 
 export default function PageEditor({
   page,
   compact = false,
   previewScope,
 }: {
-  page: "/" | "/about" | "/staff"
+  page: EditablePage
   compact?: boolean
   previewScope?: "staff-introduction"
 }) {
@@ -76,6 +91,7 @@ export default function PageEditor({
   const [imageRoles, setImageRoles] = useState<
     Record<string, "content" | "decorative" | "background">
   >({})
+  const [availableImages, setAvailableImages] = useState<SelectedImage[]>([])
   const [selectedImage, setSelectedImage] = useState<SelectedImage | null>(null)
   const [selectedLink, setSelectedLink] = useState<SelectedLink | null>(null)
   const [viewport, setViewport] = useState<"desktop" | "mobile">("desktop")
@@ -102,6 +118,15 @@ export default function PageEditor({
       if (message.type === "ready" && message.page === page) {
         setText(message.text)
         setLinks(message.links)
+        setAvailableImages(
+          message.images.map(({ acceptsVideo, alt, role, slotKey, url }) => ({
+            acceptsVideo,
+            alt,
+            key: slotKey,
+            role,
+            src: url,
+          })),
+        )
         setImageRoles(
           Object.fromEntries(message.images.map((image) => [image.slotKey, image.role])),
         )
@@ -192,6 +217,16 @@ export default function PageEditor({
         <PageHeading
           actions={
             <div className="flex items-center gap-3">
+              {availableImages.some((image) => image.key === "hero") ? (
+                <SecondaryButton
+                  onClick={() =>
+                    setSelectedImage(availableImages.find((image) => image.key === "hero") ?? null)
+                  }
+                >
+                  <ImageSquare size={17} />
+                  Edit hero image
+                </SecondaryButton>
+              ) : null}
               <div className="hidden rounded-lg border border-slate-200 bg-white p-1 sm:flex">
                 <button
                   aria-label="Desktop preview"
@@ -223,7 +258,7 @@ export default function PageEditor({
               </PrimaryButton>
             </div>
           }
-          description="Click directly on text to edit it. Click an image to replace it, or click a link or button to change its label and destination."
+          description="Use Edit hero image for the page banner. Click text, content images, links, or buttons in the preview to change them."
           title={`${pageNames[page]} editor`}
         />
       ) : (
@@ -238,9 +273,21 @@ export default function PageEditor({
                 : "Click text, images, and links in the preview."}
             </p>
           </div>
-          <PrimaryButton disabled={!dirty || saving || !ready} onClick={() => void handleSave()}>
-            {saving ? "Saving…" : saved ? "Saved" : "Save page changes"}
-          </PrimaryButton>
+          <div className="flex flex-wrap gap-3">
+            {availableImages.some((image) => image.key === "hero") ? (
+              <SecondaryButton
+                onClick={() =>
+                  setSelectedImage(availableImages.find((image) => image.key === "hero") ?? null)
+                }
+              >
+                <ImageSquare size={17} />
+                Edit hero image
+              </SecondaryButton>
+            ) : null}
+            <PrimaryButton disabled={!dirty || saving || !ready} onClick={() => void handleSave()}>
+              {saving ? "Saving…" : saved ? "Saved" : "Save page changes"}
+            </PrimaryButton>
+          </div>
         </div>
       )}
       {error ? (

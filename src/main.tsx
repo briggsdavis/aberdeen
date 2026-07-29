@@ -10,6 +10,7 @@ import "lenis/dist/lenis.css"
 // oxlint-disable-next-line import/no-unassigned-import
 import "./index.css"
 import App from "./app.tsx"
+import AppErrorBoundary from "./components/app-error-boundary.tsx"
 import { CmsRuntimeProvider } from "./lib/cms-runtime.tsx"
 
 const convexUrl = import.meta.env.VITE_CONVEX_URL
@@ -37,8 +38,10 @@ function Providers({ children }: { children: ReactNode }) {
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <Providers>
-      <App />
-    </Providers>
+    <AppErrorBoundary>
+      <Providers>
+        <App />
+      </Providers>
+    </AppErrorBoundary>
   </StrictMode>,
 )

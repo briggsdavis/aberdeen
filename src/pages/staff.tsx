@@ -71,6 +71,7 @@ function HeroSection() {
       <img
         alt="Restaurant team preparing a dining room"
         className="absolute inset-0 h-full w-full object-cover"
+        data-cms-slot="hero"
         src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1800&q=85"
       />
       <div className="hero-radial-glow absolute inset-0 z-[1]" />

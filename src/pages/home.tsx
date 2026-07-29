@@ -4,11 +4,13 @@ import { DecorativeBackdrop } from "../components/decorative-media"
 import {
   FAQSection,
   HeroCarouselButtons,
+  heroImages,
   RestaurantGroupSection,
   RippleSection,
   TiltWrap,
   useHeroCarousel,
 } from "../components/site-extras"
+import { useCmsRuntime } from "../lib/cms-runtime"
 import { fadeIn } from "../lib/motion"
 
 const antiqueMapOne = "/maps/antique-map-01.png"
@@ -33,7 +35,11 @@ function HomePage() {
 }
 
 function HeroSection({ playIntro }: { playIntro: boolean }) {
-  const { image, next, previous } = useHeroCarousel()
+  const { page } = useCmsRuntime()
+  const managedHero = page.media.hero?.url ?? page.images.hero
+  const { image, next, previous } = useHeroCarousel(
+    managedHero ? [managedHero, ...heroImages.slice(1)] : heroImages,
+  )
   const shouldReduceMotion = useReducedMotion()
   const animateIntro = playIntro && !shouldReduceMotion
   const introDelay = animateIntro ? 2.02 : 0
@@ -45,6 +51,7 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
         animate={{ opacity: 1, scale: 1, x: "0%" }}
         className="absolute inset-0 h-full w-full object-cover will-change-transform"
         fetchPriority="high"
+        data-cms-slot="hero"
         initial={
           !animateIntro
             ? { opacity: 1, scale: 1, x: "0%" }

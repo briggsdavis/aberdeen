@@ -64,17 +64,23 @@ function Tape({ className = "" }: { className?: string }) {
 }
 
 function HeroSection() {
-  const { image, next, previous } = useHeroCarousel([
+  const { page } = useCmsRuntime()
+  const managedHero = page.media.hero?.url ?? page.images.hero
+  const defaultHeroImages = [
     "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&w=1800&q=85",
     "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1800&q=85",
     "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1800&q=85",
-  ])
+  ]
+  const { image, next, previous } = useHeroCarousel(
+    managedHero ? [managedHero, ...defaultHeroImages.slice(1)] : defaultHeroImages,
+  )
 
   return (
     <section className="relative min-h-[44rem] bg-aberdeen-blue text-aberdeen-peach">
       <img
         alt="Restaurant table set with glasses and warm light"
         className="absolute inset-0 h-full w-full object-cover"
+        data-cms-slot="hero"
         src={image}
       />
       <div className="hero-radial-glow absolute inset-0 z-[1]" />

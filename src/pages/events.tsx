@@ -219,17 +219,23 @@ function UpcomingList({ events }: { events: DisplayEvent[] }) {
 }
 
 function HeroSection() {
-  const { image, next, previous } = useHeroCarousel([
+  const { page } = useCmsRuntime()
+  const managedHero = page.media.hero?.url ?? page.images.hero
+  const defaultHeroImages = [
     "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1800&q=85",
     "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=1800&q=85",
     "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=1800&q=85",
-  ])
+  ]
+  const { image, next, previous } = useHeroCarousel(
+    managedHero ? [managedHero, ...defaultHeroImages.slice(1)] : defaultHeroImages,
+  )
 
   return (
     <section className="relative bg-aberdeen-blue text-aberdeen-peach">
       <img
         alt="People gathered around a restaurant table with drinks"
         className="absolute inset-0 h-full w-full object-cover"
+        data-cms-slot="hero"
         src={image}
       />
       <div className="hero-radial-glow absolute inset-0 z-[1]" />

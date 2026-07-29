@@ -1,6 +1,12 @@
 import { motion } from "motion/react"
 import { Link } from "react-router"
 import { DecorativeBackdrop } from "../components/decorative-media"
+import {
+  MenuImageSection,
+  MenuPageHero,
+  MenuPairSection,
+  MenuReservation,
+} from "../components/menu-sections"
 import { PhotoCorners, RopeDivider } from "../components/nautical-details"
 import { MenuLikeButton, PostcardImageStack, RippleSection } from "../components/site-extras"
 import { fadeIn } from "../lib/motion"
@@ -599,6 +605,62 @@ function ReserveSection() {
         </motion.div>
       </div>
     </RippleSection>
+  )
+}
+
+export function StandardFoodMenuPage() {
+  return (
+    <div className="page-shell">
+      <MenuPageHero
+        activePath="/menu/food"
+        alt="A plate of oysters on ice with lemon wedges"
+        description="Cold oysters, coastal plates, and generous mains. Sourced from both coasts, served in a room that keeps the afternoon glowing after dark."
+        image="https://images.unsplash.com/photo-1633321094192-388268512e0f?auto=format&fit=crop&w=1800&q=85"
+        title="Food"
+      />
+      <MenuImageSection
+        alt="An oyster platter on ice with lemon"
+        caption="Daily selection from both coasts, shucked at the bar."
+        group={rawBar}
+        image="https://images.unsplash.com/photo-1679694140422-aecfd3d5dd0b?auto=format&fit=crop&w=1000&q=85"
+        imagePosition="left"
+        map="/maps/antique-map-01.png"
+      />
+      <MenuPairSection
+        background="peach"
+        first={towers}
+        map="/maps/peloponnese-chart.png"
+        second={starters}
+      />
+      <MenuImageSection
+        alt="Whole grilled fish topped with fresh salsa on a plate"
+        background="oyster"
+        group={mains}
+        image="https://images.unsplash.com/photo-1777891257650-5dedbba89dd4?auto=format&fit=crop&w=1200&q=85"
+        imagePosition="right"
+        map="/maps/thimble-islands-chart.png"
+      />
+      <MenuImageSection
+        alt="A composed restaurant main course"
+        background="peach"
+        group={land}
+        image="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=1200&q=85"
+        imagePosition="left"
+        map="/maps/antique-map-02.png"
+      />
+      <MenuPairSection
+        first={sides}
+        footnote="Menus change with the season and the day's catch. Please let us know about any allergies — a 20% service charge is added to parties of six or more."
+        map="/maps/antique-map-03.png"
+        second={desserts}
+      />
+      <MenuReservation
+        copy="Book a table and let the kitchen send out the day's best from the raw bar."
+        label="Raw Bar Seat"
+        number="01"
+        title="Come hungry, stay for the light."
+      />
+    </div>
   )
 }
 

@@ -103,7 +103,7 @@ function collectTargets(root: HTMLElement) {
       acceptsVideo: Boolean(
         role === "background" && root.querySelector("section")?.contains(element),
       ),
-      key: elementPath(element, root),
+      key: element.dataset.cmsSlot ?? elementPath(element, root),
       element,
       role,
     })

@@ -1,6 +1,12 @@
 import { motion } from "motion/react"
 import { Link } from "react-router"
 import { DecorativeBackdrop } from "../components/decorative-media"
+import {
+  MenuImageSection,
+  MenuPageHero,
+  MenuPairSection,
+  MenuReservation,
+} from "../components/menu-sections"
 import { PhotoCorners, RopeDivider } from "../components/nautical-details"
 import { MenuLikeButton, PostcardImageStack, RippleSection } from "../components/site-extras"
 import { fadeIn } from "../lib/motion"
@@ -544,6 +550,61 @@ function ReserveSection() {
         </motion.div>
       </div>
     </RippleSection>
+  )
+}
+
+export function StandardSpiritsMenuPage() {
+  return (
+    <div className="page-shell">
+      <MenuPageHero
+        activePath="/menu/spirits"
+        alt="Blue cocktail on a wooden bar"
+        description="Cocktails, coastal classics, and bottles for lingering. Bright, briny, botanical, and built for the room after dark."
+        image="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=1800&q=85"
+        title="Spirits"
+      />
+      <MenuImageSection
+        alt="Colorful cocktails served on a bar"
+        caption="Built bright, cold, and coastal from the first pour."
+        group={rawBar}
+        image="https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=1000&q=85"
+        imagePosition="left"
+        map="/maps/antique-map-03.png"
+      />
+      <MenuPairSection
+        background="peach"
+        first={towers}
+        map="/maps/peloponnese-chart.png"
+        second={starters}
+      />
+      <MenuImageSection
+        alt="Cocktail glasses lined up on a bar"
+        group={mains}
+        image="https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=1200&q=85"
+        imagePosition="right"
+        map="/maps/antique-map-01.png"
+      />
+      <MenuImageSection
+        alt="Bottles and glassware behind a restaurant bar"
+        background="peach"
+        group={land}
+        image="https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=1200&q=85"
+        imagePosition="left"
+        map="/maps/antique-map-02.png"
+      />
+      <MenuPairSection
+        first={sides}
+        footnote="Spirits, wine, and cocktail selections shift with the season. Ask the bar for the night's favorite bottle, spritz, or zero-proof build."
+        map="/maps/antique-map-03.png"
+        second={desserts}
+      />
+      <MenuReservation
+        copy="Book a table and let the bar start the night with something cold, bright, and a little blue."
+        label="Blue Hour"
+        number="02"
+        title="Come hungry, stay for the light."
+      />
+    </div>
   )
 }
 

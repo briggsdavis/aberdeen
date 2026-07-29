@@ -1,6 +1,12 @@
 import { motion } from "motion/react"
 import { Link } from "react-router"
 import { DecorativeBackdrop } from "../components/decorative-media"
+import {
+  MenuImageSection,
+  MenuPageHero,
+  MenuPairSection,
+  MenuReservation,
+} from "../components/menu-sections"
 import { PhotoCorners, RopeDivider } from "../components/nautical-details"
 import { MenuLikeButton, PostcardImageStack, RippleSection } from "../components/site-extras"
 import { fadeIn } from "../lib/motion"
@@ -528,6 +534,61 @@ function ReserveSection() {
         </motion.div>
       </div>
     </RippleSection>
+  )
+}
+
+export function StandardBeveragesMenuPage() {
+  return (
+    <div className="page-shell">
+      <MenuPageHero
+        activePath="/menu/beverages"
+        alt="A bottle of sparkling water next to lemonade"
+        description="Sparkling, zero-proof, coffee, tea, and daytime refreshers. Made for long lunches, early dinners, and one more round without the proof."
+        image="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=1800&q=85"
+        title="Beverages"
+      />
+      <MenuImageSection
+        alt="Sparkling lemonade and mineral water on a table"
+        caption="Sparkling, citrusy, and built with the same care as the bar."
+        group={rawBar}
+        image="https://images.unsplash.com/photo-1621263764928-df1444c5e859?auto=format&fit=crop&w=1000&q=85"
+        imagePosition="left"
+        map="/maps/antique-map-02.png"
+      />
+      <MenuPairSection
+        background="peach"
+        first={towers}
+        map="/maps/thimble-islands-chart.png"
+        second={starters}
+      />
+      <MenuImageSection
+        alt="Coffee cups gathered on a restaurant table"
+        group={mains}
+        image="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=85"
+        imagePosition="right"
+        map="/maps/antique-map-01.png"
+      />
+      <MenuImageSection
+        alt="Tea and coffee served at a restaurant table"
+        background="peach"
+        group={land}
+        image="https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&w=1200&q=85"
+        imagePosition="left"
+        map="/maps/antique-map-03.png"
+      />
+      <MenuPairSection
+        first={sides}
+        footnote="Beverage selections change with the season. Ask for the current house soda, iced tea, or zero-proof special."
+        map="/maps/thimble-islands-chart.png"
+        second={desserts}
+      />
+      <MenuReservation
+        copy="Book a table for bright refreshers, coffee after dinner, and something sparkling between courses."
+        label="Sparkling"
+        number="03"
+        title="Stay for one more sparkling thing."
+      />
+    </div>
   )
 }
 

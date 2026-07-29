@@ -5,9 +5,10 @@ import AdminPage from "./pages/admin"
 import ContactPage from "./pages/contact"
 import EventsPage from "./pages/events"
 import HomePage from "./pages/home"
-import BeveragesMenuPage from "./pages/menu-beverages"
-import FoodMenuPage from "./pages/menu-food"
-import SpiritsMenuPage from "./pages/menu-spirits"
+import { StandardBeveragesMenuPage } from "./pages/menu-beverages"
+import { StandardFoodMenuPage } from "./pages/menu-food"
+import { StandardSpiritsMenuPage } from "./pages/menu-spirits"
+import NotFoundPage from "./pages/not-found"
 import StaffPage from "./pages/staff"
 import TestHomePage from "./pages/test-home"
 
@@ -15,9 +16,9 @@ const siteLayoutRoute = <SiteLayout />
 const homeRoute = <HomePage />
 const aboutRoute = <AboutPage />
 const menuRedirectRoute = <Navigate replace to="/menu/food" />
-const foodMenuRoute = <FoodMenuPage />
-const spiritsMenuRoute = <SpiritsMenuPage />
-const beveragesMenuRoute = <BeveragesMenuPage />
+const foodMenuRoute = <StandardFoodMenuPage />
+const spiritsMenuRoute = <StandardSpiritsMenuPage />
+const beveragesMenuRoute = <StandardBeveragesMenuPage />
 const contactRoute = <ContactPage />
 const staffRoute = <StaffPage />
 const eventsRoute = <EventsPage />
@@ -35,6 +36,7 @@ const adminRoute = import.meta.env.VITE_CONVEX_URL ? (
   </section>
 )
 const testHomeRoute = <TestHomePage />
+const notFoundRoute = <NotFoundPage />
 
 function App() {
   return (
@@ -51,6 +53,7 @@ function App() {
         <Route path="staff" element={staffRoute} />
         <Route path="events" element={eventsRoute} />
         <Route path="test" element={testHomeRoute} />
+        <Route path="*" element={notFoundRoute} />
       </Route>
     </Routes>
   )

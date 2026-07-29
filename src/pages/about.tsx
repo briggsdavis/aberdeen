@@ -127,6 +127,7 @@ function HeroSection() {
       <img
         alt="Sunlit restaurant table with glassware and coastal plates"
         className="absolute inset-0 h-full w-full object-cover"
+        data-cms-slot="hero"
         src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1800&q=85"
       />
       <div className="hero-radial-glow absolute inset-0 z-[1]" />

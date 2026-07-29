@@ -1,15 +1,20 @@
 import { useAuthActions } from "@convex-dev/auth/react"
 import {
+  ArrowSquareOut,
   CalendarBlank,
   CaretDown,
   ChartLineUp,
+  Coffee,
   EnvelopeSimple,
+  ForkKnife,
   House,
   ImageSquare,
+  Info,
   List,
   SignOut,
   SlidersHorizontal,
   Users,
+  Wine,
   X,
 } from "@phosphor-icons/react"
 import { Authenticated, AuthLoading, Unauthenticated, useMutation, useQuery } from "convex/react"
@@ -230,17 +235,32 @@ function AdminShell() {
         </button>
         <div
           className={`grid overflow-hidden transition-all ${
-            editorOpen ? "max-h-56 gap-1 opacity-100" : "max-h-0 opacity-0"
+            editorOpen ? "max-h-[32rem] gap-1 opacity-100" : "max-h-0 opacity-0"
           }`}
         >
           <SidebarLink icon={<House size={16} />} nested to="/admin/pages/home">
             Home
           </SidebarLink>
-          <SidebarLink nested to="/admin/pages/about">
+          <SidebarLink icon={<Info size={16} />} nested to="/admin/pages/about">
             About
+          </SidebarLink>
+          <SidebarLink icon={<ForkKnife size={16} />} nested to="/admin/pages/menu-food">
+            Food menu
+          </SidebarLink>
+          <SidebarLink icon={<Wine size={16} />} nested to="/admin/pages/menu-spirits">
+            Spirits menu
+          </SidebarLink>
+          <SidebarLink icon={<Coffee size={16} />} nested to="/admin/pages/menu-beverages">
+            Beverages menu
           </SidebarLink>
           <SidebarLink icon={<Users size={16} />} nested to="/admin/pages/staff">
             Staff
+          </SidebarLink>
+          <SidebarLink icon={<CalendarBlank size={16} />} nested to="/admin/pages/events">
+            Events page
+          </SidebarLink>
+          <SidebarLink icon={<EnvelopeSimple size={16} />} nested to="/admin/pages/contact">
+            Contact page
           </SidebarLink>
           <SidebarLink icon={<SlidersHorizontal size={16} />} nested to="/admin/pages/settings">
             Contact & global
@@ -258,6 +278,12 @@ function AdminShell() {
         </SidebarLink>
       </nav>
       <div className="mt-auto border-t border-white/10 pt-4">
+        <a
+          className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-white/65 transition hover:bg-white/7 hover:text-white"
+          href="/"
+        >
+          <ArrowSquareOut size={18} /> Back to site
+        </a>
         <p className="truncate px-3 text-xs text-white/45">{admin?.email ?? "Signed in"}</p>
         <button
           className="mt-2 flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-white/65 transition hover:bg-white/7 hover:text-white"
@@ -301,7 +327,12 @@ function AdminShell() {
             <Route index element={<Dashboard />} />
             <Route path="pages/home" element={<PageEditor page="/" />} />
             <Route path="pages/about" element={<PageEditor page="/about" />} />
+            <Route path="pages/menu-food" element={<PageEditor page="/menu/food" />} />
+            <Route path="pages/menu-spirits" element={<PageEditor page="/menu/spirits" />} />
+            <Route path="pages/menu-beverages" element={<PageEditor page="/menu/beverages" />} />
             <Route path="pages/staff" element={<StaffEditor />} />
+            <Route path="pages/events" element={<PageEditor page="/events" />} />
+            <Route path="pages/contact" element={<PageEditor page="/contact" />} />
             <Route path="pages/settings" element={<SettingsEditor />} />
             <Route path="events" element={<EventsEditor />} />
             <Route path="inquiries" element={<InquiryInbox />} />

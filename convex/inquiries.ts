@@ -59,3 +59,12 @@ export const setStarred = mutation({
     return null
   },
 })
+
+export const remove = mutation({
+  args: { id: v.id("inquiries") },
+  handler: async (ctx, args) => {
+    await requireAdmin(ctx)
+    await ctx.db.delete(args.id)
+    return null
+  },
+})

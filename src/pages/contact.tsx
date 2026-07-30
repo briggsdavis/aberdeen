@@ -10,7 +10,7 @@ const antiqueMapFour = "/maps/antique-map-04.png"
 
 function ContactPage() {
   return (
-    <div className="page-shell">
+    <div className="contact-page page-shell">
       <HeroSection />
       <ContactDetails />
       <MapSection />
@@ -127,9 +127,9 @@ function ContactDetails() {
       ]
 
   return (
-    <section className="relative isolate grid gap-10 overflow-hidden bg-oyster-white px-5 py-16 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:py-24">
+    <section className="relative isolate grid gap-6 overflow-hidden bg-oyster-white px-5 py-12 md:min-h-svh md:grid-cols-[0.72fr_1.28fr] md:items-center md:px-8 md:py-16">
       <DecorativeBackdrop imageClassName="object-cover" opacity={0.14} src={antiqueMapFour} />
-      <div className="relative z-10 grid gap-5">
+      <div className="relative z-10 grid gap-3">
         {details.map(([label, lineOne, lineTwo], index) => (
           <motion.article
             className="bg-aberdeen-peach text-aberdeen-blue"
@@ -137,24 +137,24 @@ function ContactDetails() {
             {...fadeIn(index * 0.08)}
           >
             <RopeDivider className="rounded-none" />
-            <div className="p-6">
+            <div className="p-4 md:p-5">
               <p className="font-utility text-sm tracking-[0.18em] uppercase">{label}</p>
-              <p className="mt-6 font-display text-4xl leading-none">{lineOne}</p>
-              <p className="mt-5 leading-7 text-kelp-ink/80">{lineTwo}</p>
+              <p className="mt-3 font-display text-3xl leading-none">{lineOne}</p>
+              <p className="mt-3 leading-6 text-kelp-ink/80">{lineTwo}</p>
             </div>
           </motion.article>
         ))}
       </div>
-      <motion.div className="relative z-10 bg-aberdeen-blue p-5 md:p-8" {...fadeIn(0.12)}>
-        <div className="relative h-72 md:h-80">
+      <motion.div className="relative z-10 bg-aberdeen-blue p-4 md:p-5" {...fadeIn(0.12)}>
+        <div className="relative h-48 md:h-52">
           <img
             alt="Aberdeen dining room table"
             className="h-full w-full object-cover"
             src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1200&q=85"
           />
         </div>
-        <div className="mt-5 bg-oyster-white p-6 text-aberdeen-blue md:mt-8 md:p-8">
-          <h2 className="font-display text-5xl leading-none">Send a note</h2>
+        <div className="mt-4 bg-oyster-white p-5 text-aberdeen-blue md:p-6">
+          <h2 className="font-display text-4xl leading-none">Send a note</h2>
           <InquiryForm />
         </div>
       </motion.div>
@@ -175,7 +175,7 @@ function MapSection() {
   const mapLocation = site?.settings.mapLocation ?? "Savannah, Georgia"
 
   return (
-    <section className="grid gap-0 bg-aberdeen-peach md:grid-cols-[0.9fr_1.1fr]">
+    <section className="grid gap-0 bg-aberdeen-peach md:grid-cols-[0.9fr_1.1fr] md:items-stretch">
       <motion.div className="px-5 py-16 md:px-8 md:py-24" {...fadeIn()}>
         <div className="flex items-center justify-between gap-6">
           <p className="font-utility text-sm tracking-[0.22em] text-aberdeen-blue uppercase">
@@ -195,15 +195,17 @@ function MapSection() {
           ))}
         </dl>
       </motion.div>
-      <motion.div className="min-h-[28rem] overflow-hidden" {...fadeIn(0.12)}>
-        <iframe
-          className="block h-full min-h-[28rem] w-full"
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-          sandbox="allow-scripts allow-popups"
-          src={`https://www.google.com/maps?q=${encodeURIComponent(mapLocation)}&output=embed`}
-          title="Map showing Savannah, Georgia"
-        />
+      <motion.div className="min-h-[28rem] p-5 md:p-8 md:pl-4" {...fadeIn(0.12)}>
+        <div className="h-full min-h-[24rem] overflow-hidden border border-aberdeen-blue/15 bg-oyster-white p-2 shadow-[0_18px_44px_rgb(29_42_47/0.12)]">
+          <iframe
+            className="block h-full min-h-[24rem] w-full"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            sandbox="allow-scripts allow-popups"
+            src={`https://www.google.com/maps?q=${encodeURIComponent(mapLocation)}&output=embed`}
+            title="Map showing Savannah, Georgia"
+          />
+        </div>
       </motion.div>
     </section>
   )
@@ -222,7 +224,7 @@ function InquiryForm() {
 
   return (
     <form
-      className="mt-8 grid gap-4"
+      className="mt-5 grid gap-3"
       onSubmit={(event) => {
         event.preventDefault()
         if (!submitInquiry) {
@@ -260,14 +262,14 @@ function InquiryForm() {
     >
       <div className="grid gap-4 md:grid-cols-2">
         <input
-          className="border border-aberdeen-blue/25 bg-white px-4 py-3"
+          className="border border-aberdeen-blue/25 bg-white px-4 py-2.5"
           onChange={(event) => setFirstName(event.target.value)}
           placeholder="First name"
           required
           value={firstName}
         />
         <input
-          className="border border-aberdeen-blue/25 bg-white px-4 py-3"
+          className="border border-aberdeen-blue/25 bg-white px-4 py-2.5"
           onChange={(event) => setLastName(event.target.value)}
           placeholder="Last name"
           required
@@ -276,7 +278,7 @@ function InquiryForm() {
       </div>
       <div className="grid gap-4 md:grid-cols-2">
         <input
-          className="border border-aberdeen-blue/25 bg-white px-4 py-3"
+          className="border border-aberdeen-blue/25 bg-white px-4 py-2.5"
           onChange={(event) => setEmail(event.target.value)}
           placeholder="Email"
           required
@@ -284,7 +286,7 @@ function InquiryForm() {
           value={email}
         />
         <input
-          className="border border-aberdeen-blue/25 bg-white px-4 py-3"
+          className="border border-aberdeen-blue/25 bg-white px-4 py-2.5"
           onChange={(event) => setPhone(event.target.value)}
           placeholder="Phone (optional)"
           type="tel"
@@ -292,7 +294,7 @@ function InquiryForm() {
         />
       </div>
       <select
-        className="border border-aberdeen-blue/25 bg-white px-4 py-3"
+        className="border border-aberdeen-blue/25 bg-white px-4 py-2.5"
         onChange={(event) => setType(event.target.value as typeof type)}
         value={type}
       >
@@ -300,7 +302,7 @@ function InquiryForm() {
         <option value="privateEvent">Private event inquiry</option>
       </select>
       <textarea
-        className="min-h-36 border border-aberdeen-blue/25 bg-white px-4 py-3"
+        className="min-h-24 border border-aberdeen-blue/25 bg-white px-4 py-2.5"
         onChange={(event) => setMessage(event.target.value)}
         placeholder={type === "privateEvent" ? "Tell us about your event" : "Message"}
         required

@@ -1,11 +1,4 @@
-import {
-  ArrowDown,
-  ArrowUp,
-  ImageSquare,
-  PencilSimple,
-  Plus,
-  Trash,
-} from "@phosphor-icons/react"
+import { ArrowDown, ArrowUp, ImageSquare, PencilSimple, Plus, Trash } from "@phosphor-icons/react"
 import { useMutation, useQuery } from "convex/react"
 import { useEffect, useMemo, useState } from "react"
 import { useNavigate, useParams } from "react-router"
@@ -25,26 +18,17 @@ import {
   inputClass,
 } from "./ui"
 
-const maps = [
-  ["Antique map I", "/maps/antique-map-01.png"],
-  ["Antique map II", "/maps/antique-map-02.png"],
-  ["Antique map III", "/maps/antique-map-03.png"],
-  ["Antique map IV", "/maps/antique-map-04.png"],
-  ["Antique map V", "/maps/antique-map-05.png"],
-  ["Peloponnese chart", "/maps/peloponnese-chart.png"],
-  ["Thimble Islands chart", "/maps/thimble-islands-chart.png"],
-] as const
-
 type ImageChoice = { id: Id<"mediaAssets">; url: string }
 type Layout = "imageLeft" | "imageRight" | "paired"
 type Background = "oyster" | "peach" | "blue"
-type PickerTarget = "hero" | "section" | "postcardOne" | "postcardTwo" | "postcardThree"
+type PickerTarget = "hero" | "map" | "section" | "postcardOne" | "postcardTwo" | "postcardThree"
 
 type SectionDraft = {
   id?: Id<"menuSections">
   layout: Layout
   background: Background
   mapImage: string
+  map: ImageChoice | null
   image: ImageChoice | null
   imageCaption: string
   postcards: Array<{ show: boolean; image: ImageChoice | null }>
@@ -54,7 +38,8 @@ type SectionDraft = {
 const emptySection: SectionDraft = {
   layout: "imageLeft",
   background: "oyster",
-  mapImage: maps[0][1],
+  mapImage: "",
+  map: null,
   image: null,
   imageCaption: "",
   postcards: [
@@ -187,6 +172,7 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
       layout: section.layout,
       background: section.background,
       mapImage: section.mapImage,
+      map: section.mapMediaId ? { id: section.mapMediaId, url: section.mapImage } : null,
       image:
         section.image && section.imageMediaId
           ? { id: section.imageMediaId, url: section.image }
@@ -226,15 +212,19 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
     if (!sectionDraft || !pageId) return
     if (
       sectionDraft.groups.some((group) => !group.title.trim()) ||
+      (!sectionDraft.id && !sectionDraft.map) ||
       (sectionDraft.layout !== "paired" && !sectionDraft.image)
     ) {
-      setError("Add every menu-list title and the main image required by this layout.")
+      setError(
+        "Add every menu-list title, choose a map background, and add the main image required by this layout.",
+      )
       return
     }
     const values = {
       layout: sectionDraft.layout,
       background: sectionDraft.background,
       mapImage: sectionDraft.mapImage,
+      mapMediaId: sectionDraft.map?.id,
       imageMediaId: sectionDraft.image?.id,
       imageCaption: sectionDraft.imageCaption,
       showPostcardOne: sectionDraft.postcards[0]?.show ?? false,
@@ -270,7 +260,9 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
   function chooseImage(selection: MediaSelection) {
     const image = { id: selection.id, url: selection.url }
     if (picker === "hero") setHero(image)
-    else if (sectionDraft && picker === "section") {
+    else if (sectionDraft && picker === "map") {
+      setSectionDraft({ ...sectionDraft, map: image, mapImage: image.url })
+    } else if (sectionDraft && picker === "section") {
       setSectionDraft({ ...sectionDraft, image })
     } else if (
       sectionDraft &&
@@ -359,14 +351,23 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
         title={creating ? "Add menu page" : `${page?.title ?? "Menu"} editor`}
       />
 
-      {error ? <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p> : null}
+      {error ? (
+        <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
+      ) : null}
 
       <section className="grid gap-5 rounded-xl border border-slate-200 bg-white p-5 shadow-sm lg:grid-cols-[1fr_1fr]">
         <div className="grid content-start gap-4">
           <Field label="Page title">
             <Input onChange={(event) => setTitle(event.target.value)} value={title} />
           </Field>
-          <Field hint={`Public URL: /menu/${title.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "")}`} label="Description">
+          <Field
+            hint={`Public URL: /menu/${title
+              .trim()
+              .toLowerCase()
+              .replace(/[^a-z0-9]+/g, "-")
+              .replace(/^-+|-+$/g, "")}`}
+            label="Description"
+          >
             <Textarea
               onChange={(event) => setDescription(event.target.value)}
               value={description}
@@ -418,8 +419,8 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
                           ? "Image right"
                           : "Paired lists"}
                     </span>
-                    <span className="text-xs capitalize text-slate-500">
-                      {section.background} · {maps.find((map) => map[1] === section.mapImage)?.[0] ?? "Map"}
+                    <span className="text-xs text-slate-500 capitalize">
+                      {section.background} · Media library background
                     </span>
                     <div className="ml-auto flex flex-wrap gap-1">
                       <button
@@ -484,13 +485,17 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
                       </button>
                     </div>
                   </div>
-                  <div className={`grid gap-5 p-4 ${section.groups.length === 2 ? "xl:grid-cols-2" : ""}`}>
+                  <div
+                    className={`grid gap-5 p-4 ${section.groups.length === 2 ? "xl:grid-cols-2" : ""}`}
+                  >
                     {section.groups.map((group) => (
                       <div className="rounded-xl border border-slate-200" key={group._id}>
                         <div className="flex items-start gap-3 border-b border-slate-200 px-4 py-3">
                           <div className="min-w-0 grow">
                             <h3 className="font-semibold text-slate-900">{group.title}</h3>
-                            {group.note ? <p className="mt-1 text-xs text-slate-500">{group.note}</p> : null}
+                            {group.note ? (
+                              <p className="mt-1 text-xs text-slate-500">{group.note}</p>
+                            ) : null}
                           </div>
                           <button
                             aria-label="Edit menu-list title"
@@ -537,7 +542,9 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
                                   aria-label="Move item up"
                                   className="p-1 text-slate-400 hover:text-aberdeen-blue"
                                   disabled={itemIndex === 0}
-                                  onClick={() => void shiftItem(group._id, group.items, itemIndex, -1)}
+                                  onClick={() =>
+                                    void shiftItem(group._id, group.items, itemIndex, -1)
+                                  }
                                   type="button"
                                 >
                                   <ArrowUp size={15} />
@@ -546,7 +553,9 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
                                   aria-label="Move item down"
                                   className="p-1 text-slate-400 hover:text-aberdeen-blue"
                                   disabled={itemIndex === group.items.length - 1}
-                                  onClick={() => void shiftItem(group._id, group.items, itemIndex, 1)}
+                                  onClick={() =>
+                                    void shiftItem(group._id, group.items, itemIndex, 1)
+                                  }
                                   type="button"
                                 >
                                   <ArrowDown size={15} />
@@ -605,62 +614,95 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
                 hint={sectionDraft.id ? "The layout is fixed after creation." : undefined}
                 label="Section layout"
               >
-                <select
-                  className={inputClass}
-                  disabled={Boolean(sectionDraft.id)}
-                  onChange={(event) => {
-                    const layout = event.target.value as Layout
-                    setSectionDraft({
-                      ...sectionDraft,
-                      layout,
-                      groups:
-                        layout === "paired"
-                          ? [
-                              sectionDraft.groups[0] ?? { title: "", note: "" },
-                              sectionDraft.groups[1] ?? { title: "", note: "" },
-                            ]
-                          : [sectionDraft.groups[0] ?? { title: "", note: "" }],
-                    })
-                  }}
-                  value={sectionDraft.layout}
-                >
-                  <option value="imageLeft">Image left, menu right</option>
-                  <option value="imageRight">Menu left, image right</option>
-                  <option value="paired">Two menu lists side by side</option>
-                </select>
+                <div className="grid gap-2 sm:grid-cols-3">
+                  {(
+                    [
+                      ["imageLeft", "Image left", ["bg-aberdeen-blue", "bg-slate-200"]],
+                      ["imageRight", "Image right", ["bg-slate-200", "bg-aberdeen-blue"]],
+                      ["paired", "Paired lists", ["bg-slate-200", "bg-slate-200"]],
+                    ] as const
+                  ).map(([layout, label, panels]) => (
+                    <button
+                      aria-pressed={sectionDraft.layout === layout}
+                      className={`grid gap-2 rounded-xl border p-3 text-left transition ${
+                        sectionDraft.layout === layout
+                          ? "border-aberdeen-blue bg-aberdeen-blue/5 ring-2 ring-aberdeen-blue/10"
+                          : "border-slate-200 hover:border-slate-300"
+                      } disabled:cursor-not-allowed disabled:opacity-60`}
+                      disabled={Boolean(sectionDraft.id)}
+                      key={layout}
+                      onClick={() =>
+                        setSectionDraft({
+                          ...sectionDraft,
+                          layout,
+                          groups:
+                            layout === "paired"
+                              ? [
+                                  sectionDraft.groups[0] ?? { title: "", note: "" },
+                                  sectionDraft.groups[1] ?? { title: "", note: "" },
+                                ]
+                              : [sectionDraft.groups[0] ?? { title: "", note: "" }],
+                        })
+                      }
+                      type="button"
+                    >
+                      <span className="grid aspect-[5/3] grid-cols-2 gap-1 rounded-md bg-white p-1 shadow-inner">
+                        {panels.map((panel, index) => (
+                          <span className={`rounded-sm ${panel}`} key={index} />
+                        ))}
+                      </span>
+                      <span className="text-xs font-semibold text-slate-700">{label}</span>
+                    </button>
+                  ))}
+                </div>
               </Field>
               <Field label="Section color">
-                <select
-                  className={inputClass}
-                  onChange={(event) =>
-                    setSectionDraft({ ...sectionDraft, background: event.target.value as Background })
-                  }
-                  value={sectionDraft.background}
-                >
-                  <option value="oyster">Oyster white</option>
-                  <option value="peach">Aberdeen peach</option>
-                  <option value="blue">Aberdeen blue</option>
-                </select>
-              </Field>
-              <Field label="Map background">
-                <select
-                  className={inputClass}
-                  onChange={(event) =>
-                    setSectionDraft({ ...sectionDraft, mapImage: event.target.value })
-                  }
-                  value={sectionDraft.mapImage}
-                >
-                  {maps.map(([label, value]) => (
-                    <option key={value} value={value}>
-                      {label}
-                    </option>
+                <div className="grid grid-cols-3 gap-3">
+                  {(
+                    [
+                      ["oyster", "Oyster white", "bg-oyster-white"],
+                      ["peach", "Aberdeen peach", "bg-aberdeen-peach"],
+                      ["blue", "Aberdeen blue", "bg-aberdeen-blue"],
+                    ] as const
+                  ).map(([background, label, color]) => (
+                    <button
+                      aria-label={label}
+                      aria-pressed={sectionDraft.background === background}
+                      className={`grid gap-2 rounded-xl border p-2 text-left transition ${
+                        sectionDraft.background === background
+                          ? "border-aberdeen-blue ring-2 ring-aberdeen-blue/15"
+                          : "border-slate-200 hover:border-slate-300"
+                      }`}
+                      key={background}
+                      onClick={() => setSectionDraft({ ...sectionDraft, background })}
+                      type="button"
+                    >
+                      <span className={`h-12 rounded-lg border border-black/5 ${color}`} />
+                      <span className="text-[11px] font-semibold text-slate-600">{label}</span>
+                    </button>
                   ))}
-                </select>
+                </div>
               </Field>
+              <ImageField
+                image={
+                  sectionDraft.map ??
+                  (sectionDraft.id && sectionDraft.mapImage
+                    ? { id: "" as Id<"mediaAssets">, url: sectionDraft.mapImage }
+                    : null)
+                }
+                label="Map background"
+                onChoose={() => setPicker("map")}
+              />
               {!sectionDraft.id
                 ? sectionDraft.groups.map((group, index) => (
                     <div className="grid gap-3 rounded-xl bg-slate-50 p-4" key={index}>
-                      <Field label={sectionDraft.layout === "paired" ? `Menu list ${index + 1} title` : "Section title"}>
+                      <Field
+                        label={
+                          sectionDraft.layout === "paired"
+                            ? `Menu list ${index + 1} title`
+                            : "Section title"
+                        }
+                      >
                         <Input
                           onChange={(event) => {
                             const groups = [...sectionDraft.groups]
@@ -725,7 +767,11 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
                           type="button"
                         >
                           {postcard.image ? (
-                            <img alt="" className="h-full w-full object-cover" src={postcard.image.url} />
+                            <img
+                              alt=""
+                              className="h-full w-full object-cover"
+                              src={postcard.image.url}
+                            />
                           ) : (
                             "Choose image"
                           )}
@@ -752,7 +798,11 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
 
       {picker ? (
         <Modal onClose={() => setPicker(null)} title="Choose image" wide>
-          <MediaLibrary acceptedKinds={["image"]} onSelect={chooseImage} />
+          <MediaLibrary
+            acceptedKinds={["image"]}
+            initialFilter={picker === "map" ? "decorations" : "photos"}
+            onSelect={chooseImage}
+          />
         </Modal>
       ) : null}
 
@@ -790,7 +840,10 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
       ) : null}
 
       {itemDraft ? (
-        <Modal onClose={() => setItemDraft(null)} title={itemDraft.id ? "Edit menu item" : "Add menu item"}>
+        <Modal
+          onClose={() => setItemDraft(null)}
+          title={itemDraft.id ? "Edit menu item" : "Add menu item"}
+        >
           <div className="grid gap-4">
             <Field label="Item name">
               <Input
@@ -800,7 +853,9 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
             </Field>
             <Field label="Description">
               <Textarea
-                onChange={(event) => setItemDraft({ ...itemDraft, description: event.target.value })}
+                onChange={(event) =>
+                  setItemDraft({ ...itemDraft, description: event.target.value })
+                }
                 value={itemDraft.description}
               />
             </Field>

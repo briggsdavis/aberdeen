@@ -266,7 +266,7 @@ function AdminShell() {
             Contact page
           </SidebarLink>
           <SidebarLink icon={<SlidersHorizontal size={16} />} nested to="/admin/pages/settings">
-            Contact & global
+            Footer and Global
           </SidebarLink>
         </div>
         <button
@@ -385,7 +385,7 @@ function AdminShell() {
               element={
                 <div className="grid gap-6">
                   <PageHeading
-                    description="Reusable images uploaded through page, staff, and event editors."
+                    description="Reusable photos, videos, decorations, and backgrounds used throughout the site."
                     title="Media library"
                   />
                   <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">

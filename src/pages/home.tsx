@@ -1,4 +1,5 @@
-import { motion, useReducedMotion } from "motion/react"
+import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "motion/react"
+import { useRef } from "react"
 import { useOutletContext } from "react-router"
 import { DecorativeBackdrop } from "../components/decorative-media"
 import {
@@ -25,8 +26,8 @@ function HomePage() {
       <HeroSection playIntro={playHomeIntro} />
       <IntroSection />
       <MenuSection />
+      <ScrollGallerySection />
       <ReservationsSection />
-      <GallerySection />
       <EventsSection />
       <FAQSection cardsFirst />
       <RestaurantGroupSection />
@@ -60,41 +61,63 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
         src={image}
         transition={{
           delay: animateIntro ? 1.02 : 0,
-          duration: animateIntro ? 1.12 : 0,
+          duration: animateIntro ? 1.344 : 0,
           ease: [0.22, 1, 0.36, 1],
         }}
       />
       <motion.div
         animate={{ opacity: 1 }}
-        className="hero-radial-glow absolute inset-0 z-[1]"
+        className="home-hero-radial-glow absolute inset-0 z-[1]"
         initial={{ opacity: animateIntro ? 0 : 1 }}
         transition={{
           delay: animateIntro ? 1.36 : 0,
-          duration: animateIntro ? 0.72 : 0,
+          duration: animateIntro ? 0.864 : 0,
         }}
       />
       <motion.div
+        animate={{ opacity: 1, rotate: 4, scale: 1, x: 0, y: 0 }}
+        className="absolute top-24 -left-8 z-10 w-[min(48vw,14rem)] text-aberdeen-blue will-change-transform md:top-24 md:left-8 md:w-[22rem]"
+        initial={
+          !animateIntro
+            ? { opacity: 1, rotate: 4, scale: 1, x: 0, y: 0 }
+            : { opacity: 0, rotate: 7, scale: 0.96, x: -34, y: 12 }
+        }
+        transition={{
+          delay: animateIntro ? 2.1 : 0,
+          duration: animateIntro ? 2.8 : 0,
+          ease: [0.16, 1, 0.3, 1],
+        }}
+      >
+        <Tape className="top-1 left-24 -rotate-6" />
+        <FramedPhoto
+          alt="People relaxing on a boat on blue water"
+          cmsSlot="home-hero-postcard"
+          src="https://images.unsplash.com/photo-1643075301353-dc7db55ad49b?auto=format&fit=crop&w=900&q=85"
+        />
+      </motion.div>
+      <motion.div
         animate={{ opacity: 1, rotate: -3, scale: 1, x: 0, y: 0 }}
-        className="absolute top-28 right-4 z-10 w-[min(64vw,18rem)] text-aberdeen-blue will-change-transform md:top-auto md:right-8 md:bottom-10 md:w-[28.8rem]"
+        className="absolute top-28 -right-8 z-10 w-[min(54vw,16rem)] text-aberdeen-blue will-change-transform md:top-32 md:right-8 md:w-[25rem]"
         initial={
           !animateIntro
             ? { opacity: 1, rotate: -3, scale: 1, x: 0, y: 0 }
-            : { opacity: 0, rotate: -10, scale: 0.86, x: 90, y: 30 }
+            : { opacity: 0, rotate: -6, scale: 0.96, x: 34, y: 12 }
         }
         transition={{
-          delay: animateIntro ? 2.5 : 0,
-          duration: animateIntro ? 0.94 : 0,
-          ease: [0.22, 1, 0.36, 1],
+          delay: animateIntro ? 2.32 : 0,
+          duration: animateIntro ? 2.8 : 0,
+          ease: [0.16, 1, 0.3, 1],
         }}
       >
         <Tape className="top-2 left-44" />
         <FramedPhoto
           alt="People relaxing on a boat on blue water"
+          cmsSlot="home-hero-postcard"
           src="https://images.unsplash.com/photo-1643075301353-dc7db55ad49b?auto=format&fit=crop&w=900&q=85"
         />
       </motion.div>
       <div className="relative z-10 grid min-h-svh items-end px-5 pt-24 pb-8 md:px-8 md:pt-28 md:pb-10">
-        <div className="flex max-w-6xl flex-col items-start gap-7">
+        <div className="mx-auto flex max-w-4xl flex-col items-center gap-7 text-center">
           <motion.p
             animate={{ filter: "blur(0px)", opacity: 1, y: 0 }}
             className="max-w-[42rem] font-playful text-3xl leading-tight md:text-5xl"
@@ -105,7 +128,7 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
             }
             transition={{
               delay: introDelay,
-              duration: animateIntro ? 0.9 : 0,
+              duration: animateIntro ? 1.08 : 0,
               ease: [0.22, 1, 0.36, 1],
             }}
           >
@@ -113,22 +136,22 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
           </motion.p>
           <motion.div
             animate={{ opacity: 1, y: 0 }}
-            className="flex flex-wrap gap-3"
+            className="flex flex-wrap justify-center gap-3"
             initial={animateIntro ? { opacity: 0, y: 16 } : { opacity: 1, y: 0 }}
             transition={{
               delay: animateIntro ? 2.28 : 0,
-              duration: animateIntro ? 0.72 : 0,
+              duration: animateIntro ? 0.864 : 0,
               ease: [0.22, 1, 0.36, 1],
             }}
           >
             <a
-              className="aberdeen-action border border-aberdeen-peach text-aberdeen-peach hover:bg-aberdeen-peach hover:text-aberdeen-blue"
+              className="aberdeen-action border border-aberdeen-peach text-aberdeen-peach [--action-fill:var(--color-aberdeen-peach)] [--action-foreground:var(--color-aberdeen-blue)]"
               href="#reservations"
             >
               Reserve a table
             </a>
             <a
-              className="aberdeen-action bg-aberdeen-peach text-aberdeen-blue hover:bg-oyster-white"
+              className="aberdeen-action bg-aberdeen-peach text-aberdeen-blue [--action-fill:var(--color-oyster-white)] [--action-foreground:var(--color-aberdeen-blue)]"
               href="/menu/food"
             >
               View menu
@@ -136,10 +159,11 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
           </motion.div>
           <motion.div
             animate={{ opacity: 1, y: 0 }}
+            className="flex justify-center"
             initial={animateIntro ? { opacity: 0, y: 12 } : { opacity: 1, y: 0 }}
             transition={{
               delay: animateIntro ? 2.46 : 0,
-              duration: animateIntro ? 0.68 : 0,
+              duration: animateIntro ? 0.816 : 0,
               ease: [0.22, 1, 0.36, 1],
             }}
           >
@@ -154,7 +178,7 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
         initial={animateIntro ? { x: "0%" } : { x: "-101%" }}
         transition={{
           delay: animateIntro ? 1.08 : 0,
-          duration: animateIntro ? 0.94 : 0,
+          duration: animateIntro ? 1.128 : 0,
           ease: [0.76, 0, 0.24, 1],
         }}
       >
@@ -168,7 +192,7 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
           src="/brand/aberdeen-wordmark-peach.png"
           transition={{
             delay: animateIntro ? 0.12 : 0,
-            duration: animateIntro ? 0.88 : 0,
+            duration: animateIntro ? 1.056 : 0,
             ease: [0.22, 1, 0.36, 1],
           }}
         />
@@ -177,7 +201,7 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
   )
 }
 
-function FramedPhoto({ alt, src }: { alt: string; src: string }) {
+function FramedPhoto({ alt, cmsSlot, src }: { alt: string; cmsSlot?: string; src: string }) {
   return (
     <div className="relative aspect-[1339/1016]">
       <div
@@ -193,7 +217,7 @@ function FramedPhoto({ alt, src }: { alt: string; src: string }) {
           maskSize: "100% 100%",
         }}
       >
-        <img alt={alt} className="h-full w-full object-cover" src={src} />
+        <img alt={alt} className="h-full w-full object-cover" data-cms-slot={cmsSlot} src={src} />
       </div>
       <img
         alt=""
@@ -245,14 +269,7 @@ function RopeDivider({ className = "" }: { className?: string }) {
 }
 
 function PhotoCorners() {
-  return (
-    <>
-      <span className="absolute -top-1 -left-1 z-10 h-14 w-14 bg-oyster-white [clip-path:polygon(0_0,100%_0,0_100%)]" />
-      <span className="absolute -top-1 -right-1 z-10 h-14 w-14 bg-oyster-white [clip-path:polygon(0_0,100%_0,100%_100%)]" />
-      <span className="absolute -bottom-1 -left-1 z-10 h-14 w-14 bg-oyster-white [clip-path:polygon(0_0,100%_100%,0_100%)]" />
-      <span className="absolute -right-1 -bottom-1 z-10 h-14 w-14 bg-oyster-white [clip-path:polygon(100%_0,100%_100%,0_100%)]" />
-    </>
-  )
+  return null
 }
 
 function Postmark() {
@@ -311,7 +328,6 @@ function MenuSection() {
       image:
         "https://images.unsplash.com/photo-1715249792962-5359b4b17f21?auto=format&fit=crop&w=900&q=85",
       copy: "Cold oysters, coastal plates, and generous mains.",
-      label: "Raw bar",
     },
     {
       title: "Spirits",
@@ -319,7 +335,6 @@ function MenuSection() {
       image:
         "https://images.unsplash.com/photo-1582993232955-39424b2cef01?auto=format&fit=crop&w=900&q=85",
       copy: "Crisp cocktails, blue-hour pours, and bottles for the table.",
-      label: "Blue hour",
     },
     {
       title: "Beverages",
@@ -327,7 +342,6 @@ function MenuSection() {
       image:
         "https://images.unsplash.com/photo-1683463787127-9d472af2a9e3?auto=format&fit=crop&w=900&q=85",
       copy: "Sparkling, zero-proof, coffee, tea, and easy afternoon refreshers.",
-      label: "Sparkling",
     },
   ]
 
@@ -363,15 +377,12 @@ function MenuSection() {
             <div className="relative aspect-[4/5] overflow-hidden">
               <img
                 alt=""
-                className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                className="image-reveal-expand h-full w-full object-cover transition duration-[1400ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.025]"
                 src={menu.image}
               />
-              <div className="absolute right-4 bottom-4 rounded-full border border-aberdeen-blue bg-oyster-white px-5 py-3 font-playful text-2xl leading-none text-aberdeen-blue">
-                <p className="mt-1.25">{menu.label}</p>
-              </div>
             </div>
             <div className="min-h-44 p-5">
-              <h3 className="font-display text-5xl decoration-citrus decoration-2 underline-offset-8 group-hover:underline">
+              <h3 className="menu-tab-underline inline-block font-display text-5xl">
                 {menu.title}
               </h3>
               <p className="mt-3 max-w-sm text-base leading-7 text-kelp-ink">{menu.copy}</p>
@@ -383,9 +394,32 @@ function MenuSection() {
   )
 }
 
-function GallerySection() {
+function ScrollGallerySection() {
+  const sectionRef = useRef<HTMLElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  })
+  const weightedProgress = useSpring(scrollYProgress, {
+    damping: 24,
+    stiffness: 95,
+    mass: 0.75,
+  })
+  const x = useTransform(weightedProgress, [0, 1], ["5%", "-45%"])
+  const images = [
+    "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=900&q=85",
+    "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=900&q=85",
+    "https://images.unsplash.com/photo-1523905330026-b8bd1f5f320e?auto=format&fit=crop&w=900&q=85",
+    "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&w=900&q=85",
+    "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=900&q=85",
+    "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=900&q=85",
+  ]
+
   return (
-    <section className="relative isolate overflow-hidden bg-aberdeen-peach py-16 md:py-24">
+    <section
+      className="relative isolate overflow-hidden bg-aberdeen-peach py-16 md:py-24"
+      ref={sectionRef}
+    >
       <DecorativeBackdrop imageClassName="object-cover" opacity={0.13} src={antiqueMapThree} />
       <motion.div
         className="relative z-10 mb-10 flex items-center justify-between gap-6 px-5 md:px-8"
@@ -396,17 +430,18 @@ function GallerySection() {
         </p>
         <MaritimeFlags />
       </motion.div>
-      <div className="relative z-10 grid grid-cols-2 gap-6 px-3 md:grid-cols-4 md:px-8">
-        {[
-          "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=900&q=85",
-          "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=900&q=85",
-          "https://images.unsplash.com/photo-1523905330026-b8bd1f5f320e?auto=format&fit=crop&w=900&q=85",
-          "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&w=900&q=85",
-        ].map((image, index) => (
+      <motion.div
+        className="relative z-10 flex w-max gap-5 px-3 will-change-transform md:gap-7 md:px-8"
+        style={{ x }}
+      >
+        {[...images, ...images].map((image, index) => (
           <motion.div
-            className={`relative h-72 w-full md:h-[34rem] ${index % 2 === 0 ? "md:mt-12" : ""}`}
-            key={image}
-            {...fadeIn(index * 0.08)}
+            className={`relative h-72 w-56 shrink-0 md:h-[34rem] md:w-[24rem] ${
+              index % 2 === 0 ? "md:mt-12" : ""
+            }`}
+            aria-hidden={index >= images.length}
+            key={`${image}-${index}`}
+            {...fadeIn((index % images.length) * 0.08)}
           >
             <TiltWrap className="soft-card-shadow h-full w-full">
               <img alt="" className="h-full w-full object-cover" src={image} />
@@ -414,7 +449,7 @@ function GallerySection() {
             </TiltWrap>
           </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   )
 }
@@ -472,38 +507,49 @@ function ReservationsSection() {
 
 function EventsSection() {
   return (
-    <section className="grid gap-8 bg-aberdeen-blue px-5 py-16 md:grid-cols-[1fr_1fr] md:px-8 md:py-24">
-      <motion.div {...fadeIn()}>
-        <h2 className="font-display text-5xl leading-none text-aberdeen-peach md:text-7xl">
-          Seasonal nights, private dinners, reasons to circle the date.
-        </h2>
+    <section className="relative isolate overflow-hidden bg-oyster-white px-5 py-16 md:px-8 md:py-24">
+      <motion.div
+        className="relative z-10 grid items-center gap-10 md:grid-cols-[0.85fr_0.75fr_0.7fr]"
+        {...fadeIn()}
+      >
+        <div className="text-aberdeen-blue">
+          <p className="font-utility text-sm tracking-[0.22em] uppercase">
+            Events & private dining
+          </p>
+          <h2 className="mt-5 font-display text-5xl leading-none md:text-7xl">
+            A table made for the moment.
+          </h2>
+          <p className="mt-7 max-w-xl text-lg leading-8 text-kelp-ink/80">
+            From candlelit dinners to full-room celebrations, Aberdeen shapes the menu, mood, and
+            pacing around the people you bring together.
+          </p>
+          <a
+            className="aberdeen-action mt-8 bg-aberdeen-blue text-aberdeen-peach [--action-fill:var(--color-oyster-white)]"
+            href="/events"
+          >
+            View events
+          </a>
+        </div>
         <img
           alt=""
           aria-hidden="true"
-          className="white-compass mt-8 h-auto w-full max-w-44 object-contain opacity-65"
+          className="pointer-events-none absolute bottom-0 left-[26%] h-auto w-32 object-contain opacity-35 md:w-44"
           src="/illustrations/nautical/compass-rose-simple.png"
         />
-      </motion.div>
-      <motion.div
-        className="soft-card-shadow relative self-end bg-oyster-white p-6 text-aberdeen-blue"
-        {...fadeIn(0.12)}
-      >
-        <div className="mb-8 grid grid-cols-[auto_1fr] gap-5 border-b border-dotted border-aberdeen-blue/35 pb-5">
-          <div className="grid h-20 w-20 place-items-center bg-citrus font-display text-5xl leading-none">
-            06
-          </div>
-          <div>
-            <p className="font-utility text-xs tracking-[0.18em] uppercase">Harbor ticket</p>
-            <p className="mt-2 font-playful text-4xl leading-none">Seasonal Nights</p>
-          </div>
+        <div className="relative mt-10 h-[34rem] overflow-hidden shadow-[0_24px_60px_rgb(29_42_47/0.18)] md:mt-0 md:h-[43rem]">
+          <img
+            alt="A candlelit table set for an Aberdeen private dinner"
+            className="h-full w-full object-cover"
+            src="https://images.unsplash.com/photo-1646473334251-827ea2e0b9ea?auto=format&fit=crop&w=1200&q=85"
+          />
         </div>
-        <p className="text-lg leading-8">
-          Aberdeen events bring the coastal mood into dinners, tastings, and gathered evenings built
-          around the calendar.
-        </p>
-        <a className="aberdeen-action mt-8 bg-aberdeen-blue text-aberdeen-peach" href="/events">
-          View events
-        </a>
+        <div className="relative h-[28rem] overflow-hidden shadow-[0_20px_50px_rgb(29_42_47/0.16)] md:mt-24 md:h-[34rem]">
+          <img
+            alt="Guests gathered around a private dining table"
+            className="h-full w-full object-cover"
+            src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1000&q=85"
+          />
+        </div>
       </motion.div>
     </section>
   )

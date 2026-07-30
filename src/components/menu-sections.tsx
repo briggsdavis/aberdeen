@@ -1,10 +1,10 @@
 import { motion } from "motion/react"
 import { Link } from "react-router"
+import { useCmsRuntime } from "../lib/cms-runtime"
+import { fadeIn } from "../lib/motion"
 import { DecorativeBackdrop } from "./decorative-media"
 import { PhotoCorners, RopeDivider } from "./nautical-details"
 import { MenuLikeButton, PostcardImageStack, RippleSection } from "./site-extras"
-import { useCmsRuntime } from "../lib/cms-runtime"
-import { fadeIn } from "../lib/motion"
 
 export type StandardMenuGroup = {
   title: string
@@ -72,8 +72,8 @@ export function MenuPageHero({
             <Link
               className={
                 tab.to === activePath
-                  ? "underline decoration-citrus decoration-2 underline-offset-8"
-                  : "decoration-citrus decoration-2 underline-offset-8 opacity-70 transition hover:underline hover:opacity-100"
+                  ? "menu-tab-underline is-active"
+                  : "menu-tab-underline opacity-70 hover:opacity-100"
               }
               key={tab.label}
               to={tab.to}
@@ -119,7 +119,7 @@ function MenuList({
       </div>
       <ul className="space-y-5">
         {group.items.map((item) => (
-          <li className="flex items-center gap-4" key={item.name}>
+          <li className="menu-item-row flex items-center gap-4" key={item.name}>
             <div className="grid min-w-0 grow grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
               <div className="min-w-0">
                 <p
@@ -145,11 +145,7 @@ function MenuList({
                 {item.price}
               </span>
             </div>
-            <MenuLikeButton
-              initialCount={item.likes}
-              itemId={item._id}
-              itemName={item.name}
-            />
+            <MenuLikeButton initialCount={item.likes} itemId={item._id} itemName={item.name} />
           </li>
         ))}
       </ul>
@@ -275,9 +271,7 @@ export function MenuReservation({
       <div className="relative z-10 grid gap-10 md:grid-cols-[1fr_0.9fr]">
         <motion.div {...fadeIn()}>
           <p className="font-utility text-sm tracking-[0.22em] uppercase">Reservations</p>
-          <h2 className="mt-5 max-w-3xl font-display text-5xl leading-none md:text-7xl">
-            {title}
-          </h2>
+          <h2 className="mt-5 max-w-3xl font-display text-5xl leading-none md:text-7xl">{title}</h2>
           <img
             alt=""
             aria-hidden="true"

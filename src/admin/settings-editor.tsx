@@ -122,8 +122,8 @@ export default function SettingsEditor() {
             {saving ? "Saving…" : saved ? "Saved" : "Save changes"}
           </PrimaryButton>
         }
-        description="Contact information, opening hours, map details, social links, and footer content used throughout the site."
-        title="Contact & global settings"
+        description="Footer content, contact information, opening hours, map details, and social links used throughout the site."
+        title="Footer and Global"
       />
       <div className="grid gap-5 xl:grid-cols-2">
         <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">

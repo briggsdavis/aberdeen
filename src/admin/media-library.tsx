@@ -14,7 +14,7 @@ import type { Id } from "../../convex/_generated/dataModel"
 import { EmptyState, Input, PrimaryButton, SecondaryButton } from "./ui"
 
 type MediaKind = "image" | "video"
-type MediaFilter = "all" | MediaKind
+type MediaFilter = "photos" | "videos" | "decorations"
 
 export type MediaSelection = {
   id: Id<"mediaAssets">
@@ -133,15 +133,17 @@ export default function MediaLibrary({
   onSelect,
   selectedId,
   acceptedKinds = ["image", "video"],
+  initialFilter = "photos",
 }: {
   onSelect?: (selection: MediaSelection) => void
   selectedId?: Id<"mediaAssets">
   acceptedKinds?: MediaKind[]
+  initialFilter?: MediaFilter
 }) {
-  const [filter, setFilter] = useState<MediaFilter>("all")
+  const [filter, setFilter] = useState<MediaFilter>(initialFilter)
   const { results, status, loadMore } = usePaginatedQuery(
     api.media.list,
-    { kind: filter },
+    { kind: filter === "videos" ? "video" : "image" },
     { initialNumItems: 24 },
   )
   const generateUploadUrl = useMutation(api.media.generateUploadUrl)
@@ -157,10 +159,22 @@ export default function MediaLibrary({
   const [error, setError] = useState("")
   const filtered = useMemo(
     () =>
-      results.filter((asset) =>
-        `${asset.filename} ${asset.alt}`.toLowerCase().includes(search.toLowerCase()),
-      ),
-    [results, search],
+      results.filter((asset) => {
+        const isDecoration = asset.usageRoles.some(
+          (role) => role === "decorative" || role === "background",
+        )
+        const matchesCategory =
+          filter === "videos"
+            ? asset.kind === "video"
+            : filter === "decorations"
+              ? asset.kind === "image" && isDecoration
+              : asset.kind === "image" && !isDecoration
+        return (
+          matchesCategory &&
+          `${asset.filename} ${asset.alt}`.toLowerCase().includes(search.toLowerCase())
+        )
+      }),
+    [filter, results, search],
   )
 
   const updateUpload = useCallback((id: string, values: Partial<UploadItem>) => {
@@ -369,7 +383,7 @@ export default function MediaLibrary({
           value={search}
         />
         <div className="flex rounded-lg border border-slate-200 bg-white p-1">
-          {(["all", "image", "video"] as const).map((kind) => (
+          {(["photos", "videos", "decorations"] as const).map((kind) => (
             <button
               className={`rounded-md px-3 py-2 text-xs font-semibold capitalize transition ${
                 filter === kind ? "bg-aberdeen-blue text-white" : "text-slate-500 hover:bg-slate-50"
@@ -378,7 +392,7 @@ export default function MediaLibrary({
               onClick={() => setFilter(kind)}
               type="button"
             >
-              {kind === "all" ? "All" : `${kind}s`}
+              {kind}
             </button>
           ))}
         </div>

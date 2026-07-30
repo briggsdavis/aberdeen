@@ -101,14 +101,7 @@ function RopeDivider({ className = "" }: { className?: string }) {
 }
 
 function PhotoCorners() {
-  return (
-    <>
-      <span className="absolute -top-1 -left-1 z-10 h-14 w-14 bg-aberdeen-peach [clip-path:polygon(0_0,100%_0,0_100%)]" />
-      <span className="absolute -top-1 -right-1 z-10 h-14 w-14 bg-aberdeen-peach [clip-path:polygon(0_0,100%_0,100%_100%)]" />
-      <span className="absolute -bottom-1 -left-1 z-10 h-14 w-14 bg-aberdeen-peach [clip-path:polygon(0_0,100%_100%,0_100%)]" />
-      <span className="absolute -right-1 -bottom-1 z-10 h-14 w-14 bg-aberdeen-peach [clip-path:polygon(100%_0,100%_100%,0_100%)]" />
-    </>
-  )
+  return null
 }
 
 function Postmark() {

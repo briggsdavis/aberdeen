@@ -1,5 +1,5 @@
 import { useReducedMotion } from "motion/react"
-import { useEffect } from "react"
+import { useEffect, useLayoutEffect } from "react"
 import { Outlet, useLocation } from "react-router"
 import CmsDomBridge from "./cms-dom-bridge"
 import { PageTransitionProvider } from "./page-transition"
@@ -25,6 +25,44 @@ function SiteLayout() {
   const editorPreview = new URLSearchParams(location.search).has("cmsPreview")
   const focusedEditorPreview =
     new URLSearchParams(location.search).get("cmsScope") === "staff-introduction"
+
+  useLayoutEffect(() => {
+    if (shouldReduceMotion) return
+
+    const main = document.querySelector(".public-site-main")
+    if (!main) return
+
+    const images = Array.from(
+      main.querySelectorAll<HTMLImageElement>(
+        "section:not(:first-child) img:not([aria-hidden='true']):not(.no-scroll-reveal)",
+      ),
+    )
+    images.forEach((image) => image.classList.add("site-image-wipe-up"))
+
+    let animationFrame = 0
+    const revealVisibleImages = () => {
+      animationFrame = 0
+      const revealLine = window.innerHeight * 0.92
+      images.forEach((image) => {
+        if (image.classList.contains("is-revealed")) return
+        const rect = image.getBoundingClientRect()
+        if (rect.top <= revealLine && rect.bottom >= 0) image.classList.add("is-revealed")
+      })
+    }
+    const scheduleRevealCheck = () => {
+      if (animationFrame) return
+      animationFrame = window.requestAnimationFrame(revealVisibleImages)
+    }
+
+    scheduleRevealCheck()
+    window.addEventListener("scroll", scheduleRevealCheck, { passive: true })
+    window.addEventListener("resize", scheduleRevealCheck, { passive: true })
+    return () => {
+      window.cancelAnimationFrame(animationFrame)
+      window.removeEventListener("scroll", scheduleRevealCheck)
+      window.removeEventListener("resize", scheduleRevealCheck)
+    }
+  }, [location.pathname, shouldReduceMotion])
 
   useEffect(() => {
     if (!editorPreview) return
@@ -54,7 +92,7 @@ function SiteLayout() {
       <div className="relative min-h-svh bg-aberdeen-peach text-kelp-ink">
         <PageTransitionProvider>
           {focusedEditorPreview ? null : <SiteHeader playHomeIntro={playHomeIntro} />}
-          <main className="relative">
+          <main className="public-site-main relative">
             <Outlet context={{ playHomeIntro }} />
           </main>
           <CmsDomBridge />

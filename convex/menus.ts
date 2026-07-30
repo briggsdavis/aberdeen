@@ -9,11 +9,7 @@ const layoutValidator = v.union(
   v.literal("imageRight"),
   v.literal("paired"),
 )
-const backgroundValidator = v.union(
-  v.literal("oyster"),
-  v.literal("peach"),
-  v.literal("blue"),
-)
+const backgroundValidator = v.union(v.literal("oyster"), v.literal("peach"), v.literal("blue"))
 
 async function assetUrl(ctx: QueryCtx, id: Id<"mediaAssets"> | undefined) {
   if (!id) return null
@@ -29,7 +25,7 @@ async function setMediaUsage(
   pageId: Id<"menuPages">,
   slotKey: string,
   mediaId: Id<"mediaAssets"> | undefined,
-  role: "content" | "background",
+  role: "content" | "decorative" | "background",
 ) {
   const page = menuUsagePage(pageId)
   const existing = await ctx.db
@@ -52,12 +48,14 @@ async function syncSectionMediaUsages(
   pageId: Id<"menuPages">,
   sectionId: Id<"menuSections">,
   values: {
+    mapMediaId?: Id<"mediaAssets">
     imageMediaId?: Id<"mediaAssets">
     postcardOneMediaId?: Id<"mediaAssets">
     postcardTwoMediaId?: Id<"mediaAssets">
     postcardThreeMediaId?: Id<"mediaAssets">
   },
 ) {
+  await setMediaUsage(ctx, pageId, `section:${sectionId}:map`, values.mapMediaId, "decorative")
   await setMediaUsage(ctx, pageId, `section:${sectionId}:image`, values.imageMediaId, "content")
   await setMediaUsage(
     ctx,
@@ -99,6 +97,7 @@ async function nestedPage(ctx: QueryCtx, page: Doc<"menuPages">) {
           .collect()
         return {
           ...section,
+          mapImage: (await assetUrl(ctx, section.mapMediaId)) ?? section.mapImage,
           image: await assetUrl(ctx, section.imageMediaId),
           postcards: await Promise.all([
             assetUrl(ctx, section.postcardOneMediaId),
@@ -122,8 +121,15 @@ async function nestedPage(ctx: QueryCtx, page: Doc<"menuPages">) {
 
 export const listPublicNavigation = query({
   args: {},
-  handler: async (ctx) =>
-    await ctx.db.query("menuPages").withIndex("by_order").collect(),
+  handler: async (ctx) => {
+    const pages = await ctx.db.query("menuPages").withIndex("by_order").collect()
+    return await Promise.all(
+      pages.map(async (page) => ({
+        ...page,
+        heroImage: await assetUrl(ctx, page.heroMediaId),
+      })),
+    )
+  },
 })
 
 export const getPublicBySlug = query({
@@ -162,11 +168,7 @@ function normalizedSlug(value: string) {
     .replace(/^-+|-+$/g, "")
 }
 
-async function assertUniqueSlug(
-  ctx: MutationCtx,
-  slug: string,
-  except?: Id<"menuPages">,
-) {
+async function assertUniqueSlug(ctx: MutationCtx, slug: string, except?: Id<"menuPages">) {
   const existing = await ctx.db
     .query("menuPages")
     .withIndex("by_slug", (q) => q.eq("slug", slug))
@@ -273,6 +275,7 @@ const sectionFields = {
   layout: layoutValidator,
   background: backgroundValidator,
   mapImage: v.string(),
+  mapMediaId: v.optional(v.id("mediaAssets")),
   imageMediaId: v.optional(v.id("mediaAssets")),
   imageCaption: v.string(),
   showPostcardOne: v.boolean(),
@@ -462,11 +465,7 @@ const seedSectionValidator = v.object({
   groups: v.array(seedGroupValidator),
 })
 
-async function sourceMedia(
-  ctx: MutationCtx,
-  url: string,
-  alt: string,
-): Promise<Id<"mediaAssets">> {
+async function sourceMedia(ctx: MutationCtx, url: string, alt: string): Promise<Id<"mediaAssets">> {
   const existing = await ctx.db
     .query("mediaAssets")
     .withIndex("by_sourceUrl", (q) => q.eq("sourceUrl", url))
@@ -514,19 +513,35 @@ export const initializeDefaults = mutation({
       await setMediaUsage(ctx, pageId, "hero", heroMediaId, "background")
 
       for (const [sectionOrder, section] of page.sections.entries()) {
+        const mapMediaId = await sourceMedia(
+          ctx,
+          section.mapImage,
+          `${section.groups[0]?.title ?? page.title} map background`,
+        )
         const imageMediaId = section.imageUrl
-          ? await sourceMedia(ctx, section.imageUrl, `${section.groups[0]?.title ?? page.title} image`)
+          ? await sourceMedia(
+              ctx,
+              section.imageUrl,
+              `${section.groups[0]?.title ?? page.title} image`,
+            )
           : undefined
         const postcardIds = await Promise.all(
-          section.postcardUrls.slice(0, 3).map((url, index) =>
-            sourceMedia(ctx, url, `${section.groups[0]?.title ?? page.title} postcard ${index + 1}`),
-          ),
+          section.postcardUrls
+            .slice(0, 3)
+            .map((url, index) =>
+              sourceMedia(
+                ctx,
+                url,
+                `${section.groups[0]?.title ?? page.title} postcard ${index + 1}`,
+              ),
+            ),
         )
         const sectionId = await ctx.db.insert("menuSections", {
           pageId,
           layout: section.layout,
           background: section.background,
           mapImage: section.mapImage,
+          mapMediaId,
           imageMediaId,
           imageCaption: section.imageCaption,
           showPostcardOne: Boolean(postcardIds[0]),
@@ -540,6 +555,7 @@ export const initializeDefaults = mutation({
           updatedAt: now,
         })
         await syncSectionMediaUsages(ctx, pageId, sectionId, {
+          mapMediaId,
           imageMediaId,
           postcardOneMediaId: postcardIds[0],
           postcardTwoMediaId: postcardIds[1],

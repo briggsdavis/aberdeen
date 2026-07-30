@@ -296,8 +296,8 @@ function MenuTabs() {
         <Link
           className={
             tab.active
-              ? "underline decoration-citrus decoration-2 underline-offset-8"
-              : "decoration-citrus decoration-2 underline-offset-8 opacity-70 transition hover:underline hover:opacity-100"
+              ? "menu-tab-underline is-active"
+              : "menu-tab-underline opacity-70 hover:opacity-100"
           }
           key={tab.label}
           to={tab.to}
@@ -353,7 +353,11 @@ function MenuList({ delay = 0, group }: { delay?: number; group: MenuGroup }) {
           const image = getMenuItemImage(group, index)
 
           return (
-            <li className="flex items-center gap-4" data-image-src={image.src} key={item.name}>
+            <li
+              className="menu-item-row flex items-center gap-4"
+              data-image-src={image.src}
+              key={item.name}
+            >
               <div className="grid min-w-0 grow grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
                 <div className="min-w-0">
                   <p className="font-display text-xl leading-none text-aberdeen-blue">
@@ -471,7 +475,11 @@ function MainsList({ delay = 0, group }: { delay?: number; group: MenuGroup }) {
           const image = getMenuItemImage(group, index)
 
           return (
-            <li className="flex items-center gap-4" data-image-src={image.src} key={item.name}>
+            <li
+              className="menu-item-row flex items-center gap-4"
+              data-image-src={image.src}
+              key={item.name}
+            >
               <div className="grid min-w-0 grow grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
                 <div className="min-w-0">
                   <p className="font-display text-xl leading-none">{item.name}</p>

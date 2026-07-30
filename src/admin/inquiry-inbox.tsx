@@ -1,4 +1,4 @@
-import { Archive, EnvelopeOpen, MagnifyingGlass, Star } from "@phosphor-icons/react"
+import { Archive, EnvelopeOpen, MagnifyingGlass, Star, Trash } from "@phosphor-icons/react"
 import { useMutation, useQuery } from "convex/react"
 import { useMemo, useState } from "react"
 import { api } from "../../convex/_generated/api"
@@ -11,11 +11,15 @@ export default function InquiryInbox() {
   const inquiries = useQuery(api.inquiries.listAdmin)
   const setStatus = useMutation(api.inquiries.setStatus)
   const setStarred = useMutation(api.inquiries.setStarred)
+  const removeInquiry = useMutation(api.inquiries.remove)
   const [search, setSearch] = useState("")
   const [type, setType] = useState<"all" | Inquiry["type"]>("all")
   const [status, setStatusFilter] = useState<"active" | "new" | "read" | "archived">("active")
   const [starredOnly, setStarredOnly] = useState(false)
   const [selected, setSelected] = useState<Inquiry | null>(null)
+  const [deleteTarget, setDeleteTarget] = useState<Inquiry | null>(null)
+  const [deleting, setDeleting] = useState(false)
+  const [deleteError, setDeleteError] = useState("")
 
   const filtered = useMemo(() => {
     const needle = search.trim().toLowerCase()
@@ -33,6 +37,21 @@ export default function InquiryInbox() {
   const openInquiry = (inquiry: Inquiry) => {
     setSelected(inquiry)
     if (inquiry.status === "new") void setStatus({ id: inquiry._id, status: "read" })
+  }
+
+  const confirmDelete = async () => {
+    if (!deleteTarget) return
+    setDeleting(true)
+    setDeleteError("")
+    try {
+      await removeInquiry({ id: deleteTarget._id })
+      if (selected?._id === deleteTarget._id) setSelected(null)
+      setDeleteTarget(null)
+    } catch (error) {
+      setDeleteError(error instanceof Error ? error.message : "The inquiry could not be deleted.")
+    } finally {
+      setDeleting(false)
+    }
   }
 
   return (
@@ -131,26 +150,40 @@ export default function InquiryInbox() {
                 </span>
                 <p className="truncate text-xs text-slate-500">{inquiry.message}</p>
               </button>
-              <div className="text-right">
-                <p className="text-[11px] text-slate-400">
-                  {new Intl.DateTimeFormat("en-US", {
-                    month: "short",
-                    day: "numeric",
-                  }).format(inquiry.createdAt)}
-                </p>
+              <div className="flex items-center gap-1 text-right">
+                <div>
+                  <p className="text-[11px] text-slate-400">
+                    {new Intl.DateTimeFormat("en-US", {
+                      month: "short",
+                      day: "numeric",
+                    }).format(inquiry.createdAt)}
+                  </p>
+                  <button
+                    aria-label="Archive inquiry"
+                    className="mt-1 rounded-md p-1.5 text-slate-300 hover:bg-white hover:text-aberdeen-blue"
+                    onClick={(event) => {
+                      event.stopPropagation()
+                      void setStatus({
+                        id: inquiry._id,
+                        status: inquiry.status === "archived" ? "read" : "archived",
+                      })
+                    }}
+                    type="button"
+                  >
+                    <Archive size={16} />
+                  </button>
+                </div>
                 <button
-                  aria-label="Archive inquiry"
-                  className="mt-1 rounded-md p-1.5 text-slate-300 hover:bg-white hover:text-aberdeen-blue"
+                  aria-label="Delete inquiry"
+                  className="rounded-md p-1.5 text-slate-300 hover:bg-red-50 hover:text-red-600"
                   onClick={(event) => {
                     event.stopPropagation()
-                    void setStatus({
-                      id: inquiry._id,
-                      status: inquiry.status === "archived" ? "read" : "archived",
-                    })
+                    setDeleteError("")
+                    setDeleteTarget(inquiry)
                   }}
                   type="button"
                 >
-                  <Archive size={16} />
+                  <Trash size={16} />
                 </button>
               </div>
             </article>
@@ -206,12 +239,51 @@ export default function InquiryInbox() {
                 <Archive size={16} />
                 {selected.status === "archived" ? "Restore" : "Archive"}
               </SecondaryButton>
+              <SecondaryButton
+                className="text-red-600"
+                onClick={() => {
+                  setDeleteError("")
+                  setDeleteTarget(selected)
+                }}
+              >
+                <Trash size={16} />
+                Delete
+              </SecondaryButton>
               <a
                 className="inline-flex items-center justify-center rounded-lg bg-aberdeen-blue px-4 py-2.5 text-sm font-semibold text-white"
                 href={`mailto:${selected.email}`}
               >
                 Reply by email
               </a>
+            </div>
+          </div>
+        </Modal>
+      ) : null}
+      {deleteTarget ? (
+        <Modal onClose={() => !deleting && setDeleteTarget(null)} title="Delete inquiry?">
+          <div className="grid gap-5">
+            <div className="rounded-xl bg-red-50 p-4">
+              <p className="font-semibold text-red-900">
+                Permanently delete the inquiry from {deleteTarget.name}?
+              </p>
+              <p className="mt-2 text-sm leading-6 text-red-700">
+                This removes the message from the inbox and cannot be undone.
+              </p>
+            </div>
+            {deleteError ? <p className="text-sm text-red-700">{deleteError}</p> : null}
+            <div className="flex justify-end gap-3">
+              <SecondaryButton disabled={deleting} onClick={() => setDeleteTarget(null)}>
+                Cancel
+              </SecondaryButton>
+              <button
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-red-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-red-700 disabled:pointer-events-none disabled:opacity-50"
+                disabled={deleting}
+                onClick={() => void confirmDelete()}
+                type="button"
+              >
+                <Trash size={16} />
+                {deleting ? "Deleting…" : "Delete inquiry"}
+              </button>
             </div>
           </div>
         </Modal>

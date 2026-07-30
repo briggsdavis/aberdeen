@@ -1,12 +1,30 @@
 import { v } from "convex/values"
 import { mutation, query } from "./_generated/server"
+import type { MutationCtx } from "./_generated/server"
 import { requireAdmin } from "./lib/admin"
+
+const staticPublicPaths = new Set(["/", "/about", "/contact", "/events", "/staff", "/test"])
+const legacyMenuPaths = new Set(["/menu/food", "/menu/spirits", "/menu/beverages"])
+
+async function isValidPublicPath(ctx: MutationCtx, path: string) {
+  if (staticPublicPaths.has(path) || legacyMenuPaths.has(path)) return true
+  if (!path.startsWith("/menu/")) return false
+  const slug = path.slice("/menu/".length)
+  if (!slug || slug.includes("/")) return false
+  return Boolean(
+    await ctx.db
+      .query("menuPages")
+      .withIndex("by_slug", (q) => q.eq("slug", slug))
+      .unique(),
+  )
+}
 
 export const trackPageView = mutation({
   args: { path: v.string(), sessionId: v.string() },
   handler: async (ctx, args) => {
     if (!args.path.startsWith("/") || args.path.startsWith("/admin")) return null
     if (args.path.length > 160 || args.sessionId.length > 100) return null
+    if (!(await isValidPublicPath(ctx, args.path))) return null
     await ctx.db.insert("pageViews", { ...args, createdAt: Date.now() })
     return null
   },
@@ -18,7 +36,7 @@ export const dashboard = query({
     await requireAdmin(ctx)
     const days = Math.max(7, Math.min(90, Math.round(args.days)))
     const since = args.now - days * 24 * 60 * 60 * 1000
-    const [views, inquiries] = await Promise.all([
+    const [storedViews, inquiries, menuPages] = await Promise.all([
       ctx.db
         .query("pageViews")
         .withIndex("by_createdAt", (q) => q.gte("createdAt", since))
@@ -27,7 +45,14 @@ export const dashboard = query({
         .query("inquiries")
         .withIndex("by_createdAt", (q) => q.gte("createdAt", since))
         .take(1000),
+      ctx.db.query("menuPages").withIndex("by_order").collect(),
     ])
+    const validPaths = new Set([
+      ...staticPublicPaths,
+      ...legacyMenuPaths,
+      ...menuPages.map((page) => `/menu/${page.slug}`),
+    ])
+    const views = storedViews.filter((view) => validPaths.has(view.path))
     const uniqueVisitors = new Set(views.map((view) => view.sessionId)).size
     const pathCounts = new Map<string, number>()
     const dailyViews = Array.from({ length: days }, (_, index) => ({

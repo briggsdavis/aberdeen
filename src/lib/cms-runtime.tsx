@@ -90,7 +90,9 @@ type CmsRuntimeValue = {
   staff: PublicStaffMember[] | undefined
   events: PublicEvent[] | undefined
   menu: PublicMenuPage | null | undefined
-  menuPages: Array<{ _id: string; title: string; slug: string; order: number }> | undefined
+  menuPages:
+    | Array<{ _id: string; title: string; slug: string; order: number; heroImage: string | null }>
+    | undefined
   site: SiteBundle | undefined
   submitInquiry: ((input: InquiryInput) => Promise<unknown>) | null
 }

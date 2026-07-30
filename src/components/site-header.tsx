@@ -1,4 +1,4 @@
-import { motion, useReducedMotion } from "motion/react"
+import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 import { useCallback, useEffect, useState } from "react"
 import { useLocation } from "react-router"
 import { useCmsRuntime } from "../lib/cms-runtime"
@@ -12,6 +12,27 @@ const navItems = [
   { label: "Contact", to: "/contact" },
 ]
 
+const fallbackMenuPreviews = [
+  {
+    title: "Food",
+    slug: "food",
+    heroImage:
+      "https://images.unsplash.com/photo-1715249792962-5359b4b17f21?auto=format&fit=crop&w=900&q=85",
+  },
+  {
+    title: "Spirits",
+    slug: "spirits",
+    heroImage:
+      "https://images.unsplash.com/photo-1582993232955-39424b2cef01?auto=format&fit=crop&w=900&q=85",
+  },
+  {
+    title: "Beverages",
+    slug: "beverages",
+    heroImage:
+      "https://images.unsplash.com/photo-1683463787127-9d472af2a9e3?auto=format&fit=crop&w=900&q=85",
+  },
+]
+
 function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
   const location = useLocation()
   const shouldReduceMotion = useReducedMotion()
@@ -19,8 +40,19 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
   const [isHidden, setIsHidden] = useState(false)
   const [isHomeIntroActive, setIsHomeIntroActive] = useState(playHomeIntro)
   const [isScrolled, setIsScrolled] = useState(false)
-  const { site } = useCmsRuntime()
+  const [menuPreviewOpen, setMenuPreviewOpen] = useState(false)
+  const { menuPages, site } = useCmsRuntime()
   const reservationUrl = site?.settings.reservationUrl ?? "/contact"
+  const menuPreviews = menuPages?.length
+    ? menuPages.slice(0, 3).map((page) => ({
+        title: page.title,
+        slug: page.slug,
+        heroImage:
+          page.heroImage ??
+          fallbackMenuPreviews.find((fallback) => fallback.slug === page.slug)?.heroImage ??
+          fallbackMenuPreviews[0]!.heroImage,
+      }))
+    : fallbackMenuPreviews
   const closeMenu = useCallback(() => setIsMenuOpen(false), [])
   const toggleMenu = useCallback(() => setIsMenuOpen((isOpen) => !isOpen), [])
 
@@ -66,7 +98,7 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
     }
 
     setIsHomeIntroActive(true)
-    const introTimer = window.setTimeout(() => setIsHomeIntroActive(false), 1850)
+    const introTimer = window.setTimeout(() => setIsHomeIntroActive(false), 2220)
     return () => window.clearTimeout(introTimer)
   }, [playHomeIntro, shouldReduceMotion])
 
@@ -79,24 +111,79 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
       initial={false}
       onFocusCapture={() => setIsHidden(false)}
       transition={{
-        duration: shouldReduceMotion ? 0 : isHomeIntroActive ? 0.25 : 0.72,
+        duration: shouldReduceMotion ? 0 : isHomeIntroActive ? 0.3 : 0.864,
         ease: [0.22, 1, 0.36, 1],
       }}
     >
       <div className="flex items-center justify-between px-5 py-4 md:px-8">
-        <TransitionLink className="block w-36 md:w-44" onClick={closeMenu} to="/">
+        <TransitionLink className="nav-logo block w-36 md:w-44" onClick={closeMenu} to="/">
           <img alt="Aberdeen" src="/brand/aberdeen-wordmark-peach.png" />
         </TransitionLink>
         <nav className="hidden items-center gap-7 font-utility text-sm tracking-[0.16em] uppercase md:flex">
-          {navItems.map((item) => (
-            <TransitionLink className="nav-underline" key={item.label} to={item.to}>
-              {item.label}
-            </TransitionLink>
-          ))}
+          {navItems.map((item) =>
+            item.label === "Menus" ? (
+              <div
+                className="relative"
+                key={item.label}
+                onBlur={(event) => {
+                  if (!event.currentTarget.contains(event.relatedTarget)) setMenuPreviewOpen(false)
+                }}
+                onFocus={() => setMenuPreviewOpen(true)}
+                onMouseEnter={() => setMenuPreviewOpen(true)}
+                onMouseLeave={() => setMenuPreviewOpen(false)}
+              >
+                <TransitionLink
+                  aria-expanded={menuPreviewOpen}
+                  className="nav-underline"
+                  to={item.to}
+                >
+                  {item.label}
+                </TransitionLink>
+                <AnimatePresence>
+                  {menuPreviewOpen ? (
+                    <motion.div
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      className="absolute top-full left-1/2 w-[min(88vw,64rem)] -translate-x-1/2 pt-5"
+                      exit={{ opacity: 0, scale: 0.99, y: -4 }}
+                      initial={{ opacity: 0, scale: 0.985, y: -4 }}
+                      transition={{ duration: 0.72, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                      <div className="bg-white p-6 text-aberdeen-blue shadow-[0_28px_70px_rgb(14_24_69/0.2)]">
+                        <div className="grid grid-cols-3 gap-5">
+                          {menuPreviews.map((menu) => (
+                            <TransitionLink
+                              className="group block"
+                              key={menu.slug}
+                              to={`/menu/${menu.slug}`}
+                            >
+                              <span className="block aspect-[16/10] overflow-hidden bg-oyster-white">
+                                <img
+                                  alt=""
+                                  className="h-full w-full object-cover transition-transform duration-[1300ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.025]"
+                                  src={menu.heroImage}
+                                />
+                              </span>
+                              <span className="menu-tab-underline mt-4 inline-block font-display text-3xl leading-none tracking-normal normal-case">
+                                {menu.title}
+                              </span>
+                            </TransitionLink>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+                  ) : null}
+                </AnimatePresence>
+              </div>
+            ) : (
+              <TransitionLink className="nav-underline" key={item.label} to={item.to}>
+                {item.label}
+              </TransitionLink>
+            ),
+          )}
         </nav>
         <div className="hidden md:block">
           <a
-            className="border border-white bg-white px-4 py-2 font-utility text-sm tracking-[0.14em] text-black uppercase transition hover:bg-transparent hover:text-white"
+            className="aberdeen-action border border-white bg-white px-4 py-2 font-utility text-sm tracking-[0.14em] text-black uppercase [--action-fill:var(--color-aberdeen-blue)] hover:text-white"
             href={reservationUrl}
           >
             Reserve
@@ -145,7 +232,7 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
             </TransitionLink>
           ))}
           <a
-            className="mt-3 inline-block w-fit bg-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase"
+            className="aberdeen-action mt-3 w-fit bg-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase"
             onClick={closeMenu}
             href={reservationUrl}
           >

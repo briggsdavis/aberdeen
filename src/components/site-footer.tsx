@@ -1,4 +1,5 @@
 import { useCmsRuntime } from "../lib/cms-runtime"
+import { CursorCompass } from "./decorative-media"
 import { TransitionLink } from "./page-transition"
 
 const pageLinks = [
@@ -52,7 +53,7 @@ function SiteFooter() {
 
   return (
     <footer className="site-footer flex min-h-svh flex-col bg-oyster-white px-5 py-8 text-aberdeen-blue md:px-8 md:py-10 lg:h-svh lg:overflow-hidden">
-      <div className="grid gap-6 lg:grid-cols-[1.3fr_0.7fr] lg:items-end">
+      <div className="grid gap-6 lg:grid-cols-[1fr_auto_1fr] lg:items-center">
         <div>
           <p className="font-utility text-xs tracking-[0.24em] uppercase">A table by the water</p>
           <img
@@ -60,6 +61,9 @@ function SiteFooter() {
             className="mt-4 w-full max-w-md"
             src="/brand/aberdeen-wordmark-blue.png"
           />
+        </div>
+        <div className="mx-auto w-28 lg:mx-0 lg:w-32">
+          <CursorCompass />
         </div>
         <p className="max-w-lg font-playful text-2xl leading-tight text-aberdeen-blue md:text-3xl lg:justify-self-end">
           {tagline}
@@ -76,7 +80,7 @@ function SiteFooter() {
           <nav aria-label="Footer navigation" className="mt-5 grid gap-2">
             {visiblePageLinks.map(([label, to]) => (
               <TransitionLink
-                className="w-fit font-display text-xl leading-none decoration-citrus decoration-2 underline-offset-6 hover:underline"
+                className="menu-tab-underline w-fit font-display text-xl leading-none"
                 key={to}
                 to={to}
               >

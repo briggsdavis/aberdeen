@@ -87,6 +87,7 @@ export const list = query({
             ...asset,
             ...(await mediaUrls(ctx, asset)),
             usageCount: usages.length,
+            usageRoles: [...new Set(usages.map((usage) => usage.role))],
             usages: [...pageCounts.entries()].map(([page, count]) => ({ count, page })),
           }
         }),

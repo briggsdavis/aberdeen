@@ -151,14 +151,7 @@ function Tape({ className = "" }: { className?: string }) {
 }
 
 function PhotoCorners() {
-  return (
-    <>
-      <span className="absolute top-3 left-3 z-20 h-12 w-12 border-t-8 border-l-8 border-oyster-white shadow-sm" />
-      <span className="absolute top-3 right-3 z-20 h-12 w-12 border-t-8 border-r-8 border-oyster-white shadow-sm" />
-      <span className="absolute bottom-3 left-3 z-20 h-12 w-12 border-b-8 border-l-8 border-oyster-white shadow-sm" />
-      <span className="absolute right-3 bottom-3 z-20 h-12 w-12 border-r-8 border-b-8 border-oyster-white shadow-sm" />
-    </>
-  )
+  return null
 }
 
 function RopeDivider({ className = "" }: { className?: string }) {
@@ -453,7 +446,6 @@ function FlagTabsSection() {
           >
             <span className="font-utility text-xs tracking-[0.18em] uppercase">Signal</span>
             <span className="mt-8 block font-display text-4xl leading-none">{tab}</span>
-            <span className="absolute right-0 bottom-0 h-10 w-10 bg-oyster-white [clip-path:polygon(100%_0,0_100%,100%_100%)]" />
           </motion.a>
         ))}
       </nav>

@@ -56,13 +56,10 @@ export default defineSchema({
     .index("by_slug", ["slug"]),
   menuSections: defineTable({
     pageId: v.id("menuPages"),
-    layout: v.union(
-      v.literal("imageLeft"),
-      v.literal("imageRight"),
-      v.literal("paired"),
-    ),
+    layout: v.union(v.literal("imageLeft"), v.literal("imageRight"), v.literal("paired")),
     background: v.union(v.literal("oyster"), v.literal("peach"), v.literal("blue")),
     mapImage: v.string(),
+    mapMediaId: v.optional(v.id("mediaAssets")),
     imageMediaId: v.optional(v.id("mediaAssets")),
     imageCaption: v.string(),
     showPostcardOne: v.boolean(),

@@ -196,14 +196,18 @@ function UpcomingList({ events }: { events: DisplayEvent[] }) {
     <motion.div className="grid gap-6" {...fadeInPlace()}>
       {events.map((event, index) => (
         <motion.article
-          className="grid overflow-hidden rounded-2xl bg-aberdeen-peach md:grid-cols-[minmax(0,340px)_1fr]"
+          className="event-row grid overflow-hidden rounded-2xl bg-aberdeen-peach md:grid-cols-[minmax(0,340px)_1fr]"
           key={event.title}
           {...fadeInPlace(index * 0.06)}
         >
-          <div className="aspect-[4/3] w-full overflow-hidden md:self-start">
-            <img alt={event.title} className="h-full w-full object-cover" src={event.image} />
+          <div className="event-row-image-frame aspect-[4/3] w-full overflow-hidden md:self-start">
+            <img
+              alt={event.title}
+              className="event-row-image h-full object-cover"
+              src={event.image}
+            />
           </div>
-          <div className="p-6 md:p-10">
+          <div className="event-row-copy p-6 md:p-10">
             <p className="font-utility text-sm tracking-[0.18em] text-aberdeen-blue uppercase">
               {event.weekday}, {event.month} {event.day} · {event.time}
             </p>

@@ -19,9 +19,11 @@ export function DecorativeBackdrop({
     >
       <img
         alt=""
-        className={`h-full w-full ${src.includes("map") ? "no-under-shadow" : ""} ${imageClassName}`}
+        className={`h-full w-full ${
+          src.includes("map") ? "no-scroll-reveal no-under-shadow" : ""
+        } ${imageClassName}`}
         src={src}
-        style={{ opacity: src.includes("map") ? 0.2 : (opacity ?? 0.6) }}
+        style={{ opacity: src.includes("map") ? 0.1 : (opacity ?? 0.6) }}
       />
     </div>
   )
@@ -29,7 +31,7 @@ export function DecorativeBackdrop({
 
 export function ScrollRotatingWheel({ compact = false }: { compact?: boolean }) {
   const { scrollY } = useScroll()
-  const rotate = useTransform(scrollY, (position) => position * 0.11)
+  const rotate = useTransform(scrollY, (position) => position * 0.22)
 
   if (compact) {
     return (
@@ -39,7 +41,7 @@ export function ScrollRotatingWheel({ compact = false }: { compact?: boolean }) 
       >
         <motion.img
           alt=""
-          className="h-auto w-[min(60%,15rem)] -translate-y-6 object-contain opacity-60 motion-reduce:!transform-none"
+          className="no-scroll-reveal h-auto w-[min(60%,15rem)] -translate-y-6 object-contain opacity-60 motion-reduce:!transform-none"
           src="/illustrations/nautical/ship-wheel.png"
           style={{ rotate }}
         />
@@ -52,7 +54,7 @@ export function ScrollRotatingWheel({ compact = false }: { compact?: boolean }) 
       <div className="sticky top-[12svh] ml-auto grid h-[76svh] w-[min(64vw,58rem)] place-items-center">
         <motion.img
           alt=""
-          className="h-full w-full object-contain opacity-60 motion-reduce:!transform-none"
+          className="no-scroll-reveal h-full w-full object-contain opacity-60 motion-reduce:!transform-none"
           src="/illustrations/nautical/ship-wheel.png"
           style={{ rotate }}
         />
@@ -69,6 +71,17 @@ export function CursorCompass() {
     const handlePointerMove = (event: globalThis.PointerEvent) => {
       const rect = compassRef.current?.getBoundingClientRect()
       if (!rect) return
+      const footerRect = compassRef.current?.closest("footer")?.getBoundingClientRect()
+      if (
+        footerRect &&
+        (event.clientX < footerRect.left ||
+          event.clientX > footerRect.right ||
+          event.clientY < footerRect.top ||
+          event.clientY > footerRect.bottom)
+      ) {
+        setRotation(0)
+        return
+      }
 
       const x = event.clientX - (rect.left + rect.width / 2)
       const y = event.clientY - (rect.top + rect.height / 2)
@@ -83,7 +96,7 @@ export function CursorCompass() {
     <div aria-hidden="true" className="grid w-full max-w-52 place-items-center" ref={compassRef}>
       <img
         alt=""
-        className="aspect-[810/1013] w-full object-contain opacity-60 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:!transform-none"
+        className="aspect-[810/1013] w-full object-contain opacity-60 transition-transform duration-[1800ms] ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:!transform-none"
         src="/illustrations/nautical/compass-rose-detailed.png"
         style={{ transform: `rotate(${rotation}deg)` }}
       />

@@ -1,8 +1,7 @@
-import { motion } from "motion/react"
+import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "motion/react"
+import { useRef } from "react"
 import { useLocation } from "react-router"
 import { ScrollRotatingWheel } from "../components/decorative-media"
-import { PhotoCorners } from "../components/nautical-details"
-import { TiltWrap } from "../components/site-extras"
 import { useCmsRuntime } from "../lib/cms-runtime"
 import { fadeIn } from "../lib/motion"
 
@@ -131,38 +130,53 @@ function RosterSection({ introductionOnly = false }: { introductionOnly?: boolea
         {introductionOnly ? null : (
           <div className="grid gap-16" data-cms-no-edit>
             {visibleStaff.map((person, index) => (
-              <motion.article
-                className="grid min-h-[80svh] items-center shadow-none"
-                key={person.name}
-                {...fadeIn(index * 0.04)}
-              >
-                <TiltWrap
-                  className={`relative mx-auto w-full max-w-md bg-aberdeen-peach p-4 text-aberdeen-blue shadow-none hover:shadow-none ${
-                    index % 2 === 0 ? "-rotate-1" : "rotate-1"
-                  }`}
-                >
-                  <div className="relative aspect-[4/5] overflow-hidden">
-                    <img
-                      alt={person.name}
-                      className="no-under-shadow h-full w-full object-cover"
-                      src={person.image}
-                    />
-                    <PhotoCorners />
-                  </div>
-                  <div className="p-5">
-                    <p className="font-utility text-xs tracking-[0.18em] uppercase">
-                      {person.role}
-                    </p>
-                    <h2 className="mt-3 font-display text-5xl leading-none">{person.name}</h2>
-                    <p className="mt-4 leading-7 text-kelp-ink/80">{person.note}</p>
-                  </div>
-                </TiltWrap>
-              </motion.article>
+              <StaffCard index={index} key={person.name} person={person} />
             ))}
           </div>
         )}
       </div>
     </section>
+  )
+}
+
+function StaffCard({
+  index,
+  person,
+}: {
+  index: number
+  person: { name: string; role: string; note: string; image: string }
+}) {
+  const cardRef = useRef<HTMLElement>(null)
+  const shouldReduceMotion = useReducedMotion()
+  const { scrollYProgress } = useScroll({
+    target: cardRef,
+    offset: ["start end", "end start"],
+  })
+  const rawScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.9, 1.08, 0.9])
+  const scale = useSpring(rawScale, { damping: 26, stiffness: 110, mass: 0.9 })
+
+  return (
+    <motion.article
+      className="grid min-h-[80svh] items-center shadow-none"
+      ref={cardRef}
+      style={{ scale: shouldReduceMotion ? 1 : scale }}
+      {...fadeIn(index * 0.04)}
+    >
+      <div className="relative mx-auto w-full max-w-md bg-aberdeen-peach p-4 text-aberdeen-blue shadow-[0_24px_65px_rgb(29_42_47/0.18)]">
+        <div className="relative aspect-[4/5] overflow-hidden shadow-[0_18px_38px_rgb(29_42_47/0.24)]">
+          <img
+            alt={person.name}
+            className="no-under-shadow h-full w-full object-cover"
+            src={person.image}
+          />
+        </div>
+        <div className="p-5">
+          <p className="font-utility text-xs tracking-[0.18em] uppercase">{person.role}</p>
+          <h2 className="mt-3 font-display text-5xl leading-none">{person.name}</h2>
+          <p className="mt-4 leading-7 text-kelp-ink/80">{person.note}</p>
+        </div>
+      </div>
+    </motion.article>
   )
 }
 
@@ -176,7 +190,7 @@ function HiringSection() {
         <img
           alt=""
           aria-hidden="true"
-          className="mt-8 h-auto w-full max-w-48 object-contain opacity-70"
+          className="white-compass mt-8 h-auto w-full max-w-48 object-contain opacity-70"
           src="/illustrations/nautical/compass-rose-detailed.png"
         />
       </motion.div>

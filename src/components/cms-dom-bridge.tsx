@@ -220,20 +220,20 @@ export default function CmsDomBridge() {
       interactiveElement.dataset.cmsImage = target.key
       interactiveElement.dataset.cmsMediaRole = target.role
       interactiveElement.title =
-        target.role === "content"
+        target.role === "content" || target.acceptsVideo
           ? "Click to replace"
           : `Double-click to replace ${target.role} image`
       const blockedParent = interactiveElement.closest<HTMLElement>(".pointer-events-none")
       if (blockedParent) blockedParent.dataset.cmsEditableContainer = ""
     }
 
-    const openMedia = (event: MouseEvent, expectedRole: "content" | "nonContent") => {
+    const openMedia = (event: MouseEvent, interaction: "single" | "double") => {
       const element = (event.target as Element).closest<HTMLElement>("[data-cms-image]")
       if (!element) return
       const target = targets.images.find((item) => item.key === element.dataset.cmsImage)
       if (!target) return
-      const isContent = target.role === "content"
-      if ((expectedRole === "content") !== isContent) return
+      const opensOnSingleClick = target.role === "content" || target.acceptsVideo
+      if ((interaction === "single") !== opensOnSingleClick) return
       event.preventDefault()
       event.stopPropagation()
       window.parent.postMessage(
@@ -250,8 +250,8 @@ export default function CmsDomBridge() {
         window.location.origin,
       )
     }
-    const handleClick = (event: MouseEvent) => openMedia(event, "content")
-    const handleDoubleClick = (event: MouseEvent) => openMedia(event, "nonContent")
+    const handleClick = (event: MouseEvent) => openMedia(event, "single")
+    const handleDoubleClick = (event: MouseEvent) => openMedia(event, "double")
     root.addEventListener("click", handleClick)
     root.addEventListener("dblclick", handleDoubleClick)
     cleanups.push(() => root.removeEventListener("click", handleClick))
@@ -262,25 +262,27 @@ export default function CmsDomBridge() {
         return
       }
       if (event.data.type === "applyMedia") {
-        const target = targets.images.find((item) => item.key === event.data.key)
+        const matchingTargets = targets.images.filter((item) => item.key === event.data.key)
         if (
-          target &&
+          matchingTargets.length &&
           (event.data.kind === "image" || event.data.kind === "video") &&
           typeof event.data.url === "string"
         ) {
-          applyMedia(target, {
-            kind: event.data.kind,
-            thumbnailUrl:
-              typeof event.data.thumbnailUrl === "string" ? event.data.thumbnailUrl : null,
-            url: event.data.url,
-          })
-          const element = target.videoElement ?? target.element
-          element.dataset.cmsImage = target.key
-          element.dataset.cmsMediaRole = target.role
-          element.title =
-            target.role === "content"
-              ? "Click to replace"
-              : `Double-click to replace ${target.role} image`
+          for (const target of matchingTargets) {
+            applyMedia(target, {
+              kind: event.data.kind,
+              thumbnailUrl:
+                typeof event.data.thumbnailUrl === "string" ? event.data.thumbnailUrl : null,
+              url: event.data.url,
+            })
+            const element = target.videoElement ?? target.element
+            element.dataset.cmsImage = target.key
+            element.dataset.cmsMediaRole = target.role
+            element.title =
+              target.role === "content" || target.acceptsVideo
+                ? "Click to replace"
+                : `Double-click to replace ${target.role} image`
+          }
         }
       }
       if (event.data.type === "applyLink") {

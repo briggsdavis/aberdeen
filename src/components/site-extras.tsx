@@ -6,6 +6,7 @@ import { useState } from "react"
 import { api } from "../../convex/_generated/api"
 import type { Id } from "../../convex/_generated/dataModel"
 import { fadeIn } from "../lib/motion"
+import { DecorativeBackdrop } from "./decorative-media"
 
 export const heroImages = [
   "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1800&q=85",
@@ -97,6 +98,7 @@ export function TiltWrap({
 }
 
 const restaurantCards = [
+  { image: "/favicon.ico", name: "Aberdeen", featured: true },
   { image: "/restaurants/meat-and-potatoes.webp", name: "Meat and Potatoes" },
   { image: "/restaurants/butcher-and-the-rye.webp", name: "Butcher and the Rye" },
   { image: "/restaurants/tako.webp", name: "Tako" },
@@ -114,34 +116,42 @@ const restaurantCards = [
 
 export function RestaurantGroupSection() {
   return (
-    <section className="flex min-h-svh flex-col justify-center bg-aberdeen-blue px-5 py-12 md:px-8 md:py-14">
-      <motion.div className="mx-auto max-w-6xl text-center text-oyster-white" {...fadeIn()}>
+    <section className="relative isolate flex min-h-svh flex-col justify-center overflow-hidden bg-oyster-white px-5 py-12 md:px-8 md:py-14">
+      <DecorativeBackdrop imageClassName="object-cover" src="/maps/antique-map-02.png" />
+      <motion.div
+        className="relative z-10 mx-auto max-w-6xl text-center text-aberdeen-blue"
+        {...fadeIn()}
+      >
         <p className="font-utility text-sm tracking-[0.22em] uppercase">Proud to be part of</p>
         <h2 className="mt-3 font-display text-5xl leading-none md:text-6xl">
           Richard DeShantz Restaurant Group
         </h2>
       </motion.div>
-      <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-7">
+      <div className="relative z-10 mt-8 grid grid-cols-2 gap-3 md:grid-cols-7">
         {restaurantCards.map((restaurant, index) => (
           <motion.article
-            className="restaurant-logo-card group relative aspect-square overflow-hidden bg-oyster-white"
+            className={`restaurant-logo-card group relative aspect-square overflow-hidden ${
+              restaurant.featured ? "bg-aberdeen-blue" : "bg-oyster-white"
+            }`}
             key={restaurant.name}
             {...fadeIn(index * 0.025)}
           >
             <img
               alt={`${restaurant.name} logo`}
-              className="h-full w-full object-contain transition duration-500 group-hover:scale-105"
+              className={`h-full w-full object-contain transition duration-[1100ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.025] ${
+                restaurant.featured ? "p-8 brightness-0 invert" : ""
+              }`}
               src={restaurant.image}
             />
-            <h3 className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#101c57]/90 via-[#101c57]/45 to-transparent px-2 pt-8 pb-2.5 text-center font-utility text-[0.62rem] leading-tight tracking-[0.08em] text-oyster-white uppercase [text-shadow:0_2px_7px_rgb(14_24_69/0.85)] lg:text-xs">
+            <h3 className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent px-2 pt-8 pb-2.5 text-center font-utility text-[0.62rem] leading-tight tracking-[0.08em] text-oyster-white uppercase [text-shadow:0_2px_7px_rgb(0_0_0/0.85)] lg:text-xs">
               {restaurant.name}
             </h3>
           </motion.article>
         ))}
       </div>
-      <div className="mt-8 text-center">
+      <div className="relative z-10 mt-8 text-center">
         <a
-          className="aberdeen-action bg-oyster-white text-aberdeen-blue hover:bg-aberdeen-peach"
+          className="aberdeen-action bg-aberdeen-blue text-oyster-white"
           href="https://richarddeshantz.com/"
           rel="noreferrer"
           target="_blank"
@@ -180,7 +190,7 @@ export function FAQSection({
 
   return (
     <section
-      className={`relative isolate overflow-hidden ${blue ? "bg-aberdeen-blue" : "bg-aberdeen-peach"} px-5 py-16 md:px-8 md:py-24`}
+      className={`relative isolate overflow-hidden ${blue ? "bg-aberdeen-blue" : "bg-oyster-white"} px-5 py-16 md:px-8 md:py-24`}
     >
       <div
         className={`relative z-10 grid gap-10 ${
@@ -231,7 +241,7 @@ function FAQItem({ answer, question }: { answer: string; question: string }) {
   const [open, setOpen] = useState(false)
 
   return (
-    <article className="faq-item bg-oyster-white text-aberdeen-blue">
+    <article className="faq-item bg-aberdeen-peach text-aberdeen-blue">
       <button
         aria-expanded={open}
         className="flex w-full items-center justify-between gap-5 p-5 text-left"
@@ -255,7 +265,7 @@ function FAQItem({ answer, question }: { answer: string; question: string }) {
             className="overflow-hidden"
             exit={{ height: 0, opacity: 0 }}
             initial={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.384, ease: [0.22, 1, 0.36, 1] }}
           >
             <p className="px-5 pb-5 leading-7 text-kelp-ink/80">{answer}</p>
           </motion.div>
@@ -301,10 +311,10 @@ function LocalMenuLikeButton({ itemName }: { itemName: string }) {
     <button
       aria-label={`Like ${itemName}`}
       aria-pressed={liked}
-      className={`group flex h-11 w-16 shrink-0 items-center justify-center gap-1.5 border px-3 font-utility text-xs transition ${
+      className={`group flex h-11 w-16 shrink-0 items-center justify-center gap-1.5 border px-3 font-utility text-xs transition duration-[480ms] ${
         liked
-          ? "border-citrus bg-citrus text-aberdeen-blue"
-          : "border-current bg-transparent hover:border-citrus hover:bg-citrus hover:text-aberdeen-blue"
+          ? "border-aberdeen-blue bg-aberdeen-blue text-oyster-white"
+          : "border-current bg-transparent hover:border-aberdeen-blue hover:bg-aberdeen-blue hover:text-oyster-white"
       }`}
       onClick={handleClick}
       type="button"
@@ -350,10 +360,10 @@ function StoredMenuLikeButton({
     <button
       aria-label={`Like ${itemName}`}
       aria-pressed={liked}
-      className={`group flex h-11 w-16 shrink-0 items-center justify-center gap-1.5 border px-3 font-utility text-xs transition ${
+      className={`group flex h-11 w-16 shrink-0 items-center justify-center gap-1.5 border px-3 font-utility text-xs transition duration-[480ms] ${
         liked
-          ? "border-citrus bg-citrus text-aberdeen-blue"
-          : "border-current bg-transparent hover:border-citrus hover:bg-citrus hover:text-aberdeen-blue"
+          ? "border-aberdeen-blue bg-aberdeen-blue text-oyster-white"
+          : "border-current bg-transparent hover:border-aberdeen-blue hover:bg-aberdeen-blue hover:text-oyster-white"
       }`}
       onClick={handleClick}
       type="button"
@@ -405,7 +415,7 @@ export function PostcardImageStack({
             rotate: placements[index].rotate,
             scale: 1,
             y: 0,
-            transition: { delay: index * 0.12, duration: 0.48 },
+            transition: { delay: index * 0.12, duration: 0.576 },
           }}
         >
           <img alt="" className="aspect-[4/3] w-full object-cover" src={image} />

@@ -12,6 +12,8 @@ export function DecorativeBackdrop({
   opacity?: number
   src: string
 }) {
+  const baseOpacity = src.includes("map") ? 0.1 : (opacity ?? 0.6)
+
   return (
     <div
       aria-hidden="true"
@@ -23,7 +25,7 @@ export function DecorativeBackdrop({
           src.includes("map") ? "no-scroll-reveal no-under-shadow" : ""
         } ${imageClassName}`}
         src={src}
-        style={{ opacity: src.includes("map") ? 0.1 : (opacity ?? 0.6) }}
+        style={{ opacity: baseOpacity * 0.4 }}
       />
     </div>
   )

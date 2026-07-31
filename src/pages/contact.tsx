@@ -29,7 +29,7 @@ function ContactDetails() {
       ]
 
   return (
-    <section className="relative isolate grid gap-6 overflow-hidden bg-oyster-white px-5 py-12 md:min-h-svh md:grid-cols-[0.72fr_1.28fr] md:items-center md:px-8 md:py-16">
+    <section className="relative isolate grid gap-6 overflow-hidden bg-oyster-white px-5 py-12 md:min-h-svh md:grid-cols-[0.9fr_1.1fr] md:items-center md:px-8 md:py-16">
       <DecorativeBackdrop imageClassName="object-cover" opacity={0.14} src={antiqueMapFour} />
       <div className="relative z-10 grid gap-3">
         {details.map(([label, lineOne, lineTwo], index) => (

@@ -71,6 +71,13 @@ function isFixedAsset(element: HTMLImageElement) {
   )
 }
 
+function isStructuredLink(element: HTMLAnchorElement) {
+  return Boolean(
+    element.dataset.cmsStructuredLink !== undefined ||
+    element.querySelector("article, div, h1, h2, h3, h4, h5, h6, img, p, picture, section, video"),
+  )
+}
+
 function collectTargets(root: HTMLElement) {
   const text: TextTarget[] = []
   const images: ImageTarget[] = []
@@ -110,7 +117,13 @@ function collectTargets(root: HTMLElement) {
   }
 
   for (const element of root.querySelectorAll<HTMLAnchorElement>("a")) {
-    if (!element.textContent?.trim() || element.closest("[data-cms-no-edit]")) continue
+    if (
+      !element.textContent?.trim() ||
+      element.closest("[data-cms-no-edit]") ||
+      isStructuredLink(element)
+    ) {
+      continue
+    }
     links.push({ key: elementPath(element, root), element })
   }
 

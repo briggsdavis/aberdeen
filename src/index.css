@@ -64,14 +64,20 @@
     --action-fill: var(--color-aberdeen-blue);
     --action-foreground: var(--color-oyster-white);
     @apply relative inline-flex items-center justify-center overflow-hidden px-5 py-3 font-utility text-sm tracking-[0.16em] uppercase;
-    background-image: linear-gradient(var(--action-fill), var(--action-fill));
-    background-repeat: no-repeat;
-    background-position: bottom;
-    background-size: 100% 0%;
-    transition:
-      background-size 920ms cubic-bezier(0.16, 1, 0.3, 1),
-      border-color 760ms ease,
-      color 760ms ease;
+    isolation: isolate;
+    border: 0 !important;
+    transition: color 760ms ease;
+  }
+
+  .aberdeen-action::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: var(--action-fill);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 920ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .aberdeen-action.bg-aberdeen-blue {
@@ -80,8 +86,12 @@
   }
 
   .aberdeen-action:hover {
-    background-size: 100% 100%;
     color: var(--action-foreground, var(--color-aberdeen-blue));
+  }
+
+  .aberdeen-action:hover::before,
+  .aberdeen-action:focus-visible::before {
+    transform: scaleY(1);
   }
 
   .nav-underline {
@@ -215,19 +225,37 @@
   }
 
   .faq-toggle {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
     transition:
       transform 360ms cubic-bezier(0.22, 1, 0.36, 1),
-      background-color 288ms ease;
+      color 760ms ease;
   }
 
-  .faq-item:hover .faq-toggle {
+  .faq-toggle::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
     background: var(--color-aberdeen-blue);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 920ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .faq-item:hover .faq-toggle,
+  .faq-item:focus-within .faq-toggle {
     color: var(--color-oyster-white);
-    transition-delay: 140ms;
+  }
+
+  .faq-item:hover .faq-toggle::before,
+  .faq-item:focus-within .faq-toggle::before,
+  .faq-toggle.is-open::before {
+    transform: scaleY(1);
   }
 
   .faq-toggle.is-open {
-    background: var(--color-aberdeen-blue);
     color: var(--color-oyster-white);
     transform: rotate(45deg);
   }

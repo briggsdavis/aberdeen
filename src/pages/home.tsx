@@ -369,6 +369,7 @@ function MenuSection() {
           <a
             aria-label={`View ${menu.title} menu`}
             className="soft-card-shadow group block bg-aberdeen-peach text-aberdeen-blue"
+            data-cms-structured-link
             href={menu.href}
             key={menu.title}
           >

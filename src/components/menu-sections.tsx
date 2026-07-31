@@ -207,7 +207,9 @@ export function MenuImageSection({
       <DecorativeBackdrop imageClassName="object-cover" opacity={0.14} src={map} />
       <div className="relative z-10 grid gap-12 md:grid-cols-[0.9fr_1.1fr] md:gap-16">
         {imagePanel}
-        <div className={imagePosition === "left" ? "md:order-2" : "md:order-1"}>
+        <div
+          className={`${imagePosition === "left" ? "md:order-2" : "md:order-1"} md:grid md:content-center`}
+        >
           <MenuList group={group} inverted={background === "blue"} />
         </div>
       </div>

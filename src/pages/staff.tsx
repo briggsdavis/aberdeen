@@ -65,13 +65,19 @@ function StaffPage() {
 }
 
 function HeroSection() {
+  const { page } = useCmsRuntime()
+  const heroImage =
+    page.media.hero?.url ??
+    page.images.hero ??
+    "https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1800&q=85"
+
   return (
     <section className="relative bg-aberdeen-blue text-aberdeen-peach">
       <img
         alt="Restaurant team preparing a dining room"
         className="absolute inset-0 h-full w-full object-cover"
         data-cms-slot="hero"
-        src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1800&q=85"
+        src={heroImage}
       />
       <div className="hero-radial-glow absolute inset-0 z-[1]" />
       <motion.div

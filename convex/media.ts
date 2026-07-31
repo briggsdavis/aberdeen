@@ -116,7 +116,7 @@ export const registerPageAssets = mutation({
       let asset = await ctx.db
         .query("mediaAssets")
         .withIndex("by_sourceUrl", (q) => q.eq("sourceUrl", item.url))
-        .unique()
+        .first()
 
       if (!asset) {
         const filename = decodeURIComponent(
@@ -145,7 +145,7 @@ export const registerPageAssets = mutation({
         .withIndex("by_page_and_slotKey", (q) =>
           q.eq("page", args.page).eq("slotKey", item.slotKey),
         )
-        .unique()
+        .first()
       if (existingUsage) {
         await ctx.db.patch("mediaUsages", existingUsage._id, {
           mediaId: asset._id,

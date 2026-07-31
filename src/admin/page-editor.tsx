@@ -50,6 +50,16 @@ type SelectedImage = {
 }
 type SelectedLink = { key: string; text: string; href: string }
 
+const heroImageTarget: SelectedImage = {
+  acceptsVideo: true,
+  alt: "Page hero",
+  key: "hero",
+  role: "background",
+  src: "",
+}
+
+const assetRegistrationBatchSize = 20
+
 const pageNames: Record<string, string> = {
   "/": "Home",
   "/about": "About",
@@ -130,19 +140,36 @@ export default function PageEditor({
         setImageRoles(
           Object.fromEntries(message.images.map((image) => [image.slotKey, image.role])),
         )
-        const unregistered = message.images.filter(
-          (image) => savedImagesRef.current[image.slotKey] === undefined,
-        )
+        const unregistered = [
+          ...new Map(
+            message.images
+              .filter((image) => savedImagesRef.current[image.slotKey] === undefined)
+              .map((image) => [image.slotKey, image]),
+          ).values(),
+        ]
         if (unregistered.length) {
-          void registerPageAssets({
-            page,
-            assets: unregistered.map(({ slotKey, url, alt, role }) => ({
-              slotKey,
-              url,
-              alt,
-              role,
-            })),
-          }).then((registered) => setImages((current) => ({ ...registered, ...current })))
+          void (async () => {
+            for (let index = 0; index < unregistered.length; index += assetRegistrationBatchSize) {
+              const batch = unregistered.slice(index, index + assetRegistrationBatchSize)
+              const registered = await registerPageAssets({
+                page,
+                assets: batch.map(({ slotKey, url, alt, role }) => ({
+                  slotKey,
+                  url,
+                  alt,
+                  role,
+                })),
+              })
+              setImages((current) => ({ ...registered, ...current }))
+              savedImagesRef.current = { ...savedImagesRef.current, ...registered }
+            }
+          })().catch((registrationError: unknown) => {
+            setError(
+              registrationError instanceof Error
+                ? registrationError.message
+                : "Existing page images could not be prepared for editing.",
+            )
+          })
         }
         setReady(true)
       } else if (message.type === "text") {
@@ -211,22 +238,18 @@ export default function PageEditor({
     }
   }, [imageRoles, images, links, page, savePage, text])
 
+  const heroImage = availableImages.find((image) => image.key === "hero") ?? heroImageTarget
+
   return (
     <div className="grid gap-6">
       {!compact ? (
         <PageHeading
           actions={
             <div className="flex items-center gap-3">
-              {availableImages.some((image) => image.key === "hero") ? (
-                <SecondaryButton
-                  onClick={() =>
-                    setSelectedImage(availableImages.find((image) => image.key === "hero") ?? null)
-                  }
-                >
-                  <ImageSquare size={17} />
-                  Edit hero image
-                </SecondaryButton>
-              ) : null}
+              <SecondaryButton onClick={() => setSelectedImage(heroImage)}>
+                <ImageSquare size={17} />
+                Edit hero image
+              </SecondaryButton>
               <div className="hidden rounded-lg border border-slate-200 bg-white p-1 sm:flex">
                 <button
                   aria-label="Desktop preview"
@@ -274,16 +297,10 @@ export default function PageEditor({
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
-            {availableImages.some((image) => image.key === "hero") ? (
-              <SecondaryButton
-                onClick={() =>
-                  setSelectedImage(availableImages.find((image) => image.key === "hero") ?? null)
-                }
-              >
-                <ImageSquare size={17} />
-                Edit hero image
-              </SecondaryButton>
-            ) : null}
+            <SecondaryButton onClick={() => setSelectedImage(heroImage)}>
+              <ImageSquare size={17} />
+              Edit hero image
+            </SecondaryButton>
             <PrimaryButton disabled={!dirty || saving || !ready} onClick={() => void handleSave()}>
               {saving ? "Saving…" : saved ? "Saved" : "Save page changes"}
             </PrimaryButton>

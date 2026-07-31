@@ -192,6 +192,11 @@ export default function MediaLibrary({
       if (kind === "video" && !["video/mp4", "video/webm"].includes(file.type)) {
         throw new Error("Videos must be MP4 or WebM.")
       }
+      if (!acceptedKinds.includes(kind)) {
+        throw new Error(
+          kind === "video" ? "Only images can be used here." : "Images are not accepted here.",
+        )
+      }
       if (kind === "video" && file.size > 100 * 1024 * 1024) {
         throw new Error("Videos must be 100 MB or smaller.")
       }
@@ -236,7 +241,7 @@ export default function MediaLibrary({
         url: URL.createObjectURL(file),
       } satisfies MediaSelection
     },
-    [generateUploadUrl, saveMedia, updateUpload],
+    [acceptedKinds, generateUploadUrl, saveMedia, updateUpload],
   )
 
   const uploadFiles = useCallback(
@@ -323,11 +328,17 @@ export default function MediaLibrary({
       >
         <div className="flex flex-wrap items-center gap-3">
           <div className="min-w-52 grow">
-            <p className="text-sm font-semibold text-slate-700">Drop images or videos here</p>
-            <p className="mt-1 text-xs text-slate-500">MP4 and WebM videos up to 100 MB.</p>
+            <p className="text-sm font-semibold text-slate-700">
+              Drop {acceptedKinds.includes("video") ? "images or videos" : "images"} here
+            </p>
+            <p className="mt-1 text-xs text-slate-500">
+              {acceptedKinds.includes("video")
+                ? "Images, MP4, and WebM videos up to 100 MB."
+                : "Images only."}
+            </p>
           </div>
           <input
-            accept="image/*,video/mp4,video/webm"
+            accept={acceptedKinds.includes("video") ? "image/*,video/mp4,video/webm" : "image/*"}
             className="hidden"
             multiple
             onChange={(event) => {

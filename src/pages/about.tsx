@@ -1,6 +1,7 @@
 import { motion } from "motion/react"
 import { DecorativeBackdrop } from "../components/decorative-media"
 import { RestaurantGroupSection, RippleSection } from "../components/site-extras"
+import { useCmsRuntime } from "../lib/cms-runtime"
 import { fadeIn } from "../lib/motion"
 
 const antiqueMapOne = "/maps/antique-map-01.png"
@@ -115,13 +116,19 @@ function Postmark() {
 }
 
 function HeroSection() {
+  const { page } = useCmsRuntime()
+  const heroImage =
+    page.media.hero?.url ??
+    page.images.hero ??
+    "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1800&q=85"
+
   return (
     <section className="relative min-h-[44rem] bg-aberdeen-blue text-aberdeen-peach">
       <img
         alt="Sunlit restaurant table with glassware and coastal plates"
         className="absolute inset-0 h-full w-full object-cover"
         data-cms-slot="hero"
-        src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1800&q=85"
+        src={heroImage}
       />
       <div className="hero-radial-glow absolute inset-0 z-[1]" />
       <motion.div

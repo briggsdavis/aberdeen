@@ -314,21 +314,24 @@ function MenuSection() {
       href: "/menu/food",
       image:
         "https://images.unsplash.com/photo-1715249792962-5359b4b17f21?auto=format&fit=crop&w=900&q=85",
-      copy: "Cold oysters, coastal plates, and generous mains.",
+      height: "h-[25rem] md:h-[34rem]",
+      slot: "div:0/section:2/div:2/a:0/div:1/img:0",
     },
     {
       title: "Spirits",
       href: "/menu/spirits",
       image:
         "https://images.unsplash.com/photo-1582993232955-39424b2cef01?auto=format&fit=crop&w=900&q=85",
-      copy: "Crisp cocktails, blue-hour pours, and bottles for the table.",
+      height: "h-[31rem] md:h-[42rem]",
+      slot: "div:0/section:2/div:2/a:1/div:1/img:0",
     },
     {
       title: "Beverages",
       href: "/menu/beverages",
       image:
         "https://images.unsplash.com/photo-1683463787127-9d472af2a9e3?auto=format&fit=crop&w=900&q=85",
-      copy: "Sparkling, zero-proof, coffee, tea, and easy afternoon refreshers.",
+      height: "h-[23rem] md:h-[30rem]",
+      slot: "div:0/section:2/div:2/a:2/div:1/img:0",
     },
   ]
 
@@ -351,28 +354,28 @@ function MenuSection() {
           View food menu
         </a>
       </motion.div>
-      <div className="relative z-10 grid gap-5 md:grid-cols-3">
+      <div className="relative z-10 grid gap-10 md:grid-cols-3 md:gap-7">
         {menus.map((menu) => (
           <a
             aria-label={`View ${menu.title} menu`}
-            className="soft-card-shadow group block bg-aberdeen-peach text-aberdeen-blue"
+            className="group grid grid-cols-[minmax(0,1fr)_minmax(0,3fr)] items-center gap-4 text-aberdeen-blue"
             data-cms-structured-link
             href={menu.href}
             key={menu.title}
           >
             <div aria-hidden="true" className="hidden" data-cms-structure="rope-divider" />
-            <div className="relative aspect-[4/5] overflow-hidden">
-              <img
-                alt=""
-                className="image-reveal-expand no-scroll-reveal h-full w-full object-cover transition duration-[1400ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.025]"
-                src={menu.image}
-              />
-            </div>
-            <div className="min-h-44 p-5">
-              <h3 className="menu-tab-underline inline-block font-display text-5xl">
+            <div className="flex h-full items-center justify-center">
+              <h3 className="menu-tab-underline font-display text-3xl leading-none md:text-4xl lg:text-5xl">
                 {menu.title}
               </h3>
-              <p className="mt-3 max-w-sm text-base leading-7 text-kelp-ink">{menu.copy}</p>
+            </div>
+            <div className={`relative w-full overflow-hidden ${menu.height}`}>
+              <img
+                alt=""
+                className="h-full w-full object-cover transition duration-[1400ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.025]"
+                data-cms-slot={menu.slot}
+                src={menu.image}
+              />
             </div>
           </a>
         ))}

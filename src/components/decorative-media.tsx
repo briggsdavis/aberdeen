@@ -8,8 +8,14 @@ type DecorativeBackdropProps = {
   src: string
 }
 
-export function DecorativeBackdrop(_props: DecorativeBackdropProps) {
-  return null
+export function DecorativeBackdrop({ className = "" }: DecorativeBackdropProps) {
+  return (
+    <div
+      aria-hidden="true"
+      className={`pointer-events-none absolute inset-0 z-0 hidden ${className}`}
+      data-cms-structure="decorative-backdrop"
+    />
+  )
 }
 
 export function ScrollRotatingWheel({ compact = false }: { compact?: boolean }) {

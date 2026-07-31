@@ -166,6 +166,7 @@ function StorySection() {
         <h2 className="font-display text-5xl leading-none text-aberdeen-blue md:text-7xl">
           Seafood, bright spirits, and a dining room made for lingering.
         </h2>
+        <div aria-hidden="true" className="hidden" data-cms-structure="rope-divider" />
         <p className="max-w-3xl text-lg leading-8">
           Aberdeen brings coastal ease to the city: oysters on ice, citrus-forward plates, generous
           mains, and a bar that keeps the evening moving. The feeling is editorial but relaxed, like
@@ -242,6 +243,7 @@ function GroupSection() {
             key={title}
             {...fadeIn(index * 0.08)}
           >
+            <div aria-hidden="true" className="hidden" data-cms-structure="rope-divider" />
             <div className="p-6">
               <p className="font-utility text-sm tracking-[0.18em] uppercase">{label}</p>
               <h3 className="mt-8 font-display text-4xl leading-none">{title}</h3>

@@ -17,8 +17,9 @@ export function MaritimeFlags({ className = "" }: { className?: string }) {
 }
 
 export function RopeDivider({ className = "" }: { className?: string }) {
-  void className
-  return null
+  return (
+    <div aria-hidden="true" className={`hidden ${className}`} data-cms-structure="rope-divider" />
+  )
 }
 
 export function PhotoCorners() {

@@ -360,6 +360,7 @@ function MenuSection() {
             href={menu.href}
             key={menu.title}
           >
+            <div aria-hidden="true" className="hidden" data-cms-structure="rope-divider" />
             <div className="relative aspect-[4/5] overflow-hidden">
               <img
                 alt=""

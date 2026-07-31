@@ -6,6 +6,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -75,7 +76,7 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
   const navigate = useNavigate()
   const prefersReducedMotion = usePrefersReducedMotion()
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "auto" })
   }, [location.pathname])
 

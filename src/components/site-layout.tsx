@@ -120,7 +120,7 @@ function SiteLayout() {
       <div className="relative min-h-svh bg-aberdeen-peach text-kelp-ink">
         <PageTransitionProvider>
           {focusedEditorPreview ? null : <SiteHeader playHomeIntro={playHomeIntro} />}
-          <main className="public-site-main relative">
+          <main className="public-site-main relative min-h-svh bg-white">
             <Outlet context={{ playHomeIntro }} />
           </main>
           <CmsDomBridge />

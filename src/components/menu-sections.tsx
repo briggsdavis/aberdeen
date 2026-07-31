@@ -4,6 +4,7 @@ import { fadeIn } from "../lib/motion"
 import { DecorativeBackdrop } from "./decorative-media"
 import { PhotoCorners, RopeDivider } from "./nautical-details"
 import { MenuLikeButton, PostcardImageStack, RippleSection } from "./site-extras"
+import { TransitionLink } from "./page-transition"
 
 export type StandardMenuGroup = {
   title: string
@@ -39,7 +40,7 @@ export function MenuPageHero({
     })) ?? tabs
 
   return (
-    <section className="bg-aberdeen-blue text-aberdeen-peach">
+    <section className="bg-white text-aberdeen-blue">
       <motion.div
         className="grid justify-items-center gap-8 px-5 pt-32 pb-14 text-center md:px-8 md:pt-40 md:pb-20"
         {...fadeIn()}
@@ -48,7 +49,7 @@ export function MenuPageHero({
         <h1 className="font-display text-6xl leading-none md:text-8xl">{title}</h1>
         <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2 font-utility text-sm tracking-[0.18em] uppercase">
           {visibleTabs.map((tab) => (
-            <Link
+            <TransitionLink
               className={
                 tab.to === activePath
                   ? "menu-tab-underline is-active"
@@ -58,7 +59,7 @@ export function MenuPageHero({
               to={tab.to}
             >
               {tab.label}
-            </Link>
+            </TransitionLink>
           ))}
         </nav>
       </motion.div>

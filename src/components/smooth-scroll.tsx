@@ -1,7 +1,16 @@
 import Lenis from "lenis"
-import { useEffect, type ReactNode } from "react"
+import { useEffect, useLayoutEffect, useRef, type ReactNode } from "react"
+import { useLocation } from "react-router"
 
 function SmoothScroll({ children }: { children: ReactNode }) {
+  const location = useLocation()
+  const lenisRef = useRef<Lenis | null>(null)
+
+  useLayoutEffect(() => {
+    lenisRef.current?.scrollTo(0, { force: true, immediate: true })
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" })
+  }, [location.pathname])
+
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       return
@@ -15,6 +24,7 @@ function SmoothScroll({ children }: { children: ReactNode }) {
       touchMultiplier: 1,
       wheelMultiplier: 0.88,
     })
+    lenisRef.current = lenis
 
     let frame = 0
     const update = (time: number) => {
@@ -26,6 +36,7 @@ function SmoothScroll({ children }: { children: ReactNode }) {
 
     return () => {
       window.cancelAnimationFrame(frame)
+      lenisRef.current = null
       lenis.destroy()
     }
   }, [])

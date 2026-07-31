@@ -522,14 +522,14 @@ function EventsSection() {
           className="pointer-events-none absolute bottom-0 left-[26%] h-auto w-32 object-contain opacity-35 md:w-44"
           src="/illustrations/nautical/compass-rose-simple.png"
         />
-        <div className="relative mt-10 h-[34rem] overflow-hidden shadow-[0_24px_60px_rgb(29_42_47/0.18)] md:mt-0 md:h-[43rem]">
+        <div className="relative mt-10 h-[34rem] overflow-hidden shadow-[0_30px_70px_rgb(29_42_47/0.3)] md:mt-0 md:h-[43rem]">
           <img
             alt="A candlelit table set for an Aberdeen private dinner"
             className="h-full w-full object-cover"
             src="https://images.unsplash.com/photo-1646473334251-827ea2e0b9ea?auto=format&fit=crop&w=1200&q=85"
           />
         </div>
-        <div className="relative h-[28rem] overflow-hidden shadow-[0_20px_50px_rgb(29_42_47/0.16)] md:mt-24 md:h-[34rem]">
+        <div className="relative h-[28rem] overflow-hidden shadow-[0_28px_64px_rgb(29_42_47/0.28)] md:mt-24 md:h-[34rem]">
           <img
             alt="Guests gathered around a private dining table"
             className="h-full w-full object-cover"

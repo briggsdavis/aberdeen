@@ -60,10 +60,34 @@
 }
 
 @layer components {
+  [class~="bg-aberdeen-blue"]:not(.aberdeen-action) {
+    --surface-action-background: #fff;
+    --surface-action-color: #111;
+    --surface-action-fill: #fff;
+    --surface-action-hover-color: #111;
+  }
+
+  :is([class~="bg-oyster-white"], [class~="bg-white"]):not(.aberdeen-action) {
+    --surface-action-background: var(--color-aberdeen-blue);
+    --surface-action-color: #fff;
+    --surface-action-fill: var(--color-aberdeen-peach);
+    --surface-action-hover-color: #111;
+  }
+
+  [class~="bg-aberdeen-peach"]:not(.aberdeen-action) {
+    --surface-action-background: #fff;
+    --surface-action-color: #111;
+    --surface-action-fill: var(--color-aberdeen-blue);
+    --surface-action-hover-color: #fff;
+  }
+
   .aberdeen-action {
-    --action-fill: var(--color-aberdeen-blue);
-    --action-foreground: var(--color-oyster-white);
+    --action-fill: var(--surface-action-fill, var(--color-aberdeen-blue)) !important;
+    --action-foreground: var(--surface-action-hover-color, var(--color-oyster-white)) !important;
     @apply relative inline-flex items-center justify-center overflow-hidden px-5 py-3 font-utility text-sm tracking-[0.16em] uppercase;
+    background-color: var(--surface-action-background, var(--color-aberdeen-blue)) !important;
+    background-image: none !important;
+    color: var(--surface-action-color, var(--color-oyster-white)) !important;
     isolation: isolate;
     border: 0 !important;
     transition: color 760ms ease;
@@ -78,11 +102,6 @@
     transform: scaleY(0);
     transform-origin: bottom;
     transition: transform 920ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .aberdeen-action.bg-aberdeen-blue {
-    --action-fill: var(--color-oyster-white);
-    --action-foreground: var(--color-aberdeen-blue);
   }
 
   .aberdeen-action:hover {

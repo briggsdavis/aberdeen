@@ -372,7 +372,7 @@ function MenuSection() {
             <div className={`relative w-full overflow-hidden ${menu.height}`}>
               <img
                 alt=""
-                className="h-full w-full object-cover transition duration-[1400ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.025]"
+                className="menu-image-hover h-full w-full object-cover"
                 data-cms-slot={menu.slot}
                 src={menu.image}
               />

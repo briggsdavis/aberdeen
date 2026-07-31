@@ -468,6 +468,18 @@ html.cms-preview-mode .public-site-main [class*="sticky"] {
   transition-duration: 1200ms;
 }
 
+.menu-image-hover {
+  transform: scale(1);
+  transition: transform 2400ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+  will-change: transform;
+}
+
+.group:hover .menu-image-hover,
+.group:focus-visible .menu-image-hover,
+.group:focus-within .menu-image-hover {
+  transform: scale(1.012);
+}
+
 .aberdeen-action.border-oyster-white {
   --action-fill: var(--color-oyster-white);
   --action-foreground: var(--color-aberdeen-blue);

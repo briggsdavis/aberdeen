@@ -489,7 +489,9 @@ html.cms-preview-mode .public-site-main [class*="sticky"] {
 
 .aberdeen-action:hover,
 .aberdeen-action:focus-visible {
-  color: var(--action-foreground) !important;
+  color: #111 !important;
+  -webkit-text-fill-color: #111 !important;
+  transition: color 0s linear !important;
 }
 
 .site-image-wipe-up {

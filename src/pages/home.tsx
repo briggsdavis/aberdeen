@@ -145,13 +145,13 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
             }}
           >
             <a
-              className="aberdeen-action border border-aberdeen-peach text-aberdeen-peach [--action-fill:var(--color-aberdeen-peach)] [--action-foreground:var(--color-aberdeen-blue)]"
+              className="aberdeen-action w-48 border border-aberdeen-peach text-aberdeen-peach [--action-fill:var(--color-aberdeen-peach)] [--action-foreground:var(--color-aberdeen-blue)]"
               href="#reservations"
             >
               Reserve a table
             </a>
             <a
-              className="aberdeen-action bg-aberdeen-peach text-aberdeen-blue [--action-fill:var(--color-oyster-white)] [--action-foreground:var(--color-aberdeen-blue)]"
+              className="aberdeen-action w-48 bg-aberdeen-peach text-aberdeen-blue [--action-fill:var(--color-oyster-white)] [--action-foreground:var(--color-aberdeen-blue)]"
               href="/menu/food"
             >
               View menu

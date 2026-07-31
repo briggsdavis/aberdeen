@@ -108,8 +108,10 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
   return (
     <motion.header
       animate={{ y: isHidden || isHomeIntroActive ? "-100%" : "0%" }}
-      className={`fixed inset-x-0 top-0 z-40 bg-aberdeen-blue text-aberdeen-peach will-change-transform ${
-        isScrolled ? "shadow-[0_12px_30px_rgb(14_24_69/0.2)]" : "shadow-none"
+      className={`fixed inset-x-0 top-0 z-40 text-aberdeen-peach transition-[background-color,box-shadow] duration-500 will-change-transform ${
+        isScrolled || isMenuOpen
+          ? "bg-aberdeen-blue shadow-[0_12px_30px_rgb(14_24_69/0.2)]"
+          : "bg-transparent shadow-none"
       }`}
       initial={false}
       onFocusCapture={() => setIsHidden(false)}

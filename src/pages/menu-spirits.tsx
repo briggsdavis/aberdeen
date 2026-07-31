@@ -566,9 +566,6 @@ export function StandardSpiritsMenuPage() {
     <div className="page-shell">
       <MenuPageHero
         activePath="/menu/spirits"
-        alt="Blue cocktail on a wooden bar"
-        description="Cocktails, coastal classics, and bottles for lingering. Bright, briny, botanical, and built for the room after dark."
-        image="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=1800&q=85"
         title="Spirits"
       />
       <MenuImageSection

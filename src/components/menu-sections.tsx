@@ -1,6 +1,5 @@
 import { motion } from "motion/react"
 import { Link } from "react-router"
-import { useCmsRuntime } from "../lib/cms-runtime"
 import { fadeIn } from "../lib/motion"
 import { DecorativeBackdrop } from "./decorative-media"
 import { PhotoCorners, RopeDivider } from "./nautical-details"
@@ -26,23 +25,13 @@ const tabs = [
 
 export function MenuPageHero({
   activePath,
-  alt,
-  description,
-  image,
   menuPages,
   title,
-  usePageOverride = true,
 }: {
   activePath: string
-  alt: string
-  description: string
-  image: string
   menuPages?: Array<{ slug: string; title: string }>
   title: string
-  usePageOverride?: boolean
 }) {
-  const { page } = useCmsRuntime()
-  const managedHero = page.media.hero?.url ?? page.images.hero
   const visibleTabs =
     menuPages?.map((menuPage) => ({
       label: menuPage.title,
@@ -50,24 +39,14 @@ export function MenuPageHero({
     })) ?? tabs
 
   return (
-    <section className="relative bg-aberdeen-blue text-aberdeen-peach">
-      <img
-        alt={alt}
-        className="absolute inset-0 h-full w-full object-cover"
-        data-cms-slot="hero"
-        src={(usePageOverride ? managedHero : null) ?? image}
-      />
-      <div className="hero-radial-glow absolute inset-0 z-[1]" />
+    <section className="bg-aberdeen-blue text-aberdeen-peach">
       <motion.div
-        className="relative z-10 grid gap-10 px-5 pt-32 pb-16 md:px-8 md:pt-40 md:pb-24"
+        className="grid justify-items-center gap-8 px-5 pt-32 pb-14 text-center md:px-8 md:pt-40 md:pb-20"
         {...fadeIn()}
       >
         <p className="font-utility text-sm tracking-[0.22em] uppercase">Menus</p>
-        <div className="max-w-5xl">
-          <h1 className="font-display text-6xl leading-none md:text-8xl">{title}</h1>
-          <p className="mt-8 max-w-2xl text-lg leading-8">{description}</p>
-        </div>
-        <nav className="flex flex-wrap gap-x-6 gap-y-2 font-utility text-sm tracking-[0.18em] uppercase">
+        <h1 className="font-display text-6xl leading-none md:text-8xl">{title}</h1>
+        <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2 font-utility text-sm tracking-[0.18em] uppercase">
           {visibleTabs.map((tab) => (
             <Link
               className={

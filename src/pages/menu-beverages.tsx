@@ -550,9 +550,6 @@ export function StandardBeveragesMenuPage() {
     <div className="page-shell">
       <MenuPageHero
         activePath="/menu/beverages"
-        alt="A bottle of sparkling water next to lemonade"
-        description="Sparkling, zero-proof, coffee, tea, and daytime refreshers. Made for long lunches, early dinners, and one more round without the proof."
-        image="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=1800&q=85"
         title="Beverages"
       />
       <MenuImageSection

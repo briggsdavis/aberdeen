@@ -613,9 +613,6 @@ export function StandardFoodMenuPage() {
     <div className="page-shell">
       <MenuPageHero
         activePath="/menu/food"
-        alt="A plate of oysters on ice with lemon wedges"
-        description="Cold oysters, coastal plates, and generous mains. Sourced from both coasts, served in a room that keeps the afternoon glowing after dark."
-        image="https://images.unsplash.com/photo-1633321094192-388268512e0f?auto=format&fit=crop&w=1800&q=85"
         title="Food"
       />
       <MenuImageSection

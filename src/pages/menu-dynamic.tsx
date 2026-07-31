@@ -34,12 +34,8 @@ export default function DynamicMenuPage() {
     <div className="page-shell">
       <MenuPageHero
         activePath={`/menu/${menu.slug}`}
-        alt={`${menu.title} menu hero`}
-        description={menu.description}
-        image={menu.heroImage ?? ""}
         menuPages={menuPages}
         title={menu.title}
-        usePageOverride={false}
       />
       {menu.sections.map((section) => {
         if (section.layout === "paired") {

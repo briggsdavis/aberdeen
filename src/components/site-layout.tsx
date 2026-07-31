@@ -39,14 +39,38 @@ function SiteLayout() {
     )
     images.forEach((image) => image.classList.add("site-image-wipe-up"))
 
+    const shadowHosts = new Set<HTMLElement>()
+    images.forEach((image) => {
+      const host = image.closest<HTMLElement>(
+        "[class*='shadow'], article, .soft-card-shadow, .restaurant-logo-card",
+      )
+      if (!host) return
+      host.classList.add("site-shadow-wipe-host", "site-shadow-pending")
+      shadowHosts.add(host)
+    })
+
     let animationFrame = 0
+    const shadowCleanupTimers: number[] = []
     const revealVisibleImages = () => {
       animationFrame = 0
       const revealLine = window.innerHeight * 0.92
       images.forEach((image) => {
         if (image.classList.contains("is-revealed")) return
         const rect = image.getBoundingClientRect()
-        if (rect.top <= revealLine && rect.bottom >= 0) image.classList.add("is-revealed")
+        if (rect.top <= revealLine && rect.bottom >= 0) {
+          image.classList.add("is-revealed")
+          const host = image.closest<HTMLElement>(".site-shadow-wipe-host")
+          if (
+            host &&
+            !host.querySelector("img.site-image-wipe-up:not(.is-revealed)") &&
+            host.classList.contains("site-shadow-pending")
+          ) {
+            host.classList.remove("site-shadow-pending")
+            shadowCleanupTimers.push(
+              window.setTimeout(() => host.classList.remove("site-shadow-wipe-host"), 2900),
+            )
+          }
+        }
       })
     }
     const scheduleRevealCheck = () => {
@@ -59,6 +83,10 @@ function SiteLayout() {
     window.addEventListener("resize", scheduleRevealCheck, { passive: true })
     return () => {
       window.cancelAnimationFrame(animationFrame)
+      shadowCleanupTimers.forEach((timer) => window.clearTimeout(timer))
+      shadowHosts.forEach((host) =>
+        host.classList.remove("site-shadow-wipe-host", "site-shadow-pending"),
+      )
       window.removeEventListener("scroll", scheduleRevealCheck)
       window.removeEventListener("resize", scheduleRevealCheck)
     }

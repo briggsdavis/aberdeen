@@ -589,7 +589,7 @@ function PostcardSection() {
         </h2>
       </motion.div>
       <motion.div
-        className="relative rotate-1 border border-aberdeen-blue bg-oyster-white p-6 shadow-[10px_10px_0_#2a3b92]"
+        className="relative border border-aberdeen-blue bg-aberdeen-peach p-6 shadow-[10px_10px_0_#2a3b92]"
         {...fadeIn(0.12)}
       >
         <div className="mb-8 flex items-start justify-between gap-6">

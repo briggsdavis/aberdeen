@@ -452,7 +452,7 @@ function ReservationsSection() {
     >
       <div className="grid gap-10 md:grid-cols-[0.9fr_1fr]">
         <motion.div
-          className="relative order-2 rotate-1 self-end bg-oyster-white p-6 text-aberdeen-blue shadow-[10px_10px_0_#f7b733] md:order-1"
+          className="relative order-2 self-end bg-aberdeen-peach p-6 text-aberdeen-blue shadow-[10px_10px_0_#f7b733] md:order-1"
           {...fadeIn(0.3)}
         >
           <div className="mb-8 flex items-start justify-between gap-6">

@@ -130,7 +130,7 @@ export function RestaurantGroupSection() {
       <div className="relative z-10 mt-8 grid grid-cols-2 gap-3 md:grid-cols-7">
         {restaurantCards.map((restaurant, index) => (
           <motion.article
-            className={`restaurant-logo-card group relative aspect-square overflow-hidden ${
+            className={`restaurant-logo-card group relative aspect-square cursor-pointer overflow-hidden ${
               restaurant.featured ? "bg-aberdeen-blue" : "bg-oyster-white"
             }`}
             key={restaurant.name}

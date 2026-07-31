@@ -321,7 +321,7 @@
 
   @media (min-width: 768px) {
     .event-row:hover {
-      grid-template-columns: minmax(0, 500px) 1fr;
+      grid-template-columns: minmax(0, 510px) 1fr;
       box-shadow: 0 22px 54px rgb(29 42 47 / 0.14);
     }
 
@@ -330,7 +330,7 @@
     }
 
     .event-row-image {
-      width: 500px;
+      width: 510px;
     }
 
     .event-row:hover .event-row-copy {
@@ -366,6 +366,7 @@
     position: sticky !important;
     top: 0 !important;
     z-index: 2;
+    padding-bottom: clamp(8rem, 12vw, 13rem) !important;
   }
 
   .page-shell::after {
@@ -458,21 +459,6 @@ html.cms-preview-mode .public-site-main [class*="sticky"] {
   position: static !important;
 }
 
-[class~="bg-aberdeen-peach"] {
-  background-image:
-    radial-gradient(circle at 20% 30%, rgb(42 59 146 / 0.05) 0 0.65px, transparent 0.95px),
-    radial-gradient(circle at 75% 65%, rgb(29 42 47 / 0.035) 0 0.6px, transparent 0.9px),
-    radial-gradient(circle at 45% 80%, rgb(255 255 255 / 0.24) 0 0.55px, transparent 0.85px);
-  background-size:
-    6px 6px,
-    9px 9px,
-    11px 11px;
-  background-position:
-    0 0,
-    2px 3px,
-    5px 1px;
-}
-
 :is(.public-site-main, .site-footer, header) :is(a, button, article, img) {
   transition-duration: 900ms;
   transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
@@ -497,11 +483,29 @@ html.cms-preview-mode .public-site-main [class*="sticky"] {
 .site-image-wipe-up {
   clip-path: inset(100% 0 0 0);
   will-change: clip-path;
-  transition: clip-path 1600ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transition:
+    clip-path 1600ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 700ms ease 2100ms !important;
+}
+
+main img.site-image-wipe-up:not(.no-under-shadow) {
+  filter: drop-shadow(0 9px 11px rgb(29 42 47 / 0));
 }
 
 .site-image-wipe-up.is-revealed {
   clip-path: inset(0 0 0 0);
+}
+
+main img.site-image-wipe-up.is-revealed:not(.no-under-shadow) {
+  filter: drop-shadow(0 9px 11px rgb(29 42 47 / 0.12));
+}
+
+.site-shadow-wipe-host {
+  transition: box-shadow 700ms ease 2100ms !important;
+}
+
+.site-shadow-wipe-host.site-shadow-pending {
+  box-shadow: 0 0 0 rgb(29 42 47 / 0) !important;
 }
 
 @media (min-width: 768px) {

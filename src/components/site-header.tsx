@@ -128,13 +128,13 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
                 onBlur={(event) => {
                   if (!event.currentTarget.contains(event.relatedTarget)) setMenuPreviewOpen(false)
                 }}
-                onFocus={() => setMenuPreviewOpen(true)}
-                onMouseEnter={() => setMenuPreviewOpen(true)}
                 onMouseLeave={() => setMenuPreviewOpen(false)}
               >
                 <TransitionLink
                   aria-expanded={menuPreviewOpen}
                   className="nav-underline"
+                  onFocus={() => setMenuPreviewOpen(true)}
+                  onMouseEnter={() => setMenuPreviewOpen(true)}
                   to={item.to}
                 >
                   {item.label}
@@ -143,27 +143,27 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
                   {menuPreviewOpen ? (
                     <motion.div
                       animate={{ opacity: 1, scale: 1, y: 0 }}
-                      className="absolute top-full left-1/2 w-[min(96vw,96rem)] -translate-x-1/2 pt-5"
+                      className="absolute top-full left-1/2 w-[min(68vw,67rem)] -translate-x-1/2 pt-5"
                       exit={{ opacity: 0, scale: 0.99, y: -4 }}
                       initial={{ opacity: 0, scale: 0.985, y: -4 }}
                       transition={{ duration: 1.08, ease: [0.16, 1, 0.3, 1] }}
                     >
-                      <div className="bg-white p-6 text-aberdeen-blue shadow-[0_28px_70px_rgb(14_24_69/0.2)]">
-                        <div className="grid grid-cols-3 gap-5">
+                      <div className="bg-white p-8 text-aberdeen-blue shadow-[0_28px_70px_rgb(14_24_69/0.2)] lg:p-10">
+                        <div className="grid grid-cols-3 gap-7">
                           {menuPreviews.map((menu) => (
                             <TransitionLink
                               className="group block"
                               key={menu.slug}
                               to={`/menu/${menu.slug}`}
                             >
-                              <span className="block aspect-[16/10] overflow-hidden bg-oyster-white">
+                              <span className="block aspect-[32/25] overflow-hidden bg-oyster-white">
                                 <img
                                   alt=""
                                   className="h-full w-full object-cover transition-transform duration-[1300ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.025]"
                                   src={menu.heroImage}
                                 />
                               </span>
-                              <span className="menu-tab-underline mt-4 inline-block font-display text-3xl leading-none tracking-normal normal-case">
+                              <span className="menu-tab-underline mt-6 inline-block font-display text-3xl leading-none tracking-normal normal-case">
                                 {menu.title}
                               </span>
                             </TransitionLink>

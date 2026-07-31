@@ -460,11 +460,17 @@ html.cms-preview-mode .public-site-main [class*="sticky"] {
 
 [class~="bg-aberdeen-peach"] {
   background-image:
-    radial-gradient(circle at 20% 30%, rgb(42 59 146 / 0.012) 0 0.55px, transparent 0.8px),
-    radial-gradient(circle at 75% 65%, rgb(29 42 47 / 0.01) 0 0.5px, transparent 0.75px);
+    radial-gradient(circle at 20% 30%, rgb(42 59 146 / 0.05) 0 0.65px, transparent 0.95px),
+    radial-gradient(circle at 75% 65%, rgb(29 42 47 / 0.035) 0 0.6px, transparent 0.9px),
+    radial-gradient(circle at 45% 80%, rgb(255 255 255 / 0.24) 0 0.55px, transparent 0.85px);
   background-size:
-    7px 7px,
-    9px 9px;
+    6px 6px,
+    9px 9px,
+    11px 11px;
+  background-position:
+    0 0,
+    2px 3px,
+    5px 1px;
 }
 
 :is(.public-site-main, .site-footer, header) :is(a, button, article, img) {

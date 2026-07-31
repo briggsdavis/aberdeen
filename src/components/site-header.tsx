@@ -143,10 +143,10 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
                   {menuPreviewOpen ? (
                     <motion.div
                       animate={{ opacity: 1, scale: 1, y: 0 }}
-                      className="absolute top-full left-1/2 w-[min(88vw,64rem)] -translate-x-1/2 pt-5"
+                      className="absolute top-full left-1/2 w-[min(96vw,96rem)] -translate-x-1/2 pt-5"
                       exit={{ opacity: 0, scale: 0.99, y: -4 }}
                       initial={{ opacity: 0, scale: 0.985, y: -4 }}
-                      transition={{ duration: 0.72, ease: [0.16, 1, 0.3, 1] }}
+                      transition={{ duration: 1.08, ease: [0.16, 1, 0.3, 1] }}
                     >
                       <div className="bg-white p-6 text-aberdeen-blue shadow-[0_28px_70px_rgb(14_24_69/0.2)]">
                         <div className="grid grid-cols-3 gap-5">

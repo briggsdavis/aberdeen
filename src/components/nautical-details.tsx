@@ -17,16 +17,8 @@ export function MaritimeFlags({ className = "" }: { className?: string }) {
 }
 
 export function RopeDivider({ className = "" }: { className?: string }) {
-  return (
-    <div
-      aria-hidden="true"
-      className={`h-3 rounded-full ${className}`}
-      style={{
-        backgroundImage:
-          "repeating-linear-gradient(135deg,#2a3b92 0 8px,#fff8f0 8px 16px,#f7b733 16px 24px,#fff8f0 24px 32px)",
-      }}
-    />
-  )
+  void className
+  return null
 }
 
 export function PhotoCorners() {

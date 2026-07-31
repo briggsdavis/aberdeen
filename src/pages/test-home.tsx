@@ -154,19 +154,6 @@ function PhotoCorners() {
   return null
 }
 
-function RopeDivider({ className = "" }: { className?: string }) {
-  return (
-    <div
-      aria-hidden="true"
-      className={`h-3 rounded-full ${className}`}
-      style={{
-        backgroundImage:
-          "repeating-linear-gradient(135deg,#2a3b92 0 8px,#fff8f0 8px 16px,#f7b733 16px 24px,#fff8f0 24px 32px)",
-      }}
-    />
-  )
-}
-
 function CompassStamp({ className = "" }: { className?: string }) {
   return (
     <div
@@ -429,9 +416,6 @@ function FlagTabsSection() {
           <h2 className="mt-4 font-display text-5xl leading-none text-aberdeen-blue md:text-7xl">
             Menu tabs as signal flags.
           </h2>
-        </div>
-        <div className="self-end">
-          <RopeDivider />
         </div>
       </motion.div>
       <nav className="grid gap-4 md:grid-cols-5">

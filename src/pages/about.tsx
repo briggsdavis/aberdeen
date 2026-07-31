@@ -88,19 +88,6 @@ function MaritimeFlags() {
   )
 }
 
-function RopeDivider({ className = "" }: { className?: string }) {
-  return (
-    <div
-      aria-hidden="true"
-      className={`h-3 rounded-full ${className}`}
-      style={{
-        backgroundImage:
-          "repeating-linear-gradient(135deg,#2a3b92 0 8px,#fff8f0 8px 16px,#f7b733 16px 24px,#fff8f0 24px 32px)",
-      }}
-    />
-  )
-}
-
 function PhotoCorners() {
   return null
 }
@@ -179,7 +166,6 @@ function StorySection() {
         <h2 className="font-display text-5xl leading-none text-aberdeen-blue md:text-7xl">
           Seafood, bright spirits, and a dining room made for lingering.
         </h2>
-        <RopeDivider className="w-64" />
         <p className="max-w-3xl text-lg leading-8">
           Aberdeen brings coastal ease to the city: oysters on ice, citrus-forward plates, generous
           mains, and a bar that keeps the evening moving. The feeling is editorial but relaxed, like
@@ -256,7 +242,6 @@ function GroupSection() {
             key={title}
             {...fadeIn(index * 0.08)}
           >
-            <RopeDivider className="rounded-none" />
             <div className="p-6">
               <p className="font-utility text-sm tracking-[0.18em] uppercase">{label}</p>
               <h3 className="mt-8 font-display text-4xl leading-none">{title}</h3>

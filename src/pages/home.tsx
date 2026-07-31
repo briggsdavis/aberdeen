@@ -255,19 +255,6 @@ function MaritimeFlags() {
   )
 }
 
-function RopeDivider({ className = "" }: { className?: string }) {
-  return (
-    <div
-      aria-hidden="true"
-      className={`h-3 rounded-full ${className}`}
-      style={{
-        backgroundImage:
-          "repeating-linear-gradient(135deg,#2a3b92 0 8px,#fff8f0 8px 16px,#f7b733 16px 24px,#fff8f0 24px 32px)",
-      }}
-    />
-  )
-}
-
 function PhotoCorners() {
   return null
 }
@@ -373,7 +360,6 @@ function MenuSection() {
             href={menu.href}
             key={menu.title}
           >
-            <RopeDivider className="rounded-none" />
             <div className="relative aspect-[4/5] overflow-hidden">
               <img
                 alt=""

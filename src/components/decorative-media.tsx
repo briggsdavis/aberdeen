@@ -1,34 +1,15 @@
 import { motion, useScroll, useTransform } from "motion/react"
 import { useEffect, useRef, useState } from "react"
 
-export function DecorativeBackdrop({
-  className = "",
-  imageClassName = "",
-  opacity,
-  src,
-}: {
+type DecorativeBackdropProps = {
   className?: string
   imageClassName?: string
   opacity?: number
   src: string
-}) {
-  const baseOpacity = src.includes("map") ? 0.1 : (opacity ?? 0.6)
+}
 
-  return (
-    <div
-      aria-hidden="true"
-      className={`pointer-events-none absolute inset-0 z-0 overflow-hidden ${className}`}
-    >
-      <img
-        alt=""
-        className={`h-full w-full ${
-          src.includes("map") ? "no-scroll-reveal no-under-shadow" : ""
-        } ${imageClassName}`}
-        src={src}
-        style={{ opacity: baseOpacity * 0.4 }}
-      />
-    </div>
-  )
+export function DecorativeBackdrop(_props: DecorativeBackdropProps) {
+  return null
 }
 
 export function ScrollRotatingWheel({ compact = false }: { compact?: boolean }) {

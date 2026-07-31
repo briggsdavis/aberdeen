@@ -15,19 +15,6 @@ const hours = [
   ["Sunday", "4 PM – 9 PM"],
 ]
 
-function DecorativeRule() {
-  return (
-    <div
-      aria-hidden="true"
-      className="h-2 w-full"
-      style={{
-        backgroundImage:
-          "repeating-linear-gradient(135deg,#2a3b92 0 8px,transparent 8px 15px,#f7b733 15px 19px,transparent 19px 27px)",
-      }}
-    />
-  )
-}
-
 function SiteFooter() {
   const currentYear = new Date().getFullYear()
   const { menuPages, site } = useCmsRuntime()
@@ -70,9 +57,7 @@ function SiteFooter() {
         </p>
       </div>
 
-      <div className="my-6 md:my-8">
-        <DecorativeRule />
-      </div>
+      <div aria-hidden="true" className="h-8 md:h-12" />
 
       <div className="grid grow content-start gap-9 md:grid-cols-2 lg:grid-cols-3 lg:gap-10">
         <div>

@@ -192,12 +192,23 @@ function ScheduleSection({ events }: { events: DisplayEvent[] }) {
 }
 
 function UpcomingList({ events }: { events: DisplayEvent[] }) {
+  const [hoveredEvent, setHoveredEvent] = useState<number | null>(null)
+
   return (
     <motion.div className="grid gap-6" {...fadeInPlace()}>
       {events.map((event, index) => (
         <motion.article
-          className="event-row grid overflow-hidden rounded-2xl bg-aberdeen-peach md:grid-cols-[minmax(0,340px)_1fr]"
+          className={`event-row grid overflow-hidden rounded-2xl bg-aberdeen-peach md:flex ${
+            hoveredEvent === index ? "is-event-hovered" : ""
+          }`}
           key={event.title}
+          onBlur={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget)) setHoveredEvent(null)
+          }}
+          onFocus={() => setHoveredEvent(index)}
+          onMouseEnter={() => setHoveredEvent(index)}
+          onMouseLeave={() => setHoveredEvent(null)}
+          tabIndex={0}
           {...fadeInPlace(index * 0.06)}
         >
           <div className="event-row-image-frame aspect-[4/3] w-full overflow-hidden md:self-start">
@@ -207,7 +218,7 @@ function UpcomingList({ events }: { events: DisplayEvent[] }) {
               src={event.image}
             />
           </div>
-          <div className="event-row-copy p-6 md:p-10">
+          <div className="event-row-copy min-w-0 flex-1 p-6 md:p-10">
             <p className="font-utility text-sm tracking-[0.18em] text-aberdeen-blue uppercase">
               {event.weekday}, {event.month} {event.day} · {event.time}
             </p>

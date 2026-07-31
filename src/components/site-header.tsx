@@ -41,6 +41,7 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
   const [isHomeIntroActive, setIsHomeIntroActive] = useState(playHomeIntro)
   const [isScrolled, setIsScrolled] = useState(false)
   const [menuPreviewOpen, setMenuPreviewOpen] = useState(false)
+  const [activeMenuPreviewSlug, setActiveMenuPreviewSlug] = useState(fallbackMenuPreviews[0]!.slug)
   const { menuPages, site } = useCmsRuntime()
   const reservationUrl = site?.settings.reservationUrl ?? "/contact"
   const menuPreviews = menuPages?.length
@@ -53,6 +54,8 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
           fallbackMenuPreviews[0]!.heroImage,
       }))
     : fallbackMenuPreviews
+  const activeMenuPreview =
+    menuPreviews.find((menu) => menu.slug === activeMenuPreviewSlug) ?? menuPreviews[0]!
   const closeMenu = useCallback(() => setIsMenuOpen(false), [])
   const toggleMenu = useCallback(() => setIsMenuOpen((isOpen) => !isOpen), [])
 
@@ -149,25 +152,42 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
                       transition={{ duration: 1.08, ease: [0.16, 1, 0.3, 1] }}
                     >
                       <div className="bg-white p-8 text-aberdeen-blue shadow-[0_28px_70px_rgb(14_24_69/0.2)] lg:p-10">
-                        <div className="grid grid-cols-3 gap-7">
-                          {menuPreviews.map((menu) => (
-                            <TransitionLink
-                              className="group block"
-                              key={menu.slug}
-                              to={`/menu/${menu.slug}`}
-                            >
-                              <span className="block aspect-[32/25] overflow-hidden bg-oyster-white">
-                                <img
-                                  alt=""
-                                  className="menu-image-hover h-full w-full object-cover"
-                                  src={menu.heroImage}
-                                />
-                              </span>
-                              <span className="menu-tab-underline mt-6 inline-block font-display text-3xl leading-none tracking-normal normal-case">
-                                {menu.title}
-                              </span>
-                            </TransitionLink>
-                          ))}
+                        <div className="grid min-h-[30rem] grid-cols-[0.72fr_1.28fr] gap-10">
+                          <div className="flex flex-col justify-center border-r border-aberdeen-blue/15 pr-10">
+                            {menuPreviews.map((menu) => {
+                              const isActive = menu.slug === activeMenuPreview.slug
+                              return (
+                                <TransitionLink
+                                  aria-current={isActive ? "page" : undefined}
+                                  className={`group border-b border-aberdeen-blue/10 py-7 first:pt-0 last:border-b-0 last:pb-0 ${
+                                    isActive ? "text-aberdeen-blue" : "text-kelp-ink/55"
+                                  }`}
+                                  key={menu.slug}
+                                  onFocus={() => setActiveMenuPreviewSlug(menu.slug)}
+                                  onMouseEnter={() => setActiveMenuPreviewSlug(menu.slug)}
+                                  to={`/menu/${menu.slug}`}
+                                >
+                                  <span className="menu-tab-underline inline-block font-display text-4xl leading-none tracking-normal normal-case transition-colors duration-700 group-hover:text-aberdeen-blue">
+                                    {menu.title}
+                                  </span>
+                                </TransitionLink>
+                              )
+                            })}
+                          </div>
+                          <div className="relative min-h-[30rem] overflow-hidden bg-oyster-white">
+                            <AnimatePresence initial={false} mode="sync">
+                              <motion.img
+                                alt={`${activeMenuPreview.title} menu`}
+                                animate={{ opacity: 1 }}
+                                className="absolute inset-0 h-full w-full object-cover"
+                                exit={{ opacity: 0 }}
+                                initial={{ opacity: 0 }}
+                                key={activeMenuPreview.slug}
+                                src={activeMenuPreview.heroImage}
+                                transition={{ duration: 0.78, ease: [0.16, 1, 0.3, 1] }}
+                              />
+                            </AnimatePresence>
+                          </div>
                         </div>
                       </div>
                     </motion.div>

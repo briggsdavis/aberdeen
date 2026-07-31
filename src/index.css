@@ -291,9 +291,7 @@
   }
 
   .event-row {
-    transition:
-      grid-template-columns 1450ms cubic-bezier(0.16, 1, 0.3, 1),
-      box-shadow 1450ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition: box-shadow 1450ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .event-row-copy {
@@ -320,20 +318,32 @@
   }
 
   @media (min-width: 768px) {
-    .event-row:hover {
-      grid-template-columns: minmax(0, 510px) 1fr;
+    .event-row:hover,
+    .event-row.is-event-hovered {
       box-shadow: 0 22px 54px rgb(29 42 47 / 0.14);
     }
 
     .event-row-image-frame {
+      flex: 0 0 340px;
       height: 255px;
+      width: 340px;
+      transition:
+        flex-basis 1450ms cubic-bezier(0.16, 1, 0.3, 1),
+        width 1450ms cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .event-row-image {
       width: 510px;
     }
 
-    .event-row:hover .event-row-copy {
+    .event-row:hover .event-row-image-frame,
+    .event-row.is-event-hovered .event-row-image-frame {
+      flex-basis: 510px;
+      width: 510px;
+    }
+
+    .event-row:hover .event-row-copy,
+    .event-row.is-event-hovered .event-row-copy {
       transform: translateX(3rem);
     }
   }

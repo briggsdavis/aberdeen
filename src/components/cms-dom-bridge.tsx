@@ -228,9 +228,22 @@ export default function CmsDomBridge() {
     }
 
     const openMedia = (event: MouseEvent, interaction: "single" | "double") => {
-      const element = (event.target as Element).closest<HTMLElement>("[data-cms-image]")
-      if (!element) return
-      const target = targets.images.find((item) => item.key === element.dataset.cmsImage)
+      if (!(event.target instanceof Element)) return
+      let element = event.target.closest<HTMLElement>("[data-cms-image]")
+      let target = targets.images.find((item) => item.key === element?.dataset.cmsImage)
+
+      if (!target && interaction === "single") {
+        const heroTarget = targets.images.find((item) => item.key === "hero")
+        const heroSection = heroTarget?.element.closest("section")
+        const clickedEditableContent = event.target.closest(
+          "[data-cms-text], [data-cms-link], a, button, input, select, textarea",
+        )
+        if (heroTarget && heroSection?.contains(event.target) && !clickedEditableContent) {
+          target = heroTarget
+          element = heroTarget.videoElement ?? heroTarget.element
+        }
+      }
+
       if (!target) return
       const opensOnSingleClick = target.role === "content" || target.acceptsVideo
       if ((interaction === "single") !== opensOnSingleClick) return
@@ -242,7 +255,9 @@ export default function CmsDomBridge() {
           type: "image",
           key: target.key,
           src:
-            element instanceof HTMLVideoElement ? element.currentSrc : element.getAttribute("src"),
+            element instanceof HTMLVideoElement
+              ? element.currentSrc
+              : (element?.getAttribute("src") ?? target.element.currentSrc),
           alt: target.element.alt,
           acceptsVideo: target.acceptsVideo,
           role: target.role,

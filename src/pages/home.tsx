@@ -365,19 +365,18 @@ function MenuSection() {
         </a>
       </motion.div>
       <div className="relative z-10 grid gap-5 md:grid-cols-3">
-        {menus.map((menu, index) => (
-          <motion.a
+        {menus.map((menu) => (
+          <a
             aria-label={`View ${menu.title} menu`}
             className="soft-card-shadow group block bg-aberdeen-peach text-aberdeen-blue"
             href={menu.href}
             key={menu.title}
-            {...fadeIn(index * 0.08)}
           >
             <RopeDivider className="rounded-none" />
             <div className="relative aspect-[4/5] overflow-hidden">
               <img
                 alt=""
-                className="image-reveal-expand h-full w-full object-cover transition duration-[1400ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.025]"
+                className="image-reveal-expand no-scroll-reveal h-full w-full object-cover transition duration-[1400ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.025]"
                 src={menu.image}
               />
             </div>
@@ -387,7 +386,7 @@ function MenuSection() {
               </h3>
               <p className="mt-3 max-w-sm text-base leading-7 text-kelp-ink">{menu.copy}</p>
             </div>
-          </motion.a>
+          </a>
         ))}
       </div>
     </section>

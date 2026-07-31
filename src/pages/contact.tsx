@@ -2,7 +2,7 @@ import { motion } from "motion/react"
 import { useState } from "react"
 import { DecorativeBackdrop } from "../components/decorative-media"
 import { MaritimeFlags, RopeDivider } from "../components/nautical-details"
-import { FAQSection, HeroCarouselButtons, useHeroCarousel } from "../components/site-extras"
+import { FAQSection } from "../components/site-extras"
 import { useCmsRuntime } from "../lib/cms-runtime"
 import { fadeIn } from "../lib/motion"
 
@@ -11,108 +11,10 @@ const antiqueMapFour = "/maps/antique-map-04.png"
 function ContactPage() {
   return (
     <div className="contact-page page-shell">
-      <HeroSection />
       <ContactDetails />
       <MapSection />
       <FAQSection blue expanded />
     </div>
-  )
-}
-
-function FramedPhoto({
-  alt,
-  imageClassName = "",
-  src,
-}: {
-  alt: string
-  imageClassName?: string
-  src: string
-}) {
-  return (
-    <div className="relative aspect-[1339/1016]">
-      <div
-        className="absolute inset-0"
-        style={{
-          WebkitMaskImage: "url('/frames/torn-paper/mask-01.png')",
-          WebkitMaskPosition: "center",
-          WebkitMaskRepeat: "no-repeat",
-          WebkitMaskSize: "100% 100%",
-          maskImage: "url('/frames/torn-paper/mask-01.png')",
-          maskPosition: "center",
-          maskRepeat: "no-repeat",
-          maskSize: "100% 100%",
-        }}
-      >
-        <img alt={alt} className={`h-full w-full object-cover ${imageClassName}`} src={src} />
-      </div>
-      <img
-        alt=""
-        className="pointer-events-none absolute inset-0 z-20 h-full w-full object-fill"
-        src="/frames/torn-paper/frame-01.png"
-      />
-    </div>
-  )
-}
-
-function Tape({ className = "" }: { className?: string }) {
-  return (
-    <span
-      aria-hidden="true"
-      className={`absolute z-30 h-8 w-24 rotate-[7deg] bg-oyster-white/70 shadow-sm ${className}`}
-    />
-  )
-}
-
-function HeroSection() {
-  const { page } = useCmsRuntime()
-  const managedHero = page.media.hero?.url ?? page.images.hero
-  const defaultHeroImages = [
-    "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&w=1800&q=85",
-    "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1800&q=85",
-    "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1800&q=85",
-  ]
-  const { image, next, previous } = useHeroCarousel(
-    managedHero ? [managedHero, ...defaultHeroImages.slice(1)] : defaultHeroImages,
-  )
-
-  return (
-    <section className="relative min-h-[44rem] bg-aberdeen-blue text-aberdeen-peach">
-      <img
-        alt="Restaurant table set with glasses and warm light"
-        className="absolute inset-0 h-full w-full object-cover"
-        data-cms-slot="hero"
-        src={image}
-      />
-      <div className="hero-radial-glow absolute inset-0 z-[1]" />
-      <motion.div
-        className="absolute right-5 bottom-24 z-10 hidden w-[25rem] text-aberdeen-blue md:right-8 md:block"
-        {...fadeIn(0.2)}
-      >
-        <Tape className="-top-12 left-40" />
-        <div className="rotate-90">
-          <FramedPhoto
-            alt="Yacht deck with blue water beyond"
-            imageClassName="-rotate-90 scale-[1.35]"
-            src="https://images.unsplash.com/photo-1745875513449-f54f017b880d?auto=format&fit=crop&w=900&q=85"
-          />
-        </div>
-      </motion.div>
-      <motion.div
-        className="relative z-10 grid gap-10 px-5 pt-32 pb-16 md:px-8 md:pt-40 md:pb-24"
-        {...fadeIn()}
-      >
-        <p className="font-utility text-sm tracking-[0.22em] uppercase">Contact</p>
-        <h1 className="max-w-5xl font-display text-6xl leading-none md:text-8xl">
-          Find the table, call the room, plan the night.
-        </h1>
-      </motion.div>
-      <motion.div
-        className="absolute bottom-8 left-5 z-10 md:bottom-10 md:left-8"
-        {...fadeIn(0.12)}
-      >
-        <HeroCarouselButtons onNext={next} onPrevious={previous} />
-      </motion.div>
-    </section>
   )
 }
 

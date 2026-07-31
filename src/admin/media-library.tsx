@@ -306,6 +306,15 @@ export default function MediaLibrary({
     [removeMedia],
   )
 
+  const toggleDeleteSelection = useCallback((id: Id<"mediaAssets">) => {
+    setSelectedForDelete((current) => {
+      const next = new Set(current)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }, [])
+
   return (
     <div className="grid gap-4">
       <div
@@ -419,6 +428,12 @@ export default function MediaLibrary({
       {error ? (
         <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
       ) : null}
+      {!onSelect ? (
+        <p className="text-xs text-slate-500">
+          Click any unused media item to select it, then use Delete selected. Items marked In use
+          must be removed from their page before they can be deleted.
+        </p>
+      ) : null}
       {status === "LoadingFirstPage" ? (
         <div className="h-56 animate-pulse rounded-xl bg-slate-100" />
       ) : filtered.length === 0 ? (
@@ -435,28 +450,34 @@ export default function MediaLibrary({
             const selected = selectedId === asset._id
             const compatible = acceptedKinds.includes(asset.kind)
             const checked = selectedForDelete.has(asset._id)
+            const selectingForDelete = !onSelect
+            const cardEnabled = selectingForDelete ? !inUse : compatible && Boolean(asset.url)
             return (
               <article
                 className={`group relative overflow-hidden rounded-xl border bg-slate-100 transition hover:-translate-y-0.5 hover:shadow-md ${
-                  selected
+                  selected || checked
                     ? "border-aberdeen-blue ring-2 ring-aberdeen-blue/15"
                     : "border-slate-200"
                 }`}
                 key={asset._id}
               >
                 <button
-                  className={`block w-full text-left ${compatible ? "" : "cursor-not-allowed opacity-55"}`}
-                  disabled={!compatible || !onSelect || !asset.url}
-                  onClick={() =>
-                    asset.url &&
-                    onSelect?.({
-                      id: asset._id,
-                      url: asset.url,
-                      thumbnailUrl: asset.thumbnailUrl,
-                      alt: asset.alt || asset.filename,
-                      kind: asset.kind,
-                    })
-                  }
+                  aria-pressed={selectingForDelete ? checked : undefined}
+                  className={`block w-full text-left ${cardEnabled ? "" : "cursor-not-allowed opacity-55"}`}
+                  disabled={!cardEnabled}
+                  onClick={() => {
+                    if (selectingForDelete) {
+                      toggleDeleteSelection(asset._id)
+                    } else if (asset.url) {
+                      onSelect({
+                        id: asset._id,
+                        url: asset.url,
+                        thumbnailUrl: asset.thumbnailUrl,
+                        alt: asset.alt || asset.filename,
+                        kind: asset.kind,
+                      })
+                    }
+                  }}
                   type="button"
                 >
                   <div className="relative aspect-square bg-slate-200">
@@ -475,14 +496,19 @@ export default function MediaLibrary({
                     <span className="absolute top-2 left-2 rounded-md bg-slate-950/70 px-2 py-1 text-[9px] font-bold tracking-wide text-white uppercase">
                       {asset.kind}
                     </span>
-                    {selected ? (
+                    {selected || checked ? (
                       <span className="absolute top-2 right-2 grid h-7 w-7 place-items-center rounded-full bg-aberdeen-blue text-white">
                         <Check size={15} weight="bold" />
                       </span>
                     ) : null}
-                    {!compatible ? (
+                    {!selectingForDelete && !compatible ? (
                       <span className="absolute inset-x-2 bottom-2 rounded-md bg-white/95 px-2 py-1.5 text-center text-[10px] font-semibold text-slate-600">
                         Hero sections only
+                      </span>
+                    ) : null}
+                    {selectingForDelete && inUse ? (
+                      <span className="absolute right-2 bottom-2 rounded-md bg-white/95 px-2 py-1.5 text-[10px] font-semibold text-slate-600">
+                        In use
                       </span>
                     ) : null}
                   </div>
@@ -503,24 +529,6 @@ export default function MediaLibrary({
                     </div>
                   </div>
                 </button>
-                {!inUse ? (
-                  <label className="absolute right-2 bottom-2 grid h-7 w-7 cursor-pointer place-items-center rounded-md bg-white shadow">
-                    <input
-                      aria-label={`Select ${asset.filename} for deletion`}
-                      checked={checked}
-                      className="accent-aberdeen-blue"
-                      onChange={() =>
-                        setSelectedForDelete((current) => {
-                          const next = new Set(current)
-                          if (next.has(asset._id)) next.delete(asset._id)
-                          else next.add(asset._id)
-                          return next
-                        })
-                      }
-                      type="checkbox"
-                    />
-                  </label>
-                ) : null}
               </article>
             )
           })}

@@ -1,4 +1,4 @@
-import { useReducedMotion } from "motion/react"
+import { MotionConfig, useReducedMotion } from "motion/react"
 import { useEffect, useLayoutEffect } from "react"
 import { Outlet, useLocation } from "react-router"
 import CmsDomBridge from "./cms-dom-bridge"
@@ -27,7 +27,7 @@ function SiteLayout() {
     new URLSearchParams(location.search).get("cmsScope") === "staff-introduction"
 
   useLayoutEffect(() => {
-    if (shouldReduceMotion) return
+    if (editorPreview || shouldReduceMotion) return
 
     const main = document.querySelector(".public-site-main")
     if (!main) return
@@ -62,7 +62,7 @@ function SiteLayout() {
       window.removeEventListener("scroll", scheduleRevealCheck)
       window.removeEventListener("resize", scheduleRevealCheck)
     }
-  }, [location.pathname, shouldReduceMotion])
+  }, [editorPreview, location.pathname, shouldReduceMotion])
 
   useEffect(() => {
     if (!editorPreview) return
@@ -87,8 +87,8 @@ function SiteLayout() {
     return () => document.removeEventListener("click", blockSiteInteraction, true)
   }, [editorPreview])
 
-  return (
-    <SmoothScroll>
+  const content = (
+    <MotionConfig reducedMotion={editorPreview ? "always" : "user"}>
       <div className="relative min-h-svh bg-aberdeen-peach text-kelp-ink">
         <PageTransitionProvider>
           {focusedEditorPreview ? null : <SiteHeader playHomeIntro={playHomeIntro} />}
@@ -99,8 +99,10 @@ function SiteLayout() {
           {focusedEditorPreview ? null : <SiteFooter />}
         </PageTransitionProvider>
       </div>
-    </SmoothScroll>
+    </MotionConfig>
   )
+
+  return editorPreview ? content : <SmoothScroll>{content}</SmoothScroll>
 }
 
 export default SiteLayout

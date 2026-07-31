@@ -396,6 +396,20 @@ export function PostcardImageStack({
     { right: "-3%", top: "20%", rotate: 9 },
     { bottom: "6%", left: "10%", rotate: 6 },
   ]
+  const postcardNotes = [
+    {
+      heading: "Savannah by sail",
+      message: "The yachts are in, the river is gold, and dinner is waiting by the water.",
+    },
+    {
+      heading: "From the marina",
+      message: "White sails, salt air, and one more beautiful evening in Savannah, Georgia.",
+    },
+    {
+      heading: "Wish you were here",
+      message: "Meet us where the yachts pass at sunset. Savannah has saved you a seat.",
+    },
+  ]
 
   return (
     <div
@@ -403,27 +417,62 @@ export function PostcardImageStack({
       className="pointer-events-none absolute inset-0 overflow-hidden"
       data-testid="postcard-stack"
     >
-      {images.map((image, index) => (
-        <motion.div
-          className="absolute w-[11.7rem] bg-oyster-white p-2 shadow-[0_16px_26px_rgb(29_42_47/0.2)]"
-          initial={{ opacity: 0, scale: 0.82, y: 24 }}
-          key={image}
-          style={placements[index]}
-          viewport={{ amount: 0.55, once: false }}
-          whileInView={{
-            opacity: 1,
-            rotate: placements[index].rotate,
-            scale: 1,
-            y: 0,
-            transition: { delay: index * 0.12, duration: 0.576 },
-          }}
-        >
-          <img alt="" className="aspect-[4/3] w-full object-cover" src={image} />
-          <div
-            className={`mt-2 h-2 ${tone === "blue" ? "bg-aberdeen-blue" : "bg-aberdeen-peach"}`}
-          />
-        </motion.div>
-      ))}
+      {images.map((image, index) => {
+        const note = postcardNotes[index] ?? postcardNotes[0]!
+        const imageOnRight = index % 2 === 1
+        const inkClass = tone === "blue" ? "text-aberdeen-blue" : "text-kelp-ink"
+        const borderClass = tone === "blue" ? "border-aberdeen-blue/65" : "border-shell-pink"
+
+        return (
+          <motion.div
+            className={`absolute aspect-[8/5] w-[min(74%,15rem)] border bg-white p-2.5 shadow-[0_16px_26px_rgb(29_42_47/0.22)] ${borderClass} ${inkClass}`}
+            initial={{ opacity: 0, scale: 0.82, y: 24 }}
+            key={`${image}-${index}`}
+            style={{ ...placements[index], zIndex: index + 1 }}
+            viewport={{ amount: 0.55, once: false }}
+            whileInView={{
+              opacity: 1,
+              rotate: placements[index].rotate,
+              scale: 1,
+              y: 0,
+              transition: { delay: index * 0.12, duration: 0.576 },
+            }}
+          >
+            <div className="grid h-full grid-cols-2 gap-2.5">
+              <div
+                className={`min-w-0 ${imageOnRight ? "order-2 border-l pl-2.5" : "order-1 border-r pr-2.5"} ${borderClass}`}
+              >
+                <p className="mb-1.5 font-utility text-[0.4rem] leading-[1.35] font-semibold tracking-[0.18em] uppercase sm:text-[0.46rem]">
+                  {note.heading}
+                </p>
+                <img alt="" className="h-[calc(100%-1.5rem)] min-h-0 w-full object-cover" src={image} />
+              </div>
+              <div
+                className={`flex min-w-0 flex-col ${imageOnRight ? "order-1" : "order-2"}`}
+              >
+                <div className={`ml-auto grid h-7 w-7 place-items-center border-2 ${borderClass}`}>
+                  <img
+                    alt=""
+                    className="h-4 w-4 object-contain opacity-70"
+                    src="/illustrations/nautical/sailboat.png"
+                  />
+                </div>
+                <p className="mt-1.5 font-playful text-[0.58rem] leading-[1.05] sm:text-[0.68rem]">
+                  {note.message}
+                </p>
+                <div className="mt-auto space-y-1.5 pb-1">
+                  <div className={`border-b ${borderClass}`} />
+                  <div className={`border-b ${borderClass}`} />
+                  <div className={`border-b ${borderClass}`} />
+                </div>
+                <p className="mt-1 font-utility text-[0.34rem] tracking-[0.16em] uppercase opacity-70">
+                  Savannah, Georgia
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        )
+      })}
     </div>
   )
 }

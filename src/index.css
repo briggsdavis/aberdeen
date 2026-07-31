@@ -63,7 +63,7 @@
   [class~="bg-aberdeen-blue"]:not(.aberdeen-action) {
     --surface-action-background: #fff;
     --surface-action-color: #111;
-    --surface-action-fill: #fff;
+    --surface-action-fill: var(--color-aberdeen-peach);
     --surface-action-hover-color: #111;
   }
 
@@ -77,8 +77,8 @@
   [class~="bg-aberdeen-peach"]:not(.aberdeen-action) {
     --surface-action-background: #fff;
     --surface-action-color: #111;
-    --surface-action-fill: var(--color-aberdeen-blue);
-    --surface-action-hover-color: #fff;
+    --surface-action-fill: var(--color-aberdeen-peach);
+    --surface-action-hover-color: #111;
   }
 
   .aberdeen-action {
@@ -99,6 +99,7 @@
     inset: 0;
     pointer-events: none;
     background: var(--action-fill);
+    z-index: -1;
     transform: scaleY(0);
     transform-origin: bottom;
     transition: transform 920ms cubic-bezier(0.16, 1, 0.3, 1);

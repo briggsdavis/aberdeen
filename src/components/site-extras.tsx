@@ -425,7 +425,7 @@ export function PostcardImageStack({
 
         return (
           <motion.div
-            className={`absolute aspect-[8/5] w-[min(74%,15rem)] border bg-white p-2.5 shadow-[0_16px_26px_rgb(29_42_47/0.22)] ${borderClass} ${inkClass}`}
+            className={`absolute aspect-[8/5] w-[min(74%,15rem)] overflow-hidden border bg-white p-2.5 shadow-[0_16px_26px_rgb(29_42_47/0.22)] ${borderClass} ${inkClass}`}
             initial={{ opacity: 0, scale: 0.82, y: 24 }}
             key={`${image}-${index}`}
             style={{ ...placements[index], zIndex: index + 1 }}
@@ -440,12 +440,12 @@ export function PostcardImageStack({
           >
             <div className="grid h-full grid-cols-2 gap-2.5">
               <div
-                className={`min-w-0 ${imageOnRight ? "order-2 border-l pl-2.5" : "order-1 border-r pr-2.5"} ${borderClass}`}
+                className={`flex min-h-0 min-w-0 flex-col overflow-hidden ${imageOnRight ? "order-2 border-l pl-2.5" : "order-1 border-r pr-2.5"} ${borderClass}`}
               >
-                <p className="mb-1.5 font-utility text-[0.4rem] leading-[1.35] font-semibold tracking-[0.18em] uppercase sm:text-[0.46rem]">
+                <p className="mb-1.5 shrink-0 font-utility text-[0.4rem] leading-[1.35] font-semibold tracking-[0.18em] uppercase sm:text-[0.46rem]">
                   {note.heading}
                 </p>
-                <img alt="" className="h-[calc(100%-1.5rem)] min-h-0 w-full object-cover" src={image} />
+                <img alt="" className="min-h-0 w-full flex-1 object-cover" src={image} />
               </div>
               <div
                 className={`flex min-w-0 flex-col ${imageOnRight ? "order-1" : "order-2"}`}

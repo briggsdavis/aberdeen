@@ -44,6 +44,15 @@ function elementPath(element: Element, root: Element) {
   return parts.join("/")
 }
 
+function legacyCompatiblePath(path: string, page: string) {
+  if (page !== "/") return path
+
+  return path.replace(/^(div:0\/section:)(\d+)/, (match, prefix: string, section: string) => {
+    const sectionIndex = Number(section)
+    return sectionIndex >= 2 ? `${prefix}${sectionIndex - 1}` : match
+  })
+}
+
 function imageRole(element: HTMLImageElement, root: HTMLElement): MediaRole {
   const firstSection = root.querySelector("section")
   const isHeroBackground =
@@ -78,7 +87,7 @@ function isStructuredLink(element: HTMLAnchorElement) {
   )
 }
 
-function collectTargets(root: HTMLElement) {
+function collectTargets(root: HTMLElement, page: string) {
   const text: TextTarget[] = []
   const images: ImageTarget[] = []
   const links: LinkTarget[] = []
@@ -87,17 +96,21 @@ function collectTargets(root: HTMLElement) {
   while (walker.nextNode()) {
     const node = walker.currentNode as Text
     const parent = node.parentElement
+    const hasNamedTextKey = Boolean(parent?.dataset.cmsTextKey)
     if (
       !parent ||
       !node.nodeValue?.trim() ||
       parent.closest("[data-cms-no-edit]") ||
-      parent.closest("a, button, script, style")
+      parent.closest("script, style") ||
+      (!hasNamedTextKey && parent.closest("a, button"))
     ) {
       continue
     }
     const childIndex = [...parent.childNodes].indexOf(node)
     text.push({
-      key: `${elementPath(parent, root)}|text:${childIndex}`,
+      key:
+        parent.dataset.cmsTextKey ??
+        `${legacyCompatiblePath(elementPath(parent, root), page)}|text:${childIndex}`,
       node,
       parent,
     })
@@ -110,7 +123,7 @@ function collectTargets(root: HTMLElement) {
       acceptsVideo: Boolean(
         role === "background" && root.querySelector("section")?.contains(element),
       ),
-      key: element.dataset.cmsSlot ?? elementPath(element, root),
+      key: element.dataset.cmsSlot ?? legacyCompatiblePath(elementPath(element, root), page),
       element,
       role,
     })
@@ -124,7 +137,11 @@ function collectTargets(root: HTMLElement) {
     ) {
       continue
     }
-    links.push({ key: elementPath(element, root), element })
+    links.push({
+      key:
+        element.dataset.cmsLinkKey ?? legacyCompatiblePath(elementPath(element, root), page),
+      element,
+    })
   }
 
   return { text, images, links }
@@ -166,7 +183,7 @@ export default function CmsDomBridge() {
     const root = document.querySelector<HTMLElement>("main")
     if (!root) return
     const preview = new URLSearchParams(location.search).has("cmsPreview")
-    const targets = collectTargets(root)
+    const targets = collectTargets(root, location.pathname)
 
     for (const target of targets.text) {
       if (page.text[target.key] !== undefined) target.node.nodeValue = page.text[target.key]!

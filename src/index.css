@@ -177,6 +177,23 @@
     filter: drop-shadow(0 9px 11px rgb(29 42 47 / 0.12));
   }
 
+  .text-reveal {
+    opacity: 0;
+    filter: blur(12px);
+    transform: translate3d(0, 14px, 0);
+    transition:
+      filter 900ms cubic-bezier(0.16, 1, 0.3, 1) var(--text-reveal-delay, 0ms),
+      opacity 720ms cubic-bezier(0.16, 1, 0.3, 1) var(--text-reveal-delay, 0ms),
+      transform 900ms cubic-bezier(0.16, 1, 0.3, 1) var(--text-reveal-delay, 0ms);
+    will-change: filter, opacity, transform;
+  }
+
+  .text-reveal.is-text-revealed {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0);
+  }
+
   main article,
   .soft-card-shadow,
   .restaurant-logo-card {
@@ -624,6 +641,14 @@ main img.site-image-wipe-up.is-revealed:not(.no-under-shadow) {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .text-reveal,
+  .text-reveal.is-text-revealed {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    transition: none;
+  }
+
   .nav-logo,
   .event-row,
   .event-row-copy,

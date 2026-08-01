@@ -1,4 +1,13 @@
-import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "motion/react"
+import {
+  motion,
+  useAnimationFrame,
+  useMotionValue,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+  useVelocity,
+} from "motion/react"
 import { useRef } from "react"
 import { useOutletContext } from "react-router"
 import { DecorativeBackdrop } from "../components/decorative-media"
@@ -24,6 +33,7 @@ function HomePage() {
   return (
     <div className="page-shell">
       <HeroSection playIntro={playHomeIntro} />
+      <CoastalTextMarquee />
       <IntroSection />
       <MenuSection />
       <ScrollGallerySection />
@@ -32,6 +42,78 @@ function HomePage() {
       <FAQSection cardsFirst />
       <RestaurantGroupSection />
     </div>
+  )
+}
+
+const coastalPhrases = [
+  { label: "Savannah, Georgia", style: "font-normal italic" },
+  { label: "By the Ocean", style: "font-bold not-italic" },
+  { label: "Coastal Seafood", style: "font-normal not-italic" },
+  { label: "Bright Spirits", style: "font-bold italic" },
+  { label: "Oysters on Ice", style: "font-normal not-italic" },
+  { label: "Lowcountry Evenings", style: "font-normal italic" },
+  { label: "Fresh Catch", style: "font-bold not-italic" },
+]
+
+function wrap(min: number, max: number, value: number) {
+  const range = max - min
+  return ((((value - min) % range) + range) % range) + min
+}
+
+function CoastalTextMarquee() {
+  const shouldReduceMotion = useReducedMotion()
+  const baseX = useMotionValue(0)
+  const { scrollY } = useScroll()
+  const scrollVelocity = useVelocity(scrollY)
+  const smoothVelocity = useSpring(scrollVelocity, {
+    damping: 42,
+    stiffness: 180,
+    mass: 0.45,
+  })
+  const direction = useRef(-1)
+  const x = useTransform(baseX, (value) => `${wrap(-50, 0, value)}%`)
+
+  useAnimationFrame((_, delta) => {
+    if (shouldReduceMotion) return
+
+    const velocity = smoothVelocity.get()
+    if (Math.abs(velocity) > 8) direction.current = velocity > 0 ? -1 : 1
+
+    const speedMultiplier = 1 + Math.min(Math.abs(velocity) / 450, 4)
+    const distance = direction.current * 1.4 * speedMultiplier * (delta / 1000)
+    baseX.set(baseX.get() + distance)
+  })
+
+  return (
+    <section
+      aria-label="The spirit of Aberdeen"
+      className="overflow-hidden border-y border-kelp-ink/20 bg-oyster-white py-5 text-kelp-ink md:py-7"
+    >
+      <motion.div
+        className="flex w-max will-change-transform"
+        style={{ x: shouldReduceMotion ? "-8%" : x }}
+      >
+        {[0, 1].map((copy) => (
+          <div aria-hidden={copy === 1} className="flex shrink-0 items-center" key={copy}>
+            {coastalPhrases.map((phrase) => (
+              <div className="flex shrink-0 items-center" key={`${copy}-${phrase.label}`}>
+                <span
+                  className={`whitespace-nowrap px-5 font-display text-3xl leading-none md:px-8 md:text-5xl ${phrase.style}`}
+                >
+                  {phrase.label}
+                </span>
+                <span
+                  aria-hidden="true"
+                  className="font-playful text-xl leading-none text-kelp-ink md:text-2xl"
+                >
+                  ✶
+                </span>
+              </div>
+            ))}
+          </div>
+        ))}
+      </motion.div>
+    </section>
   )
 }
 
@@ -146,15 +228,17 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
           >
             <a
               className="aberdeen-action w-48 border border-aberdeen-peach text-aberdeen-peach [--action-fill:var(--color-aberdeen-peach)] [--action-foreground:var(--color-aberdeen-blue)]"
+              data-cms-link-key="home.hero.reserve"
               href="#reservations"
             >
-              Reserve a table
+              Reserve
             </a>
             <a
               className="aberdeen-action w-48 bg-aberdeen-peach text-aberdeen-blue [--action-fill:var(--color-oyster-white)] [--action-foreground:var(--color-aberdeen-blue)]"
+              data-cms-link-key="home.hero.menu"
               href="/menu/food"
             >
-              View menu
+              Menu
             </a>
           </motion.div>
           <motion.div
@@ -308,13 +392,16 @@ function IntroSection() {
 }
 
 function MenuSection() {
+  const { menuPages } = useCmsRuntime()
   const menus = [
     {
       title: "Food",
       href: "/menu/food",
       image:
         "https://images.unsplash.com/photo-1715249792962-5359b4b17f21?auto=format&fit=crop&w=900&q=85",
-      height: "h-[25rem] md:h-[34rem]",
+      height: "h-[20rem] md:h-[27.2rem]",
+      imagePosition: "object-top",
+      position: "md:-translate-y-12",
       slot: "div:0/section:2/div:2/a:0/div:1/img:0",
     },
     {
@@ -323,6 +410,8 @@ function MenuSection() {
       image:
         "https://images.unsplash.com/photo-1582993232955-39424b2cef01?auto=format&fit=crop&w=900&q=85",
       height: "h-[31rem] md:h-[42rem]",
+      imagePosition: "object-center",
+      position: "md:translate-y-7",
       slot: "div:0/section:2/div:2/a:1/div:1/img:0",
     },
     {
@@ -331,48 +420,74 @@ function MenuSection() {
       image:
         "https://images.unsplash.com/photo-1683463787127-9d472af2a9e3?auto=format&fit=crop&w=900&q=85",
       height: "h-[23rem] md:h-[30rem]",
+      imagePosition: "object-center",
+      position: "md:translate-y-20",
       slot: "div:0/section:2/div:2/a:2/div:1/img:0",
     },
-  ]
+  ].map((menu, index) => ({
+    ...menu,
+    href: menuPages?.[index] ? `/menu/${menuPages[index].slug}` : menu.href,
+    title: menuPages?.[index]?.title ?? menu.title,
+  }))
 
   return (
-    <section className="relative isolate overflow-hidden bg-oyster-white px-5 py-16 md:px-8 md:py-24">
+    <section className="relative isolate overflow-hidden bg-oyster-white px-5 pt-16 pb-24 md:px-8 md:pt-24 md:pb-44">
       <DecorativeBackdrop imageClassName="object-cover" opacity={0.13} src={antiqueMapTwo} />
       <motion.div
-        className="relative z-10 mb-10 flex items-end justify-between gap-6"
+        className="relative z-10 mb-10 flex items-end justify-between gap-8 md:mb-12"
         {...fadeIn()}
       >
-        <div>
-          <h2 className="font-display text-5xl leading-none text-aberdeen-blue md:text-7xl">
-            Menus
+        <div className="max-w-3xl">
+          <p
+            className="font-utility text-sm tracking-[0.22em] text-aberdeen-blue uppercase"
+            data-cms-text-key="home.menus.eyebrow"
+          >
+            Explore Aberdeen
+          </p>
+          <h2
+            className="mt-4 font-display text-5xl leading-none text-aberdeen-blue md:text-7xl"
+            data-cms-text-key="home.menus.title"
+          >
+            Our Curated Menus
           </h2>
+          <p
+            className="mt-5 max-w-2xl text-lg leading-8 text-kelp-ink/75"
+            data-cms-text-key="home.menus.copy"
+          >
+            Choose from our curated collection of coastal dishes, bright spirits, and refreshing
+            pours.
+          </p>
         </div>
         <a
           className="aberdeen-action hidden border border-aberdeen-blue text-aberdeen-blue md:inline-flex"
+          data-cms-link-key="home.menus.primary-link"
           href="/menu/food"
         >
           View food menu
         </a>
       </motion.div>
       <div className="relative z-10 grid gap-10 md:grid-cols-3 md:gap-7">
-        {menus.map((menu) => (
+        {menus.map((menu, index) => (
           <a
             aria-label={`View ${menu.title} menu`}
-            className="group grid grid-cols-[minmax(0,1fr)_minmax(0,3fr)] items-center gap-4 text-aberdeen-blue"
+            className={`group grid grid-cols-[minmax(0,1fr)_minmax(0,3fr)] items-center gap-4 text-aberdeen-blue ${menu.position}`}
             data-cms-structured-link
             href={menu.href}
             key={menu.title}
           >
             <div aria-hidden="true" className="hidden" data-cms-structure="rope-divider" />
             <div className="flex h-full items-center justify-center">
-              <h3 className="menu-tab-underline font-display text-3xl leading-none md:text-4xl lg:text-5xl">
+              <h3
+                className="menu-tab-underline font-display text-3xl leading-none md:text-4xl lg:text-5xl"
+                data-cms-text-key={`home.menus.item-${index + 1}.title`}
+              >
                 {menu.title}
               </h3>
             </div>
             <div className={`relative w-full overflow-hidden ${menu.height}`}>
               <img
                 alt=""
-                className="menu-image-hover h-full w-full object-cover"
+                className={`h-full w-full object-cover ${menu.imagePosition}`}
                 data-cms-slot={menu.slot}
                 src={menu.image}
               />
@@ -380,6 +495,13 @@ function MenuSection() {
           </a>
         ))}
       </div>
+      <motion.img
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-20 left-5 z-10 hidden h-auto w-[min(24vw,17rem)] object-contain opacity-55 md:block md:left-8"
+        src="/illustrations/nautical/schooner.png"
+        {...fadeIn(0.16)}
+      />
     </section>
   )
 }

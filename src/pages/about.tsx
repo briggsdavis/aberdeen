@@ -217,40 +217,96 @@ function OwnerSection() {
 }
 
 function GroupSection() {
+  const cards = [
+    {
+      label: "01",
+      title: "From the group",
+      copy: "A restaurant shaped with the polish and hospitality of Richard DeShantz Restaurant Group.",
+      supplementary:
+        "That experience shows up in the details: confident service, thoughtful pacing, and a room designed to feel effortless from the first drink onward.",
+    },
+    {
+      label: "02",
+      title: "From the water",
+      copy: "A menu language of shellfish, whole fish, citrus, herbs, brine, butter, and cold glass.",
+    },
+    {
+      label: "03",
+      title: "For the room",
+      copy: "A place for early drinks, long dinners, date nights, celebrations, and one more round.",
+    },
+  ]
+
   return (
-    <section className="relative isolate overflow-hidden bg-aberdeen-peach px-5 py-16 md:px-8 md:py-24">
+    <section className="relative isolate overflow-clip bg-aberdeen-peach px-5 py-16 md:px-8 md:py-24">
       <DecorativeBackdrop imageClassName="object-cover" opacity={0.13} src={antiqueMapThree} />
-      <div className="relative z-10 grid gap-8 md:grid-cols-[1fr_1fr_1fr]">
-        {[
-          [
-            "01",
-            "From the group",
-            "A restaurant shaped with the polish and hospitality of Richard DeShantz Restaurant Group.",
-          ],
-          [
-            "02",
-            "From the water",
-            "A menu language of shellfish, whole fish, citrus, herbs, brine, butter, and cold glass.",
-          ],
-          [
-            "03",
-            "For the room",
-            "A place for early drinks, long dinners, date nights, celebrations, and one more round.",
-          ],
-        ].map(([label, title, copy], index) => (
-          <motion.article
-            className="bg-oyster-white text-aberdeen-blue shadow-[0_18px_34px_rgba(29,42,47,0.1)]"
-            key={title}
-            {...fadeIn(index * 0.08)}
-          >
-            <div aria-hidden="true" className="hidden" data-cms-structure="rope-divider" />
-            <div className="p-6">
-              <p className="font-utility text-sm tracking-[0.18em] uppercase">{label}</p>
-              <h3 className="mt-8 font-display text-4xl leading-none">{title}</h3>
-              <p className="mt-5 leading-7 text-kelp-ink/80">{copy}</p>
-            </div>
-          </motion.article>
-        ))}
+      <div className="relative z-10 grid items-start gap-10 md:grid-cols-[0.88fr_1.12fr] md:gap-14">
+        <div>
+          <motion.div className="mb-10 max-w-2xl md:mb-0" {...fadeIn()}>
+            <p
+              className="font-utility text-sm tracking-[0.22em] text-aberdeen-blue uppercase"
+              data-cms-text-key="about.pillars.eyebrow"
+            >
+              The Aberdeen point of view
+            </p>
+            <h2
+              className="mt-5 font-display text-5xl leading-none text-aberdeen-blue md:text-7xl"
+              data-cms-text-key="about.pillars.title"
+            >
+              Three notes from the coast.
+            </h2>
+          </motion.div>
+          <div className="grid gap-8 md:mt-12">
+            {cards.map((card, index) => (
+              <div className="flex md:min-h-[62svh] md:items-center" key={card.title}>
+                <motion.article
+                  className="w-full bg-oyster-white p-6 text-aberdeen-blue shadow-[0_18px_34px_rgba(29,42,47,0.1)] md:p-8"
+                  {...fadeIn(index * 0.08)}
+                >
+                  <div aria-hidden="true" className="hidden" data-cms-structure="rope-divider" />
+                  <p
+                    className="font-utility text-sm tracking-[0.18em] uppercase"
+                    data-cms-text-key={`about.pillars.item-${index + 1}.label`}
+                  >
+                    {card.label}
+                  </p>
+                  <h3
+                    className="mt-8 font-display text-4xl leading-none md:text-5xl"
+                    data-cms-text-key={`about.pillars.item-${index + 1}.title`}
+                  >
+                    {card.title}
+                  </h3>
+                  <p
+                    className="mt-5 text-lg leading-8 text-kelp-ink/80"
+                    data-cms-text-key={`about.pillars.item-${index + 1}.copy`}
+                  >
+                    {card.copy}
+                  </p>
+                  {card.supplementary ? (
+                    <p
+                      className="mt-5 leading-7 text-kelp-ink/65"
+                      data-cms-text-key="about.pillars.item-1.supplementary"
+                    >
+                      {card.supplementary}
+                    </p>
+                  ) : null}
+                </motion.article>
+              </div>
+            ))}
+          </div>
+        </div>
+        <motion.div
+          className="relative order-first h-[28rem] overflow-hidden shadow-[0_24px_52px_rgba(29,42,47,0.2)] md:order-none md:sticky md:top-24 md:h-[calc(100svh-8rem)]"
+          {...fadeIn(0.12)}
+        >
+          <img
+            alt="Aberdeen dining room set for an evening by the coast"
+            className="no-scroll-reveal h-full w-full object-cover"
+            data-cms-slot="about-pillars-sticky-image"
+            src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1400&q=85"
+          />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-aberdeen-blue/20 via-transparent to-transparent" />
+        </motion.div>
       </div>
     </section>
   )

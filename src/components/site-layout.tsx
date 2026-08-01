@@ -92,6 +92,66 @@ function SiteLayout() {
     }
   }, [editorPreview, location.pathname, shouldReduceMotion])
 
+  useLayoutEffect(() => {
+    if (editorPreview || shouldReduceMotion) return
+
+    const content = document.querySelector<HTMLElement>(".public-site-main")
+    if (!content) return
+
+    if (!("IntersectionObserver" in window)) {
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return
+          entry.target.classList.add("is-text-revealed")
+          observer.unobserve(entry.target)
+        })
+      },
+      { rootMargin: "0px 0px -4% 0px", threshold: 0.01 },
+    )
+
+    const revealNewText = () => {
+      const targets = Array.from(
+        document.querySelectorAll<HTMLElement>(
+          "main h1, main h2, main h3, main p, main li, main dt, main dd, footer h2, footer h3, footer p, footer li",
+        ),
+      ).filter(
+        (element) =>
+          !element.classList.contains("text-reveal") &&
+          !element.querySelector("h1, h2, h3, p, li, dt, dd"),
+      )
+
+      targets.forEach((element) => {
+        const section = element.closest("section, footer") ?? content
+        const position = section.querySelectorAll(".text-reveal").length
+        element.style.setProperty("--text-reveal-delay", `${Math.min(position * 65, 260)}ms`)
+        element.classList.add("text-reveal")
+        observer.observe(element)
+      })
+    }
+
+    revealNewText()
+
+    let frame = 0
+    const contentObserver = new MutationObserver(() => {
+      if (frame) return
+      frame = window.requestAnimationFrame(() => {
+        frame = 0
+        revealNewText()
+      })
+    })
+    contentObserver.observe(document.body, { childList: true, subtree: true })
+
+    return () => {
+      observer.disconnect()
+      contentObserver.disconnect()
+      window.cancelAnimationFrame(frame)
+    }
+  }, [editorPreview, location.pathname, shouldReduceMotion])
+
   useEffect(() => {
     if (!editorPreview) return
 

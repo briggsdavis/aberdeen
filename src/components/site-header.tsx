@@ -42,6 +42,7 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [menuPreviewOpen, setMenuPreviewOpen] = useState(false)
   const [activeMenuPreviewSlug, setActiveMenuPreviewSlug] = useState(fallbackMenuPreviews[0]!.slug)
+  const isContactPage = location.pathname === "/contact"
   const { menuPages, site } = useCmsRuntime()
   const reservationUrl = site?.settings.reservationUrl ?? "/contact"
   const menuPreviews = menuPages?.length
@@ -109,7 +110,7 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
     <motion.header
       animate={{ y: isHidden || isHomeIntroActive ? "-100%" : "0%" }}
       className={`fixed inset-x-0 top-0 z-40 text-aberdeen-peach transition-[background-color,box-shadow] duration-500 will-change-transform ${
-        isScrolled || isMenuOpen
+        isContactPage || isScrolled || isMenuOpen
           ? "bg-aberdeen-blue shadow-[0_12px_30px_rgb(14_24_69/0.2)]"
           : "bg-transparent shadow-none"
       }`}

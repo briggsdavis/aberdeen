@@ -256,9 +256,9 @@ function GroupSection() {
               Three notes from the coast.
             </h2>
           </motion.div>
-          <div className="grid gap-8 md:mt-12">
+          <div className="grid gap-4 md:mt-8">
             {cards.map((card, index) => (
-              <div className="flex md:min-h-[62svh] md:items-center" key={card.title}>
+              <div className="flex" key={card.title}>
                 <motion.article
                   className="w-full bg-oyster-white p-6 text-aberdeen-blue shadow-[0_18px_34px_rgba(29,42,47,0.1)] md:p-8"
                   {...fadeIn(index * 0.08)}
@@ -295,18 +295,24 @@ function GroupSection() {
             ))}
           </div>
         </div>
-        <motion.div
-          className="relative order-first h-[28rem] overflow-hidden shadow-[0_24px_52px_rgba(29,42,47,0.2)] md:order-none md:sticky md:top-24 md:h-[calc(100svh-8rem)]"
-          {...fadeIn(0.12)}
-        >
-          <img
-            alt="Aberdeen dining room set for an evening by the coast"
-            className="no-scroll-reveal h-full w-full object-cover"
-            data-cms-slot="about-pillars-sticky-image"
-            src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1400&q=85"
-          />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-aberdeen-blue/20 via-transparent to-transparent" />
-        </motion.div>
+        <div className="order-first grid grid-cols-[1.08fr_0.92fr] items-start gap-4 md:order-none md:sticky md:top-24 md:h-[calc(100svh-8rem)] md:gap-6">
+          <motion.div className="relative h-[28rem] overflow-hidden shadow-[0_24px_52px_rgba(29,42,47,0.2)] md:h-full" {...fadeIn(0.12)}>
+            <img
+              alt="Aberdeen dining room set for an evening by the coast"
+              className="h-full w-full object-cover"
+              data-cms-slot="about-pillars-sticky-image"
+              src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1400&q=85"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-aberdeen-blue/20 via-transparent to-transparent" />
+          </motion.div>
+          <motion.div className="relative mt-12 h-72 overflow-hidden shadow-[0_20px_44px_rgba(29,42,47,0.18)] md:mt-24 md:h-[68%]" {...fadeIn(0.2)}>
+            <img
+              alt="A bright coastal table setting at Aberdeen"
+              className="h-full w-full object-cover"
+              src="https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=900&q=85"
+            />
+          </motion.div>
+        </div>
       </div>
     </section>
   )

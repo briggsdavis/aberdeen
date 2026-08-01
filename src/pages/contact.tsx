@@ -47,15 +47,15 @@ function ContactDetails() {
           </motion.article>
         ))}
       </div>
-      <motion.div className="relative z-10 bg-aberdeen-blue p-4 md:p-5" {...fadeIn(0.12)}>
-        <div className="relative h-48 md:h-52">
+      <motion.div className="relative z-10" {...fadeIn(0.12)}>
+        <div className="relative h-56 md:h-64">
           <img
             alt="Aberdeen dining room table"
             className="h-full w-full object-cover"
             src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1200&q=85"
           />
         </div>
-        <div className="mt-4 bg-oyster-white p-5 text-aberdeen-blue md:p-6">
+        <div className="mt-6 text-aberdeen-blue">
           <h2 className="font-display text-4xl leading-none">Send a note</h2>
           <InquiryForm />
         </div>

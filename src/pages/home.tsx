@@ -399,7 +399,7 @@ function MenuSection() {
       href: "/menu/food",
       image:
         "https://images.unsplash.com/photo-1715249792962-5359b4b17f21?auto=format&fit=crop&w=900&q=85",
-      height: "h-80 md:h-[19.5rem]",
+      height: "h-[23rem] md:h-[22.4rem]",
       imagePosition: "object-top",
       position: "md:left-[15%] md:top-0",
       slot: "div:0/section:2/div:2/a:0/div:1/img:0",
@@ -409,7 +409,7 @@ function MenuSection() {
       href: "/menu/spirits",
       image:
         "https://images.unsplash.com/photo-1582993232955-39424b2cef01?auto=format&fit=crop&w=900&q=85",
-      height: "h-[23.5rem] md:h-[27rem]",
+      height: "h-[27rem] md:h-[31.1rem]",
       imagePosition: "object-center",
       position: "md:left-[43%] md:top-12",
       slot: "div:0/section:2/div:2/a:1/div:1/img:0",
@@ -419,7 +419,7 @@ function MenuSection() {
       href: "/menu/beverages",
       image:
         "https://images.unsplash.com/photo-1683463787127-9d472af2a9e3?auto=format&fit=crop&w=900&q=85",
-      height: "h-80 md:h-[25.2rem]",
+      height: "h-[23rem] md:h-[29rem]",
       imagePosition: "object-center",
       position: "md:left-[70%] md:top-36",
       slot: "div:0/section:2/div:2/a:2/div:1/img:0",
@@ -466,7 +466,7 @@ function MenuSection() {
           View food menu
         </a>
       </motion.div>
-      <div className="relative z-10 grid gap-8 md:block md:h-[35rem]">
+      <div className="relative z-10 grid gap-8 md:block md:h-[39rem]">
         {menus.map((menu, index) => (
           <a
             aria-label={`View ${menu.title} menu`}
@@ -476,7 +476,7 @@ function MenuSection() {
             key={menu.title}
           >
             <div aria-hidden="true" className="hidden" data-cms-structure="rope-divider" />
-            <div className="flex h-full items-center justify-center md:absolute md:right-[calc(100%+0.7rem)] md:bottom-0 md:whitespace-nowrap">
+            <div className="flex h-full items-center justify-center md:absolute md:right-[calc(100%+0.7rem)] md:bottom-0 md:h-auto md:items-end md:whitespace-nowrap">
               <h3
                 className="menu-tab-underline font-display text-3xl leading-none md:text-4xl"
                 data-cms-text-key={`home.menus.item-${index + 1}.title`}
@@ -498,7 +498,7 @@ function MenuSection() {
       <motion.img
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-8 left-5 z-10 hidden h-auto w-[min(18vw,10rem)] object-contain opacity-55 md:block md:left-8"
+        className="pointer-events-none absolute bottom-20 left-5 z-10 hidden h-auto w-[min(25.92vw,14.4rem)] object-contain opacity-55 md:block md:left-24"
         src="/illustrations/nautical/schooner.png"
         {...fadeIn(0.16)}
       />

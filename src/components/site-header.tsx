@@ -102,9 +102,19 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
     }
 
     setIsHomeIntroActive(true)
-    const introTimer = window.setTimeout(() => setIsHomeIntroActive(false), 2220)
+    const introTimer = window.setTimeout(() => setIsHomeIntroActive(false), 4050)
     return () => window.clearTimeout(introTimer)
   }, [playHomeIntro, shouldReduceMotion])
+
+  const homeIntroReveal = (order: number) => ({
+    animate: { opacity: isHomeIntroActive ? 0 : 1, x: isHomeIntroActive ? -10 : 0 },
+    initial: false,
+    transition: {
+      delay: !isHomeIntroActive && playHomeIntro ? order * 0.03 : 0,
+      duration: shouldReduceMotion ? 0 : 0.48,
+      ease: [0.22, 1, 0.36, 1] as const,
+    },
+  })
 
   return (
     <motion.header
@@ -122,15 +132,20 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
       }}
     >
       <div className="flex items-center justify-between px-5 py-4 md:px-8">
-        <TransitionLink className="nav-logo block w-36 md:w-44" onClick={closeMenu} to="/">
-          <img alt="Aberdeen" src="/brand/aberdeen-wordmark-peach.png" />
-        </TransitionLink>
-        <nav className="hidden items-center gap-7 font-utility text-sm tracking-[0.16em] uppercase md:flex">
-          {navItems.map((item) =>
-            item.label === "Menus" ? (
+        <motion.div {...homeIntroReveal(0)}>
+          <TransitionLink className="nav-logo block w-36 md:w-44" onClick={closeMenu} to="/">
+            <img alt="Aberdeen" src="/brand/aberdeen-wordmark-peach.png" />
+          </TransitionLink>
+        </motion.div>
+        <motion.nav
+          className="hidden items-center gap-7 font-utility text-sm tracking-[0.16em] uppercase md:flex"
+          {...homeIntroReveal(1)}
+        >
+          {navItems.map((item, index) => (
+            <motion.div key={item.label} {...homeIntroReveal(index + 1)}>
+              {item.label === "Menus" ? (
               <div
                 className="relative"
-                key={item.label}
                 onBlur={(event) => {
                   if (!event.currentTarget.contains(event.relatedTarget)) setMenuPreviewOpen(false)
                 }}
@@ -198,28 +213,30 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
                 </AnimatePresence>
               </div>
             ) : (
-              <TransitionLink className="nav-underline" key={item.label} to={item.to}>
+              <TransitionLink className="nav-underline" to={item.to}>
                 {item.label}
               </TransitionLink>
-            ),
-          )}
-        </nav>
-        <div className="hidden md:block">
+              )}
+            </motion.div>
+          ))}
+        </motion.nav>
+        <motion.div className="hidden md:block" {...homeIntroReveal(navItems.length + 1)}>
           <a
             className="aberdeen-action border border-white bg-white px-4 py-2 font-utility text-sm tracking-[0.14em] text-black uppercase [--action-fill:var(--color-aberdeen-blue)] hover:text-white"
             href={reservationUrl}
           >
             Reserve
           </a>
-        </div>
-        <button
-          aria-controls="mobile-navigation"
-          aria-expanded={isMenuOpen}
-          aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-          className="flex h-11 w-11 flex-col items-center justify-center gap-1.5 border border-aberdeen-peach md:hidden"
-          onClick={toggleMenu}
-          type="button"
-        >
+        </motion.div>
+        <motion.div className="md:hidden" {...homeIntroReveal(1)}>
+          <button
+            aria-controls="mobile-navigation"
+            aria-expanded={isMenuOpen}
+            aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            className="flex h-11 w-11 flex-col items-center justify-center gap-1.5 border border-aberdeen-peach"
+            onClick={toggleMenu}
+            type="button"
+          >
           <span
             className={`h-px w-5 bg-aberdeen-peach transition ${
               isMenuOpen ? "translate-y-[7px] rotate-45" : ""
@@ -233,7 +250,8 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
               isMenuOpen ? "-translate-y-[7px] -rotate-45" : ""
             }`}
           />
-        </button>
+          </button>
+        </motion.div>
       </div>
       <nav
         className={`mx-5 border border-aberdeen-peach bg-aberdeen-blue p-5 md:hidden ${

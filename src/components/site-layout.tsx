@@ -7,21 +7,10 @@ import SiteFooter from "./site-footer"
 import SiteHeader from "./site-header"
 import SmoothScroll from "./smooth-scroll"
 
-const homeIntroStorageKey = "aberdeen-home-intro-seen"
-const isFirstSiteLoad = (() => {
-  try {
-    const isFirst = sessionStorage.getItem(homeIntroStorageKey) !== "true"
-    if (isFirst) sessionStorage.setItem(homeIntroStorageKey, "true")
-    return isFirst
-  } catch {
-    return true
-  }
-})()
-
 function SiteLayout() {
   const location = useLocation()
   const shouldReduceMotion = useReducedMotion()
-  const playHomeIntro = isFirstSiteLoad && location.pathname === "/" && !shouldReduceMotion
+  const playHomeIntro = location.pathname === "/" && !shouldReduceMotion
   const editorPreview = new URLSearchParams(location.search).has("cmsPreview")
   const focusedEditorPreview =
     new URLSearchParams(location.search).get("cmsScope") === "staff-introduction"
@@ -98,20 +87,20 @@ function SiteLayout() {
     const content = document.querySelector<HTMLElement>(".public-site-main")
     if (!content) return
 
-    if (!("IntersectionObserver" in window)) {
-      return
+    let frame = 0
+    const revealVisibleText = () => {
+      frame = 0
+      const revealLine = window.innerHeight * 0.9
+      content.querySelectorAll<HTMLElement>(".text-reveal").forEach((element) => {
+        if (element.classList.contains("is-text-revealed")) return
+        const rect = element.getBoundingClientRect()
+        if (rect.top <= revealLine && rect.bottom >= 0) element.classList.add("is-text-revealed")
+      })
     }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return
-          entry.target.classList.add("is-text-revealed")
-          observer.unobserve(entry.target)
-        })
-      },
-      { rootMargin: "0px 0px -4% 0px", threshold: 0.01 },
-    )
+    const scheduleRevealCheck = () => {
+      if (frame) return
+      frame = window.requestAnimationFrame(revealVisibleText)
+    }
 
     const revealNewText = () => {
       const targets = Array.from(
@@ -121,6 +110,7 @@ function SiteLayout() {
       ).filter(
         (element) =>
           !element.classList.contains("text-reveal") &&
+          !element.closest("[data-hero-intro]") &&
           !element.querySelector("h1, h2, h3, p, li, dt, dd"),
       )
 
@@ -129,26 +119,30 @@ function SiteLayout() {
         const position = section.querySelectorAll(".text-reveal").length
         element.style.setProperty("--text-reveal-delay", `${Math.min(position * 65, 260)}ms`)
         element.classList.add("text-reveal")
-        observer.observe(element)
       })
+      scheduleRevealCheck()
     }
 
     revealNewText()
 
-    let frame = 0
+    let mutationFrame = 0
     const contentObserver = new MutationObserver(() => {
-      if (frame) return
-      frame = window.requestAnimationFrame(() => {
-        frame = 0
+      if (mutationFrame) return
+      mutationFrame = window.requestAnimationFrame(() => {
+        mutationFrame = 0
         revealNewText()
       })
     })
     contentObserver.observe(document.body, { childList: true, subtree: true })
+    window.addEventListener("scroll", scheduleRevealCheck, { passive: true })
+    window.addEventListener("resize", scheduleRevealCheck, { passive: true })
 
     return () => {
-      observer.disconnect()
       contentObserver.disconnect()
       window.cancelAnimationFrame(frame)
+      window.cancelAnimationFrame(mutationFrame)
+      window.removeEventListener("scroll", scheduleRevealCheck)
+      window.removeEventListener("resize", scheduleRevealCheck)
     }
   }, [editorPreview, location.pathname, shouldReduceMotion])
 

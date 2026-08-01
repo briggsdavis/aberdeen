@@ -39,7 +39,7 @@ function SiteFooter() {
   const copyright = site?.settings.footerCopyright ?? "Aberdeen. All rights reserved."
 
   return (
-    <footer className="site-footer flex min-h-svh flex-col bg-oyster-white px-5 py-8 text-aberdeen-blue md:px-8 md:py-10 lg:h-svh lg:overflow-hidden">
+    <footer className="site-footer flex min-h-[70svh] flex-col bg-oyster-white px-5 py-6 text-aberdeen-blue md:px-8 md:py-7">
       <div className="grid gap-6 lg:grid-cols-[1fr_auto_1fr] lg:items-center">
         <div>
           <p className="font-utility text-xs tracking-[0.24em] uppercase">A table by the water</p>
@@ -57,9 +57,9 @@ function SiteFooter() {
         </p>
       </div>
 
-      <div aria-hidden="true" className="h-8 md:h-12" />
+      <div aria-hidden="true" className="h-5 md:h-7" />
 
-      <div className="grid grow content-start gap-9 md:grid-cols-2 lg:grid-cols-3 lg:gap-10">
+      <div className="grid grow content-start gap-7 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
         <div>
           <p className="font-utility text-xs tracking-[0.2em] uppercase">Explore</p>
           <nav aria-label="Footer navigation" className="mt-5 grid gap-2">
@@ -100,7 +100,7 @@ function SiteFooter() {
         </div>
 
         <div>
-          <p className="font-utility text-xs tracking-[0.2em] uppercase">Tentative hours</p>
+          <p className="font-utility text-xs tracking-[0.2em] uppercase">Hours</p>
           <dl className="mt-5 space-y-3 text-sm text-kelp-ink">
             {visibleHours.map(([day, time]) => (
               <div className="flex items-baseline gap-3" key={day}>
@@ -115,7 +115,7 @@ function SiteFooter() {
         </div>
       </div>
 
-      <div className="mt-6 border-t border-aberdeen-blue/20 pt-4">
+      <div className="mt-5 border-t border-aberdeen-blue/20 pt-3">
         <div className="flex flex-col gap-4 font-utility text-[0.68rem] tracking-[0.13em] text-aberdeen-blue/65 uppercase md:flex-row md:items-center md:justify-between">
           <p>
             © {currentYear} {copyright}

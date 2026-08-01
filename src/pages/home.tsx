@@ -125,34 +125,55 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
   )
   const shouldReduceMotion = useReducedMotion()
   const animateIntro = playIntro && !shouldReduceMotion
-  const introDelay = animateIntro ? 2.02 : 0
+  const introDelay = animateIntro ? 3.95 : 0
 
   return (
-    <section className="relative min-h-svh overflow-hidden bg-aberdeen-blue text-aberdeen-peach">
-      <motion.img
-        alt="Sunlit coastal restaurant dining room"
-        animate={{ opacity: 1, scale: 1, x: "0%" }}
-        className="absolute inset-0 h-full w-full object-cover will-change-transform"
-        fetchPriority="high"
-        data-cms-slot="hero"
-        initial={
-          !animateIntro
-            ? { opacity: 1, scale: 1, x: "0%" }
-            : { opacity: 0.45, scale: 1.08, x: "12%" }
+    <section className="relative min-h-svh overflow-hidden bg-oyster-white text-aberdeen-peach" data-hero-intro>
+      <motion.div
+        animate={
+          animateIntro
+            ? {
+                top: ["12.5%", "12.5%", "0%"],
+                right: ["12.5%", "12.5%", "0%"],
+                bottom: ["12.5%", "12.5%", "0%"],
+                left: ["12.5%", "12.5%", "0%"],
+              }
+            : { top: "0%", right: "0%", bottom: "0%", left: "0%" }
         }
-        src={image}
+        className="absolute z-0 overflow-hidden will-change-transform"
+        initial={
+          animateIntro
+            ? { top: "12.5%", right: "12.5%", bottom: "12.5%", left: "12.5%" }
+            : { top: "0%", right: "0%", bottom: "0%", left: "0%" }
+        }
         transition={{
-          delay: animateIntro ? 1.02 : 0,
-          duration: animateIntro ? 1.344 : 0,
+          delay: animateIntro ? 2 : 0,
+          duration: animateIntro ? 1.8 : 0,
           ease: [0.22, 1, 0.36, 1],
+          times: [0, 0.42, 1],
         }}
-      />
+      >
+        <motion.img
+          alt="Sunlit coastal restaurant dining room"
+          animate={{ filter: "blur(0px)", opacity: 1 }}
+          className="h-full w-full object-cover"
+          fetchPriority="high"
+          data-cms-slot="hero"
+          initial={animateIntro ? { filter: "blur(22px)", opacity: 0 } : { filter: "blur(0px)", opacity: 1 }}
+          src={image}
+          transition={{
+            delay: animateIntro ? 2 : 0,
+            duration: animateIntro ? 1.215 : 0,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+        />
+      </motion.div>
       <motion.div
         animate={{ opacity: 1 }}
         className="home-hero-radial-glow absolute inset-0 z-[1]"
         initial={{ opacity: animateIntro ? 0 : 1 }}
         transition={{
-          delay: animateIntro ? 1.36 : 0,
+          delay: animateIntro ? 3.65 : 0,
           duration: animateIntro ? 0.864 : 0,
         }}
       />
@@ -165,8 +186,8 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
             : { opacity: 0, rotate: 7, scale: 0.96, x: -34, y: 12 }
         }
         transition={{
-          delay: animateIntro ? 2.1 : 0,
-          duration: animateIntro ? 2.8 : 0,
+          delay: animateIntro ? 4.1 : 0,
+          duration: animateIntro ? 1.08 : 0,
           ease: [0.16, 1, 0.3, 1],
         }}
       >
@@ -186,8 +207,8 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
             : { opacity: 0, rotate: -6, scale: 0.96, x: 34, y: 12 }
         }
         transition={{
-          delay: animateIntro ? 2.32 : 0,
-          duration: animateIntro ? 2.8 : 0,
+          delay: animateIntro ? 4.22 : 0,
+          duration: animateIntro ? 1.08 : 0,
           ease: [0.16, 1, 0.3, 1],
         }}
       >
@@ -221,20 +242,20 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
             className="flex flex-wrap justify-center gap-3"
             initial={animateIntro ? { opacity: 0, y: 16 } : { opacity: 1, y: 0 }}
             transition={{
-              delay: animateIntro ? 2.28 : 0,
+              delay: animateIntro ? 4.08 : 0,
               duration: animateIntro ? 0.864 : 0,
               ease: [0.22, 1, 0.36, 1],
             }}
           >
             <a
-              className="aberdeen-action w-48 border border-aberdeen-peach text-aberdeen-peach [--action-fill:var(--color-aberdeen-peach)] [--action-foreground:var(--color-aberdeen-blue)]"
+              className="aberdeen-action w-48 [--surface-action-background:#fff] [--surface-action-color:var(--color-aberdeen-blue)] [--surface-action-fill:var(--color-aberdeen-peach)] [--surface-action-hover-color:var(--color-aberdeen-blue)]"
               data-cms-link-key="home.hero.reserve"
               href="#reservations"
             >
               Reserve
             </a>
             <a
-              className="aberdeen-action w-48 bg-aberdeen-peach text-aberdeen-blue [--action-fill:var(--color-oyster-white)] [--action-foreground:var(--color-aberdeen-blue)]"
+              className="aberdeen-action w-48 [--surface-action-background:#fff] [--surface-action-color:var(--color-aberdeen-blue)] [--surface-action-fill:var(--color-aberdeen-peach)] [--surface-action-hover-color:var(--color-aberdeen-blue)]"
               data-cms-link-key="home.hero.menu"
               href="/menu/food"
             >
@@ -246,7 +267,7 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
             className="flex justify-center"
             initial={animateIntro ? { opacity: 0, y: 12 } : { opacity: 1, y: 0 }}
             transition={{
-              delay: animateIntro ? 2.46 : 0,
+              delay: animateIntro ? 4.22 : 0,
               duration: animateIntro ? 0.816 : 0,
               ease: [0.22, 1, 0.36, 1],
             }}
@@ -255,32 +276,6 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
           </motion.div>
         </div>
       </div>
-      <motion.div
-        animate={{ x: "-101%" }}
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-30 grid place-items-center bg-aberdeen-blue will-change-transform"
-        initial={animateIntro ? { x: "0%" } : { x: "-101%" }}
-        transition={{
-          delay: animateIntro ? 1.08 : 0,
-          duration: animateIntro ? 1.128 : 0,
-          ease: [0.76, 0, 0.24, 1],
-        }}
-      >
-        <motion.img
-          alt=""
-          animate={{ clipPath: "inset(0 0% 0 0)" }}
-          className="h-auto w-[min(76vw,64rem)] object-contain"
-          initial={
-            animateIntro ? { clipPath: "inset(0 100% 0 0)" } : { clipPath: "inset(0 0% 0 0)" }
-          }
-          src="/brand/aberdeen-wordmark-peach.png"
-          transition={{
-            delay: animateIntro ? 0.12 : 0,
-            duration: animateIntro ? 1.056 : 0,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-        />
-      </motion.div>
     </section>
   )
 }

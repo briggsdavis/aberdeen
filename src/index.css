@@ -547,6 +547,10 @@ main img.site-image-wipe-up.is-revealed:not(.no-under-shadow) {
   box-shadow: 0 0 0 rgb(29 42 47 / 0) !important;
 }
 
+.about-pillars-image.site-shadow-wipe-host {
+  transition: box-shadow 700ms ease 2600ms !important;
+}
+
 @media (min-width: 768px) {
   .contact-page > section:last-child > div {
     grid-template-columns: 0.9fr 1.1fr;

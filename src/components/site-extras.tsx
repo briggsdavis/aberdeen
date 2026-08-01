@@ -113,6 +113,18 @@ const restaurantCards = [
   { image: "/restaurants/sea-monkey.webp", name: "Sea Monkey" },
   { image: "/restaurants/rib-room.webp", name: "Rib Room" },
 ]
+const restaurantCardSequence = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.03 } },
+}
+const restaurantCardReveal = {
+  hidden: { opacity: 0, y: 26 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.72, ease: [0.22, 1, 0.36, 1] as const },
+  },
+}
 
 export function RestaurantGroupSection() {
   return (
@@ -127,18 +139,24 @@ export function RestaurantGroupSection() {
           Richard DeShantz Restaurant Group
         </h2>
       </motion.div>
-      <div className="relative z-10 mt-8 grid grid-cols-2 gap-3 md:grid-cols-7">
-        {restaurantCards.map((restaurant, index) => (
+      <motion.div
+        className="relative z-10 mt-8 grid grid-cols-2 gap-3 md:grid-cols-7"
+        initial="hidden"
+        variants={restaurantCardSequence}
+        viewport={{ amount: 0.12, once: true }}
+        whileInView="visible"
+      >
+        {restaurantCards.map((restaurant) => (
           <motion.article
             className={`restaurant-logo-card group relative aspect-square cursor-pointer overflow-hidden ${
               restaurant.featured ? "bg-aberdeen-blue" : "bg-oyster-white"
             }`}
             key={restaurant.name}
-            {...fadeIn(index * 0.025)}
+            variants={restaurantCardReveal}
           >
             <img
               alt={`${restaurant.name} logo`}
-              className={`h-full w-full object-contain transition duration-[1100ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.025] ${
+              className={`no-scroll-reveal h-full w-full object-contain transition duration-[1100ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.025] ${
                 restaurant.featured ? "p-8 brightness-0 invert" : ""
               }`}
               src={restaurant.image}
@@ -148,7 +166,7 @@ export function RestaurantGroupSection() {
             </h3>
           </motion.article>
         ))}
-      </div>
+      </motion.div>
       <div className="relative z-10 mt-8 text-center">
         <a
           className="aberdeen-action bg-aberdeen-blue text-oyster-white"

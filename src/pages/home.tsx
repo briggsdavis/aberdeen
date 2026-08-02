@@ -11,9 +11,9 @@ import {
 import { useRef } from "react"
 import { useOutletContext } from "react-router"
 import { DecorativeBackdrop } from "../components/decorative-media"
+import { HeroPostcard } from "../components/hero-postcard"
 import {
   FAQSection,
-  HeroPostcard,
   RestaurantGroupSection,
   RippleSection,
   TiltWrap,

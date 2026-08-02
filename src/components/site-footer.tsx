@@ -17,6 +17,11 @@ const hours = [
   ["Sunday", "4 PM – 9 PM"],
 ]
 
+function settingOrFallback(value: string | undefined, fallback: string) {
+  const normalizedValue = value?.trim()
+  return normalizedValue ? normalizedValue : fallback
+}
+
 function SiteFooter() {
   const footerRef = useRef<HTMLElement>(null)
   const shouldReduceMotion = useReducedMotion()
@@ -24,7 +29,7 @@ function SiteFooter() {
     target: footerRef,
     offset: ["start end", "end end"],
   })
-  const footerY = useTransform(scrollYProgress, [0, 1], [42, 0])
+  const footerY = useTransform(scrollYProgress, [0, 1], [34, 0])
   const currentYear = new Date().getFullYear()
   const { menuPages, site } = useCmsRuntime()
   const visiblePageLinks = [
@@ -41,11 +46,18 @@ function SiteFooter() {
   const visibleHours = site?.openingHours.length
     ? site.openingHours.map(({ label, value }) => [label, value])
     : hours
-  const address = site?.settings.address ?? "123 Harbor Way\nSavannah, Georgia 31401"
-  const phone = site?.settings.phone ?? "(912) 555-0147"
-  const email = site?.settings.email ?? "hello@aberdeen.example"
-  const tagline = site?.settings.footerTagline ?? "Seafood, bright spirits, good evenings."
-  const copyright = site?.settings.footerCopyright ?? "Aberdeen. All rights reserved."
+  const address = settingOrFallback(site?.settings.address, "Savannah, Georgia")
+  const phone = settingOrFallback(site?.settings.phone, "(912) 555-0147")
+  const email = settingOrFallback(site?.settings.email, "hello@aberdeen.example")
+  const tagline = settingOrFallback(
+    site?.settings.footerTagline,
+    "Seafood, bright spirits, good evenings.",
+  )
+  const copyright = settingOrFallback(
+    site?.settings.footerCopyright,
+    "Aberdeen. All rights reserved.",
+  )
+  const phoneHref = `tel:${phone.replace(/[^+\d]/g, "")}`
 
   return (
     <footer
@@ -53,7 +65,7 @@ function SiteFooter() {
       ref={footerRef}
     >
       <motion.div
-        className="flex min-h-[70svh] flex-col"
+        className="flex min-h-[56svh] flex-col"
         style={{ y: shouldReduceMotion ? 0 : footerY }}
       >
         <div className="grid gap-6 lg:grid-cols-[1fr_auto_1fr] lg:items-center">
@@ -92,11 +104,25 @@ function SiteFooter() {
           </div>
 
           <div>
-            <p className="font-utility text-xs tracking-[0.2em] uppercase">Visit & call</p>
+            <p className="font-utility text-xs tracking-[0.2em] uppercase">Location & contact</p>
             <div className="mt-5 space-y-4 text-sm text-kelp-ink">
               <p className="leading-7 whitespace-pre-line">{address}</p>
-              <p>{phone}</p>
-              <p>{email}</p>
+              <p>
+                <a
+                  className="underline decoration-citrus decoration-2 underline-offset-4"
+                  href={phoneHref}
+                >
+                  {phone}
+                </a>
+              </p>
+              <p>
+                <a
+                  className="underline decoration-citrus decoration-2 underline-offset-4"
+                  href={`mailto:${email}`}
+                >
+                  {email}
+                </a>
+              </p>
               {site?.socialLinks.some((social) => social.url) ? (
                 <div className="flex flex-wrap gap-x-4 gap-y-2">
                   {site.socialLinks

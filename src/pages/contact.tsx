@@ -31,21 +31,29 @@ function ContactDetails() {
   return (
     <section className="relative isolate grid gap-6 overflow-hidden bg-oyster-white px-5 py-12 md:min-h-svh md:grid-cols-[0.9fr_1.1fr] md:items-center md:px-8 md:py-16">
       <DecorativeBackdrop imageClassName="object-cover" opacity={0.14} src={antiqueMapFour} />
-      <div className="relative z-10 grid gap-3">
-        {details.map(([label, lineOne, lineTwo], index) => (
-          <motion.article
-            className="bg-aberdeen-peach text-aberdeen-blue"
-            key={label}
-            {...fadeIn(index * 0.08)}
-          >
-            <RopeDivider className="rounded-none" />
-            <div className="p-4 md:p-5">
-              <p className="font-utility text-sm tracking-[0.18em] uppercase">{label}</p>
-              <p className="mt-3 font-display text-3xl leading-none">{lineOne}</p>
-              <p className="mt-3 leading-6 text-kelp-ink/80">{lineTwo}</p>
-            </div>
-          </motion.article>
-        ))}
+      <div className="relative z-10">
+        <motion.h1
+          className="mb-8 font-display text-6xl leading-none text-aberdeen-blue md:text-8xl"
+          {...fadeIn()}
+        >
+          Contact Us
+        </motion.h1>
+        <div className="grid gap-3">
+          {details.map(([label, lineOne, lineTwo], index) => (
+            <motion.article
+              className="bg-aberdeen-peach text-aberdeen-blue"
+              key={label}
+              {...fadeIn(index * 0.08)}
+            >
+              <RopeDivider className="rounded-none" />
+              <div className="p-4 md:p-5">
+                <p className="font-utility text-sm tracking-[0.18em] uppercase">{label}</p>
+                <p className="mt-3 font-display text-3xl leading-none">{lineOne}</p>
+                <p className="mt-3 leading-6 text-kelp-ink/80">{lineTwo}</p>
+              </div>
+            </motion.article>
+          ))}
+        </div>
       </div>
       <motion.div className="relative z-10" {...fadeIn(0.12)}>
         <div className="relative h-56 md:h-64">
@@ -123,6 +131,8 @@ function InquiryForm() {
   const [message, setMessage] = useState("")
   const [submitting, setSubmitting] = useState(false)
   const [result, setResult] = useState<{ kind: "success" | "error"; message: string } | null>(null)
+  const fieldClassName =
+    "w-full rounded-none border-aberdeen-blue/40 bg-transparent px-0 py-3 text-aberdeen-blue outline-none transition-colors [border-width:0_0_1px_0] placeholder:text-aberdeen-blue/55 focus:border-aberdeen-blue focus:ring-0"
 
   return (
     <form
@@ -164,14 +174,14 @@ function InquiryForm() {
     >
       <div className="grid gap-4 md:grid-cols-2">
         <input
-          className="border border-aberdeen-blue/25 bg-white px-4 py-2.5"
+          className={fieldClassName}
           onChange={(event) => setFirstName(event.target.value)}
           placeholder="First name"
           required
           value={firstName}
         />
         <input
-          className="border border-aberdeen-blue/25 bg-white px-4 py-2.5"
+          className={fieldClassName}
           onChange={(event) => setLastName(event.target.value)}
           placeholder="Last name"
           required
@@ -180,7 +190,7 @@ function InquiryForm() {
       </div>
       <div className="grid gap-4 md:grid-cols-2">
         <input
-          className="border border-aberdeen-blue/25 bg-white px-4 py-2.5"
+          className={fieldClassName}
           onChange={(event) => setEmail(event.target.value)}
           placeholder="Email"
           required
@@ -188,7 +198,7 @@ function InquiryForm() {
           value={email}
         />
         <input
-          className="border border-aberdeen-blue/25 bg-white px-4 py-2.5"
+          className={fieldClassName}
           onChange={(event) => setPhone(event.target.value)}
           placeholder="Phone (optional)"
           type="tel"
@@ -196,7 +206,7 @@ function InquiryForm() {
         />
       </div>
       <select
-        className="border border-aberdeen-blue/25 bg-white px-4 py-2.5"
+        className={`${fieldClassName} appearance-none`}
         onChange={(event) => setType(event.target.value as typeof type)}
         value={type}
       >
@@ -204,7 +214,7 @@ function InquiryForm() {
         <option value="privateEvent">Private event inquiry</option>
       </select>
       <textarea
-        className="min-h-24 border border-aberdeen-blue/25 bg-white px-4 py-2.5"
+        className={`${fieldClassName} min-h-24 resize-y`}
         onChange={(event) => setMessage(event.target.value)}
         placeholder={type === "privateEvent" ? "Tell us about your event" : "Message"}
         required

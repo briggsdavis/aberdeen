@@ -1,6 +1,7 @@
 import { motion } from "motion/react"
 import { DecorativeBackdrop } from "../components/decorative-media"
-import { HeroPostcard, RestaurantGroupSection, RippleSection } from "../components/site-extras"
+import { HeroPostcard } from "../components/hero-postcard"
+import { RestaurantGroupSection, RippleSection } from "../components/site-extras"
 import { useRequiredPageImage } from "../lib/cms-runtime"
 import { fadeIn } from "../lib/motion"
 

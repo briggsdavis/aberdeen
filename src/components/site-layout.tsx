@@ -11,7 +11,8 @@ function SiteLayout() {
   const location = useLocation()
   const shouldReduceMotion = useReducedMotion()
   const hasPlayedHomeIntro = useRef(
-    typeof window !== "undefined" && sessionStorage.getItem("aberdeen-home-intro-played") === "true",
+    typeof window !== "undefined" &&
+      sessionStorage.getItem("aberdeen-home-intro-played") === "true",
   )
   const playHomeIntro =
     location.pathname === "/" && !shouldReduceMotion && !hasPlayedHomeIntro.current

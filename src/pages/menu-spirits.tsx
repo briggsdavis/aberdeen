@@ -564,10 +564,7 @@ function ReserveSection() {
 export function StandardSpiritsMenuPage() {
   return (
     <div className="page-shell">
-      <MenuPageHero
-        activePath="/menu/spirits"
-        title="Spirits"
-      />
+      <MenuPageHero activePath="/menu/spirits" title="Spirits" />
       <MenuImageSection
         alt="Colorful cocktails served on a bar"
         caption="Built bright, cold, and coastal from the first pour."

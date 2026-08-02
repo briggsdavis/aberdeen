@@ -141,7 +141,10 @@ export const listPublicNavigation = query({
         return {
           ...page,
           heroImage: await assetUrl(ctx, page.heroMediaId),
-          sectionTitles: sectionGroups.flat().map((group) => group.title).slice(0, 3),
+          sectionTitles: sectionGroups
+            .flat()
+            .map((group) => group.title)
+            .slice(0, 3),
         }
       }),
     )

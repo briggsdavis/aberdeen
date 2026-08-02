@@ -548,10 +548,7 @@ function ReserveSection() {
 export function StandardBeveragesMenuPage() {
   return (
     <div className="page-shell">
-      <MenuPageHero
-        activePath="/menu/beverages"
-        title="Beverages"
-      />
+      <MenuPageHero activePath="/menu/beverages" title="Beverages" />
       <MenuImageSection
         alt="Sparkling lemonade and mineral water on a table"
         caption="Sparkling, citrusy, and built with the same care as the bar."

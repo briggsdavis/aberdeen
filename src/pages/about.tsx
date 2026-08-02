@@ -247,8 +247,11 @@ function GroupSection() {
             ))}
           </div>
         </div>
-        <div className="order-first grid grid-cols-[1.08fr_0.92fr] items-start gap-4 md:order-none md:sticky md:top-24 md:h-[calc(100svh-8rem)] md:gap-6">
-          <motion.div className="about-pillars-image relative h-[28rem] overflow-hidden shadow-[0_28px_64px_rgba(29,42,47,0.26)] md:h-full" {...fadeIn(0.12)}>
+        <div className="order-first grid grid-cols-[1.08fr_0.92fr] items-start gap-4 md:sticky md:top-24 md:order-none md:h-[calc(100svh-8rem)] md:gap-6">
+          <motion.div
+            className="about-pillars-image relative h-[28rem] overflow-hidden shadow-[0_28px_64px_rgba(29,42,47,0.26)] md:h-full"
+            {...fadeIn(0.12)}
+          >
             <img
               alt="Aberdeen dining room set for an evening by the coast"
               className="h-full w-full object-cover"
@@ -257,7 +260,10 @@ function GroupSection() {
             />
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-aberdeen-blue/20 via-transparent to-transparent" />
           </motion.div>
-          <motion.div className="about-pillars-image relative mt-12 h-72 overflow-hidden shadow-[0_24px_56px_rgba(29,42,47,0.24)] md:mt-24 md:h-[68%]" {...fadeIn(0.2)}>
+          <motion.div
+            className="about-pillars-image relative mt-12 h-72 overflow-hidden shadow-[0_24px_56px_rgba(29,42,47,0.24)] md:mt-24 md:h-[68%]"
+            {...fadeIn(0.2)}
+          >
             <img
               alt="A bright coastal table setting at Aberdeen"
               className="h-full w-full object-cover"

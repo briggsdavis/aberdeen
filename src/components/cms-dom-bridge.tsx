@@ -138,8 +138,7 @@ function collectTargets(root: HTMLElement, page: string) {
       continue
     }
     links.push({
-      key:
-        element.dataset.cmsLinkKey ?? legacyCompatiblePath(elementPath(element, root), page),
+      key: element.dataset.cmsLinkKey ?? legacyCompatiblePath(elementPath(element, root), page),
       element,
     })
   }

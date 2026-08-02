@@ -56,8 +56,7 @@ export function HeroCarouselButtons({
 export function HeroPostcard({
   cmsSlot = "home-hero-postcard",
   imageAlt = "A guest enjoying dinner at Aberdeen",
-  imageSrc =
-    "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=900&q=85",
+  imageSrc = "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=900&q=85",
 }: {
   cmsSlot?: string
   imageAlt?: string
@@ -519,9 +518,7 @@ export function PostcardImageStack({
                 </p>
                 <img alt="" className="min-h-0 w-full flex-1 object-cover" src={image} />
               </div>
-              <div
-                className={`flex min-w-0 flex-col ${imageOnRight ? "order-1" : "order-2"}`}
-              >
+              <div className={`flex min-w-0 flex-col ${imageOnRight ? "order-1" : "order-2"}`}>
                 <div className={`ml-auto grid h-7 w-7 place-items-center border-2 ${borderClass}`}>
                   <img
                     alt=""

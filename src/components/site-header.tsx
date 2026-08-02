@@ -53,11 +53,10 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
     ? menuPages.slice(0, 3).map((page) => ({
         title: page.title,
         slug: page.slug,
-        sectionTitles:
-          page.sectionTitles?.length
-            ? page.sectionTitles
-            : (fallbackMenuPreviews.find((fallback) => fallback.slug === page.slug)?.sectionTitles ??
-              []),
+        sectionTitles: page.sectionTitles?.length
+          ? page.sectionTitles
+          : (fallbackMenuPreviews.find((fallback) => fallback.slug === page.slug)?.sectionTitles ??
+            []),
         heroImage:
           page.heroImage ??
           fallbackMenuPreviews.find((fallback) => fallback.slug === page.slug)?.heroImage ??

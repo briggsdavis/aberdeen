@@ -611,10 +611,7 @@ function ReserveSection() {
 export function StandardFoodMenuPage() {
   return (
     <div className="page-shell">
-      <MenuPageHero
-        activePath="/menu/food"
-        title="Food"
-      />
+      <MenuPageHero activePath="/menu/food" title="Food" />
       <MenuImageSection
         alt="An oyster platter on ice with lemon"
         caption="Daily selection from both coasts, shucked at the bar."

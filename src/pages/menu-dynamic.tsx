@@ -32,11 +32,7 @@ export default function DynamicMenuPage() {
 
   return (
     <div className="page-shell">
-      <MenuPageHero
-        activePath={`/menu/${menu.slug}`}
-        menuPages={menuPages}
-        title={menu.title}
-      />
+      <MenuPageHero activePath={`/menu/${menu.slug}`} menuPages={menuPages} title={menu.title} />
       {menu.sections.map((section) => {
         if (section.layout === "paired") {
           const first = section.groups[0]
@@ -78,7 +74,7 @@ export default function DynamicMenuPage() {
       <MenuReservation
         copy={`Book a table and explore the ${menu.title.toLowerCase()} menu with us.`}
         label={menu.title}
-        number={String((menuPages.findIndex((page) => page._id === menu._id) + 1) || 1).padStart(
+        number={String(menuPages.findIndex((page) => page._id === menu._id) + 1 || 1).padStart(
           2,
           "0",
         )}

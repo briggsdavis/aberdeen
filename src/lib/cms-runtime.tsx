@@ -172,6 +172,19 @@ export function useCmsRuntime() {
   return useContext(CmsRuntimeContext)
 }
 
+export function usePageImage(key: string, legacyKeys: string[] = []) {
+  const { page, pageReady } = useCmsRuntime()
+
+  if (!pageReady) return null
+
+  for (const candidateKey of [key, ...legacyKeys]) {
+    const media = page.media[candidateKey]
+    if (media?.kind === "image") return media.url
+  }
+
+  return null
+}
+
 export function useRequiredPageImage(key: string) {
   const { page, pageReady } = useCmsRuntime()
 

@@ -2,7 +2,7 @@ import { motion } from "motion/react"
 import { DecorativeBackdrop } from "../components/decorative-media"
 import { HeroPostcard } from "../components/hero-postcard"
 import { RestaurantGroupSection, RippleSection } from "../components/site-extras"
-import { useRequiredPageImage } from "../lib/cms-runtime"
+import { usePageImage, useRequiredPageImage } from "../lib/cms-runtime"
 import { fadeIn } from "../lib/motion"
 
 const antiqueMapOne = "/maps/antique-map-01.png"
@@ -57,7 +57,7 @@ function Postmark() {
 
 function HeroSection() {
   const heroImage = useRequiredPageImage("hero")
-  const postcardImage = useRequiredPageImage("about-hero-postcard")
+  const postcardImage = usePageImage("about-hero-postcard", ["home-hero-postcard"])
 
   return (
     <section className="relative min-h-[42rem] overflow-hidden bg-oyster-white text-aberdeen-blue md:min-h-[68svh]">
@@ -169,7 +169,7 @@ function OwnerSection() {
 }
 
 function GroupSection() {
-  const stickyImage = useRequiredPageImage("about-pillars-sticky-image")
+  const stickyImage = usePageImage("about-pillars-sticky-image")
   const cards = [
     {
       label: "01",

@@ -13,12 +13,10 @@ import { useOutletContext } from "react-router"
 import { DecorativeBackdrop } from "../components/decorative-media"
 import {
   FAQSection,
-  HeroCarouselButtons,
   heroImages,
   RestaurantGroupSection,
   RippleSection,
   TiltWrap,
-  useHeroCarousel,
 } from "../components/site-extras"
 import { useCmsRuntime } from "../lib/cms-runtime"
 import { fadeIn } from "../lib/motion"
@@ -98,7 +96,7 @@ function CoastalTextMarquee() {
             {coastalPhrases.map((phrase) => (
               <div className="flex shrink-0 items-center" key={`${copy}-${phrase.label}`}>
                 <span
-                  className={`whitespace-nowrap px-5 font-display text-3xl leading-none md:px-8 md:text-5xl ${phrase.style}`}
+                  className={`px-5 font-display text-3xl leading-none whitespace-nowrap md:px-8 md:text-5xl ${phrase.style}`}
                 >
                   {phrase.label}
                 </span>
@@ -120,15 +118,16 @@ function CoastalTextMarquee() {
 function HeroSection({ playIntro }: { playIntro: boolean }) {
   const { page } = useCmsRuntime()
   const managedHero = page.media.hero?.url ?? page.images.hero
-  const { image, next, previous } = useHeroCarousel(
-    managedHero ? [managedHero, ...heroImages.slice(1)] : heroImages,
-  )
+  const image = managedHero ?? heroImages[0]
   const shouldReduceMotion = useReducedMotion()
   const animateIntro = playIntro && !shouldReduceMotion
   const introDelay = animateIntro ? 3.95 : 0
 
   return (
-    <section className="relative min-h-svh overflow-hidden bg-oyster-white text-aberdeen-peach" data-hero-intro>
+    <section
+      className="relative min-h-svh overflow-hidden bg-oyster-white text-aberdeen-peach"
+      data-hero-intro
+    >
       <motion.div
         animate={
           animateIntro
@@ -159,7 +158,11 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
           className="h-full w-full object-cover"
           fetchPriority="high"
           data-cms-slot="hero"
-          initial={animateIntro ? { filter: "blur(22px)", opacity: 0 } : { filter: "blur(0px)", opacity: 1 }}
+          initial={
+            animateIntro
+              ? { filter: "blur(22px)", opacity: 0 }
+              : { filter: "blur(0px)", opacity: 1 }
+          }
           src={image}
           transition={{
             delay: animateIntro ? 2 : 0,
@@ -177,102 +180,66 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
           duration: animateIntro ? 0.864 : 0,
         }}
       />
-      <motion.div
-        animate={{ opacity: 1, rotate: 4, scale: 1, x: 0, y: 0 }}
-        className="absolute top-24 -left-8 z-10 w-[min(48vw,14rem)] text-aberdeen-blue will-change-transform md:top-24 md:left-8 md:w-[22rem]"
-        initial={
-          !animateIntro
-            ? { opacity: 1, rotate: 4, scale: 1, x: 0, y: 0 }
-            : { opacity: 0, rotate: 7, scale: 0.96, x: -34, y: 12 }
-        }
-        transition={{
-          delay: animateIntro ? 4.1 : 0,
-          duration: animateIntro ? 1.08 : 0,
-          ease: [0.16, 1, 0.3, 1],
-        }}
-      >
-        <Tape className="top-1 left-24 -rotate-6" />
-        <FramedPhoto
-          alt="People relaxing on a boat on blue water"
-          cmsSlot="home-hero-postcard"
-          src="https://images.unsplash.com/photo-1643075301353-dc7db55ad49b?auto=format&fit=crop&w=900&q=85"
-        />
-      </motion.div>
-      <motion.div
-        animate={{ opacity: 1, rotate: -3, scale: 1, x: 0, y: 0 }}
-        className="absolute top-28 -right-8 z-10 w-[min(54vw,16rem)] text-aberdeen-blue will-change-transform md:top-32 md:right-8 md:w-[25rem]"
-        initial={
-          !animateIntro
-            ? { opacity: 1, rotate: -3, scale: 1, x: 0, y: 0 }
-            : { opacity: 0, rotate: -6, scale: 0.96, x: 34, y: 12 }
-        }
-        transition={{
-          delay: animateIntro ? 4.22 : 0,
-          duration: animateIntro ? 1.08 : 0,
-          ease: [0.16, 1, 0.3, 1],
-        }}
-      >
-        <Tape className="top-2 left-44" />
-        <FramedPhoto
-          alt="People relaxing on a boat on blue water"
-          cmsSlot="home-hero-postcard"
-          src="https://images.unsplash.com/photo-1643075301353-dc7db55ad49b?auto=format&fit=crop&w=900&q=85"
-        />
-      </motion.div>
-      <div className="relative z-10 grid min-h-svh items-end px-5 pt-24 pb-8 md:px-8 md:pt-28 md:pb-10">
-        <div className="mx-auto flex max-w-4xl flex-col items-center gap-7 text-center">
-          <motion.p
-            animate={{ filter: "blur(0px)", opacity: 1, y: 0 }}
-            className="max-w-[42rem] font-playful text-3xl leading-tight md:text-5xl"
+      <div className="relative z-10 grid min-h-svh items-end px-5 pt-28 pb-6 md:px-8 md:pt-32 md:pb-10">
+        <div className="grid w-full items-end gap-6 md:grid-cols-[minmax(0,1fr)_minmax(22rem,31rem)] md:gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(27rem,34rem)]">
+          <div className="flex max-w-[46rem] flex-col items-start gap-6 text-left md:gap-7">
+            <motion.p
+              animate={{ filter: "blur(0px)", opacity: 1, y: 0 }}
+              className="home-hero-intro max-w-[42rem] font-playful text-3xl leading-[1.08] text-white md:text-5xl"
+              initial={
+                !animateIntro
+                  ? { filter: "blur(0px)", opacity: 1, y: 0 }
+                  : { filter: "blur(18px)", opacity: 0, y: 22 }
+              }
+              transition={{
+                delay: introDelay,
+                duration: animateIntro ? 1.08 : 0,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+            >
+              Seafood, bright spirits, and a room that keeps the afternoon glowing after dark.
+            </motion.p>
+            <motion.div
+              animate={{ opacity: 1, y: 0 }}
+              className="flex w-full max-w-md gap-3"
+              initial={animateIntro ? { opacity: 0, y: 16 } : { opacity: 1, y: 0 }}
+              transition={{
+                delay: animateIntro ? 4.08 : 0,
+                duration: animateIntro ? 0.864 : 0,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+            >
+              <a
+                className="aberdeen-action min-w-0 flex-1 [--surface-action-background:#fff] [--surface-action-color:var(--color-aberdeen-blue)] [--surface-action-fill:var(--color-aberdeen-peach)] [--surface-action-hover-color:var(--color-aberdeen-blue)]"
+                data-cms-link-key="home.hero.reserve"
+                href="#reservations"
+              >
+                Reserve
+              </a>
+              <a
+                className="aberdeen-action min-w-0 flex-1 [--surface-action-background:#fff] [--surface-action-color:var(--color-aberdeen-blue)] [--surface-action-fill:var(--color-aberdeen-peach)] [--surface-action-hover-color:var(--color-aberdeen-blue)]"
+                data-cms-link-key="home.hero.menu"
+                href="/menu/food"
+              >
+                Menu
+              </a>
+            </motion.div>
+          </div>
+          <motion.div
+            animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+            className="order-first w-[min(82vw,24rem)] justify-self-end will-change-transform md:order-none md:w-full"
             initial={
               !animateIntro
-                ? { filter: "blur(0px)", opacity: 1, y: 0 }
-                : { filter: "blur(18px)", opacity: 0, y: 22 }
+                ? { opacity: 1, scale: 1, x: 0, y: 0 }
+                : { opacity: 0, scale: 0.96, x: 34, y: 18 }
             }
             transition={{
-              delay: introDelay,
+              delay: animateIntro ? 4.18 : 0,
               duration: animateIntro ? 1.08 : 0,
-              ease: [0.22, 1, 0.36, 1],
+              ease: [0.16, 1, 0.3, 1],
             }}
           >
-            Seafood, bright spirits, and a room that keeps the afternoon glowing after dark.
-          </motion.p>
-          <motion.div
-            animate={{ opacity: 1, y: 0 }}
-            className="flex flex-wrap justify-center gap-3"
-            initial={animateIntro ? { opacity: 0, y: 16 } : { opacity: 1, y: 0 }}
-            transition={{
-              delay: animateIntro ? 4.08 : 0,
-              duration: animateIntro ? 0.864 : 0,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-          >
-            <a
-              className="aberdeen-action w-48 [--surface-action-background:#fff] [--surface-action-color:var(--color-aberdeen-blue)] [--surface-action-fill:var(--color-aberdeen-peach)] [--surface-action-hover-color:var(--color-aberdeen-blue)]"
-              data-cms-link-key="home.hero.reserve"
-              href="#reservations"
-            >
-              Reserve
-            </a>
-            <a
-              className="aberdeen-action w-48 [--surface-action-background:#fff] [--surface-action-color:var(--color-aberdeen-blue)] [--surface-action-fill:var(--color-aberdeen-peach)] [--surface-action-hover-color:var(--color-aberdeen-blue)]"
-              data-cms-link-key="home.hero.menu"
-              href="/menu/food"
-            >
-              Menu
-            </a>
-          </motion.div>
-          <motion.div
-            animate={{ opacity: 1, y: 0 }}
-            className="flex justify-center"
-            initial={animateIntro ? { opacity: 0, y: 12 } : { opacity: 1, y: 0 }}
-            transition={{
-              delay: animateIntro ? 4.22 : 0,
-              duration: animateIntro ? 0.816 : 0,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-          >
-            <HeroCarouselButtons onNext={next} onPrevious={previous} />
+            <HeroPostcard />
           </motion.div>
         </div>
       </div>
@@ -280,39 +247,43 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
   )
 }
 
-function FramedPhoto({ alt, cmsSlot, src }: { alt: string; cmsSlot?: string; src: string }) {
+function HeroPostcard() {
   return (
-    <div className="relative aspect-[1339/1016]">
-      <div
-        className="absolute inset-0"
-        style={{
-          WebkitMaskImage: "url('/frames/torn-paper/mask-01.png')",
-          WebkitMaskPosition: "center",
-          WebkitMaskRepeat: "no-repeat",
-          WebkitMaskSize: "100% 100%",
-          maskImage: "url('/frames/torn-paper/mask-01.png')",
-          maskPosition: "center",
-          maskRepeat: "no-repeat",
-          maskSize: "100% 100%",
-        }}
-      >
-        <img alt={alt} className="h-full w-full object-cover" data-cms-slot={cmsSlot} src={src} />
+    <article className="home-hero-postcard aspect-[16/9] bg-white p-3 text-aberdeen-blue shadow-[0_18px_46px_rgb(14_24_69/0.34)] md:p-4">
+      <div className="grid h-full grid-cols-[1.05fr_0.95fr] gap-3 md:gap-4">
+        <div className="flex min-h-0 flex-col">
+          <p className="mb-2 font-utility text-[0.55rem] font-semibold tracking-[0.2em] uppercase md:text-[0.65rem]">
+            Wish you were here
+          </p>
+          <img
+            alt="A guest enjoying dinner at Aberdeen"
+            className="min-h-0 flex-1 object-cover"
+            data-cms-slot="home-hero-postcard"
+            src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=900&q=85"
+          />
+        </div>
+        <div className="flex min-w-0 flex-col border-l border-aberdeen-blue/45 pl-3 md:pl-4">
+          <div className="ml-auto grid h-9 w-9 place-items-center border-2 border-aberdeen-blue/65 md:h-11 md:w-11">
+            <img
+              alt=""
+              className="h-6 w-6 object-contain opacity-70 md:h-7 md:w-7"
+              src="/illustrations/nautical/sailboat.png"
+            />
+          </div>
+          <p className="mt-2 font-playful text-sm leading-[1.05] sm:text-base md:mt-3 md:text-xl">
+            Meet us where the yachts pass at sunset. Savannah has saved you a seat.
+          </p>
+          <div aria-hidden="true" className="mt-auto space-y-2 pb-1">
+            <div className="border-b border-aberdeen-blue/55" />
+            <div className="border-b border-aberdeen-blue/55" />
+            <div className="border-b border-aberdeen-blue/55" />
+          </div>
+          <p className="mt-2 font-utility text-[0.42rem] tracking-[0.17em] uppercase opacity-65 md:text-[0.5rem]">
+            Savannah, Georgia
+          </p>
+        </div>
       </div>
-      <img
-        alt=""
-        className="pointer-events-none absolute inset-0 z-20 h-full w-full object-fill"
-        src="/frames/torn-paper/frame-01.png"
-      />
-    </div>
-  )
-}
-
-function Tape({ className = "" }: { className?: string }) {
-  return (
-    <span
-      aria-hidden="true"
-      className={`absolute z-30 h-8 w-24 rotate-[7deg] bg-oyster-white/70 shadow-sm ${className}`}
-    />
+    </article>
   )
 }
 
@@ -493,7 +464,7 @@ function MenuSection() {
       <motion.img
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-20 left-5 z-10 hidden h-auto w-[min(25.92vw,14.4rem)] object-contain opacity-55 md:block md:left-24"
+        className="pointer-events-none absolute bottom-20 left-5 z-10 hidden h-auto w-[min(25.92vw,14.4rem)] object-contain opacity-55 md:left-24 md:block"
         src="/illustrations/nautical/schooner.png"
         {...fadeIn(0.16)}
       />

@@ -124,10 +124,26 @@ export const listPublicNavigation = query({
   handler: async (ctx) => {
     const pages = await ctx.db.query("menuPages").withIndex("by_order").collect()
     return await Promise.all(
-      pages.map(async (page) => ({
-        ...page,
-        heroImage: await assetUrl(ctx, page.heroMediaId),
-      })),
+      pages.map(async (page) => {
+        const sections = await ctx.db
+          .query("menuSections")
+          .withIndex("by_pageId_and_order", (q) => q.eq("pageId", page._id))
+          .collect()
+        const sectionGroups = await Promise.all(
+          sections.map((section) =>
+            ctx.db
+              .query("menuGroups")
+              .withIndex("by_sectionId_and_order", (q) => q.eq("sectionId", section._id))
+              .collect(),
+          ),
+        )
+
+        return {
+          ...page,
+          heroImage: await assetUrl(ctx, page.heroMediaId),
+          sectionTitles: sectionGroups.flat().map((group) => group.title).slice(0, 3),
+        }
+      }),
     )
   },
 })

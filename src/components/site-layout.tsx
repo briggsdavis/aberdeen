@@ -1,5 +1,5 @@
 import { MotionConfig, useReducedMotion } from "motion/react"
-import { useEffect, useLayoutEffect } from "react"
+import { useEffect, useLayoutEffect, useRef } from "react"
 import { Outlet, useLocation } from "react-router"
 import CmsDomBridge from "./cms-dom-bridge"
 import { PageTransitionProvider } from "./page-transition"
@@ -10,10 +10,20 @@ import SmoothScroll from "./smooth-scroll"
 function SiteLayout() {
   const location = useLocation()
   const shouldReduceMotion = useReducedMotion()
-  const playHomeIntro = location.pathname === "/" && !shouldReduceMotion
+  const hasPlayedHomeIntro = useRef(
+    typeof window !== "undefined" && sessionStorage.getItem("aberdeen-home-intro-played") === "true",
+  )
+  const playHomeIntro =
+    location.pathname === "/" && !shouldReduceMotion && !hasPlayedHomeIntro.current
   const editorPreview = new URLSearchParams(location.search).has("cmsPreview")
   const focusedEditorPreview =
     new URLSearchParams(location.search).get("cmsScope") === "staff-introduction"
+
+  useEffect(() => {
+    if (!playHomeIntro) return
+    hasPlayedHomeIntro.current = true
+    sessionStorage.setItem("aberdeen-home-intro-played", "true")
+  }, [playHomeIntro])
 
   useLayoutEffect(() => {
     if (editorPreview || shouldReduceMotion) return

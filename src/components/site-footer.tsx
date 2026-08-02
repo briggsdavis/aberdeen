@@ -1,3 +1,5 @@
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react"
+import { useRef } from "react"
 import { useCmsRuntime } from "../lib/cms-runtime"
 import { CursorCompass } from "./decorative-media"
 import { TransitionLink } from "./page-transition"
@@ -16,6 +18,13 @@ const hours = [
 ]
 
 function SiteFooter() {
+  const footerRef = useRef<HTMLElement>(null)
+  const shouldReduceMotion = useReducedMotion()
+  const { scrollYProgress } = useScroll({
+    target: footerRef,
+    offset: ["start end", "end end"],
+  })
+  const footerY = useTransform(scrollYProgress, [0, 1], [42, 0])
   const currentYear = new Date().getFullYear()
   const { menuPages, site } = useCmsRuntime()
   const visiblePageLinks = [
@@ -39,7 +48,14 @@ function SiteFooter() {
   const copyright = site?.settings.footerCopyright ?? "Aberdeen. All rights reserved."
 
   return (
-    <footer className="site-footer flex min-h-[70svh] flex-col bg-oyster-white px-5 py-6 text-aberdeen-blue md:px-8 md:py-7">
+    <footer
+      className="site-footer overflow-hidden bg-oyster-white px-5 py-6 text-aberdeen-blue md:px-8 md:py-7"
+      ref={footerRef}
+    >
+      <motion.div
+        className="flex min-h-[70svh] flex-col"
+        style={{ y: shouldReduceMotion ? 0 : footerY }}
+      >
       <div className="grid gap-6 lg:grid-cols-[1fr_auto_1fr] lg:items-center">
         <div>
           <p className="font-utility text-xs tracking-[0.24em] uppercase">A table by the water</p>
@@ -144,6 +160,7 @@ function SiteFooter() {
           </p>
         </div>
       </div>
+      </motion.div>
     </footer>
   )
 }

@@ -91,7 +91,14 @@ type CmsRuntimeValue = {
   events: PublicEvent[] | undefined
   menu: PublicMenuPage | null | undefined
   menuPages:
-    | Array<{ _id: string; title: string; slug: string; order: number; heroImage: string | null }>
+    | Array<{
+        _id: string
+        title: string
+        slug: string
+        order: number
+        heroImage: string | null
+        sectionTitles?: string[]
+      }>
     | undefined
   site: SiteBundle | undefined
   submitInquiry: ((input: InquiryInput) => Promise<unknown>) | null

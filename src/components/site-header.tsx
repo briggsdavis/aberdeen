@@ -1,5 +1,5 @@
 import { AnimatePresence, motion, useReducedMotion } from "motion/react"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { useLocation } from "react-router"
 import { useCmsRuntime } from "../lib/cms-runtime"
 import { TransitionLink } from "./page-transition"
@@ -16,18 +16,21 @@ const fallbackMenuPreviews = [
   {
     title: "Food",
     slug: "food",
+    sectionTitles: ["Raw Bar", "For the Table", "Starters"],
     heroImage:
       "https://images.unsplash.com/photo-1715249792962-5359b4b17f21?auto=format&fit=crop&w=900&q=85",
   },
   {
     title: "Spirits",
     slug: "spirits",
+    sectionTitles: ["House Cocktails", "For the Table", "Classics"],
     heroImage:
       "https://images.unsplash.com/photo-1582993232955-39424b2cef01?auto=format&fit=crop&w=900&q=85",
   },
   {
     title: "Beverages",
     slug: "beverages",
+    sectionTitles: ["Zero-Proof", "For the Table", "Sparkling & Still"],
     heroImage:
       "https://images.unsplash.com/photo-1683463787127-9d472af2a9e3?auto=format&fit=crop&w=900&q=85",
   },
@@ -41,6 +44,7 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
   const [isHomeIntroActive, setIsHomeIntroActive] = useState(playHomeIntro)
   const [isScrolled, setIsScrolled] = useState(false)
   const [menuPreviewOpen, setMenuPreviewOpen] = useState(false)
+  const menuCloseTimer = useRef<number | null>(null)
   const [activeMenuPreviewSlug, setActiveMenuPreviewSlug] = useState(fallbackMenuPreviews[0]!.slug)
   const isContactPage = location.pathname === "/contact"
   const { menuPages, site } = useCmsRuntime()
@@ -49,6 +53,11 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
     ? menuPages.slice(0, 3).map((page) => ({
         title: page.title,
         slug: page.slug,
+        sectionTitles:
+          page.sectionTitles?.length
+            ? page.sectionTitles
+            : (fallbackMenuPreviews.find((fallback) => fallback.slug === page.slug)?.sectionTitles ??
+              []),
         heroImage:
           page.heroImage ??
           fallbackMenuPreviews.find((fallback) => fallback.slug === page.slug)?.heroImage ??
@@ -57,8 +66,32 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
     : fallbackMenuPreviews
   const activeMenuPreview =
     menuPreviews.find((menu) => menu.slug === activeMenuPreviewSlug) ?? menuPreviews[0]!
+  const isNavigationActive = isContactPage || isScrolled || isMenuOpen
   const closeMenu = useCallback(() => setIsMenuOpen(false), [])
   const toggleMenu = useCallback(() => setIsMenuOpen((isOpen) => !isOpen), [])
+  const cancelMenuPreviewClose = useCallback(() => {
+    if (menuCloseTimer.current === null) return
+    window.clearTimeout(menuCloseTimer.current)
+    menuCloseTimer.current = null
+  }, [])
+  const openMenuPreview = useCallback(() => {
+    cancelMenuPreviewClose()
+    setMenuPreviewOpen(true)
+  }, [cancelMenuPreviewClose])
+  const scheduleMenuPreviewClose = useCallback(() => {
+    cancelMenuPreviewClose()
+    menuCloseTimer.current = window.setTimeout(() => {
+      setMenuPreviewOpen(false)
+      menuCloseTimer.current = null
+    }, 240)
+  }, [cancelMenuPreviewClose])
+
+  useEffect(
+    () => () => {
+      if (menuCloseTimer.current !== null) window.clearTimeout(menuCloseTimer.current)
+    },
+    [],
+  )
 
   useEffect(() => {
     let lastScrollY = window.scrollY
@@ -120,7 +153,7 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
     <motion.header
       animate={{ y: isHidden || isHomeIntroActive ? "-100%" : "0%" }}
       className={`fixed inset-x-0 top-0 z-40 text-aberdeen-peach transition-[background-color,box-shadow] duration-500 will-change-transform ${
-        isContactPage || isScrolled || isMenuOpen
+        isNavigationActive
           ? "bg-aberdeen-blue shadow-[0_12px_30px_rgb(14_24_69/0.2)]"
           : "bg-transparent shadow-none"
       }`}
@@ -134,95 +167,110 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
       <div className="flex items-center justify-between px-5 py-4 md:px-8">
         <motion.div {...homeIntroReveal(0)}>
           <TransitionLink className="nav-logo block w-36 md:w-44" onClick={closeMenu} to="/">
-            <img alt="Aberdeen" src="/brand/aberdeen-wordmark-peach.png" />
+            <img
+              alt="Aberdeen"
+              className={`transition-[filter] duration-500 ${
+                location.pathname === "/" && !isNavigationActive
+                  ? "drop-shadow-[0_2px_4px_rgb(14_24_69/0.24)]"
+                  : "drop-shadow-none"
+              }`}
+              src="/brand/aberdeen-wordmark-peach.png"
+            />
           </TransitionLink>
         </motion.div>
         <motion.nav
-          className="hidden items-center gap-7 font-utility text-sm tracking-[0.16em] uppercase md:flex"
+          className={`hidden items-center gap-7 font-utility text-sm tracking-[0.16em] uppercase transition-colors duration-500 md:flex ${
+            isNavigationActive ? "text-white" : "text-aberdeen-blue"
+          }`}
           {...homeIntroReveal(1)}
         >
           {navItems.map((item, index) => (
             <motion.div key={item.label} {...homeIntroReveal(index + 1)}>
               {item.label === "Menus" ? (
-              <div
-                className="relative"
-                onBlur={(event) => {
-                  if (!event.currentTarget.contains(event.relatedTarget)) setMenuPreviewOpen(false)
-                }}
-                onMouseLeave={() => setMenuPreviewOpen(false)}
-              >
-                <TransitionLink
-                  aria-expanded={menuPreviewOpen}
-                  className="nav-underline"
-                  onFocus={() => setMenuPreviewOpen(true)}
-                  onMouseEnter={() => setMenuPreviewOpen(true)}
-                  to={item.to}
+                <div
+                  className="relative"
+                  onBlur={(event) => {
+                    if (!event.currentTarget.contains(event.relatedTarget))
+                      setMenuPreviewOpen(false)
+                  }}
+                  onMouseEnter={cancelMenuPreviewClose}
+                  onMouseLeave={scheduleMenuPreviewClose}
                 >
-                  {item.label}
-                </TransitionLink>
-                <AnimatePresence>
-                  {menuPreviewOpen ? (
-                    <motion.div
-                      animate={{ opacity: 1, scale: 1, y: 0 }}
-                      className="absolute top-full left-1/2 w-[min(68vw,67rem)] -translate-x-1/2 pt-5"
-                      exit={{ opacity: 0, scale: 0.99, y: -4 }}
-                      initial={{ opacity: 0, scale: 0.985, y: -4 }}
-                      transition={{ duration: 1.08, ease: [0.16, 1, 0.3, 1] }}
-                    >
-                      <div className="bg-white p-8 text-aberdeen-blue shadow-[0_28px_70px_rgb(14_24_69/0.2)] lg:p-10">
-                        <div className="grid min-h-[30rem] grid-cols-[0.72fr_1.28fr] gap-10">
-                          <div className="flex flex-col justify-center border-r border-aberdeen-blue/15 pr-10">
-                            {menuPreviews.map((menu) => {
-                              const isActive = menu.slug === activeMenuPreview.slug
-                              return (
-                                <TransitionLink
-                                  aria-current={isActive ? "page" : undefined}
-                                  className={`group border-b border-aberdeen-blue/10 py-7 first:pt-0 last:border-b-0 last:pb-0 ${
-                                    isActive ? "text-aberdeen-blue" : "text-kelp-ink/55"
-                                  }`}
-                                  key={menu.slug}
-                                  onFocus={() => setActiveMenuPreviewSlug(menu.slug)}
-                                  onMouseEnter={() => setActiveMenuPreviewSlug(menu.slug)}
-                                  to={`/menu/${menu.slug}`}
-                                >
-                                  <span className="menu-tab-underline inline-block font-display text-4xl leading-none tracking-normal normal-case transition-colors duration-700 group-hover:text-aberdeen-blue">
-                                    {menu.title}
-                                  </span>
-                                </TransitionLink>
-                              )
-                            })}
-                          </div>
-                          <div className="relative min-h-[30rem] overflow-hidden bg-oyster-white">
-                            <AnimatePresence initial={false} mode="sync">
-                              <motion.img
-                                alt={`${activeMenuPreview.title} menu`}
-                                animate={{ opacity: 1 }}
-                                className="absolute inset-0 h-full w-full object-cover"
-                                exit={{ opacity: 0 }}
-                                initial={{ opacity: 0 }}
-                                key={activeMenuPreview.slug}
-                                src={activeMenuPreview.heroImage}
-                                transition={{ duration: 0.78, ease: [0.16, 1, 0.3, 1] }}
-                              />
-                            </AnimatePresence>
+                  <TransitionLink
+                    aria-expanded={menuPreviewOpen}
+                    className="nav-underline"
+                    onFocus={openMenuPreview}
+                    onMouseEnter={openMenuPreview}
+                    to={item.to}
+                  >
+                    {item.label}
+                  </TransitionLink>
+                  <AnimatePresence>
+                    {menuPreviewOpen ? (
+                      <motion.div
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        className="fixed top-[4.5rem] left-1/2 w-[min(68vw,67rem)] -translate-x-1/2 pt-5"
+                        exit={{ opacity: 0, scale: 0.99, y: -4 }}
+                        initial={{ opacity: 0, scale: 0.985, y: -4 }}
+                        onMouseEnter={cancelMenuPreviewClose}
+                        onMouseLeave={scheduleMenuPreviewClose}
+                        transition={{ duration: 1.08, ease: [0.16, 1, 0.3, 1] }}
+                      >
+                        <div className="bg-white p-8 text-aberdeen-blue shadow-[0_28px_70px_rgb(14_24_69/0.2)] lg:p-10">
+                          <div className="grid min-h-[30rem] grid-cols-[0.72fr_1.28fr] gap-10">
+                            <div className="flex flex-col justify-center border-r border-aberdeen-blue/15 pr-10">
+                              {menuPreviews.map((menu) => {
+                                return (
+                                  <TransitionLink
+                                    className="group border-b border-aberdeen-blue/10 py-7 text-aberdeen-blue transition-transform duration-700 first:pt-0 last:border-b-0 last:pb-0 hover:translate-x-2 focus-visible:translate-x-2"
+                                    key={menu.slug}
+                                    onFocus={() => setActiveMenuPreviewSlug(menu.slug)}
+                                    onMouseEnter={() => setActiveMenuPreviewSlug(menu.slug)}
+                                    to={`/menu/${menu.slug}`}
+                                  >
+                                    <span className="menu-tab-underline inline-block font-display text-4xl leading-none tracking-normal normal-case transition-colors duration-700 group-hover:text-aberdeen-blue">
+                                      {menu.title}
+                                    </span>
+                                    <span className="mt-3 block font-utility text-[0.62rem] leading-5 tracking-[0.13em] uppercase opacity-65">
+                                      {menu.sectionTitles.slice(0, 3).join(" · ")}...
+                                    </span>
+                                  </TransitionLink>
+                                )
+                              })}
+                            </div>
+                            <div className="relative min-h-[30rem] overflow-hidden bg-oyster-white">
+                              <AnimatePresence initial={false} mode="sync">
+                                <motion.img
+                                  alt={`${activeMenuPreview.title} menu`}
+                                  animate={{ opacity: 1 }}
+                                  className="absolute inset-0 h-full w-full object-cover"
+                                  exit={{ opacity: 0 }}
+                                  initial={{ opacity: 0 }}
+                                  key={activeMenuPreview.slug}
+                                  src={activeMenuPreview.heroImage}
+                                  transition={{ duration: 0.78, ease: [0.16, 1, 0.3, 1] }}
+                                />
+                              </AnimatePresence>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </motion.div>
-                  ) : null}
-                </AnimatePresence>
-              </div>
-            ) : (
-              <TransitionLink className="nav-underline" to={item.to}>
-                {item.label}
-              </TransitionLink>
+                      </motion.div>
+                    ) : null}
+                  </AnimatePresence>
+                </div>
+              ) : (
+                <TransitionLink className="nav-underline" to={item.to}>
+                  {item.label}
+                </TransitionLink>
               )}
             </motion.div>
           ))}
         </motion.nav>
         <motion.div className="hidden md:block" {...homeIntroReveal(navItems.length + 1)}>
           <a
-            className="aberdeen-action border border-white bg-white px-4 py-2 font-utility text-sm tracking-[0.14em] text-black uppercase [--action-fill:var(--color-aberdeen-blue)] hover:text-white"
+            className={`aberdeen-action border border-white bg-white px-4 py-2 font-utility text-sm tracking-[0.14em] text-black uppercase transition-[box-shadow] duration-500 [--action-fill:var(--color-aberdeen-blue)] hover:text-white ${
+              isNavigationActive ? "shadow-none" : "shadow-[0_3px_10px_rgb(14_24_69/0.2)]"
+            }`}
             href={reservationUrl}
           >
             Reserve
@@ -237,19 +285,19 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
             onClick={toggleMenu}
             type="button"
           >
-          <span
-            className={`h-px w-5 bg-aberdeen-peach transition ${
-              isMenuOpen ? "translate-y-[7px] rotate-45" : ""
-            }`}
-          />
-          <span
-            className={`h-px w-5 bg-aberdeen-peach transition ${isMenuOpen ? "opacity-0" : ""}`}
-          />
-          <span
-            className={`h-px w-5 bg-aberdeen-peach transition ${
-              isMenuOpen ? "-translate-y-[7px] -rotate-45" : ""
-            }`}
-          />
+            <span
+              className={`h-px w-5 bg-aberdeen-peach transition ${
+                isMenuOpen ? "translate-y-[7px] rotate-45" : ""
+              }`}
+            />
+            <span
+              className={`h-px w-5 bg-aberdeen-peach transition ${isMenuOpen ? "opacity-0" : ""}`}
+            />
+            <span
+              className={`h-px w-5 bg-aberdeen-peach transition ${
+                isMenuOpen ? "-translate-y-[7px] -rotate-45" : ""
+              }`}
+            />
           </button>
         </motion.div>
       </div>

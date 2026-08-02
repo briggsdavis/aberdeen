@@ -2,6 +2,8 @@ import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "mo
 import { useRef } from "react"
 import { useLocation } from "react-router"
 import { ScrollRotatingWheel } from "../components/decorative-media"
+import { MaritimeFlags } from "../components/nautical-details"
+import { HeroCarouselButtons, useHeroCarousel } from "../components/site-extras"
 import { useCmsRuntime } from "../lib/cms-runtime"
 import { fadeIn } from "../lib/motion"
 
@@ -66,30 +68,44 @@ function StaffPage() {
 
 function HeroSection() {
   const { page } = useCmsRuntime()
-  const heroImage =
-    page.media.hero?.url ??
-    page.images.hero ??
-    "https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1800&q=85"
+  const managedHero = page.media.hero?.url ?? page.images.hero
+  const defaultHeroImages = [
+    "https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1800&q=85",
+    "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=1800&q=85",
+    "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=1800&q=85",
+  ]
+  const { image, next, previous } = useHeroCarousel(
+    managedHero ? [managedHero, ...defaultHeroImages.slice(1)] : defaultHeroImages,
+  )
 
   return (
-    <section className="relative bg-aberdeen-blue text-aberdeen-peach">
+    <section className="relative min-h-[42rem] overflow-hidden bg-oyster-white text-aberdeen-blue md:min-h-[68svh]">
       <img
         alt="Restaurant team preparing a dining room"
         className="absolute inset-0 h-full w-full object-cover"
         data-cms-slot="hero"
-        src={heroImage}
+        src={image}
       />
-      <div className="hero-radial-glow absolute inset-0 z-[1]" />
+      <div className="events-hero-cream-gradient absolute inset-0 z-[1]" />
       <motion.div
-        className="relative z-10 grid gap-10 px-5 pt-32 pb-16 md:px-8 md:pt-40 md:pb-24"
+        className="relative z-10 flex min-h-[42rem] flex-col items-stretch justify-end gap-8 px-5 pt-32 pb-8 md:min-h-[68svh] md:flex-row md:items-end md:justify-between md:px-8 md:pt-40 md:pb-10"
         {...fadeIn()}
       >
-        <p className="font-utility text-sm tracking-[0.22em] uppercase" data-cms-no-edit>
-          Staff
-        </p>
-        <h1 className="max-w-5xl font-display text-6xl leading-none md:text-8xl">
-          The people who keep the room glowing.
-        </h1>
+        <div className="max-w-5xl">
+          <p className="font-utility text-sm tracking-[0.22em] uppercase" data-cms-no-edit>
+            Staff
+          </p>
+          <h1 className="mt-4 font-display text-6xl leading-none md:text-8xl">
+            The people who keep the room glowing.
+          </h1>
+        </div>
+        <motion.div
+          className="relative z-20 flex shrink-0 flex-col items-end gap-4 self-end"
+          {...fadeIn(0.18)}
+        >
+          <MaritimeFlags />
+          <HeroCarouselButtons onNext={next} onPrevious={previous} />
+        </motion.div>
       </motion.div>
     </section>
   )

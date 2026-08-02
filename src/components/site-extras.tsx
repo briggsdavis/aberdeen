@@ -1,4 +1,4 @@
-import { CaretLeft, CaretRight, Heart } from "@phosphor-icons/react"
+import { Heart } from "@phosphor-icons/react"
 import { useMutation } from "convex/react"
 import { AnimatePresence, motion } from "motion/react"
 import type { CSSProperties, MouseEvent, ReactNode } from "react"
@@ -32,17 +32,22 @@ export function HeroCarouselButtons({
   onPrevious: () => void
 }) {
   return (
-    <div className={`flex items-center gap-3 ${className}`}>
+    <div className={`hero-carousel-controls relative z-20 flex items-center gap-2 ${className}`}>
       <button
         aria-label="Previous image"
-        className="nautical-arrow"
+        className="nautical-arrow nautical-arrow--previous"
         onClick={onPrevious}
         type="button"
       >
-        <CaretLeft aria-hidden="true" size={20} />
+        <span aria-hidden="true" className="nautical-arrow-line" />
       </button>
-      <button aria-label="Next image" className="nautical-arrow" onClick={onNext} type="button">
-        <CaretRight aria-hidden="true" size={20} />
+      <button
+        aria-label="Next image"
+        className="nautical-arrow nautical-arrow--next"
+        onClick={onNext}
+        type="button"
+      >
+        <span aria-hidden="true" className="nautical-arrow-line" />
       </button>
     </div>
   )

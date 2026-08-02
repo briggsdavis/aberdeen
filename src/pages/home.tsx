@@ -117,6 +117,7 @@ function CoastalTextMarquee() {
 
 function HeroSection({ playIntro }: { playIntro: boolean }) {
   const image = useRequiredPageImage("hero")
+  const postcardImage = useRequiredPageImage("home-hero-postcard")
   const shouldReduceMotion = useReducedMotion()
   const animateIntro = playIntro && !shouldReduceMotion
   const introDelay = animateIntro ? 3.95 : 0
@@ -239,7 +240,7 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
               ease: [0.16, 1, 0.3, 1],
             }}
           >
-            <HeroPostcard />
+            <HeroPostcard imageSrc={postcardImage} />
           </motion.div>
         </div>
       </div>
@@ -319,12 +320,14 @@ function IntroSection() {
 
 function MenuSection() {
   const { menuPages } = useCmsRuntime()
+  const foodImage = useRequiredPageImage("div:0/section:2/div:2/a:0/div:1/img:0")
+  const spiritsImage = useRequiredPageImage("div:0/section:2/div:2/a:1/div:1/img:0")
+  const beveragesImage = useRequiredPageImage("div:0/section:2/div:2/a:2/div:1/img:0")
   const menus = [
     {
       title: "Food",
       href: "/menu/food",
-      image:
-        "https://images.unsplash.com/photo-1715249792962-5359b4b17f21?auto=format&fit=crop&w=900&q=85",
+      image: foodImage,
       height: "h-[23rem] md:h-[22.4rem]",
       imagePosition: "object-top",
       position: "md:left-[15%] md:top-0",
@@ -333,8 +336,7 @@ function MenuSection() {
     {
       title: "Spirits",
       href: "/menu/spirits",
-      image:
-        "https://images.unsplash.com/photo-1582993232955-39424b2cef01?auto=format&fit=crop&w=900&q=85",
+      image: spiritsImage,
       height: "h-[27rem] md:h-[31.1rem]",
       imagePosition: "object-center",
       position: "md:left-[43%] md:top-12",
@@ -343,8 +345,7 @@ function MenuSection() {
     {
       title: "Beverages",
       href: "/menu/beverages",
-      image:
-        "https://images.unsplash.com/photo-1683463787127-9d472af2a9e3?auto=format&fit=crop&w=900&q=85",
+      image: beveragesImage,
       height: "h-[23rem] md:h-[29rem]",
       imagePosition: "object-center",
       position: "md:left-[70%] md:top-36",
@@ -411,12 +412,14 @@ function MenuSection() {
               </h3>
             </div>
             <div className={`relative w-full overflow-hidden ${menu.height}`}>
-              <img
-                alt=""
-                className={`h-full w-full object-cover ${menu.imagePosition}`}
-                data-cms-slot={menu.slot}
-                src={menu.image}
-              />
+              {menu.image ? (
+                <img
+                  alt=""
+                  className={`h-full w-full object-cover ${menu.imagePosition}`}
+                  data-cms-slot={menu.slot}
+                  src={menu.image}
+                />
+              ) : null}
             </div>
           </a>
         ))}

@@ -56,6 +56,7 @@ function Postmark() {
 
 function HeroSection() {
   const heroImage = useRequiredPageImage("hero")
+  const postcardImage = useRequiredPageImage("about-hero-postcard")
 
   return (
     <section className="relative min-h-[42rem] overflow-hidden bg-oyster-white text-aberdeen-blue md:min-h-[68svh]">
@@ -85,7 +86,7 @@ function HeroSection() {
           <HeroPostcard
             cmsSlot="about-hero-postcard"
             imageAlt="People on a catamaran sailboat in the ocean"
-            imageSrc="https://images.unsplash.com/photo-1756163251150-3d4bfcfa52fe?auto=format&fit=crop&w=900&q=85"
+            imageSrc={postcardImage}
           />
         </motion.div>
       </motion.div>
@@ -167,6 +168,7 @@ function OwnerSection() {
 }
 
 function GroupSection() {
+  const stickyImage = useRequiredPageImage("about-pillars-sticky-image")
   const cards = [
     {
       label: "01",
@@ -250,12 +252,14 @@ function GroupSection() {
             className="about-pillars-image relative h-[28rem] overflow-hidden shadow-[0_28px_64px_rgba(29,42,47,0.26)] md:h-full"
             {...fadeIn(0.12)}
           >
-            <img
-              alt="Aberdeen dining room set for an evening by the coast"
-              className="h-full w-full object-cover"
-              data-cms-slot="about-pillars-sticky-image"
-              src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1400&q=85"
-            />
+            {stickyImage ? (
+              <img
+                alt="Aberdeen dining room set for an evening by the coast"
+                className="h-full w-full object-cover"
+                data-cms-slot="about-pillars-sticky-image"
+                src={stickyImage}
+              />
+            ) : null}
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-aberdeen-blue/20 via-transparent to-transparent" />
           </motion.div>
           <motion.div

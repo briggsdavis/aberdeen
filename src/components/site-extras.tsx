@@ -8,51 +8,6 @@ import type { Id } from "../../convex/_generated/dataModel"
 import { fadeIn } from "../lib/motion"
 import { DecorativeBackdrop } from "./decorative-media"
 
-export const heroImages = [
-  "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1800&q=85",
-  "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1800&q=85",
-  "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1800&q=85",
-]
-
-export function useHeroCarousel(images = heroImages) {
-  const [index, setIndex] = useState(0)
-  const next = () => setIndex((current) => (current + 1) % images.length)
-  const previous = () => setIndex((current) => (current - 1 + images.length) % images.length)
-
-  return { image: images[index], index, next, previous }
-}
-
-export function HeroCarouselButtons({
-  className = "",
-  onNext,
-  onPrevious,
-}: {
-  className?: string
-  onNext: () => void
-  onPrevious: () => void
-}) {
-  return (
-    <div className={`hero-carousel-controls relative z-20 flex items-center gap-2 ${className}`}>
-      <button
-        aria-label="Previous image"
-        className="nautical-arrow nautical-arrow--previous"
-        onClick={onPrevious}
-        type="button"
-      >
-        <span aria-hidden="true" className="nautical-arrow-line" />
-      </button>
-      <button
-        aria-label="Next image"
-        className="nautical-arrow nautical-arrow--next"
-        onClick={onNext}
-        type="button"
-      >
-        <span aria-hidden="true" className="nautical-arrow-line" />
-      </button>
-    </div>
-  )
-}
-
 export function HeroPostcard({
   cmsSlot = "home-hero-postcard",
   imageAlt = "A guest enjoying dinner at Aberdeen",

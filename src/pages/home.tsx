@@ -13,13 +13,12 @@ import { useOutletContext } from "react-router"
 import { DecorativeBackdrop } from "../components/decorative-media"
 import {
   FAQSection,
-  heroImages,
   HeroPostcard,
   RestaurantGroupSection,
   RippleSection,
   TiltWrap,
 } from "../components/site-extras"
-import { useCmsRuntime } from "../lib/cms-runtime"
+import { useCmsRuntime, useRequiredPageImage } from "../lib/cms-runtime"
 import { fadeIn } from "../lib/motion"
 
 const antiqueMapOne = "/maps/antique-map-01.png"
@@ -117,9 +116,7 @@ function CoastalTextMarquee() {
 }
 
 function HeroSection({ playIntro }: { playIntro: boolean }) {
-  const { page } = useCmsRuntime()
-  const managedHero = page.media.hero?.url ?? page.images.hero
-  const image = managedHero ?? heroImages[0]
+  const image = useRequiredPageImage("hero")
   const shouldReduceMotion = useReducedMotion()
   const animateIntro = playIntro && !shouldReduceMotion
   const introDelay = animateIntro ? 3.95 : 0
@@ -153,24 +150,26 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
           times: [0, 0.42, 1],
         }}
       >
-        <motion.img
-          alt="Sunlit coastal restaurant dining room"
-          animate={{ filter: "blur(0px)", opacity: 1 }}
-          className="h-full w-full object-cover"
-          fetchPriority="high"
-          data-cms-slot="hero"
-          initial={
-            animateIntro
-              ? { filter: "blur(22px)", opacity: 0 }
-              : { filter: "blur(0px)", opacity: 1 }
-          }
-          src={image}
-          transition={{
-            delay: animateIntro ? 2 : 0,
-            duration: animateIntro ? 1.215 : 0,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-        />
+        {image ? (
+          <motion.img
+            alt="Sunlit coastal restaurant dining room"
+            animate={{ filter: "blur(0px)", opacity: 1 }}
+            className="h-full w-full object-cover"
+            fetchPriority="high"
+            data-cms-slot="hero"
+            initial={
+              animateIntro
+                ? { filter: "blur(22px)", opacity: 0 }
+                : { filter: "blur(0px)", opacity: 1 }
+            }
+            src={image}
+            transition={{
+              delay: animateIntro ? 2 : 0,
+              duration: animateIntro ? 1.215 : 0,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          />
+        ) : null}
       </motion.div>
       <motion.div
         animate={{ opacity: 1 }}

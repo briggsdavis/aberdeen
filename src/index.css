@@ -242,58 +242,6 @@
     );
   }
 
-  .nautical-arrow {
-    @apply relative grid h-10 w-28 place-items-center text-aberdeen-blue transition duration-[360ms];
-    border: 0;
-    background: transparent;
-    filter: drop-shadow(0 1px 1px rgb(255 248 240 / 0.8));
-  }
-
-  .nautical-arrow-line {
-    position: absolute;
-    right: 0;
-    left: 0;
-    top: 50%;
-    height: 3px;
-    background: currentColor;
-    transform: translateY(-50%);
-  }
-
-  .nautical-arrow-line::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    height: 0.72rem;
-    width: 0.72rem;
-    border-top: 3px solid currentColor;
-    border-right: 3px solid currentColor;
-  }
-
-  .nautical-arrow--previous .nautical-arrow-line::after {
-    left: 0.15rem;
-    transform: translateY(-50%) rotate(-135deg);
-  }
-
-  .nautical-arrow--next .nautical-arrow-line::after {
-    right: 0.15rem;
-    transform: translateY(-50%) rotate(45deg);
-  }
-
-  .nautical-arrow:hover,
-  .nautical-arrow:focus-visible {
-    background: rgb(255 248 240 / 0.56);
-  }
-
-  .nautical-arrow--previous:hover,
-  .nautical-arrow--previous:focus-visible {
-    transform: translateX(-0.25rem);
-  }
-
-  .nautical-arrow--next:hover,
-  .nautical-arrow--next:focus-visible {
-    transform: translateX(0.25rem);
-  }
-
   .scrapbook-tilt {
     box-shadow: 0 12px 24px rgb(29 42 47 / 0.12);
     transform: perspective(900px) rotateX(var(--tilt-y, 0deg)) rotateY(var(--tilt-x, 0deg));

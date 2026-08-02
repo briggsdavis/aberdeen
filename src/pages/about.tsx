@@ -1,7 +1,7 @@
 import { motion } from "motion/react"
 import { DecorativeBackdrop } from "../components/decorative-media"
 import { HeroPostcard, RestaurantGroupSection, RippleSection } from "../components/site-extras"
-import { useCmsRuntime } from "../lib/cms-runtime"
+import { useRequiredPageImage } from "../lib/cms-runtime"
 import { fadeIn } from "../lib/motion"
 
 const antiqueMapOne = "/maps/antique-map-01.png"
@@ -55,20 +55,18 @@ function Postmark() {
 }
 
 function HeroSection() {
-  const { page } = useCmsRuntime()
-  const heroImage =
-    page.media.hero?.url ??
-    page.images.hero ??
-    "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1800&q=85"
+  const heroImage = useRequiredPageImage("hero")
 
   return (
     <section className="relative min-h-[42rem] overflow-hidden bg-oyster-white text-aberdeen-blue md:min-h-[68svh]">
-      <img
-        alt="Sunlit restaurant table with glassware and coastal plates"
-        className="absolute inset-0 h-full w-full object-cover"
-        data-cms-slot="hero"
-        src={heroImage}
-      />
+      {heroImage ? (
+        <img
+          alt="Sunlit restaurant table with glassware and coastal plates"
+          className="absolute inset-0 h-full w-full object-cover"
+          data-cms-slot="hero"
+          src={heroImage}
+        />
+      ) : null}
       <div className="events-hero-cream-gradient absolute inset-0 z-[1]" />
       <motion.div
         className="relative z-10 flex min-h-[42rem] flex-col items-stretch justify-end gap-8 px-5 pt-32 pb-8 md:min-h-[68svh] md:flex-row md:items-end md:justify-between md:px-8 md:pt-40 md:pb-10"

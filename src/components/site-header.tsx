@@ -12,30 +12,6 @@ const navItems = [
   { label: "Contact", to: "/contact" },
 ]
 
-const fallbackMenuPreviews = [
-  {
-    title: "Food",
-    slug: "food",
-    sectionTitles: ["Raw Bar", "For the Table", "Starters"],
-    heroImage:
-      "https://images.unsplash.com/photo-1715249792962-5359b4b17f21?auto=format&fit=crop&w=900&q=85",
-  },
-  {
-    title: "Spirits",
-    slug: "spirits",
-    sectionTitles: ["House Cocktails", "For the Table", "Classics"],
-    heroImage:
-      "https://images.unsplash.com/photo-1582993232955-39424b2cef01?auto=format&fit=crop&w=900&q=85",
-  },
-  {
-    title: "Beverages",
-    slug: "beverages",
-    sectionTitles: ["Zero-Proof", "For the Table", "Sparkling & Still"],
-    heroImage:
-      "https://images.unsplash.com/photo-1683463787127-9d472af2a9e3?auto=format&fit=crop&w=900&q=85",
-  },
-]
-
 function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
   const location = useLocation()
   const shouldReduceMotion = useReducedMotion()
@@ -45,26 +21,24 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [menuPreviewOpen, setMenuPreviewOpen] = useState(false)
   const menuCloseTimer = useRef<number | null>(null)
-  const [activeMenuPreviewSlug, setActiveMenuPreviewSlug] = useState(fallbackMenuPreviews[0]!.slug)
+  const [activeMenuPreviewSlug, setActiveMenuPreviewSlug] = useState<string | null>(null)
   const isContactPage = location.pathname === "/contact"
   const { menuPages, site } = useCmsRuntime()
   const reservationUrl = site?.settings.reservationUrl ?? "/contact"
-  const menuPreviews = menuPages?.length
-    ? menuPages.slice(0, 3).map((page) => ({
-        title: page.title,
-        slug: page.slug,
-        sectionTitles: page.sectionTitles?.length
-          ? page.sectionTitles
-          : (fallbackMenuPreviews.find((fallback) => fallback.slug === page.slug)?.sectionTitles ??
-            []),
-        heroImage:
-          page.heroImage ??
-          fallbackMenuPreviews.find((fallback) => fallback.slug === page.slug)?.heroImage ??
-          fallbackMenuPreviews[0]!.heroImage,
-      }))
-    : fallbackMenuPreviews
+  const menuPreviews = (menuPages ?? []).slice(0, 3).map((page) => {
+    if (!page.heroImage) throw new Error(`Missing menu hero image: ${page.slug}`)
+
+    return {
+      title: page.title,
+      slug: page.slug,
+      sectionTitles: page.sectionTitles,
+      heroImage: page.heroImage,
+    }
+  })
   const activeMenuPreview =
-    menuPreviews.find((menu) => menu.slug === activeMenuPreviewSlug) ?? menuPreviews[0]!
+    activeMenuPreviewSlug === null
+      ? menuPreviews[0]
+      : menuPreviews.find((menu) => menu.slug === activeMenuPreviewSlug)
   const isNavigationActive = isContactPage || isScrolled || isMenuOpen
   const closeMenu = useCallback(() => setIsMenuOpen(false), [])
   const toggleMenu = useCallback(() => setIsMenuOpen((isOpen) => !isOpen), [])
@@ -205,7 +179,7 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
                     {item.label}
                   </TransitionLink>
                   <AnimatePresence>
-                    {menuPreviewOpen ? (
+                    {menuPreviewOpen && activeMenuPreview ? (
                       <motion.div
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         className="fixed top-[4.5rem] left-1/2 w-[min(68vw,67rem)] -translate-x-1/2 pt-5"

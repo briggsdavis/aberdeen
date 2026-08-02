@@ -97,7 +97,7 @@ type CmsRuntimeValue = {
         slug: string
         order: number
         heroImage: string | null
-        sectionTitles?: string[]
+        sectionTitles: string[]
       }>
     | undefined
   site: SiteBundle | undefined
@@ -170,4 +170,17 @@ export function CmsRuntimeProvider({ children }: { children: ReactNode }) {
 
 export function useCmsRuntime() {
   return useContext(CmsRuntimeContext)
+}
+
+export function useRequiredPageImage(key: string) {
+  const { page, pageReady } = useCmsRuntime()
+
+  if (!pageReady) return null
+
+  const image = page.media[key]
+  if (!image || image.kind !== "image") {
+    throw new Error(`Missing required page image: ${key}`)
+  }
+
+  return image.url
 }

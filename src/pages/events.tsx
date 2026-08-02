@@ -2,8 +2,8 @@ import { motion } from "motion/react"
 import { useState } from "react"
 import { DecorativeBackdrop } from "../components/decorative-media"
 import { MaritimeFlags, RopeDivider } from "../components/nautical-details"
-import { HeroCarouselButtons, RippleSection, useHeroCarousel } from "../components/site-extras"
-import { useCmsRuntime } from "../lib/cms-runtime"
+import { RippleSection } from "../components/site-extras"
+import { useCmsRuntime, useRequiredPageImage } from "../lib/cms-runtime"
 import { fadeIn, fadeInPlace } from "../lib/motion"
 
 const antiqueMapFive = "/maps/antique-map-05.png"
@@ -234,25 +234,18 @@ function UpcomingList({ events }: { events: DisplayEvent[] }) {
 }
 
 function HeroSection() {
-  const { page } = useCmsRuntime()
-  const managedHero = page.media.hero?.url ?? page.images.hero
-  const defaultHeroImages = [
-    "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1800&q=85",
-    "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=1800&q=85",
-    "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=1800&q=85",
-  ]
-  const { image, next, previous } = useHeroCarousel(
-    managedHero ? [managedHero, ...defaultHeroImages.slice(1)] : defaultHeroImages,
-  )
+  const image = useRequiredPageImage("hero")
 
   return (
     <section className="relative min-h-[42rem] overflow-hidden bg-oyster-white text-aberdeen-blue md:min-h-[68svh]">
-      <img
-        alt="People gathered around a restaurant table with drinks"
-        className="absolute inset-0 h-full w-full object-cover"
-        data-cms-slot="hero"
-        src={image}
-      />
+      {image ? (
+        <img
+          alt="People gathered around a restaurant table with drinks"
+          className="absolute inset-0 h-full w-full object-cover"
+          data-cms-slot="hero"
+          src={image}
+        />
+      ) : null}
       <div className="events-hero-cream-gradient absolute inset-0 z-[1]" />
       <motion.div
         className="relative z-10 flex min-h-[42rem] flex-col items-stretch justify-end gap-8 px-5 pt-32 pb-8 md:min-h-[68svh] md:flex-row md:items-end md:justify-between md:px-8 md:pt-40 md:pb-10"
@@ -264,12 +257,8 @@ function HeroSection() {
             Seasonal nights worth circling.
           </h1>
         </div>
-        <motion.div
-          className="relative z-20 flex shrink-0 flex-col items-end gap-4 self-end"
-          {...fadeIn(0.18)}
-        >
+        <motion.div className="relative z-20 shrink-0 self-end" {...fadeIn(0.18)}>
           <MaritimeFlags />
-          <HeroCarouselButtons onNext={next} onPrevious={previous} />
         </motion.div>
       </motion.div>
     </section>

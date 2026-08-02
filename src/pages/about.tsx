@@ -1,6 +1,6 @@
 import { motion } from "motion/react"
 import { DecorativeBackdrop } from "../components/decorative-media"
-import { RestaurantGroupSection, RippleSection } from "../components/site-extras"
+import { HeroPostcard, RestaurantGroupSection, RippleSection } from "../components/site-extras"
 import { useCmsRuntime } from "../lib/cms-runtime"
 import { fadeIn } from "../lib/motion"
 
@@ -19,54 +19,6 @@ function AboutPage() {
       <RoomSection />
       <RestaurantGroupSection />
     </div>
-  )
-}
-
-function FramedPhoto({
-  alt,
-  className = "",
-  frameSrc = "/frames/torn-paper/frame-01.png",
-  maskSrc = "/frames/torn-paper/mask-01.png",
-  src,
-}: {
-  alt: string
-  className?: string
-  frameSrc?: string
-  maskSrc?: string
-  src: string
-}) {
-  return (
-    <div className={`relative aspect-[1339/1016] ${className}`}>
-      <div
-        className="absolute inset-0"
-        style={{
-          WebkitMaskImage: `url('${maskSrc}')`,
-          WebkitMaskPosition: "center",
-          WebkitMaskRepeat: "no-repeat",
-          WebkitMaskSize: "100% 100%",
-          maskImage: `url('${maskSrc}')`,
-          maskPosition: "center",
-          maskRepeat: "no-repeat",
-          maskSize: "100% 100%",
-        }}
-      >
-        <img alt={alt} className="h-full w-full object-cover" src={src} />
-      </div>
-      <img
-        alt=""
-        className="pointer-events-none absolute inset-0 z-20 h-full w-full object-fill"
-        src={frameSrc}
-      />
-    </div>
-  )
-}
-
-function Tape({ className = "" }: { className?: string }) {
-  return (
-    <span
-      aria-hidden="true"
-      className={`absolute z-30 h-8 w-24 rotate-[7deg] bg-oyster-white/70 shadow-sm ${className}`}
-    />
   )
 }
 
@@ -110,34 +62,34 @@ function HeroSection() {
     "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1800&q=85"
 
   return (
-    <section className="relative min-h-[44rem] bg-aberdeen-blue text-aberdeen-peach">
+    <section className="relative min-h-[42rem] overflow-hidden bg-oyster-white text-aberdeen-blue md:min-h-[68svh]">
       <img
         alt="Sunlit restaurant table with glassware and coastal plates"
         className="absolute inset-0 h-full w-full object-cover"
         data-cms-slot="hero"
         src={heroImage}
       />
-      <div className="hero-radial-glow absolute inset-0 z-[1]" />
+      <div className="events-hero-cream-gradient absolute inset-0 z-[1]" />
       <motion.div
-        className="absolute right-5 bottom-10 z-10 hidden w-[26rem] rotate-3 text-aberdeen-blue md:right-8 md:block"
-        {...fadeIn(0.2)}
-      >
-        <Tape className="top-2 left-40" />
-        <FramedPhoto
-          alt="People on a catamaran sailboat in the ocean"
-          frameSrc="/frames/torn-paper/frame-01-rotated.png"
-          maskSrc="/frames/torn-paper/mask-01-rotated.png"
-          src="https://images.unsplash.com/photo-1756163251150-3d4bfcfa52fe?auto=format&fit=crop&w=900&q=85"
-        />
-      </motion.div>
-      <motion.div
-        className="relative z-10 grid gap-10 px-5 pt-32 pb-16 md:px-8 md:pt-40 md:pb-24"
+        className="relative z-10 flex min-h-[42rem] flex-col items-stretch justify-end gap-8 px-5 pt-32 pb-8 md:min-h-[68svh] md:flex-row md:items-end md:justify-between md:px-8 md:pt-40 md:pb-10"
         {...fadeIn()}
       >
-        <p className="font-utility text-sm tracking-[0.22em] uppercase">About Aberdeen</p>
-        <h1 className="max-w-5xl font-display text-6xl leading-none md:text-8xl">
-          A coastal room with a Savannah pulse.
-        </h1>
+        <div className="max-w-5xl">
+          <p className="font-utility text-sm tracking-[0.22em] uppercase">About Aberdeen</p>
+          <h1 className="mt-4 font-display text-6xl leading-none md:text-8xl">
+            A coastal room with a Savannah pulse.
+          </h1>
+        </div>
+        <motion.div
+          className="relative z-20 w-[min(82vw,24rem)] self-end md:w-[min(34rem,38vw)]"
+          {...fadeIn(0.18)}
+        >
+          <HeroPostcard
+            cmsSlot="about-hero-postcard"
+            imageAlt="People on a catamaran sailboat in the ocean"
+            imageSrc="https://images.unsplash.com/photo-1756163251150-3d4bfcfa52fe?auto=format&fit=crop&w=900&q=85"
+          />
+        </motion.div>
       </motion.div>
     </section>
   )

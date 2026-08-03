@@ -185,13 +185,14 @@ export function usePageImage(key: string, legacyKeys: string[] = []) {
   return null
 }
 
-export function useRequiredPageImage(key: string) {
+export function useRequiredPageImage(key: string, fallback?: string) {
   const { page, pageReady } = useCmsRuntime()
 
   if (!pageReady) return null
 
   const image = page.media[key]
   if (!image || image.kind !== "image") {
+    if (fallback) return fallback
     throw new Error(`Missing required page image: ${key}`)
   }
 

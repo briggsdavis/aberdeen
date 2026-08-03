@@ -32,22 +32,24 @@ function SiteLayout() {
     const main = document.querySelector(".public-site-main")
     if (!main) return
 
-    const images = Array.from(
-      main.querySelectorAll<HTMLImageElement>(
-        "section:not(:first-child) img:not([aria-hidden='true']):not(.no-scroll-reveal)",
-      ),
-    )
-    images.forEach((image) => image.classList.add("site-image-wipe-up"))
-
+    const imageSelector =
+      "section:not(:first-child) img:not([aria-hidden='true']):not(.no-scroll-reveal)"
+    const images = new Set<HTMLImageElement>()
     const shadowHosts = new Set<HTMLElement>()
-    images.forEach((image) => {
+    const registerImage = (image: HTMLImageElement) => {
+      if (images.has(image)) return
+      images.add(image)
+      image.classList.add("site-image-wipe-up")
+
       const host = image.closest<HTMLElement>(
         "[class*='shadow'], article, .soft-card-shadow, .restaurant-logo-card",
       )
       if (!host) return
       host.classList.add("site-shadow-wipe-host", "site-shadow-pending")
       shadowHosts.add(host)
-    })
+    }
+
+    main.querySelectorAll<HTMLImageElement>(imageSelector).forEach(registerImage)
 
     let animationFrame = 0
     const shadowCleanupTimers: number[] = []
@@ -78,10 +80,17 @@ function SiteLayout() {
       animationFrame = window.requestAnimationFrame(revealVisibleImages)
     }
 
+    const imageObserver = new MutationObserver(() => {
+      main.querySelectorAll<HTMLImageElement>(imageSelector).forEach(registerImage)
+      scheduleRevealCheck()
+    })
+
     scheduleRevealCheck()
+    imageObserver.observe(main, { childList: true, subtree: true })
     window.addEventListener("scroll", scheduleRevealCheck, { passive: true })
     window.addEventListener("resize", scheduleRevealCheck, { passive: true })
     return () => {
+      imageObserver.disconnect()
       window.cancelAnimationFrame(animationFrame)
       shadowCleanupTimers.forEach((timer) => window.clearTimeout(timer))
       shadowHosts.forEach((host) =>

@@ -18,12 +18,26 @@ import {
   RippleSection,
   TiltWrap,
 } from "../components/site-extras"
-import { useCmsRuntime, useRequiredPageImage } from "../lib/cms-runtime"
-import { fadeIn } from "../lib/motion"
+import { useCmsRuntime, usePageImage, useRequiredPageImage } from "../lib/cms-runtime"
+import { fadeIn, fadeInPlace } from "../lib/motion"
 
 const antiqueMapOne = "/maps/antique-map-01.png"
 const antiqueMapTwo = "/maps/antique-map-02.png"
 const antiqueMapThree = "/maps/antique-map-03.png"
+const homeHeroImage =
+  "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=2000&q=85"
+const homeHeroPostcardImage =
+  "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1000&q=85"
+const menuFoodImage =
+  "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=1000&q=85"
+const menuSpiritsImage =
+  "https://images.unsplash.com/photo-1551024709-f90425340c7e?auto=format&fit=crop&w=1000&q=85"
+const menuBeveragesImage =
+  "https://images.unsplash.com/photo-1621263764928-df1444c5e859?auto=format&fit=crop&w=1000&q=85"
+const reservationBeachImage =
+  "https://images.unsplash.com/photo-1672841828459-bc913fdcd995?auto=format&fit=crop&w=1800&q=85"
+const reservationYachtImage =
+  "https://images.unsplash.com/photo-1641787540215-53a5914bdef3?auto=format&fit=crop&w=1800&q=85"
 
 function HomePage() {
   const { playHomeIntro } = useOutletContext<{ playHomeIntro: boolean }>()
@@ -36,6 +50,7 @@ function HomePage() {
       <MenuSection />
       <ScrollGallerySection />
       <ReservationsSection />
+      <ReservationEditorialSection />
       <EventsSection />
       <FAQSection cardsFirst />
       <RestaurantGroupSection />
@@ -116,8 +131,8 @@ function CoastalTextMarquee() {
 }
 
 function HeroSection({ playIntro }: { playIntro: boolean }) {
-  const image = useRequiredPageImage("hero")
-  const postcardImage = useRequiredPageImage("home-hero-postcard")
+  const image = useRequiredPageImage("hero", homeHeroImage)
+  const postcardImage = useRequiredPageImage("home-hero-postcard", homeHeroPostcardImage)
   const shouldReduceMotion = useReducedMotion()
   const animateIntro = playIntro && !shouldReduceMotion
   const introDelay = animateIntro ? 3.95 : 0
@@ -320,9 +335,15 @@ function IntroSection() {
 
 function MenuSection() {
   const { menuPages } = useCmsRuntime()
-  const foodImage = useRequiredPageImage("div:0/section:2/div:2/a:0/div:1/img:0")
-  const spiritsImage = useRequiredPageImage("div:0/section:2/div:2/a:1/div:1/img:0")
-  const beveragesImage = useRequiredPageImage("div:0/section:2/div:2/a:2/div:1/img:0")
+  const foodImage = useRequiredPageImage("div:0/section:2/div:2/a:0/div:1/img:0", menuFoodImage)
+  const spiritsImage = useRequiredPageImage(
+    "div:0/section:2/div:2/a:1/div:1/img:0",
+    menuSpiritsImage,
+  )
+  const beveragesImage = useRequiredPageImage(
+    "div:0/section:2/div:2/a:2/div:1/img:0",
+    menuBeveragesImage,
+  )
   const menus = [
     {
       title: "Food",
@@ -531,18 +552,99 @@ function ReservationsSection() {
           </a>
         </motion.div>
         <div className="order-1 md:order-2">
-          <motion.p className="font-utility text-sm tracking-[0.22em] uppercase" {...fadeIn()}>
+          <motion.p className="font-utility text-sm tracking-[0.22em] uppercase" {...fadeInPlace()}>
             Reservations
           </motion.p>
           <motion.h2
             className="mt-5 max-w-3xl font-display text-5xl leading-none md:text-8xl"
-            {...fadeIn(0.14)}
+            {...fadeInPlace(0.14)}
           >
             Join us where the table catches the light.
           </motion.h2>
         </div>
       </div>
     </RippleSection>
+  )
+}
+
+function ReservationEditorialSection() {
+  const beachImage = usePageImage("home.reservations.editorial.beach") ?? reservationBeachImage
+  const yachtImage = usePageImage("home.reservations.editorial.yacht") ?? reservationYachtImage
+
+  return (
+    <section className="min-h-[120svh] overflow-hidden bg-oyster-white px-5 py-16 text-aberdeen-blue md:h-[120svh] md:min-h-[54rem] md:px-8 md:pt-28 md:pb-16">
+      <div className="mx-auto grid max-w-[96rem] gap-y-14 md:relative md:block md:h-full">
+        <motion.div
+          className="relative z-10 max-w-2xl self-start md:absolute md:top-0 md:left-0 md:w-[46%] md:pr-10"
+          {...fadeInPlace()}
+        >
+          <p
+            className="font-utility text-xs tracking-[0.22em] uppercase"
+            data-cms-text-key="home.reservations.editorial.eyebrow"
+          >
+            Your table is waiting
+          </p>
+          <h2
+            className="mt-5 max-w-xl font-display text-5xl leading-[0.95] md:text-6xl"
+            data-cms-text-key="home.reservations.editorial.title"
+          >
+            A beautiful evening begins by the water.
+          </h2>
+          <p
+            className="mt-7 max-w-lg text-base leading-7 text-kelp-ink/75 md:text-lg md:leading-8"
+            data-cms-text-key="home.reservations.editorial.copy"
+          >
+            Come for bright seafood, cold martinis, and a table made for lingering. Reserve your
+            evening at Aberdeen and let the coast set the pace.
+          </p>
+          <a
+            className="aberdeen-action mt-8 bg-aberdeen-blue text-aberdeen-peach"
+            data-cms-link-key="home.reservations.editorial.primary-link"
+            href="/contact"
+          >
+            Reserve your table
+          </a>
+        </motion.div>
+
+        <div className="relative h-[62svh] overflow-hidden md:absolute md:top-0 md:right-0 md:h-[72%] md:w-[46%]">
+          <img
+            alt="Luxury yacht cruising across calm blue water"
+            className="h-full w-full object-cover"
+            data-cms-slot="home.reservations.editorial.yacht"
+            src={yachtImage}
+          />
+        </div>
+
+        <div className="relative h-[66svh] overflow-hidden md:absolute md:bottom-0 md:left-0 md:h-[56%] md:w-[46%]">
+          <img
+            alt="Palm-lined beach beside clear turquoise water"
+            className="h-full w-full object-cover"
+            data-cms-slot="home.reservations.editorial.beach"
+            src={beachImage}
+          />
+        </div>
+
+        <motion.div
+          className="self-end md:absolute md:right-0 md:bottom-0 md:w-[46%] md:pb-4"
+          {...fadeInPlace(0.12)}
+        >
+          <p
+            className="max-w-sm text-sm leading-6 text-kelp-ink/70"
+            data-cms-text-key="home.reservations.editorial.note"
+          >
+            Sunset tables go quickly. Choose your evening now, and we’ll have the welcome waiting
+            when you arrive.
+          </p>
+          <a
+            className="mt-5 inline-flex border-b border-aberdeen-blue/45 pb-1 font-utility text-xs tracking-[0.16em] uppercase"
+            data-cms-link-key="home.reservations.editorial.secondary-link"
+            href="/contact"
+          >
+            Make a reservation
+          </a>
+        </motion.div>
+      </div>
+    </section>
   )
 }
 

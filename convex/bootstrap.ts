@@ -1,5 +1,141 @@
 import { mutation } from "./_generated/server"
+import type { MutationCtx } from "./_generated/server"
 import { requireAdmin } from "./lib/admin"
+
+const reservationBeachImage =
+  "https://images.unsplash.com/photo-1672841828459-bc913fdcd995?auto=format&fit=crop&w=1800&q=85"
+const reservationYachtImage =
+  "https://images.unsplash.com/photo-1641787540215-53a5914bdef3?auto=format&fit=crop&w=1800&q=85"
+const homeHeroImage =
+  "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=2000&q=85"
+const homeHeroPostcardImage =
+  "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1000&q=85"
+const menuFoodImage =
+  "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=1000&q=85"
+const menuSpiritsImage =
+  "https://images.unsplash.com/photo-1551024709-f90425340c7e?auto=format&fit=crop&w=1000&q=85"
+const menuBeveragesImage =
+  "https://images.unsplash.com/photo-1621263764928-df1444c5e859?auto=format&fit=crop&w=1000&q=85"
+
+const reservationText = {
+  "home.reservations.editorial.eyebrow": "Your table is waiting",
+  "home.reservations.editorial.title": "A beautiful evening begins by the water.",
+  "home.reservations.editorial.copy":
+    "Come for bright seafood, cold martinis, and a table made for lingering. Reserve your evening at Aberdeen and let the coast set the pace.",
+  "home.reservations.editorial.note":
+    "Sunset tables go quickly. Choose your evening now, and we’ll have the welcome waiting when you arrive.",
+} as const
+
+const reservationLinks = {
+  "home.reservations.editorial.primary-link": {
+    href: "/contact",
+    text: "Reserve your table",
+  },
+  "home.reservations.editorial.secondary-link": {
+    href: "/contact",
+    text: "Make a reservation",
+  },
+} as const
+
+async function sourceImage(ctx: MutationCtx, url: string, filename: string, alt: string) {
+  const existing = await ctx.db
+    .query("mediaAssets")
+    .withIndex("by_sourceUrl", (q) => q.eq("sourceUrl", url))
+    .first()
+  if (existing) return existing._id
+
+  return await ctx.db.insert("mediaAssets", {
+    sourceUrl: url,
+    filename,
+    alt,
+    contentType: "image/jpeg",
+    kind: "image",
+    size: 0,
+    createdAt: Date.now(),
+  })
+}
+
+async function syncHomepageDefaults(ctx: MutationCtx) {
+  const heroId = await sourceImage(
+    ctx,
+    homeHeroImage,
+    "home-hero.jpg",
+    "Sunlit coastal restaurant dining room",
+  )
+  const postcardId = await sourceImage(
+    ctx,
+    homeHeroPostcardImage,
+    "home-hero-postcard.jpg",
+    "Seafood spread on a restaurant table",
+  )
+  const foodId = await sourceImage(ctx, menuFoodImage, "home-menu-food.jpg", "Coastal seafood dish")
+  const spiritsId = await sourceImage(
+    ctx,
+    menuSpiritsImage,
+    "home-menu-spirits.jpg",
+    "Bright cocktail",
+  )
+  const beveragesId = await sourceImage(
+    ctx,
+    menuBeveragesImage,
+    "home-menu-beverages.jpg",
+    "Refreshing coastal drink",
+  )
+  const beachId = await sourceImage(
+    ctx,
+    reservationBeachImage,
+    "reservation-beach.jpg",
+    "Palm-lined beach beside clear turquoise water",
+  )
+  const yachtId = await sourceImage(
+    ctx,
+    reservationYachtImage,
+    "reservation-yacht.jpg",
+    "Luxury yacht cruising across calm blue water",
+  )
+  const defaultImages = {
+    hero: heroId,
+    "home-hero-postcard": postcardId,
+    "div:0/section:2/div:2/a:0/div:1/img:0": foodId,
+    "div:0/section:2/div:2/a:1/div:1/img:0": spiritsId,
+    "div:0/section:2/div:2/a:2/div:1/img:0": beveragesId,
+    "home.reservations.editorial.beach": beachId,
+    "home.reservations.editorial.yacht": yachtId,
+  }
+  const existing = await ctx.db
+    .query("pageOverrides")
+    .withIndex("by_page", (q) => q.eq("page", "/"))
+    .unique()
+  const needsUpdate =
+    !existing ||
+    Object.keys(reservationText).some((key) => existing.text[key] === undefined) ||
+    Object.keys(reservationLinks).some((key) => existing.links[key] === undefined) ||
+    Object.keys(defaultImages).some((key) => existing.images[key] === undefined)
+  const values = {
+    text: { ...reservationText, ...existing?.text },
+    links: { ...reservationLinks, ...existing?.links },
+    images: { ...defaultImages, ...existing?.images },
+    updatedAt: Date.now(),
+  }
+
+  if (!existing) {
+    await ctx.db.insert("pageOverrides", { page: "/", ...values })
+  } else if (needsUpdate) {
+    await ctx.db.patch("pageOverrides", existing._id, values)
+  }
+
+  for (const [slotKey, mediaId] of Object.entries(defaultImages)) {
+    const usage = await ctx.db
+      .query("mediaUsages")
+      .withIndex("by_page_and_slotKey", (q) => q.eq("page", "/").eq("slotKey", slotKey))
+      .first()
+    if (usage) {
+      await ctx.db.patch("mediaUsages", usage._id, { mediaId, role: "content" })
+    } else {
+      await ctx.db.insert("mediaUsages", { mediaId, page: "/", slotKey, role: "content" })
+    }
+  }
+}
 
 const staff = [
   [
@@ -65,6 +201,7 @@ export const ensureInitialized = mutation({
   args: {},
   handler: async (ctx) => {
     await requireAdmin(ctx)
+    await syncHomepageDefaults(ctx)
     const initialized = await ctx.db
       .query("siteSettings")
       .withIndex("by_key", (q) => q.eq("key", "adminInitialized"))

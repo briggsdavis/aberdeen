@@ -1,5 +1,6 @@
+import { ArrowUpRight, CaretLeft, CaretRight, X } from "@phosphor-icons/react"
 import { motion } from "motion/react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { DecorativeBackdrop } from "../components/decorative-media"
 import { MaritimeFlags, RopeDivider } from "../components/nautical-details"
 import { RippleSection } from "../components/site-extras"
@@ -20,6 +21,7 @@ type DisplayEvent = {
   image: string
   bookingUrl: string
   startsAt: number
+  recurrence?: "daily" | "weekly" | "monthly"
 }
 
 const defaultEvents: DisplayEvent[] = [
@@ -100,6 +102,7 @@ function EventsPage() {
           image: event.image,
           bookingUrl: event.bookingUrl,
           startsAt: event.startsAt,
+          recurrence: event.recurrence,
         }
       })
     : defaultEvents
@@ -107,7 +110,10 @@ function EventsPage() {
   return (
     <div className="page-shell">
       <HeroSection />
-      <ScheduleSection events={events} />
+      <ScheduleSection
+        events={events}
+        key={managedEvents === undefined ? "loading-events" : "loaded-events"}
+      />
       <PrivateEventsSection />
     </div>
   )
@@ -151,8 +157,13 @@ function ViewToggle({
 
 function ScheduleSection({ events }: { events: DisplayEvent[] }) {
   const [view, setView] = useState<EventsView>("list")
+  const [calendarDate, setCalendarDate] = useState(() => getInitialCalendarDate(events))
   const firstEvent = events[0]
   const bookingUrl = events.find((event) => event.bookingUrl)?.bookingUrl
+  const calendarMonth = new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    year: "numeric",
+  }).format(calendarDate)
 
   return (
     <section className="relative isolate overflow-hidden bg-oyster-white px-5 py-16 md:px-8 md:py-24">
@@ -163,7 +174,11 @@ function ScheduleSection({ events }: { events: DisplayEvent[] }) {
       >
         <div>
           <p className="font-utility text-sm tracking-[0.22em] text-aberdeen-blue uppercase">
-            {firstEvent ? `${firstEvent.month} ${firstEvent.year}` : "Upcoming"}
+            {view === "calendar"
+              ? calendarMonth
+              : firstEvent
+                ? `${firstEvent.month} ${firstEvent.year}`
+                : "Upcoming"}
           </p>
           <h2 className="mt-4 font-display text-5xl leading-none text-aberdeen-blue md:text-7xl">
             Aberdeen calendar
@@ -185,7 +200,15 @@ function ScheduleSection({ events }: { events: DisplayEvent[] }) {
         </div>
       </motion.div>
       <div className="relative z-10">
-        {view === "list" ? <UpcomingList events={events} /> : <CalendarGrid events={events} />}
+        {view === "list" ? (
+          <UpcomingList events={events} />
+        ) : (
+          <CalendarGrid
+            calendarDate={calendarDate}
+            events={events}
+            onCalendarDateChange={setCalendarDate}
+          />
+        )}
       </div>
     </section>
   )
@@ -200,7 +223,7 @@ function UpcomingList({ events }: { events: DisplayEvent[] }) {
         <motion.article
           className={`event-row grid overflow-hidden rounded-2xl bg-aberdeen-peach md:flex ${
             hoveredEvent === index ? "is-event-hovered" : ""
-          }`}
+          } ${index % 2 === 1 ? "event-row-reversed md:flex-row-reverse" : ""}`}
           key={event.title}
           onBlur={(event) => {
             if (!event.currentTarget.contains(event.relatedTarget)) setHoveredEvent(null)
@@ -225,7 +248,9 @@ function UpcomingList({ events }: { events: DisplayEvent[] }) {
             <h3 className="mt-4 font-display text-4xl leading-none text-kelp-ink md:text-5xl">
               {event.title}
             </h3>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-kelp-ink/80">{event.copy}</p>
+            <p className="event-row-description mt-5 max-w-2xl text-lg leading-8 text-kelp-ink/80">
+              {event.copy}
+            </p>
           </div>
         </motion.article>
       ))}
@@ -265,9 +290,16 @@ function HeroSection() {
   )
 }
 
-function CalendarGrid({ events }: { events: DisplayEvent[] }) {
-  const firstEvent = events[0]
-  const calendarDate = firstEvent ? new Date(firstEvent.startsAt) : new Date()
+function CalendarGrid({
+  calendarDate,
+  events,
+  onCalendarDateChange,
+}: {
+  calendarDate: Date
+  events: DisplayEvent[]
+  onCalendarDateChange: (date: Date) => void
+}) {
+  const [selectedEvent, setSelectedEvent] = useState<DisplayEvent | null>(null)
   const month = calendarDate.getMonth()
   const year = calendarDate.getFullYear()
   const daysInMonth = new Date(year, month + 1, 0).getDate()
@@ -278,17 +310,40 @@ function CalendarGrid({ events }: { events: DisplayEvent[] }) {
     { length: (7 - ((calendarStartOffset + calendarDays.length) % 7)) % 7 },
     (_, index) => index,
   )
-  const eventsByDay = new Map(
-    events
-      .filter((event) => {
-        const date = new Date(event.startsAt)
-        return date.getMonth() === month && date.getFullYear() === year
-      })
-      .map((event, index) => [Number(event.day), { event, index }]),
-  )
+  const eventsByDay = new Map<number, Array<{ event: DisplayEvent; index: number }>>()
+
+  for (const day of calendarDays) {
+    const date = new Date(year, month, day)
+    const scheduledEvents = events
+      .map((event, index) => ({ event, index }))
+      .filter(({ event }) => occursOnDate(event, date))
+    if (scheduledEvents.length) eventsByDay.set(day, scheduledEvents)
+  }
+
+  const changeMonth = (offset: number) => {
+    onCalendarDateChange(new Date(year, month + offset, 1))
+  }
 
   return (
     <motion.div {...fadeInPlace()}>
+      <div className="mb-4 flex items-center justify-end gap-2">
+        <button
+          aria-label="Previous month"
+          className="grid h-10 w-10 place-items-center rounded-full border border-aberdeen-blue/25 bg-oyster-white text-aberdeen-blue transition hover:bg-aberdeen-peach"
+          onClick={() => changeMonth(-1)}
+          type="button"
+        >
+          <CaretLeft size={18} />
+        </button>
+        <button
+          aria-label="Next month"
+          className="grid h-10 w-10 place-items-center rounded-full border border-aberdeen-blue/25 bg-oyster-white text-aberdeen-blue transition hover:bg-aberdeen-peach"
+          onClick={() => changeMonth(1)}
+          type="button"
+        >
+          <CaretRight size={18} />
+        </button>
+      </div>
       <div className="grid grid-cols-7 border-t border-l border-aberdeen-blue/25">
         {calendarWeekdays.map((day) => (
           <div
@@ -300,17 +355,17 @@ function CalendarGrid({ events }: { events: DisplayEvent[] }) {
         ))}
         {leadingCalendarDays.map((day) => (
           <div
-            className="min-h-24 border-r border-b border-aberdeen-blue/25 bg-aberdeen-peach/40"
+            className="h-32 border-r border-b border-aberdeen-blue/25 bg-aberdeen-peach/40 md:h-48"
             key={`leading-${day}`}
           />
         ))}
         {calendarDays.map((day) => {
-          const scheduledEvent = eventsByDay.get(day)
+          const scheduledEvents = eventsByDay.get(day)
 
-          if (!scheduledEvent) {
+          if (!scheduledEvents) {
             return (
               <div
-                className="min-h-24 border-r border-b border-aberdeen-blue/25 bg-white/35 p-3 font-utility text-xs tracking-[0.14em] text-aberdeen-blue/45 uppercase md:min-h-48 md:p-5"
+                className="h-32 border-r border-b border-aberdeen-blue/25 bg-white/35 p-3 font-utility text-xs tracking-[0.14em] text-aberdeen-blue/45 uppercase md:h-48 md:p-5"
                 key={`day-${day}`}
               >
                 {day}
@@ -318,34 +373,169 @@ function CalendarGrid({ events }: { events: DisplayEvent[] }) {
             )
           }
 
-          const { event, index } = scheduledEvent
-
           return (
-            <motion.article
-              className="relative min-h-48 border-r border-b border-aberdeen-blue/25 bg-aberdeen-peach p-3 text-aberdeen-blue md:p-5"
-              key={`event-${event.day}`}
-              {...fadeInPlace(index * 0.06)}
+            <div
+              className="relative h-32 overflow-y-auto border-r border-b border-aberdeen-blue/25 bg-white/35 p-3 text-aberdeen-blue md:h-48 md:p-5"
+              key={`events-${day}`}
             >
-              <div className="flex items-start justify-between gap-3">
-                <p className="grid h-12 w-12 place-items-center bg-citrus font-display text-3xl leading-none">
-                  {event.day}
-                </p>
-                <p className="font-utility text-xs tracking-[0.14em] uppercase">{event.time}</p>
+              <p className="font-utility text-xs tracking-[0.14em] text-aberdeen-blue/45 uppercase">
+                {day}
+              </p>
+              <div className="mt-3 grid gap-2">
+                {scheduledEvents.map(({ event, index }) =>
+                  event.recurrence ? (
+                    <motion.div
+                      className="border-l-2 border-aberdeen-blue/25 bg-aberdeen-blue/5 px-2.5 py-2"
+                      key={`${event.title}-${event.startsAt}-${index}`}
+                      {...fadeInPlace(index * 0.03)}
+                    >
+                      <p className="font-utility text-[10px] tracking-[0.12em] text-aberdeen-blue/55 uppercase">
+                        {event.time}
+                      </p>
+                      <h3 className="mt-1 text-sm leading-tight font-medium text-aberdeen-blue/75">
+                        {event.title}
+                      </h3>
+                    </motion.div>
+                  ) : (
+                    <motion.button
+                      className="group relative w-full overflow-hidden bg-aberdeen-blue p-3 text-left text-aberdeen-peach shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
+                      key={`${event.title}-${event.startsAt}-${index}`}
+                      onClick={() => setSelectedEvent(event)}
+                      type="button"
+                      {...fadeInPlace(index * 0.06)}
+                    >
+                      <span className="absolute inset-x-0 top-0 h-1 bg-citrus" />
+                      <span className="flex items-start justify-between gap-2">
+                        <span>
+                          <span className="font-utility text-[10px] tracking-[0.14em] uppercase opacity-70">
+                            {event.time}
+                          </span>
+                          <span className="mt-2 block font-display text-xl leading-none md:text-2xl">
+                            {event.title}
+                          </span>
+                        </span>
+                        <ArrowUpRight
+                          className="mt-0.5 shrink-0 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                          size={16}
+                        />
+                      </span>
+                    </motion.button>
+                  ),
+                )}
               </div>
-              <h3 className="mt-8 font-display text-3xl leading-none">{event.title}</h3>
-              <p className="mt-4 text-sm leading-6 text-kelp-ink/80">{event.copy}</p>
-            </motion.article>
+            </div>
           )
         })}
         {trailingCalendarDays.map((day) => (
           <div
-            className="min-h-24 border-r border-b border-aberdeen-blue/25 bg-white/35"
+            className="h-32 border-r border-b border-aberdeen-blue/25 bg-white/35 md:h-48"
             key={`trailing-${day}`}
           />
         ))}
       </div>
+      {selectedEvent ? (
+        <EventDetailsModal event={selectedEvent} onClose={() => setSelectedEvent(null)} />
+      ) : null}
     </motion.div>
   )
+}
+
+function EventDetailsModal({ event, onClose }: { event: DisplayEvent; onClose: () => void }) {
+  useEffect(() => {
+    const closeOnEscape = (keyboardEvent: KeyboardEvent) => {
+      if (keyboardEvent.key === "Escape") onClose()
+    }
+
+    window.addEventListener("keydown", closeOnEscape)
+    return () => window.removeEventListener("keydown", closeOnEscape)
+  }, [onClose])
+
+  const eventDate = new Intl.DateTimeFormat("en-US", {
+    dateStyle: "full",
+    timeStyle: "short",
+  }).format(event.startsAt)
+
+  return (
+    <div className="fixed inset-0 z-50 grid place-items-center p-4">
+      <button
+        aria-label="Close event details"
+        className="absolute inset-0 bg-kelp-ink/75"
+        onClick={onClose}
+        type="button"
+      />
+      <motion.dialog
+        aria-labelledby="event-details-title"
+        aria-modal="true"
+        className="relative z-10 m-0 grid max-h-svh w-full max-w-4xl overflow-y-auto border-0 bg-oyster-white p-0 shadow-2xl md:grid-cols-2"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        open
+      >
+        <img alt={event.title} className="h-64 w-full object-cover md:h-full" src={event.image} />
+        <div className="relative p-6 text-aberdeen-blue md:p-10">
+          <button
+            aria-label="Close event details"
+            className="absolute top-4 right-4 grid h-10 w-10 place-items-center rounded-full border border-aberdeen-blue/20 transition hover:bg-aberdeen-peach"
+            onClick={onClose}
+            type="button"
+          >
+            <X size={18} />
+          </button>
+          <p className="pr-12 font-utility text-xs tracking-[0.18em] uppercase">{eventDate}</p>
+          <h2
+            className="mt-5 font-display text-5xl leading-none md:text-6xl"
+            id="event-details-title"
+          >
+            {event.title}
+          </h2>
+          <RopeDivider className="mt-6 w-48" />
+          <p className="mt-6 text-lg leading-8 text-kelp-ink/80">{event.copy}</p>
+          {event.bookingUrl ? (
+            <a
+              className="aberdeen-action mt-8 rounded-full bg-aberdeen-blue text-aberdeen-peach"
+              href={event.bookingUrl}
+              rel="noreferrer"
+              target="_blank"
+            >
+              Book now
+            </a>
+          ) : null}
+        </div>
+      </motion.dialog>
+    </div>
+  )
+}
+
+function getInitialCalendarDate(events: DisplayEvent[]) {
+  const today = new Date()
+  const currentMonth = new Date(today.getFullYear(), today.getMonth(), 1)
+  const daysInCurrentMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate()
+
+  if (
+    Array.from({ length: daysInCurrentMonth }, (_, index) => index + 1).some((day) =>
+      events.some((event) =>
+        occursOnDate(event, new Date(today.getFullYear(), today.getMonth(), day)),
+      ),
+    )
+  ) {
+    return currentMonth
+  }
+
+  const upcomingEvent = events.find((event) => event.startsAt >= currentMonth.getTime())
+  return upcomingEvent ? new Date(upcomingEvent.startsAt) : currentMonth
+}
+
+function occursOnDate(event: DisplayEvent, date: Date) {
+  const startsAt = new Date(event.startsAt)
+  const occurrenceDay = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+  const firstDay = Date.UTC(startsAt.getFullYear(), startsAt.getMonth(), startsAt.getDate())
+  const daysSinceStart = (occurrenceDay - firstDay) / 86_400_000
+
+  if (daysSinceStart < 0) return false
+  if (!event.recurrence) return daysSinceStart === 0
+  if (event.recurrence === "daily") return true
+  if (event.recurrence === "weekly") return daysSinceStart % 7 === 0
+  return date.getDate() === startsAt.getDate()
 }
 
 function PrivateEventsSection() {

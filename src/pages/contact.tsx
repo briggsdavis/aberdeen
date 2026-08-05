@@ -106,7 +106,7 @@ function MapSection() {
         </dl>
       </motion.div>
       <motion.div className="min-h-[28rem] p-5 md:p-8 md:pl-4" {...fadeIn(0.12)}>
-        <div className="h-full min-h-[24rem] overflow-hidden border border-aberdeen-blue/15 bg-oyster-white p-2 shadow-[0_18px_44px_rgb(29_42_47/0.12)]">
+        <div className="h-full min-h-[24rem] overflow-hidden border border-aberdeen-blue/15 bg-oyster-white p-2 shadow-[0_18px_44px_rgb(from_var(--color-kelp-ink)_r_g_b/0.12)]">
           <iframe
             className="block h-full min-h-[24rem] w-full"
             loading="lazy"
@@ -221,7 +221,7 @@ function InquiryForm() {
         value={message}
       />
       {result ? (
-        <p className={`text-sm ${result.kind === "success" ? "text-emerald-700" : "text-red-700"}`}>
+        <p className={`text-sm ${result.kind === "success" ? "text-success" : "text-danger"}`}>
           {result.message}
         </p>
       ) : null}

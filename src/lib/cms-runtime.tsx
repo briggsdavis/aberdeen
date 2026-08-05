@@ -25,6 +25,7 @@ type PublicEvent = {
   title: string
   description: string
   startsAt: number
+  recurrence?: "daily" | "weekly" | "monthly"
   image: string
   bookingUrl: string
   status: "published" | "archived"
@@ -187,14 +188,20 @@ export function usePageImage(key: string, legacyKeys: string[] = []) {
 
 export function useRequiredPageImage(key: string, fallback?: string) {
   const { page, pageReady } = useCmsRuntime()
+  const location = useLocation()
+  const preview = new URLSearchParams(location.search).has("cmsPreview")
 
   if (!pageReady) return null
 
-  const image = page.media[key]
-  if (!image || image.kind !== "image") {
+  const media = page.media[key]
+  if (!media) {
     if (fallback) return fallback
+    if (preview) return null
     throw new Error(`Missing required page image: ${key}`)
   }
 
-  return image.url
+  if (media.kind === "image") return media.url
+  if (media.thumbnailUrl) return media.thumbnailUrl
+  if (preview) return null
+  throw new Error(`Missing required page video poster: ${key}`)
 }

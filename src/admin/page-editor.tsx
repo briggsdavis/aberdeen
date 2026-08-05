@@ -197,6 +197,7 @@ export default function PageEditor({
     (selection: MediaSelection) => {
       if (!selectedImage) return
       setImages((current) => ({ ...current, [selectedImage.key]: selection.id }))
+      setImageRoles((current) => ({ ...current, [selectedImage.key]: selectedImage.role }))
       postToPreview({
         type: "applyMedia",
         key: selectedImage.key,
@@ -250,10 +251,10 @@ export default function PageEditor({
                 <ImageSquare size={17} />
                 Edit hero image
               </SecondaryButton>
-              <div className="hidden rounded-lg border border-slate-200 bg-white p-1 sm:flex">
+              <div className="hidden rounded-lg border border-kelp-ink/15 bg-white p-1 sm:flex">
                 <button
                   aria-label="Desktop preview"
-                  className={`rounded-md p-2 ${viewport === "desktop" ? "bg-slate-100 text-aberdeen-blue" : "text-slate-400"}`}
+                  className={`rounded-md p-2 ${viewport === "desktop" ? "bg-aberdeen-peach/40 text-aberdeen-blue" : "text-kelp-ink/45"}`}
                   onClick={() => setViewport("desktop")}
                   type="button"
                 >
@@ -261,7 +262,7 @@ export default function PageEditor({
                 </button>
                 <button
                   aria-label="Mobile preview"
-                  className={`rounded-md p-2 ${viewport === "mobile" ? "bg-slate-100 text-aberdeen-blue" : "text-slate-400"}`}
+                  className={`rounded-md p-2 ${viewport === "mobile" ? "bg-aberdeen-peach/40 text-aberdeen-blue" : "text-kelp-ink/45"}`}
                   onClick={() => setViewport("mobile")}
                   type="button"
                 >
@@ -287,10 +288,10 @@ export default function PageEditor({
       ) : (
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h2 className="text-base font-semibold text-slate-900">
+            <h2 className="text-base font-semibold text-kelp-ink">
               {previewScope === "staff-introduction" ? "Hero & introduction" : "Page content"}
             </h2>
-            <p className="mt-1 text-xs text-slate-500">
+            <p className="mt-1 text-xs text-kelp-ink/60">
               {previewScope === "staff-introduction"
                 ? "Edit the staff page hero and introductory copy here."
                 : "Click text, images, and links in the preview."}
@@ -308,21 +309,21 @@ export default function PageEditor({
         </div>
       )}
       {error ? (
-        <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
+        <p className="rounded-lg bg-danger/10 px-4 py-3 text-sm text-danger">{error}</p>
       ) : null}
-      <div className="overflow-hidden rounded-xl border border-slate-200 bg-slate-200 shadow-sm">
-        <div className="flex items-center gap-2 border-b border-slate-200 bg-white px-4 py-2.5">
-          <span className="h-2.5 w-2.5 rounded-full bg-red-300" />
-          <span className="h-2.5 w-2.5 rounded-full bg-amber-300" />
-          <span className="h-2.5 w-2.5 rounded-full bg-emerald-300" />
-          <span className="ml-2 rounded-md bg-slate-100 px-3 py-1 text-[11px] text-slate-500">
+      <div className="overflow-hidden rounded-xl border border-kelp-ink/15 bg-aberdeen-peach/55 shadow-sm">
+        <div className="flex items-center gap-2 border-b border-kelp-ink/15 bg-white px-4 py-2.5">
+          <span className="h-2.5 w-2.5 rounded-full bg-danger/30" />
+          <span className="h-2.5 w-2.5 rounded-full bg-warning" />
+          <span className="h-2.5 w-2.5 rounded-full bg-success/30" />
+          <span className="ml-2 rounded-md bg-aberdeen-peach/40 px-3 py-1 text-[11px] text-kelp-ink/60">
             Live page preview
           </span>
           {dirty ? (
-            <span className="ml-auto text-xs font-medium text-amber-600">Unsaved changes</span>
+            <span className="ml-auto text-xs font-medium text-warning">Unsaved changes</span>
           ) : null}
         </div>
-        <div className="flex justify-center overflow-auto bg-slate-200 p-0 md:p-4">
+        <div className="flex justify-center overflow-auto bg-aberdeen-peach/55 p-0 md:p-4">
           {pageDataReady ? (
             <iframe
               className={`min-h-[76svh] bg-white transition-all ${viewport === "mobile" ? "w-[390px]" : "w-full"}`}
@@ -338,11 +339,11 @@ export default function PageEditor({
       </div>
       {selectedImage ? (
         <Modal onClose={() => setSelectedImage(null)} title="Choose a replacement image" wide>
-          <div className="mb-4 flex items-center gap-3 rounded-lg bg-slate-50 p-3">
+          <div className="mb-4 flex items-center gap-3 rounded-lg bg-oyster-white p-3">
             <ImageSquare className="text-aberdeen-blue" size={22} />
             <div>
-              <p className="text-sm font-semibold text-slate-800">Replace selected image</p>
-              <p className="text-xs text-slate-500">
+              <p className="text-sm font-semibold text-kelp-ink/90">Replace selected image</p>
+              <p className="text-xs text-kelp-ink/60">
                 Choose from the library or upload a new image.
               </p>
             </div>

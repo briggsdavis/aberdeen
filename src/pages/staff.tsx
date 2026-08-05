@@ -172,8 +172,8 @@ function StaffCard({
       style={{ scale: shouldReduceMotion ? 1 : scale }}
       {...fadeIn(index * 0.04)}
     >
-      <div className="relative mx-auto w-full max-w-md bg-aberdeen-peach p-4 text-aberdeen-blue shadow-[0_24px_65px_rgb(29_42_47/0.18)]">
-        <div className="relative aspect-[4/5] overflow-hidden shadow-[0_18px_38px_rgb(29_42_47/0.24)]">
+      <div className="relative mx-auto w-full max-w-md bg-aberdeen-peach p-4 text-aberdeen-blue shadow-[0_24px_65px_rgb(from_var(--color-kelp-ink)_r_g_b/0.18)]">
+        <div className="relative aspect-[4/5] overflow-hidden shadow-[0_18px_38px_rgb(from_var(--color-kelp-ink)_r_g_b/0.24)]">
           <img
             alt={person.name}
             className="no-under-shadow h-full w-full object-cover"

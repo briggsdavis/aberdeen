@@ -78,7 +78,7 @@ function TornPaper({
 }) {
   return (
     <div
-      className={`relative bg-oyster-white p-3 shadow-[0_18px_34px_rgba(29,42,47,0.26)] ${className}`}
+      className={`relative bg-oyster-white p-3 shadow-[0_18px_34px_rgb(from_var(--color-kelp-ink)_r_g_b/0.26)] ${className}`}
       style={{ clipPath: tornClip }}
     >
       <div
@@ -86,7 +86,7 @@ function TornPaper({
         className="pointer-events-none absolute inset-0 opacity-35 mix-blend-multiply"
         style={{
           backgroundImage:
-            "radial-gradient(circle at 20% 30%, rgba(42,59,146,0.16) 0 1px, transparent 1px), radial-gradient(circle at 70% 80%, rgba(29,42,47,0.12) 0 1px, transparent 1px)",
+            "radial-gradient(circle at 20% 30%, rgb(from_var(--color-aberdeen-blue)_r_g_b/0.16) 0 1px, transparent 1px), radial-gradient(circle at 70% 80%, rgb(from_var(--color-kelp-ink)_r_g_b/0.12) 0 1px, transparent 1px)",
           backgroundSize: "18px 18px, 23px 23px",
         }}
       />
@@ -99,7 +99,7 @@ function CutImage({ alt, className = "", src }: { alt: string; className?: strin
   return (
     <img
       alt={alt}
-      className={`object-cover shadow-[0_18px_34px_rgba(29,42,47,0.24)] ${className}`}
+      className={`object-cover shadow-[0_18px_34px_rgb(from_var(--color-kelp-ink)_r_g_b/0.24)] ${className}`}
       src={src}
       style={{ clipPath: tornClip }}
     />
@@ -170,7 +170,7 @@ function CompassStamp({ className = "" }: { className?: string }) {
 function ObjectSticker({ children, className = "" }: { children: string; className?: string }) {
   return (
     <span
-      className={`inline-grid h-20 w-20 place-items-center rounded-full border-[6px] border-oyster-white bg-citrus font-playful text-4xl leading-none text-aberdeen-blue shadow-[0_12px_24px_rgba(29,42,47,0.22)] ${className}`}
+      className={`inline-grid h-20 w-20 place-items-center rounded-full border-[6px] border-oyster-white bg-citrus font-playful text-4xl leading-none text-aberdeen-blue shadow-[0_12px_24px_rgb(from_var(--color-kelp-ink)_r_g_b/0.22)] ${className}`}
     >
       {children}
     </span>
@@ -209,7 +209,7 @@ function SignalFlags() {
 
 function NauticalBadge({ children }: { children: string }) {
   return (
-    <span className="inline-flex rotate-[-4deg] items-center border border-aberdeen-blue bg-oyster-white px-3 py-2 font-utility text-xs tracking-[0.16em] text-aberdeen-blue uppercase shadow-[5px_5px_0_#f7b733]">
+    <span className="inline-flex rotate-[-4deg] items-center border border-aberdeen-blue bg-oyster-white px-3 py-2 font-utility text-xs tracking-[0.16em] text-aberdeen-blue uppercase shadow-[5px_5px_0_var(--color-citrus)]">
       {children}
     </span>
   )
@@ -223,7 +223,7 @@ function HeroSection() {
         className="absolute inset-0 h-full w-full object-cover opacity-80"
         src="https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=2000&q=85"
       />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,#2A3B92_0%,rgba(42,59,146,0.92)_40%,rgba(42,59,146,0.48)_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,var(--color-aberdeen-blue)_0%,rgb(from_var(--color-aberdeen-blue)_r_g_b/0.92)_40%,rgb(from_var(--color-aberdeen-blue)_r_g_b/0.48)_100%)]" />
       <motion.div
         className="relative z-10 grid min-h-svh items-end px-5 pt-28 pb-8 md:px-8 md:pb-10"
         {...fadeIn()}
@@ -343,7 +343,7 @@ function MenuSection() {
               <span className="absolute top-20 left-4 z-20 rounded-full border border-aberdeen-blue bg-oyster-white px-4 py-3 font-playful text-2xl leading-none">
                 {index === 0 ? "Oysters" : index === 1 ? "Spritz" : "Citrus"}
               </span>
-              <div className="absolute right-4 bottom-4 left-4 z-20 rotate-[-1deg] bg-oyster-white p-5 shadow-[0_12px_24px_rgba(29,42,47,0.18)]">
+              <div className="absolute right-4 bottom-4 left-4 z-20 rotate-[-1deg] bg-oyster-white p-5 shadow-[0_12px_24px_rgb(from_var(--color-kelp-ink)_r_g_b/0.18)]">
                 <h3 className="font-display text-5xl leading-none">{menu.title}</h3>
                 <p className="mt-4 leading-7 text-kelp-ink/80">{menu.copy}</p>
                 <Link
@@ -370,7 +370,7 @@ function BoatClubSection() {
           className="h-full min-h-[32rem] w-full"
           src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1400&q=85"
         />
-        <div className="absolute right-8 bottom-8 max-w-xs rotate-3 bg-aberdeen-peach p-5 text-aberdeen-blue shadow-[0_18px_34px_rgba(29,42,47,0.35)]">
+        <div className="absolute right-8 bottom-8 max-w-xs rotate-3 bg-aberdeen-peach p-5 text-aberdeen-blue shadow-[0_18px_34px_rgb(from_var(--color-kelp-ink)_r_g_b/0.35)]">
           <p className="font-utility text-xs tracking-[0.18em] uppercase">Found object</p>
           <p className="mt-5 font-playful text-4xl leading-none">Savannah Yacht Lunch, clipped.</p>
         </div>
@@ -421,7 +421,7 @@ function FlagTabsSection() {
       <nav className="grid gap-4 md:grid-cols-5">
         {tabs.map((tab, index) => (
           <motion.a
-            className={`relative min-h-36 border border-aberdeen-blue p-4 text-aberdeen-blue shadow-[7px_7px_0_rgba(42,59,146,0.16)] ${
+            className={`relative min-h-36 border border-aberdeen-blue p-4 text-aberdeen-blue shadow-[7px_7px_0_rgb(from_var(--color-aberdeen-blue)_r_g_b/0.16)] ${
               index % 2 === 0 ? "bg-citrus" : "bg-shell-pink"
             } ${index === 1 ? "rotate-2" : index === 3 ? "-rotate-2" : ""}`}
             href="#test-reservations"
@@ -547,7 +547,7 @@ function EventsSection() {
       <div className="grid gap-5 md:grid-cols-3">
         {events.map(([day, title, copy], index) => (
           <motion.article
-            className={`relative min-h-80 border border-aberdeen-blue bg-aberdeen-peach p-5 text-aberdeen-blue shadow-[8px_8px_0_rgba(42,59,146,0.18)] ${
+            className={`relative min-h-80 border border-aberdeen-blue bg-aberdeen-peach p-5 text-aberdeen-blue shadow-[8px_8px_0_rgb(from_var(--color-aberdeen-blue)_r_g_b/0.18)] ${
               index === 0 ? "-rotate-1" : index === 1 ? "rotate-1 md:mt-10" : "-rotate-2"
             }`}
             key={title}
@@ -589,7 +589,7 @@ function PostcardSection() {
         </h2>
       </motion.div>
       <motion.div
-        className="relative border border-aberdeen-blue bg-aberdeen-peach p-6 shadow-[10px_10px_0_#2a3b92]"
+        className="relative border border-aberdeen-blue bg-aberdeen-peach p-6 shadow-[10px_10px_0_var(--color-aberdeen-blue)]"
         {...fadeIn(0.12)}
       >
         <div className="mb-8 flex items-start justify-between gap-6">

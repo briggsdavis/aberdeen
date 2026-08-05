@@ -24,11 +24,11 @@ function AboutPage() {
 }
 
 const maritimeFlagPatterns = [
-  "linear-gradient(90deg,#fff8f0 0 50%,#2a3b92 50% 100%)",
-  "conic-gradient(#2a3b92 0 25%,#fff8f0 0 50%,#2a3b92 0 75%,#fff8f0 0)",
-  "linear-gradient(45deg,transparent 42%,#d43f2f 42% 58%,transparent 58%),linear-gradient(135deg,transparent 42%,#d43f2f 42% 58%,transparent 58%),#fff8f0",
-  "linear-gradient(135deg,#f7b733 0 50%,#d43f2f 50% 100%)",
-  "linear-gradient(90deg,transparent 38%,#fff8f0 38% 62%,transparent 62%),linear-gradient(0deg,transparent 38%,#fff8f0 38% 62%,transparent 62%),#2a3b92",
+  "linear-gradient(90deg,var(--color-oyster-white) 0 50%,var(--color-aberdeen-blue) 50% 100%)",
+  "conic-gradient(var(--color-aberdeen-blue) 0 25%,var(--color-oyster-white) 0 50%,var(--color-aberdeen-blue) 0 75%,var(--color-oyster-white) 0)",
+  "linear-gradient(45deg,transparent 42%,var(--color-nautical-red) 42% 58%,transparent 58%),linear-gradient(135deg,transparent 42%,var(--color-nautical-red) 42% 58%,transparent 58%),var(--color-oyster-white)",
+  "linear-gradient(135deg,var(--color-citrus) 0 50%,var(--color-nautical-red) 50% 100%)",
+  "linear-gradient(90deg,transparent 38%,var(--color-oyster-white) 38% 62%,transparent 62%),linear-gradient(0deg,transparent 38%,var(--color-oyster-white) 38% 62%,transparent 62%),var(--color-aberdeen-blue)",
 ]
 
 function MaritimeFlags() {
@@ -100,7 +100,7 @@ function StorySection() {
     <section className="relative isolate grid gap-12 overflow-hidden bg-oyster-white px-5 pt-16 pb-8 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:pt-24 md:pb-12">
       <DecorativeBackdrop imageClassName="object-cover" opacity={0.13} src={antiqueMapOne} />
       <motion.div
-        className="relative z-10 self-start bg-aberdeen-peach p-6 text-aberdeen-blue shadow-[8px_8px_0_rgba(42,59,146,0.16)]"
+        className="relative z-10 self-start bg-aberdeen-peach p-6 text-aberdeen-blue shadow-[8px_8px_0_rgb(from_var(--color-aberdeen-blue)_r_g_b/0.16)]"
         {...fadeIn()}
       >
         <p className="font-utility text-xs tracking-[0.18em] uppercase">Postcard note</p>
@@ -213,7 +213,7 @@ function GroupSection() {
             {cards.map((card, index) => (
               <div className="flex" key={card.title}>
                 <motion.article
-                  className="w-full bg-oyster-white p-6 text-aberdeen-blue shadow-[0_18px_34px_rgba(29,42,47,0.1)] md:p-8"
+                  className="w-full bg-oyster-white p-6 text-aberdeen-blue shadow-[0_18px_34px_rgb(from_var(--color-kelp-ink)_r_g_b/0.1)] md:p-8"
                   {...fadeIn(index * 0.08)}
                 >
                   <div aria-hidden="true" className="hidden" data-cms-structure="rope-divider" />
@@ -250,7 +250,7 @@ function GroupSection() {
         </div>
         <div className="order-first grid grid-cols-[1.08fr_0.92fr] items-start gap-4 md:sticky md:top-24 md:order-none md:h-[calc(100svh-8rem)] md:gap-6">
           <motion.div
-            className="about-pillars-image relative h-[28rem] overflow-hidden shadow-[0_28px_64px_rgba(29,42,47,0.26)] md:h-full"
+            className="about-pillars-image relative h-[28rem] overflow-hidden shadow-[0_28px_64px_rgb(from_var(--color-kelp-ink)_r_g_b/0.26)] md:h-full"
             {...fadeIn(0.12)}
           >
             {stickyImage ? (
@@ -264,7 +264,7 @@ function GroupSection() {
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-aberdeen-blue/20 via-transparent to-transparent" />
           </motion.div>
           <motion.div
-            className="about-pillars-image relative mt-12 h-72 overflow-hidden shadow-[0_24px_56px_rgba(29,42,47,0.24)] md:mt-24 md:h-[68%]"
+            className="about-pillars-image relative mt-12 h-72 overflow-hidden shadow-[0_24px_56px_rgb(from_var(--color-kelp-ink)_r_g_b/0.24)] md:mt-24 md:h-[68%]"
             {...fadeIn(0.2)}
           >
             <img

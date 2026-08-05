@@ -60,10 +60,10 @@ export default function InquiryInbox() {
         description="Search contact and private-event messages, then star important inquiries or archive completed conversations."
         title="Inquiries"
       />
-      <div className="grid gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm lg:grid-cols-[1fr_auto_auto_auto]">
+      <div className="grid gap-3 rounded-xl border border-kelp-ink/15 bg-white p-4 shadow-sm lg:grid-cols-[1fr_auto_auto_auto]">
         <div className="relative">
           <MagnifyingGlass
-            className="absolute top-1/2 left-3 -translate-y-1/2 text-slate-400"
+            className="absolute top-1/2 left-3 -translate-y-1/2 text-kelp-ink/45"
             size={17}
           />
           <Input
@@ -96,8 +96,8 @@ export default function InquiryInbox() {
           aria-pressed={starredOnly}
           className={`inline-flex items-center justify-center gap-2 rounded-lg border px-4 py-2 text-sm font-semibold transition ${
             starredOnly
-              ? "border-amber-300 bg-amber-50 text-amber-700"
-              : "border-slate-200 text-slate-500 hover:bg-slate-50"
+              ? "border-warning bg-warning/15 text-warning"
+              : "border-kelp-ink/15 text-kelp-ink/60 hover:bg-oyster-white"
           }`}
           onClick={() => setStarredOnly((current) => !current)}
           type="button"
@@ -108,22 +108,22 @@ export default function InquiryInbox() {
       {filtered.length === 0 ? (
         <EmptyState>
           <div>
-            <EnvelopeOpen className="mx-auto mb-2 text-slate-400" size={28} />
+            <EnvelopeOpen className="mx-auto mb-2 text-kelp-ink/45" size={28} />
             No inquiries match these filters.
           </div>
         </EmptyState>
       ) : (
-        <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+        <div className="overflow-hidden rounded-xl border border-kelp-ink/15 bg-white shadow-sm">
           {filtered.map((inquiry) => (
             <article
-              className={`grid grid-cols-[auto_1fr_auto] items-center gap-3 border-b border-slate-100 px-4 py-4 transition last:border-0 hover:bg-slate-50 ${
+              className={`grid grid-cols-[auto_1fr_auto] items-center gap-3 border-b border-kelp-ink/10 px-4 py-4 transition last:border-0 hover:bg-oyster-white ${
                 inquiry.status === "new" ? "bg-aberdeen-peach/25" : ""
               }`}
               key={inquiry._id}
             >
               <button
                 aria-label={inquiry.starred ? "Remove star" : "Star inquiry"}
-                className="rounded-md p-1.5 text-slate-300 hover:bg-white hover:text-amber-500"
+                className="rounded-md p-1.5 text-kelp-ink/30 hover:bg-white hover:text-warning"
                 onClick={(event) => {
                   event.stopPropagation()
                   void setStarred({ id: inquiry._id, starred: !inquiry.starred })
@@ -139,20 +139,20 @@ export default function InquiryInbox() {
               >
                 <div className="min-w-0">
                   <p
-                    className={`truncate text-sm ${inquiry.status === "new" ? "font-bold" : "font-semibold"} text-slate-800`}
+                    className={`truncate text-sm ${inquiry.status === "new" ? "font-bold" : "font-semibold"} text-kelp-ink/90`}
                   >
                     {inquiry.name}
                   </p>
-                  <p className="truncate text-xs text-slate-500">{inquiry.email}</p>
+                  <p className="truncate text-xs text-kelp-ink/60">{inquiry.email}</p>
                 </div>
-                <span className="w-fit rounded-full bg-slate-100 px-2 py-1 text-[10px] font-semibold text-slate-600">
+                <span className="w-fit rounded-full bg-aberdeen-peach/40 px-2 py-1 text-[10px] font-semibold text-kelp-ink/70">
                   {inquiry.type === "privateEvent" ? "Private event" : "Contact"}
                 </span>
-                <p className="truncate text-xs text-slate-500">{inquiry.message}</p>
+                <p className="truncate text-xs text-kelp-ink/60">{inquiry.message}</p>
               </button>
               <div className="flex items-center gap-1 text-right">
                 <div>
-                  <p className="text-[11px] text-slate-400">
+                  <p className="text-[11px] text-kelp-ink/45">
                     {new Intl.DateTimeFormat("en-US", {
                       month: "short",
                       day: "numeric",
@@ -160,7 +160,7 @@ export default function InquiryInbox() {
                   </p>
                   <button
                     aria-label="Archive inquiry"
-                    className="mt-1 rounded-md p-1.5 text-slate-300 hover:bg-white hover:text-aberdeen-blue"
+                    className="mt-1 rounded-md p-1.5 text-kelp-ink/30 hover:bg-white hover:text-aberdeen-blue"
                     onClick={(event) => {
                       event.stopPropagation()
                       void setStatus({
@@ -175,7 +175,7 @@ export default function InquiryInbox() {
                 </div>
                 <button
                   aria-label="Delete inquiry"
-                  className="rounded-md p-1.5 text-slate-300 hover:bg-red-50 hover:text-red-600"
+                  className="rounded-md p-1.5 text-kelp-ink/30 hover:bg-danger/10 hover:text-danger"
                   onClick={(event) => {
                     event.stopPropagation()
                     setDeleteError("")
@@ -195,7 +195,7 @@ export default function InquiryInbox() {
           <div className="grid gap-5">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <h3 className="text-lg font-semibold text-slate-900">{selected.name}</h3>
+                <h3 className="text-lg font-semibold text-kelp-ink">{selected.name}</h3>
                 <a
                   className="text-sm text-aberdeen-blue hover:underline"
                   href={`mailto:${selected.email}`}
@@ -203,17 +203,17 @@ export default function InquiryInbox() {
                   {selected.email}
                 </a>
                 {selected.phone ? (
-                  <p className="mt-1 text-sm text-slate-500">{selected.phone}</p>
+                  <p className="mt-1 text-sm text-kelp-ink/60">{selected.phone}</p>
                 ) : null}
               </div>
               <span className="rounded-full bg-aberdeen-peach/55 px-3 py-1 text-xs font-semibold text-aberdeen-blue">
                 {selected.type === "privateEvent" ? "Private event" : "General contact"}
               </span>
             </div>
-            <div className="rounded-xl bg-slate-50 p-4 text-sm leading-7 whitespace-pre-wrap text-slate-700">
+            <div className="rounded-xl bg-oyster-white p-4 text-sm leading-7 whitespace-pre-wrap text-kelp-ink/80">
               {selected.message}
             </div>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-kelp-ink/45">
               Received{" "}
               {new Intl.DateTimeFormat("en-US", {
                 dateStyle: "long",
@@ -240,7 +240,7 @@ export default function InquiryInbox() {
                 {selected.status === "archived" ? "Restore" : "Archive"}
               </SecondaryButton>
               <SecondaryButton
-                className="text-red-600"
+                className="text-danger"
                 onClick={() => {
                   setDeleteError("")
                   setDeleteTarget(selected)
@@ -262,21 +262,21 @@ export default function InquiryInbox() {
       {deleteTarget ? (
         <Modal onClose={() => !deleting && setDeleteTarget(null)} title="Delete inquiry?">
           <div className="grid gap-5">
-            <div className="rounded-xl bg-red-50 p-4">
-              <p className="font-semibold text-red-900">
+            <div className="rounded-xl bg-danger/10 p-4">
+              <p className="font-semibold text-danger">
                 Permanently delete the inquiry from {deleteTarget.name}?
               </p>
-              <p className="mt-2 text-sm leading-6 text-red-700">
+              <p className="mt-2 text-sm leading-6 text-danger">
                 This removes the message from the inbox and cannot be undone.
               </p>
             </div>
-            {deleteError ? <p className="text-sm text-red-700">{deleteError}</p> : null}
+            {deleteError ? <p className="text-sm text-danger">{deleteError}</p> : null}
             <div className="flex justify-end gap-3">
               <SecondaryButton disabled={deleting} onClick={() => setDeleteTarget(null)}>
                 Cancel
               </SecondaryButton>
               <button
-                className="inline-flex items-center justify-center gap-2 rounded-lg bg-red-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-red-700 disabled:pointer-events-none disabled:opacity-50"
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-danger px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-danger/80 disabled:pointer-events-none disabled:opacity-50"
                 disabled={deleting}
                 onClick={() => void confirmDelete()}
                 type="button"

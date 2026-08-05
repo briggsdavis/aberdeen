@@ -98,6 +98,7 @@ export default defineSchema({
     title: v.string(),
     description: v.string(),
     startsAt: v.number(),
+    recurrence: v.optional(v.union(v.literal("daily"), v.literal("weekly"), v.literal("monthly"))),
     imageUrl: v.optional(v.string()),
     imageMediaId: v.optional(v.id("mediaAssets")),
     bookingUrl: v.string(),

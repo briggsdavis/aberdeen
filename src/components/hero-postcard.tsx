@@ -8,7 +8,7 @@ export function HeroPostcard({
   imageSrc: string | null
 }) {
   return (
-    <article className="home-hero-postcard aspect-[16/9] bg-white p-3 text-aberdeen-blue shadow-[0_18px_46px_rgb(14_24_69/0.34)] md:p-4">
+    <article className="home-hero-postcard aspect-[16/9] bg-white p-3 text-aberdeen-blue shadow-[0_18px_46px_color-mix(in_srgb,var(--color-aberdeen-blue)_34%,transparent)] md:p-4">
       <div className="grid h-full grid-cols-[1.05fr_0.95fr] gap-3 md:gap-4">
         <div className="flex min-h-0 flex-col">
           <p className="mb-2 font-utility text-[0.55rem] font-semibold tracking-[0.2em] uppercase md:text-[0.65rem]">

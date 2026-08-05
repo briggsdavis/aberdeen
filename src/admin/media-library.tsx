@@ -319,7 +319,9 @@ export default function MediaLibrary({
     <div className="grid gap-4">
       <div
         className={`rounded-xl border-2 border-dashed p-4 transition ${
-          dragging ? "border-aberdeen-blue bg-aberdeen-blue/5" : "border-slate-200 bg-slate-50"
+          dragging
+            ? "border-aberdeen-blue bg-aberdeen-blue/5"
+            : "border-kelp-ink/15 bg-oyster-white"
         }`}
         onDragEnter={(event) => {
           event.preventDefault()
@@ -337,10 +339,10 @@ export default function MediaLibrary({
       >
         <div className="flex flex-wrap items-center gap-3">
           <div className="min-w-52 grow">
-            <p className="text-sm font-semibold text-slate-700">
+            <p className="text-sm font-semibold text-kelp-ink/80">
               Drop {acceptedKinds.includes("video") ? "images or videos" : "images"} here
             </p>
-            <p className="mt-1 text-xs text-slate-500">
+            <p className="mt-1 text-xs text-kelp-ink/60">
               {acceptedKinds.includes("video")
                 ? "Images, MP4, and WebM videos up to 100 MB."
                 : "Images only."}
@@ -363,13 +365,13 @@ export default function MediaLibrary({
         </div>
       </div>
       {uploads.length ? (
-        <div className="grid gap-2 rounded-xl border border-slate-200 bg-white p-3">
+        <div className="grid gap-2 rounded-xl border border-kelp-ink/15 bg-white p-3">
           {uploads.map((upload) => (
             <div className="grid grid-cols-[1fr_auto] items-center gap-3" key={upload.id}>
               <div className="min-w-0">
                 <div className="flex items-center justify-between gap-3 text-xs">
-                  <span className="truncate font-medium text-slate-700">{upload.name}</span>
-                  <span className={upload.status === "error" ? "text-red-600" : "text-slate-400"}>
+                  <span className="truncate font-medium text-kelp-ink/80">{upload.name}</span>
+                  <span className={upload.status === "error" ? "text-danger" : "text-kelp-ink/45"}>
                     {upload.status === "error"
                       ? upload.error
                       : upload.status === "done"
@@ -377,9 +379,9 @@ export default function MediaLibrary({
                         : `${Math.round(upload.progress * 100)}%`}
                   </span>
                 </div>
-                <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-slate-100">
+                <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-aberdeen-peach/40">
                   <div
-                    className={`h-full rounded-full transition-all ${upload.status === "error" ? "bg-red-400" : "bg-aberdeen-blue"}`}
+                    className={`h-full rounded-full transition-all ${upload.status === "error" ? "bg-danger/60" : "bg-aberdeen-blue"}`}
                     style={{ width: `${upload.progress * 100}%` }}
                   />
                 </div>
@@ -387,9 +389,9 @@ export default function MediaLibrary({
               {upload.status === "uploading" ? (
                 <SpinnerGap className="animate-spin text-aberdeen-blue" size={16} />
               ) : upload.status === "error" ? (
-                <WarningCircle className="text-red-500" size={16} />
+                <WarningCircle className="text-danger" size={16} />
               ) : (
-                <Check className="text-emerald-600" size={16} />
+                <Check className="text-success" size={16} />
               )}
             </div>
           ))}
@@ -402,11 +404,13 @@ export default function MediaLibrary({
           placeholder="Search loaded media"
           value={search}
         />
-        <div className="flex rounded-lg border border-slate-200 bg-white p-1">
+        <div className="flex rounded-lg border border-kelp-ink/15 bg-white p-1">
           {(["photos", "videos", "decorations"] as const).map((kind) => (
             <button
               className={`rounded-md px-3 py-2 text-xs font-semibold capitalize transition ${
-                filter === kind ? "bg-aberdeen-blue text-white" : "text-slate-500 hover:bg-slate-50"
+                filter === kind
+                  ? "bg-aberdeen-blue text-white"
+                  : "text-kelp-ink/60 hover:bg-oyster-white"
               }`}
               key={kind}
               onClick={() => setFilter(kind)}
@@ -418,7 +422,7 @@ export default function MediaLibrary({
         </div>
         {selectedForDelete.size ? (
           <SecondaryButton
-            className="text-red-600"
+            className="text-danger"
             onClick={() => void deleteIds([...selectedForDelete])}
           >
             <Trash size={16} /> Delete {selectedForDelete.size}
@@ -426,16 +430,16 @@ export default function MediaLibrary({
         ) : null}
       </div>
       {error ? (
-        <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
+        <p className="rounded-lg bg-danger/10 px-4 py-3 text-sm text-danger">{error}</p>
       ) : null}
       {!onSelect ? (
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-kelp-ink/60">
           Click any unused media item to select it, then use Delete selected. Items marked In use
           must be removed from their page before they can be deleted.
         </p>
       ) : null}
       {status === "LoadingFirstPage" ? (
-        <div className="h-56 animate-pulse rounded-xl bg-slate-100" />
+        <div className="h-56 animate-pulse rounded-xl bg-aberdeen-peach/40" />
       ) : filtered.length === 0 ? (
         <EmptyState>
           <div>
@@ -454,10 +458,10 @@ export default function MediaLibrary({
             const cardEnabled = selectingForDelete ? !inUse : compatible && Boolean(asset.url)
             return (
               <article
-                className={`group relative overflow-hidden rounded-xl border bg-slate-100 transition hover:-translate-y-0.5 hover:shadow-md ${
+                className={`group relative overflow-hidden rounded-xl border bg-aberdeen-peach/40 transition hover:-translate-y-0.5 hover:shadow-md ${
                   selected || checked
                     ? "border-aberdeen-blue ring-2 ring-aberdeen-blue/15"
-                    : "border-slate-200"
+                    : "border-kelp-ink/15"
                 }`}
                 key={asset._id}
               >
@@ -480,7 +484,7 @@ export default function MediaLibrary({
                   }}
                   type="button"
                 >
-                  <div className="relative aspect-square bg-slate-200">
+                  <div className="relative aspect-square bg-aberdeen-peach/55">
                     {asset.thumbnailUrl || (asset.kind === "image" && asset.url) ? (
                       <img
                         alt={asset.alt}
@@ -489,11 +493,11 @@ export default function MediaLibrary({
                         src={asset.thumbnailUrl ?? asset.url ?? ""}
                       />
                     ) : (
-                      <div className="grid h-full place-items-center text-slate-400">
+                      <div className="grid h-full place-items-center text-kelp-ink/45">
                         <FileVideo size={38} />
                       </div>
                     )}
-                    <span className="absolute top-2 left-2 rounded-md bg-slate-950/70 px-2 py-1 text-[9px] font-bold tracking-wide text-white uppercase">
+                    <span className="absolute top-2 left-2 rounded-md bg-kelp-ink/70 px-2 py-1 text-[9px] font-bold tracking-wide text-white uppercase">
                       {asset.kind}
                     </span>
                     {selected || checked ? (
@@ -502,21 +506,21 @@ export default function MediaLibrary({
                       </span>
                     ) : null}
                     {!selectingForDelete && !compatible ? (
-                      <span className="absolute inset-x-2 bottom-2 rounded-md bg-white/95 px-2 py-1.5 text-center text-[10px] font-semibold text-slate-600">
+                      <span className="absolute inset-x-2 bottom-2 rounded-md bg-white/95 px-2 py-1.5 text-center text-[10px] font-semibold text-kelp-ink/70">
                         Hero sections only
                       </span>
                     ) : null}
                     {selectingForDelete && inUse ? (
-                      <span className="absolute right-2 bottom-2 rounded-md bg-white/95 px-2 py-1.5 text-[10px] font-semibold text-slate-600">
+                      <span className="absolute right-2 bottom-2 rounded-md bg-white/95 px-2 py-1.5 text-[10px] font-semibold text-kelp-ink/70">
                         In use
                       </span>
                     ) : null}
                   </div>
-                  <div className="min-h-24 bg-slate-100 p-2.5">
-                    <p className="truncate text-xs font-semibold text-slate-700">
+                  <div className="min-h-24 bg-aberdeen-peach/40 p-2.5">
+                    <p className="truncate text-xs font-semibold text-kelp-ink/80">
                       {asset.filename}
                     </p>
-                    <div className="mt-2 space-y-0.5 text-[10px] leading-4 text-slate-500">
+                    <div className="mt-2 space-y-0.5 text-[10px] leading-4 text-kelp-ink/60">
                       {asset.usages.length ? (
                         asset.usages.map((usage) => (
                           <p key={usage.page}>

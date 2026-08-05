@@ -38,10 +38,10 @@ type AuthFlow = "signIn" | "signUp"
 
 function AdminPage() {
   return (
-    <div className="min-h-svh bg-slate-50 text-slate-900">
+    <div className="min-h-svh bg-oyster-white text-kelp-ink">
       <AuthLoading>
         <div className="grid min-h-svh place-items-center">
-          <p className="text-sm font-medium text-slate-500">Loading Aberdeen Admin…</p>
+          <p className="text-sm font-medium text-kelp-ink/60">Loading Aberdeen Admin…</p>
         </div>
       </AuthLoading>
       <Unauthenticated>
@@ -106,25 +106,25 @@ function AdminAuthForm() {
             <h2 className="mt-3 font-display text-5xl leading-none text-aberdeen-blue">
               {flow === "signIn" ? "Welcome back." : "Create account."}
             </h2>
-            <p className="mt-3 text-sm leading-6 text-slate-500">
+            <p className="mt-3 text-sm leading-6 text-kelp-ink/60">
               {flow === "signIn"
                 ? "Sign in to manage the Aberdeen website."
                 : "Only approved administrator emails can create an account."}
             </p>
           </div>
           <label className="grid gap-1.5">
-            <span className="text-xs font-semibold text-slate-700">Email</span>
+            <span className="text-xs font-semibold text-kelp-ink/80">Email</span>
             <input
-              className="rounded-lg border border-slate-200 px-4 py-3 text-sm transition outline-none focus:border-aberdeen-blue focus:ring-3 focus:ring-aberdeen-blue/10"
+              className="rounded-lg border border-kelp-ink/15 px-4 py-3 text-sm transition outline-none focus:border-aberdeen-blue focus:ring-3 focus:ring-aberdeen-blue/10"
               name="email"
               required
               type="email"
             />
           </label>
           <label className="grid gap-1.5">
-            <span className="text-xs font-semibold text-slate-700">Password</span>
+            <span className="text-xs font-semibold text-kelp-ink/80">Password</span>
             <input
-              className="rounded-lg border border-slate-200 px-4 py-3 text-sm transition outline-none focus:border-aberdeen-blue focus:ring-3 focus:ring-aberdeen-blue/10"
+              className="rounded-lg border border-kelp-ink/15 px-4 py-3 text-sm transition outline-none focus:border-aberdeen-blue focus:ring-3 focus:ring-aberdeen-blue/10"
               minLength={8}
               name="password"
               required
@@ -132,17 +132,17 @@ function AdminAuthForm() {
             />
           </label>
           {error ? (
-            <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
+            <p className="rounded-lg bg-danger/10 px-4 py-3 text-sm text-danger">{error}</p>
           ) : null}
           <button
-            className="w-full rounded-lg bg-aberdeen-blue px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-[#21317d] disabled:opacity-60"
+            className="w-full rounded-lg bg-aberdeen-blue px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-aberdeen-blue disabled:opacity-60"
             disabled={isSubmitting}
             type="submit"
           >
             {isSubmitting ? "Working…" : flow === "signIn" ? "Sign in" : "Create account"}
           </button>
           <button
-            className="w-full text-sm font-medium text-slate-500 transition hover:text-aberdeen-blue"
+            className="w-full text-sm font-medium text-kelp-ink/60 transition hover:text-aberdeen-blue"
             onClick={() => {
               setError("")
               setFlow((current) => (current === "signIn" ? "signUp" : "signIn"))
@@ -217,7 +217,7 @@ function AdminShell() {
   }, [location.pathname])
 
   const sidebar = (
-    <aside className="flex h-full w-64 shrink-0 flex-col bg-[#101b4c] px-3 py-4 text-white">
+    <aside className="flex h-full w-64 shrink-0 flex-col bg-aberdeen-blue px-3 py-4 text-white">
       <div className="flex h-14 items-center justify-between px-2">
         <img alt="Aberdeen" className="w-36" src="/brand/aberdeen-wordmark-peach.png" />
         <button
@@ -345,7 +345,7 @@ function AdminShell() {
     <div className="flex min-h-svh">
       <div className="sticky top-0 hidden h-svh lg:block">{sidebar}</div>
       {mobileOpen ? (
-        <div className="fixed inset-0 z-50 flex bg-slate-950/40 lg:hidden">
+        <div className="fixed inset-0 z-50 flex bg-kelp-ink/40 lg:hidden">
           {sidebar}
           <button
             aria-label="Close navigation"
@@ -356,10 +356,10 @@ function AdminShell() {
         </div>
       ) : null}
       <div className="min-w-0 grow">
-        <header className="sticky top-0 z-30 flex h-16 items-center border-b border-slate-200 bg-white/95 px-4 backdrop-blur lg:hidden">
+        <header className="sticky top-0 z-30 flex h-16 items-center border-b border-kelp-ink/15 bg-white/95 px-4 backdrop-blur lg:hidden">
           <button
             aria-label="Open navigation"
-            className="grid h-10 w-10 place-items-center rounded-lg border border-slate-200 text-aberdeen-blue"
+            className="grid h-10 w-10 place-items-center rounded-lg border border-kelp-ink/15 text-aberdeen-blue"
             onClick={() => setMobileOpen(true)}
             type="button"
           >
@@ -388,7 +388,7 @@ function AdminShell() {
                     description="Reusable photos, videos, decorations, and backgrounds used throughout the site."
                     title="Media library"
                   />
-                  <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+                  <div className="rounded-xl border border-kelp-ink/15 bg-white p-5 shadow-sm">
                     <MediaLibrary />
                   </div>
                 </div>

@@ -47,12 +47,12 @@ function HomePage() {
       <HeroSection playIntro={playHomeIntro} />
       <CoastalTextMarquee />
       <IntroSection />
-      <MenuSection />
-      <ScrollGallerySection />
-      <ReservationsSection />
       <ReservationEditorialSection />
-      <EventsSection />
+      <MenuSection />
+      <ReservationsSection />
+      <ScrollGallerySection />
       <FAQSection cardsFirst />
+      <EventsSection />
       <RestaurantGroupSection />
     </div>
   )
@@ -100,7 +100,7 @@ function CoastalTextMarquee() {
   return (
     <section
       aria-label="The spirit of Aberdeen"
-      className="overflow-hidden border-y border-kelp-ink/20 bg-oyster-white py-5 text-kelp-ink md:py-7"
+      className="overflow-hidden border-y border-kelp-ink/20 bg-oyster-white py-5 text-aberdeen-blue md:py-7"
     >
       <motion.div
         className="flex w-max will-change-transform"
@@ -117,7 +117,7 @@ function CoastalTextMarquee() {
                 </span>
                 <span
                   aria-hidden="true"
-                  className="font-playful text-xl leading-none text-kelp-ink md:text-2xl"
+                  className="font-playful text-xl leading-none text-aberdeen-blue md:text-2xl"
                 >
                   ✶
                 </span>
@@ -135,7 +135,7 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
   const postcardImage = useRequiredPageImage("home-hero-postcard", homeHeroPostcardImage)
   const shouldReduceMotion = useReducedMotion()
   const animateIntro = playIntro && !shouldReduceMotion
-  const introDelay = animateIntro ? 3.95 : 0
+  const introDelay = animateIntro ? 2.95 : 0
 
   return (
     <section
@@ -160,7 +160,7 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
             : { top: "0%", right: "0%", bottom: "0%", left: "0%" }
         }
         transition={{
-          delay: animateIntro ? 2 : 0,
+          delay: animateIntro ? 1 : 0,
           duration: animateIntro ? 1.8 : 0,
           ease: [0.22, 1, 0.36, 1],
           times: [0, 0.42, 1],
@@ -180,8 +180,8 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
             }
             src={image}
             transition={{
-              delay: animateIntro ? 2 : 0,
-              duration: animateIntro ? 1.215 : 0,
+              delay: animateIntro ? 1 : 0,
+              duration: animateIntro ? 1.5 : 0,
               ease: [0.22, 1, 0.36, 1],
             }}
           />
@@ -192,7 +192,7 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
         className="home-hero-radial-glow absolute inset-0 z-[1]"
         initial={{ opacity: animateIntro ? 0 : 1 }}
         transition={{
-          delay: animateIntro ? 3.65 : 0,
+          delay: animateIntro ? 2.65 : 0,
           duration: animateIntro ? 0.864 : 0,
         }}
       />
@@ -201,7 +201,7 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
           <div className="flex max-w-[46rem] flex-col items-start gap-6 text-left md:gap-7">
             <motion.p
               animate={{ filter: "blur(0px)", opacity: 1, y: 0 }}
-              className="home-hero-intro max-w-[42rem] font-playful text-3xl leading-[1.08] text-white md:text-5xl"
+              className="home-hero-intro max-w-[42rem] font-playful text-3xl leading-[1.08] text-aberdeen-peach md:text-5xl"
               initial={
                 !animateIntro
                   ? { filter: "blur(0px)", opacity: 1, y: 0 }
@@ -220,20 +220,20 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
               className="flex w-full max-w-md gap-3"
               initial={animateIntro ? { opacity: 0, y: 16 } : { opacity: 1, y: 0 }}
               transition={{
-                delay: animateIntro ? 4.08 : 0,
+                delay: animateIntro ? 3.08 : 0,
                 duration: animateIntro ? 0.864 : 0,
                 ease: [0.22, 1, 0.36, 1],
               }}
             >
               <a
-                className="aberdeen-action min-w-0 flex-1 [--surface-action-background:#fff] [--surface-action-color:var(--color-aberdeen-blue)] [--surface-action-fill:var(--color-aberdeen-peach)] [--surface-action-hover-color:var(--color-aberdeen-blue)]"
+                className="aberdeen-action min-w-0 flex-1 font-bold [--surface-action-background:white] [--surface-action-color:var(--color-aberdeen-blue)] [--surface-action-fill:var(--color-aberdeen-peach)] [--surface-action-hover-color:var(--color-aberdeen-blue)]"
                 data-cms-link-key="home.hero.reserve"
                 href="#reservations"
               >
                 Reserve
               </a>
               <a
-                className="aberdeen-action min-w-0 flex-1 [--surface-action-background:#fff] [--surface-action-color:var(--color-aberdeen-blue)] [--surface-action-fill:var(--color-aberdeen-peach)] [--surface-action-hover-color:var(--color-aberdeen-blue)]"
+                className="aberdeen-action min-w-0 flex-1 font-bold [--surface-action-background:white] [--surface-action-color:var(--color-aberdeen-blue)] [--surface-action-fill:var(--color-aberdeen-peach)] [--surface-action-hover-color:var(--color-aberdeen-blue)]"
                 data-cms-link-key="home.hero.menu"
                 href="/menu/food"
               >
@@ -250,12 +250,14 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
                 : { opacity: 0, scale: 0.96, x: 34, y: 18 }
             }
             transition={{
-              delay: animateIntro ? 4.18 : 0,
+              delay: animateIntro ? 3.18 : 0,
               duration: animateIntro ? 1.08 : 0,
               ease: [0.16, 1, 0.3, 1],
             }}
           >
-            <HeroPostcard imageSrc={postcardImage} />
+            <div className="rotate-2">
+              <HeroPostcard imageSrc={postcardImage} />
+            </div>
           </motion.div>
         </div>
       </div>
@@ -264,11 +266,11 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
 }
 
 const maritimeFlagPatterns = [
-  "linear-gradient(90deg,#fff8f0 0 50%,#2a3b92 50% 100%)",
-  "conic-gradient(#2a3b92 0 25%,#fff8f0 0 50%,#2a3b92 0 75%,#fff8f0 0)",
-  "linear-gradient(45deg,transparent 42%,#d43f2f 42% 58%,transparent 58%),linear-gradient(135deg,transparent 42%,#d43f2f 42% 58%,transparent 58%),#fff8f0",
-  "linear-gradient(135deg,#f7b733 0 50%,#d43f2f 50% 100%)",
-  "linear-gradient(90deg,transparent 38%,#fff8f0 38% 62%,transparent 62%),linear-gradient(0deg,transparent 38%,#fff8f0 38% 62%,transparent 62%),#2a3b92",
+  "linear-gradient(90deg,var(--color-oyster-white) 0 50%,var(--color-aberdeen-blue) 50% 100%)",
+  "conic-gradient(var(--color-aberdeen-blue) 0 25%,var(--color-oyster-white) 0 50%,var(--color-aberdeen-blue) 0 75%,var(--color-oyster-white) 0)",
+  "linear-gradient(45deg,transparent 42%,var(--color-nautical-red) 42% 58%,transparent 58%),linear-gradient(135deg,transparent 42%,var(--color-nautical-red) 42% 58%,transparent 58%),var(--color-oyster-white)",
+  "linear-gradient(135deg,var(--color-citrus) 0 50%,var(--color-nautical-red) 50% 100%)",
+  "linear-gradient(90deg,transparent 38%,var(--color-oyster-white) 38% 62%,transparent 62%),linear-gradient(0deg,transparent 38%,var(--color-oyster-white) 38% 62%,transparent 62%),var(--color-aberdeen-blue)",
 ]
 
 function MaritimeFlags() {
@@ -349,27 +351,21 @@ function MenuSection() {
       title: "Food",
       href: "/menu/food",
       image: foodImage,
-      height: "h-[23rem] md:h-[22.4rem]",
       imagePosition: "object-top",
-      position: "md:left-[15%] md:top-0",
       slot: "div:0/section:2/div:2/a:0/div:1/img:0",
     },
     {
       title: "Spirits",
       href: "/menu/spirits",
       image: spiritsImage,
-      height: "h-[27rem] md:h-[31.1rem]",
       imagePosition: "object-center",
-      position: "md:left-[43%] md:top-12",
       slot: "div:0/section:2/div:2/a:1/div:1/img:0",
     },
     {
       title: "Beverages",
       href: "/menu/beverages",
       image: beveragesImage,
-      height: "h-[23rem] md:h-[29rem]",
       imagePosition: "object-center",
-      position: "md:left-[70%] md:top-36",
       slot: "div:0/section:2/div:2/a:2/div:1/img:0",
     },
   ].map((menu, index) => ({
@@ -379,10 +375,10 @@ function MenuSection() {
   }))
 
   return (
-    <section className="relative isolate overflow-hidden bg-oyster-white px-5 pt-16 pb-24 md:px-8 md:pt-10 md:pb-12">
+    <section className="relative isolate overflow-hidden bg-oyster-white px-5 pt-16 pb-24 md:px-8 md:pt-24 md:pb-44">
       <DecorativeBackdrop imageClassName="object-cover" opacity={0.13} src={antiqueMapTwo} />
       <motion.div
-        className="relative z-10 mb-10 flex items-end justify-between gap-8 md:mb-10"
+        className="relative z-10 mb-10 flex items-end justify-between gap-8 md:mb-12"
         {...fadeIn()}
       >
         <div className="max-w-3xl">
@@ -393,13 +389,13 @@ function MenuSection() {
             Explore Aberdeen
           </p>
           <h2
-            className="mt-4 font-display text-5xl leading-none text-aberdeen-blue md:text-5xl"
+            className="mt-4 font-display text-5xl leading-none text-aberdeen-blue md:text-7xl"
             data-cms-text-key="home.menus.title"
           >
             Our Curated Menus
           </h2>
           <p
-            className="mt-4 max-w-2xl text-sm leading-6 text-kelp-ink/75"
+            className="mt-5 max-w-2xl text-lg leading-8 text-kelp-ink/75"
             data-cms-text-key="home.menus.copy"
           >
             Choose from our curated collection of coastal dishes, bright spirits, and refreshing
@@ -414,25 +410,17 @@ function MenuSection() {
           View food menu
         </a>
       </motion.div>
-      <div className="relative z-10 grid gap-8 md:block md:h-[39rem]">
+      <div className="relative z-10 mx-auto grid max-w-7xl gap-10 md:grid-cols-3 md:gap-7">
         {menus.map((menu, index) => (
           <a
             aria-label={`View ${menu.title} menu`}
-            className={`group grid grid-cols-[minmax(0,1fr)_minmax(0,3fr)] items-center gap-4 text-aberdeen-blue md:absolute md:block md:w-[17%] ${menu.position}`}
+            className="group block text-aberdeen-blue"
             data-cms-structured-link
             href={menu.href}
             key={menu.title}
           >
             <div aria-hidden="true" className="hidden" data-cms-structure="rope-divider" />
-            <div className="flex h-full items-center justify-center md:absolute md:right-[calc(100%+0.7rem)] md:bottom-0 md:h-auto md:items-end md:whitespace-nowrap">
-              <h3
-                className="menu-tab-underline font-display text-3xl leading-none md:text-4xl"
-                data-cms-text-key={`home.menus.item-${index + 1}.title`}
-              >
-                {menu.title}
-              </h3>
-            </div>
-            <div className={`relative w-full overflow-hidden ${menu.height}`}>
+            <div className="relative h-80 w-full overflow-hidden md:h-[34rem]">
               {menu.image ? (
                 <img
                   alt=""
@@ -442,16 +430,15 @@ function MenuSection() {
                 />
               ) : null}
             </div>
+            <h3
+              className="menu-tab-underline mt-4 w-fit font-display text-3xl leading-none md:text-4xl lg:text-5xl"
+              data-cms-text-key={`home.menus.item-${index + 1}.title`}
+            >
+              {menu.title}
+            </h3>
           </a>
         ))}
       </div>
-      <motion.img
-        alt=""
-        aria-hidden="true"
-        className="pointer-events-none absolute bottom-20 left-5 z-10 hidden h-auto w-[min(25.92vw,14.4rem)] object-contain opacity-55 md:left-24 md:block"
-        src="/illustrations/nautical/schooner.png"
-        {...fadeIn(0.16)}
-      />
     </section>
   )
 }
@@ -524,7 +511,7 @@ function ReservationsSection() {
     >
       <div className="grid gap-10 md:grid-cols-[0.9fr_1fr]">
         <motion.div
-          className="relative order-2 self-end bg-aberdeen-peach p-6 text-aberdeen-blue shadow-[10px_10px_0_#f7b733] md:order-1"
+          className="relative order-2 self-end bg-aberdeen-peach p-6 text-aberdeen-blue shadow-[10px_10px_0_var(--color-citrus)] md:order-1"
           {...fadeIn(0.3)}
         >
           <div className="mb-8 flex items-start justify-between gap-6">
@@ -556,7 +543,7 @@ function ReservationsSection() {
             Reservations
           </motion.p>
           <motion.h2
-            className="mt-5 max-w-3xl font-display text-5xl leading-none md:text-8xl"
+            className="mt-5 max-w-3xl font-display text-5xl leading-none md:text-7xl"
             {...fadeInPlace(0.14)}
           >
             Join us where the table catches the light.
@@ -585,7 +572,7 @@ function ReservationEditorialSection() {
             Your table is waiting
           </p>
           <h2
-            className="mt-5 max-w-xl font-display text-5xl leading-[0.95] md:text-6xl"
+            className="mt-5 max-w-xl font-display text-5xl leading-[0.95] md:text-7xl"
             data-cms-text-key="home.reservations.editorial.title"
           >
             A beautiful evening begins by the water.
@@ -679,14 +666,14 @@ function EventsSection() {
           className="pointer-events-none absolute bottom-0 left-[26%] h-auto w-32 object-contain opacity-35 md:w-44"
           src="/illustrations/nautical/compass-rose-simple.png"
         />
-        <div className="relative mt-10 h-[34rem] overflow-hidden shadow-[0_30px_70px_rgb(29_42_47/0.3)] md:mt-0 md:h-[43rem]">
+        <div className="relative mt-10 h-[34rem] overflow-hidden shadow-[0_30px_70px_rgb(from_var(--color-kelp-ink)_r_g_b/0.3)] md:mt-0 md:h-[43rem]">
           <img
             alt="A candlelit table set for an Aberdeen private dinner"
             className="h-full w-full object-cover"
             src="https://images.unsplash.com/photo-1646473334251-827ea2e0b9ea?auto=format&fit=crop&w=1200&q=85"
           />
         </div>
-        <div className="relative h-[28rem] overflow-hidden shadow-[0_28px_64px_rgb(29_42_47/0.28)] md:mt-24 md:h-[34rem]">
+        <div className="relative h-[28rem] overflow-hidden shadow-[0_28px_64px_rgb(from_var(--color-kelp-ink)_r_g_b/0.28)] md:mt-24 md:h-[34rem]">
           <img
             alt="Guests gathered around a private dining table"
             className="h-full w-full object-cover"

@@ -40,7 +40,7 @@ function RowActions({
     <div className="flex items-center gap-1">
       <button
         aria-label="Move up"
-        className="rounded-md p-2 text-slate-400 hover:bg-slate-100 hover:text-aberdeen-blue disabled:opacity-25"
+        className="rounded-md p-2 text-kelp-ink/45 hover:bg-aberdeen-peach/40 hover:text-aberdeen-blue disabled:opacity-25"
         disabled={index === 0}
         onClick={() => onMove(-1)}
         type="button"
@@ -49,7 +49,7 @@ function RowActions({
       </button>
       <button
         aria-label="Move down"
-        className="rounded-md p-2 text-slate-400 hover:bg-slate-100 hover:text-aberdeen-blue disabled:opacity-25"
+        className="rounded-md p-2 text-kelp-ink/45 hover:bg-aberdeen-peach/40 hover:text-aberdeen-blue disabled:opacity-25"
         disabled={index === count - 1}
         onClick={() => onMove(1)}
         type="button"
@@ -58,7 +58,7 @@ function RowActions({
       </button>
       <button
         aria-label="Remove"
-        className="rounded-md p-2 text-slate-400 hover:bg-red-50 hover:text-red-600"
+        className="rounded-md p-2 text-kelp-ink/45 hover:bg-danger/10 hover:text-danger"
         onClick={onRemove}
         type="button"
       >
@@ -126,8 +126,8 @@ export default function SettingsEditor() {
         title="Footer and Global"
       />
       <div className="grid gap-5 xl:grid-cols-2">
-        <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h2 className="text-sm font-semibold text-slate-900">Primary details</h2>
+        <section className="rounded-xl border border-kelp-ink/15 bg-white p-5 shadow-sm">
+          <h2 className="text-sm font-semibold text-kelp-ink">Primary details</h2>
           <div className="mt-5 grid gap-4">
             <Field label="Address">
               <Textarea
@@ -165,8 +165,8 @@ export default function SettingsEditor() {
             </Field>
           </div>
         </section>
-        <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h2 className="text-sm font-semibold text-slate-900">Footer</h2>
+        <section className="rounded-xl border border-kelp-ink/15 bg-white p-5 shadow-sm">
+          <h2 className="text-sm font-semibold text-kelp-ink">Footer</h2>
           <div className="mt-5 grid gap-4">
             <Field label="Footer tagline">
               <Textarea
@@ -184,11 +184,11 @@ export default function SettingsEditor() {
           </div>
         </section>
       </div>
-      <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+      <section className="rounded-xl border border-kelp-ink/15 bg-white p-5 shadow-sm">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <h2 className="text-sm font-semibold text-slate-900">Contact details</h2>
-            <p className="mt-1 text-xs text-slate-500">
+            <h2 className="text-sm font-semibold text-kelp-ink">Contact details</h2>
+            <p className="mt-1 text-xs text-kelp-ink/60">
               Add any details you want displayed on the contact page.
             </p>
           </div>
@@ -204,7 +204,7 @@ export default function SettingsEditor() {
         <div className="mt-5 grid gap-3">
           {contacts.map((contact, index) => (
             <div
-              className="grid gap-3 rounded-lg border border-slate-200 p-4 lg:grid-cols-[0.5fr_1fr_1.2fr_auto]"
+              className="grid gap-3 rounded-lg border border-kelp-ink/15 p-4 lg:grid-cols-[0.5fr_1fr_1.2fr_auto]"
               key={index}
             >
               <Input
@@ -263,9 +263,9 @@ export default function SettingsEditor() {
         </div>
       </section>
       <div className="grid gap-5 xl:grid-cols-2">
-        <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+        <section className="rounded-xl border border-kelp-ink/15 bg-white p-5 shadow-sm">
           <div className="flex items-center justify-between gap-4">
-            <h2 className="text-sm font-semibold text-slate-900">Opening hours</h2>
+            <h2 className="text-sm font-semibold text-kelp-ink">Opening hours</h2>
             <SecondaryButton
               onClick={() => {
                 setHours((current) => [...current, { label: "Day", value: "" }])
@@ -278,7 +278,7 @@ export default function SettingsEditor() {
           <div className="mt-5 grid gap-3">
             {hours.map((row, index) => (
               <div
-                className="grid grid-cols-[1fr_1fr_auto] gap-2 rounded-lg border border-slate-200 p-3"
+                className="grid grid-cols-[1fr_1fr_auto] gap-2 rounded-lg border border-kelp-ink/15 p-3"
                 key={index}
               >
                 <Input
@@ -321,9 +321,9 @@ export default function SettingsEditor() {
             ))}
           </div>
         </section>
-        <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+        <section className="rounded-xl border border-kelp-ink/15 bg-white p-5 shadow-sm">
           <div className="flex items-center justify-between gap-4">
-            <h2 className="text-sm font-semibold text-slate-900">Social media</h2>
+            <h2 className="text-sm font-semibold text-kelp-ink">Social media</h2>
             <SecondaryButton
               onClick={() => {
                 setSocials((current) => [...current, { platform: "Instagram", url: "" }])
@@ -336,7 +336,7 @@ export default function SettingsEditor() {
           <div className="mt-5 grid gap-3">
             {socials.map((row, index) => (
               <div
-                className="grid grid-cols-[0.75fr_1.25fr_auto] gap-2 rounded-lg border border-slate-200 p-3"
+                className="grid grid-cols-[0.75fr_1.25fr_auto] gap-2 rounded-lg border border-kelp-ink/15 p-3"
                 key={index}
               >
                 <select

@@ -62,19 +62,19 @@ function ImageField({
   return (
     <Field label={label}>
       <button
-        className="group relative grid min-h-32 place-items-center overflow-hidden rounded-xl border border-dashed border-slate-300 bg-slate-50"
+        className="group relative grid min-h-32 place-items-center overflow-hidden rounded-xl border border-dashed border-kelp-ink/25 bg-oyster-white"
         onClick={onChoose}
         type="button"
       >
         {image ? (
           <img alt="" className="h-40 w-full object-cover" src={image.url} />
         ) : (
-          <span className="inline-flex items-center gap-2 text-sm text-slate-500">
+          <span className="inline-flex items-center gap-2 text-sm text-kelp-ink/60">
             <ImageSquare size={19} /> Choose image
           </span>
         )}
         {image ? (
-          <span className="absolute inset-x-3 bottom-3 rounded-lg bg-white/95 px-3 py-2 text-xs font-semibold text-slate-700 opacity-0 shadow transition group-hover:opacity-100">
+          <span className="absolute inset-x-3 bottom-3 rounded-lg bg-white/95 px-3 py-2 text-xs font-semibold text-kelp-ink/80 opacity-0 shadow transition group-hover:opacity-100">
             Replace image
           </span>
         ) : null}
@@ -308,7 +308,7 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
   }
 
   if (!creating && page === undefined) {
-    return <div className="h-72 animate-pulse rounded-xl bg-slate-100" />
+    return <div className="h-72 animate-pulse rounded-xl bg-aberdeen-peach/40" />
   }
 
   if (!creating && page === null) {
@@ -331,7 +331,7 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
                 <ArrowDown size={16} /> Move page down
               </SecondaryButton>
               <SecondaryButton
-                className="text-red-600"
+                className="text-danger"
                 onClick={() => {
                   if (window.confirm(`Delete the ${title} menu page and all of its sections?`)) {
                     void removePage({ id: pageId }).then(() => navigate("/admin"))
@@ -352,10 +352,10 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
       />
 
       {error ? (
-        <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
+        <p className="rounded-lg bg-danger/10 px-4 py-3 text-sm text-danger">{error}</p>
       ) : null}
 
-      <section className="grid gap-5 rounded-xl border border-slate-200 bg-white p-5 shadow-sm lg:grid-cols-[1fr_1fr]">
+      <section className="grid gap-5 rounded-xl border border-kelp-ink/15 bg-white p-5 shadow-sm lg:grid-cols-[1fr_1fr]">
         <div className="grid content-start gap-4">
           <Field label="Page title">
             <Input onChange={(event) => setTitle(event.target.value)} value={title} />
@@ -385,7 +385,7 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <h2 className="font-display text-3xl text-aberdeen-blue">Sections</h2>
-              <p className="mt-1 text-sm text-slate-500">
+              <p className="mt-1 text-sm text-kelp-ink/60">
                 Sections publish immediately when saved.
               </p>
             </div>
@@ -408,10 +408,10 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
             <div className="grid gap-4">
               {page.sections.map((section, sectionIndex) => (
                 <article
-                  className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm"
+                  className="overflow-hidden rounded-xl border border-kelp-ink/15 bg-white shadow-sm"
                   key={section._id}
                 >
-                  <div className="flex flex-wrap items-center gap-3 border-b border-slate-200 bg-slate-50 px-4 py-3">
+                  <div className="flex flex-wrap items-center gap-3 border-b border-kelp-ink/15 bg-oyster-white px-4 py-3">
                     <span className="rounded-full bg-aberdeen-blue/8 px-3 py-1 text-xs font-semibold text-aberdeen-blue">
                       {section.layout === "imageLeft"
                         ? "Image left"
@@ -419,13 +419,13 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
                           ? "Image right"
                           : "Paired lists"}
                     </span>
-                    <span className="text-xs text-slate-500 capitalize">
+                    <span className="text-xs text-kelp-ink/60 capitalize">
                       {section.background} · Media library background
                     </span>
                     <div className="ml-auto flex flex-wrap gap-1">
                       <button
                         aria-label="Move section up"
-                        className="rounded-lg p-2 text-slate-400 hover:bg-white hover:text-aberdeen-blue"
+                        className="rounded-lg p-2 text-kelp-ink/45 hover:bg-white hover:text-aberdeen-blue"
                         disabled={sectionIndex === 0}
                         onClick={() => void shiftSection(sectionIndex, -1)}
                         type="button"
@@ -434,7 +434,7 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
                       </button>
                       <button
                         aria-label="Move section down"
-                        className="rounded-lg p-2 text-slate-400 hover:bg-white hover:text-aberdeen-blue"
+                        className="rounded-lg p-2 text-kelp-ink/45 hover:bg-white hover:text-aberdeen-blue"
                         disabled={sectionIndex === page.sections.length - 1}
                         onClick={() => void shiftSection(sectionIndex, 1)}
                         type="button"
@@ -443,7 +443,7 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
                       </button>
                       <button
                         aria-label="Edit section appearance"
-                        className="rounded-lg p-2 text-slate-400 hover:bg-white hover:text-aberdeen-blue"
+                        className="rounded-lg p-2 text-kelp-ink/45 hover:bg-white hover:text-aberdeen-blue"
                         onClick={() => draftFromSection(section)}
                         type="button"
                       >
@@ -473,7 +473,7 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
                       </select>
                       <button
                         aria-label="Delete section"
-                        className="rounded-lg p-2 text-slate-400 hover:bg-red-50 hover:text-red-600"
+                        className="rounded-lg p-2 text-kelp-ink/45 hover:bg-danger/10 hover:text-danger"
                         onClick={() => {
                           if (window.confirm("Delete this section and all of its menu items?")) {
                             void removeSection({ id: section._id })
@@ -489,17 +489,17 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
                     className={`grid gap-5 p-4 ${section.groups.length === 2 ? "xl:grid-cols-2" : ""}`}
                   >
                     {section.groups.map((group) => (
-                      <div className="rounded-xl border border-slate-200" key={group._id}>
-                        <div className="flex items-start gap-3 border-b border-slate-200 px-4 py-3">
+                      <div className="rounded-xl border border-kelp-ink/15" key={group._id}>
+                        <div className="flex items-start gap-3 border-b border-kelp-ink/15 px-4 py-3">
                           <div className="min-w-0 grow">
-                            <h3 className="font-semibold text-slate-900">{group.title}</h3>
+                            <h3 className="font-semibold text-kelp-ink">{group.title}</h3>
                             {group.note ? (
-                              <p className="mt-1 text-xs text-slate-500">{group.note}</p>
+                              <p className="mt-1 text-xs text-kelp-ink/60">{group.note}</p>
                             ) : null}
                           </div>
                           <button
                             aria-label="Edit menu-list title"
-                            className="rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-aberdeen-blue"
+                            className="rounded-lg p-2 text-kelp-ink/45 hover:bg-aberdeen-peach/40 hover:text-aberdeen-blue"
                             onClick={() =>
                               setGroupDraft({ id: group._id, title: group.title, note: group.note })
                             }
@@ -521,17 +521,19 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
                             <Plus size={15} /> Item
                           </PrimaryButton>
                         </div>
-                        <div className="divide-y divide-slate-100">
+                        <div className="divide-y divide-kelp-ink/10">
                           {group.items.length === 0 ? (
-                            <p className="p-5 text-center text-sm text-slate-400">No menu items.</p>
+                            <p className="p-5 text-center text-sm text-kelp-ink/45">
+                              No menu items.
+                            </p>
                           ) : (
                             group.items.map((item, itemIndex) => (
                               <div className="flex items-center gap-3 px-4 py-3" key={item._id}>
                                 <div className="min-w-0 grow">
-                                  <p className="truncate text-sm font-semibold text-slate-800">
+                                  <p className="truncate text-sm font-semibold text-kelp-ink/90">
                                     {item.name}
                                   </p>
-                                  <p className="truncate text-xs text-slate-500">
+                                  <p className="truncate text-xs text-kelp-ink/60">
                                     {item.description}
                                   </p>
                                 </div>
@@ -540,7 +542,7 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
                                 </span>
                                 <button
                                   aria-label="Move item up"
-                                  className="p-1 text-slate-400 hover:text-aberdeen-blue"
+                                  className="p-1 text-kelp-ink/45 hover:text-aberdeen-blue"
                                   disabled={itemIndex === 0}
                                   onClick={() =>
                                     void shiftItem(group._id, group.items, itemIndex, -1)
@@ -551,7 +553,7 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
                                 </button>
                                 <button
                                   aria-label="Move item down"
-                                  className="p-1 text-slate-400 hover:text-aberdeen-blue"
+                                  className="p-1 text-kelp-ink/45 hover:text-aberdeen-blue"
                                   disabled={itemIndex === group.items.length - 1}
                                   onClick={() =>
                                     void shiftItem(group._id, group.items, itemIndex, 1)
@@ -562,7 +564,7 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
                                 </button>
                                 <button
                                   aria-label="Edit item"
-                                  className="p-1 text-slate-400 hover:text-aberdeen-blue"
+                                  className="p-1 text-kelp-ink/45 hover:text-aberdeen-blue"
                                   onClick={() =>
                                     setItemDraft({
                                       groupId: group._id,
@@ -578,7 +580,7 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
                                 </button>
                                 <button
                                   aria-label="Delete item"
-                                  className="p-1 text-slate-400 hover:text-red-600"
+                                  className="p-1 text-kelp-ink/45 hover:text-danger"
                                   onClick={() => {
                                     if (window.confirm(`Delete ${item.name}?`)) {
                                       void removeItem({ id: item._id })
@@ -617,9 +619,9 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
                 <div className="grid gap-2 sm:grid-cols-3">
                   {(
                     [
-                      ["imageLeft", "Image left", ["bg-aberdeen-blue", "bg-slate-200"]],
-                      ["imageRight", "Image right", ["bg-slate-200", "bg-aberdeen-blue"]],
-                      ["paired", "Paired lists", ["bg-slate-200", "bg-slate-200"]],
+                      ["imageLeft", "Image left", ["bg-aberdeen-blue", "bg-aberdeen-peach/55"]],
+                      ["imageRight", "Image right", ["bg-aberdeen-peach/55", "bg-aberdeen-blue"]],
+                      ["paired", "Paired lists", ["bg-aberdeen-peach/55", "bg-aberdeen-peach/55"]],
                     ] as const
                   ).map(([layout, label, panels]) => (
                     <button
@@ -627,7 +629,7 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
                       className={`grid gap-2 rounded-xl border p-3 text-left transition ${
                         sectionDraft.layout === layout
                           ? "border-aberdeen-blue bg-aberdeen-blue/5 ring-2 ring-aberdeen-blue/10"
-                          : "border-slate-200 hover:border-slate-300"
+                          : "border-kelp-ink/15 hover:border-kelp-ink/25"
                       } disabled:cursor-not-allowed disabled:opacity-60`}
                       disabled={Boolean(sectionDraft.id)}
                       key={layout}
@@ -651,7 +653,7 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
                           <span className={`rounded-sm ${panel}`} key={index} />
                         ))}
                       </span>
-                      <span className="text-xs font-semibold text-slate-700">{label}</span>
+                      <span className="text-xs font-semibold text-kelp-ink/80">{label}</span>
                     </button>
                   ))}
                 </div>
@@ -671,14 +673,14 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
                       className={`grid gap-2 rounded-xl border p-2 text-left transition ${
                         sectionDraft.background === background
                           ? "border-aberdeen-blue ring-2 ring-aberdeen-blue/15"
-                          : "border-slate-200 hover:border-slate-300"
+                          : "border-kelp-ink/15 hover:border-kelp-ink/25"
                       }`}
                       key={background}
                       onClick={() => setSectionDraft({ ...sectionDraft, background })}
                       type="button"
                     >
-                      <span className={`h-12 rounded-lg border border-black/5 ${color}`} />
-                      <span className="text-[11px] font-semibold text-slate-600">{label}</span>
+                      <span className={`h-12 rounded-lg border border-near-black/5 ${color}`} />
+                      <span className="text-[11px] font-semibold text-kelp-ink/70">{label}</span>
                     </button>
                   ))}
                 </div>
@@ -695,7 +697,7 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
               />
               {!sectionDraft.id
                 ? sectionDraft.groups.map((group, index) => (
-                    <div className="grid gap-3 rounded-xl bg-slate-50 p-4" key={index}>
+                    <div className="grid gap-3 rounded-xl bg-oyster-white p-4" key={index}>
                       <Field
                         label={
                           sectionDraft.layout === "paired"
@@ -744,8 +746,8 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
                   </Field>
                   <div className="grid gap-3 sm:grid-cols-3">
                     {sectionDraft.postcards.map((postcard, index) => (
-                      <div className="rounded-xl border border-slate-200 p-3" key={index}>
-                        <label className="flex items-center gap-2 text-xs font-semibold text-slate-700">
+                      <div className="rounded-xl border border-kelp-ink/15 p-3" key={index}>
+                        <label className="flex items-center gap-2 text-xs font-semibold text-kelp-ink/80">
                           <input
                             checked={postcard.show}
                             onChange={(event) => {
@@ -758,7 +760,7 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
                           Show postcard {index + 1}
                         </label>
                         <button
-                          className="mt-3 grid aspect-[4/3] w-full place-items-center overflow-hidden rounded-lg bg-slate-100 text-xs text-slate-500"
+                          className="mt-3 grid aspect-[4/3] w-full place-items-center overflow-hidden rounded-lg bg-aberdeen-peach/40 text-xs text-kelp-ink/60"
                           onClick={() =>
                             setPicker(
                               (["postcardOne", "postcardTwo", "postcardThree"] as const)[index]!,
@@ -781,7 +783,7 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
                   </div>
                 </>
               ) : (
-                <div className="grid min-h-40 place-items-center rounded-xl bg-slate-50 p-6 text-center text-sm text-slate-500">
+                <div className="grid min-h-40 place-items-center rounded-xl bg-oyster-white p-6 text-center text-sm text-kelp-ink/60">
                   Paired sections use two menu lists and do not display a main or postcard image.
                 </div>
               )}

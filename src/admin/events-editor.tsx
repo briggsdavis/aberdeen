@@ -21,6 +21,7 @@ type EventForm = {
   title: string
   description: string
   date: string
+  recurrence: "none" | "daily" | "weekly" | "monthly"
   bookingUrl: string
   image?: string
   imageUrl?: string
@@ -37,6 +38,7 @@ const emptyEvent: EventForm = {
   title: "",
   description: "",
   date: toDateInput(Date.now() + 7 * 86_400_000),
+  recurrence: "none",
   bookingUrl: "",
 }
 
@@ -62,6 +64,7 @@ export default function EventsEditor() {
       title: editing.title.trim(),
       description: editing.description.trim(),
       startsAt: new Date(editing.date).getTime(),
+      recurrence: editing.recurrence === "none" ? undefined : editing.recurrence,
       bookingUrl: editing.bookingUrl.trim(),
       imageUrl: editing.imageUrl,
       imageMediaId: editing.imageMediaId,
@@ -95,11 +98,13 @@ export default function EventsEditor() {
         description="Create and update events, change their booking links, or move finished events into the archive."
         title="Events"
       />
-      <div className="flex w-fit rounded-lg border border-slate-200 bg-white p-1">
+      <div className="flex w-fit rounded-lg border border-kelp-ink/15 bg-white p-1">
         {(["published", "archived"] as const).map((status) => (
           <button
             className={`rounded-md px-4 py-2 text-xs font-semibold capitalize transition ${
-              tab === status ? "bg-aberdeen-blue text-white" : "text-slate-500 hover:bg-slate-50"
+              tab === status
+                ? "bg-aberdeen-blue text-white"
+                : "text-kelp-ink/60 hover:bg-oyster-white"
             }`}
             key={status}
             onClick={() => setTab(status)}
@@ -112,7 +117,7 @@ export default function EventsEditor() {
       {visibleEvents.length === 0 ? (
         <EmptyState>
           <div>
-            <CalendarBlank className="mx-auto mb-2 text-slate-400" size={28} />
+            <CalendarBlank className="mx-auto mb-2 text-kelp-ink/45" size={28} />
             No {tab} events.
           </div>
         </EmptyState>
@@ -120,22 +125,22 @@ export default function EventsEditor() {
         <div className="grid gap-3">
           {visibleEvents.map((event) => (
             <article
-              className="grid gap-4 rounded-xl border border-slate-200 bg-white p-3 shadow-sm transition hover:border-aberdeen-blue/20 hover:shadow-md sm:grid-cols-[120px_1fr_auto] sm:items-center"
+              className="grid gap-4 rounded-xl border border-kelp-ink/15 bg-white p-3 shadow-sm transition hover:border-aberdeen-blue/20 hover:shadow-md sm:grid-cols-[120px_1fr_auto] sm:items-center"
               key={event._id}
             >
               <img
                 alt=""
-                className="aspect-[4/3] w-full rounded-lg bg-slate-100 object-cover sm:w-[120px]"
+                className="aspect-[4/3] w-full rounded-lg bg-aberdeen-peach/40 object-cover sm:w-[120px]"
                 src={event.image}
               />
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
-                  <h2 className="truncate text-sm font-semibold text-slate-900">{event.title}</h2>
+                  <h2 className="truncate text-sm font-semibold text-kelp-ink">{event.title}</h2>
                   <span
                     className={`rounded-full px-2 py-0.5 text-[10px] font-semibold capitalize ${
                       event.status === "published"
-                        ? "bg-emerald-50 text-emerald-700"
-                        : "bg-slate-100 text-slate-500"
+                        ? "bg-success/10 text-success"
+                        : "bg-aberdeen-peach/40 text-kelp-ink/60"
                     }`}
                   >
                     {event.status}
@@ -146,21 +151,23 @@ export default function EventsEditor() {
                     dateStyle: "medium",
                     timeStyle: "short",
                   }).format(event.startsAt)}
+                  {event.recurrence ? ` · ${event.recurrence}` : ""}
                 </p>
-                <p className="mt-2 line-clamp-2 text-xs leading-5 text-slate-500">
+                <p className="mt-2 line-clamp-2 text-xs leading-5 text-kelp-ink/60">
                   {event.description}
                 </p>
               </div>
               <div className="flex items-center gap-1">
                 <button
                   aria-label="Edit event"
-                  className="rounded-lg p-2.5 text-slate-400 hover:bg-slate-100 hover:text-aberdeen-blue"
+                  className="rounded-lg p-2.5 text-kelp-ink/45 hover:bg-aberdeen-peach/40 hover:text-aberdeen-blue"
                   onClick={() =>
                     setEditing({
                       id: event._id,
                       title: event.title,
                       description: event.description,
                       date: toDateInput(event.startsAt),
+                      recurrence: event.recurrence ?? "none",
                       bookingUrl: event.bookingUrl,
                       image: event.image,
                       imageUrl: event.imageUrl,
@@ -173,7 +180,7 @@ export default function EventsEditor() {
                 </button>
                 <button
                   aria-label={event.status === "published" ? "Archive event" : "Restore event"}
-                  className="rounded-lg p-2.5 text-slate-400 hover:bg-slate-100 hover:text-aberdeen-blue"
+                  className="rounded-lg p-2.5 text-kelp-ink/45 hover:bg-aberdeen-peach/40 hover:text-aberdeen-blue"
                   onClick={() =>
                     void setStatus({
                       id: event._id,
@@ -186,7 +193,7 @@ export default function EventsEditor() {
                 </button>
                 <button
                   aria-label="Delete event"
-                  className="rounded-lg p-2.5 text-slate-400 hover:bg-red-50 hover:text-red-600"
+                  className="rounded-lg p-2.5 text-kelp-ink/45 hover:bg-danger/10 hover:text-danger"
                   onClick={() => {
                     if (window.confirm(`Permanently delete ${event.title}?`)) {
                       void removeEvent({ id: event._id })
@@ -205,16 +212,16 @@ export default function EventsEditor() {
         <Modal onClose={() => setEditing(null)} title={editing.id ? "Edit event" : "Add event"}>
           <div className="grid gap-4">
             <button
-              className="group relative h-48 overflow-hidden rounded-xl border border-dashed border-slate-300 bg-slate-50"
+              className="group relative h-48 overflow-hidden rounded-xl border border-dashed border-kelp-ink/25 bg-oyster-white"
               onClick={() => setShowMedia(true)}
               type="button"
             >
               {editing.image ? (
                 <img alt="" className="h-full w-full object-cover" src={editing.image} />
               ) : (
-                <span className="text-sm text-slate-500">Choose event image</span>
+                <span className="text-sm text-kelp-ink/60">Choose event image</span>
               )}
-              <span className="absolute inset-x-3 bottom-3 rounded-lg bg-white/95 px-3 py-2 text-xs font-semibold text-slate-700 opacity-0 shadow transition group-hover:opacity-100">
+              <span className="absolute inset-x-3 bottom-3 rounded-lg bg-white/95 px-3 py-2 text-xs font-semibold text-kelp-ink/80 opacity-0 shadow transition group-hover:opacity-100">
                 Choose from media library
               </span>
             </button>
@@ -248,6 +255,27 @@ export default function EventsEditor() {
                 type="datetime-local"
                 value={editing.date}
               />
+            </Field>
+            <Field label="Repeats">
+              <select
+                className="w-full rounded-lg border border-kelp-ink/15 bg-white px-3.5 py-2.5 text-sm text-kelp-ink transition outline-none focus:border-aberdeen-blue focus:ring-3 focus:ring-aberdeen-blue/10"
+                onChange={(event) =>
+                  setEditing((current) =>
+                    current
+                      ? {
+                          ...current,
+                          recurrence: event.target.value as EventForm["recurrence"],
+                        }
+                      : current,
+                  )
+                }
+                value={editing.recurrence}
+              >
+                <option value="none">Does not repeat</option>
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+              </select>
             </Field>
             <Field hint="Optional. Leave blank if booking is not available." label="Booking link">
               <Input

@@ -95,7 +95,7 @@ export function RestaurantGroupSection() {
         {...fadeIn()}
       >
         <p className="font-utility text-sm tracking-[0.22em] uppercase">Proud to be part of</p>
-        <h2 className="mt-3 font-display text-5xl leading-none md:text-6xl">
+        <h2 className="mt-3 font-display text-5xl leading-none md:text-7xl">
           Richard DeShantz Restaurant Group
         </h2>
       </motion.div>
@@ -121,7 +121,7 @@ export function RestaurantGroupSection() {
               }`}
               src={restaurant.image}
             />
-            <h3 className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent px-2 pt-8 pb-2.5 text-center font-utility text-[0.62rem] leading-tight tracking-[0.08em] text-oyster-white uppercase [text-shadow:0_2px_7px_rgb(0_0_0/0.85)] lg:text-xs">
+            <h3 className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-near-black/90 via-near-black/45 to-transparent px-2 pt-8 pb-2.5 text-center font-utility text-[0.62rem] leading-tight tracking-[0.08em] text-oyster-white uppercase [text-shadow:0_2px_7px_color-mix(in_srgb,var(--color-near-black)_85%,transparent)] lg:text-xs">
               {restaurant.name}
             </h3>
           </motion.article>
@@ -392,7 +392,7 @@ export function PostcardImageStack({
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 overflow-hidden"
+      className="pointer-events-none absolute inset-0 z-10 overflow-visible"
       data-testid="postcard-stack"
     >
       {images.map((image, index) => {
@@ -403,7 +403,7 @@ export function PostcardImageStack({
 
         return (
           <motion.div
-            className={`absolute aspect-[8/5] w-[min(74%,15rem)] overflow-hidden border bg-white p-2.5 shadow-[0_16px_26px_rgb(29_42_47/0.22)] ${borderClass} ${inkClass}`}
+            className={`absolute aspect-[8/5] w-[min(74%,15rem)] overflow-hidden border bg-white p-2.5 shadow-xl ${borderClass} ${inkClass}`}
             initial={{ opacity: 0, scale: 0.82, y: 24 }}
             key={`${image}-${index}`}
             style={{ ...placements[index], zIndex: index + 1 }}

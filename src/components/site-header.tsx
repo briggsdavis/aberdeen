@@ -108,7 +108,7 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
     }
 
     setIsHomeIntroActive(true)
-    const introTimer = window.setTimeout(() => setIsHomeIntroActive(false), 4050)
+    const introTimer = window.setTimeout(() => setIsHomeIntroActive(false), 3050)
     return () => window.clearTimeout(introTimer)
   }, [playHomeIntro, shouldReduceMotion])
 
@@ -127,7 +127,7 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
       animate={{ y: isHidden || isHomeIntroActive ? "-100%" : "0%" }}
       className={`fixed inset-x-0 top-0 z-40 text-aberdeen-peach transition-[background-color,box-shadow] duration-500 will-change-transform ${
         isNavigationActive
-          ? "bg-aberdeen-blue shadow-[0_12px_30px_rgb(14_24_69/0.2)]"
+          ? "bg-aberdeen-blue shadow-[0_12px_30px_color-mix(in_srgb,var(--color-aberdeen-blue)_20%,transparent)]"
           : "bg-transparent shadow-none"
       }`}
       initial={false}
@@ -144,7 +144,7 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
               alt="Aberdeen"
               className={`transition-[filter] duration-500 ${
                 location.pathname === "/" && !isNavigationActive
-                  ? "drop-shadow-[0_2px_4px_rgb(14_24_69/0.24)]"
+                  ? "drop-shadow-[0_2px_4px_color-mix(in_srgb,var(--color-aberdeen-blue)_24%,transparent)]"
                   : "drop-shadow-none"
               }`}
               src="/brand/aberdeen-wordmark-peach.png"
@@ -189,7 +189,7 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
                         onMouseLeave={scheduleMenuPreviewClose}
                         transition={{ duration: 1.08, ease: [0.16, 1, 0.3, 1] }}
                       >
-                        <div className="bg-white p-8 text-aberdeen-blue shadow-[0_28px_70px_rgb(14_24_69/0.2)] lg:p-10">
+                        <div className="bg-white p-8 text-aberdeen-blue shadow-[0_28px_70px_color-mix(in_srgb,var(--color-aberdeen-blue)_20%,transparent)] lg:p-10">
                           <div className="grid min-h-[30rem] grid-cols-[0.72fr_1.28fr] gap-10">
                             <div className="flex flex-col justify-center border-r border-aberdeen-blue/15 pr-10">
                               {menuPreviews.map((menu) => {
@@ -241,8 +241,10 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
         </motion.nav>
         <motion.div className="hidden md:block" {...homeIntroReveal(navItems.length + 1)}>
           <a
-            className={`aberdeen-action border border-white bg-white px-4 py-2 font-utility text-sm tracking-[0.14em] text-black uppercase transition-[box-shadow] duration-500 [--action-fill:var(--color-aberdeen-blue)] hover:text-white ${
-              isNavigationActive ? "shadow-none" : "shadow-[0_3px_10px_rgb(14_24_69/0.2)]"
+            className={`aberdeen-action border border-white bg-white px-4 py-2 font-utility text-sm tracking-[0.14em] text-near-black uppercase transition-[box-shadow] duration-500 [--action-fill:var(--color-aberdeen-blue)] hover:text-white ${
+              isNavigationActive
+                ? "shadow-none"
+                : "shadow-[0_3px_10px_color-mix(in_srgb,var(--color-aberdeen-blue)_20%,transparent)]"
             }`}
             href={reservationUrl}
           >
@@ -275,9 +277,7 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
         </motion.div>
       </div>
       <nav
-        className={`mx-5 border border-aberdeen-peach bg-aberdeen-blue p-5 md:hidden ${
-          isMenuOpen ? "block" : "hidden"
-        }`}
+        className={`mx-5 bg-aberdeen-blue p-5 md:hidden ${isMenuOpen ? "block" : "hidden"}`}
         id="mobile-navigation"
       >
         <div className="grid gap-4">

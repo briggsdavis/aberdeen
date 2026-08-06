@@ -1,4 +1,5 @@
 import {
+  ArrowCounterClockwise,
   CheckCircle,
   Desktop,
   DeviceMobile,
@@ -94,10 +95,10 @@ export default function PageEditor({
   const savePage = useMutation(api.content.savePage)
   const registerPageAssets = useMutation(api.media.registerPageAssets)
   const iframeRef = useRef<HTMLIFrameElement>(null)
-  const savedImagesRef = useRef<Record<string, Id<"mediaAssets">>>({})
+  const savedImagesRef = useRef<Record<string, Id<"mediaAssets"> | null>>({})
   const [text, setText] = useState<Record<string, string>>({})
   const [links, setLinks] = useState<Record<string, { text: string; href: string }>>({})
-  const [images, setImages] = useState<Record<string, Id<"mediaAssets">>>({})
+  const [images, setImages] = useState<Record<string, Id<"mediaAssets"> | null>>({})
   const [imageRoles, setImageRoles] = useState<
     Record<string, "content" | "decorative" | "background">
   >({})
@@ -211,6 +212,15 @@ export default function PageEditor({
     },
     [postToPreview, selectedImage],
   )
+
+  const resetImage = useCallback(() => {
+    if (!selectedImage) return
+    setImages((current) => ({ ...current, [selectedImage.key]: null }))
+    postToPreview({ type: "resetMedia", key: selectedImage.key })
+    setDirty(true)
+    setSaved(false)
+    setSelectedImage(null)
+  }, [postToPreview, selectedImage])
 
   const applyLink = useCallback(() => {
     if (!selectedLink) return
@@ -338,20 +348,20 @@ export default function PageEditor({
         </div>
       </div>
       {selectedImage ? (
-        <Modal onClose={() => setSelectedImage(null)} title="Choose a replacement image" wide>
-          <div className="mb-4 flex items-center gap-3 rounded-lg bg-oyster-white p-3">
-            <ImageSquare className="text-aberdeen-blue" size={22} />
-            <div>
-              <p className="text-sm font-semibold text-kelp-ink/90">Replace selected image</p>
-              <p className="text-xs text-kelp-ink/60">
-                Choose from the library or upload a new image.
-              </p>
+        <Modal onClose={() => setSelectedImage(null)} title="Edit image" wide>
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-lg bg-oyster-white p-3">
+            <div className="flex items-center gap-3">
+              <ImageSquare className="text-aberdeen-blue" size={22} />
+              <p className="text-sm font-semibold text-kelp-ink/90">Choose an image</p>
             </div>
+            <SecondaryButton onClick={resetImage}>
+              <ArrowCounterClockwise size={16} /> Use default image
+            </SecondaryButton>
           </div>
           <MediaLibrary
             acceptedKinds={selectedImage.acceptsVideo ? ["image", "video"] : ["image"]}
             onSelect={selectImage}
-            selectedId={images[selectedImage.key]}
+            selectedId={images[selectedImage.key] ?? undefined}
           />
         </Modal>
       ) : null}

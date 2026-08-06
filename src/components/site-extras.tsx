@@ -7,6 +7,7 @@ import { api } from "../../convex/_generated/api"
 import type { Id } from "../../convex/_generated/dataModel"
 import { fadeIn } from "../lib/motion"
 import { DecorativeBackdrop } from "./decorative-media"
+import { Postcard } from "./postcard"
 
 export function RippleSection({
   children,
@@ -357,13 +358,7 @@ function StoredMenuLikeButton({
   )
 }
 
-export function PostcardImageStack({
-  images: managedImages,
-  tone = "blue",
-}: {
-  images?: string[]
-  tone?: "blue" | "peach"
-}) {
+export function PostcardImageStack({ images: managedImages }: { images?: string[] }) {
   const images = managedImages ?? [
     "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=500&q=85",
     "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=500&q=85",
@@ -397,13 +392,10 @@ export function PostcardImageStack({
     >
       {images.map((image, index) => {
         const note = postcardNotes[index] ?? postcardNotes[0]!
-        const imageOnRight = index % 2 === 1
-        const inkClass = tone === "blue" ? "text-aberdeen-blue" : "text-kelp-ink"
-        const borderClass = tone === "blue" ? "border-aberdeen-blue/65" : "border-shell-pink"
 
         return (
           <motion.div
-            className={`absolute aspect-[8/5] w-[min(74%,15rem)] overflow-hidden border bg-white p-2.5 shadow-xl ${borderClass} ${inkClass}`}
+            className="absolute aspect-[8/5] w-[min(74%,15rem)]"
             initial={{ opacity: 0, scale: 0.82, y: 24 }}
             key={`${image}-${index}`}
             style={{ ...placements[index], zIndex: index + 1 }}
@@ -416,36 +408,13 @@ export function PostcardImageStack({
               transition: { delay: index * 0.12, duration: 0.576 },
             }}
           >
-            <div className="grid h-full grid-cols-2 gap-2.5">
-              <div
-                className={`flex min-h-0 min-w-0 flex-col overflow-hidden ${imageOnRight ? "order-2 border-l pl-2.5" : "order-1 border-r pr-2.5"} ${borderClass}`}
-              >
-                <p className="mb-1.5 shrink-0 font-utility text-[0.4rem] leading-[1.35] font-semibold tracking-[0.18em] uppercase sm:text-[0.46rem]">
-                  {note.heading}
-                </p>
-                <img alt="" className="min-h-0 w-full flex-1 object-cover" src={image} />
-              </div>
-              <div className={`flex min-w-0 flex-col ${imageOnRight ? "order-1" : "order-2"}`}>
-                <div className={`ml-auto grid h-7 w-7 place-items-center border-2 ${borderClass}`}>
-                  <img
-                    alt=""
-                    className="h-4 w-4 object-contain opacity-70"
-                    src="/illustrations/nautical/sailboat.png"
-                  />
-                </div>
-                <p className="mt-1.5 font-playful text-[0.58rem] leading-[1.05] sm:text-[0.68rem]">
-                  {note.message}
-                </p>
-                <div className="mt-auto space-y-1.5 pb-1">
-                  <div className={`border-b ${borderClass}`} />
-                  <div className={`border-b ${borderClass}`} />
-                  <div className={`border-b ${borderClass}`} />
-                </div>
-                <p className="mt-1 font-utility text-[0.34rem] tracking-[0.16em] uppercase opacity-70">
-                  Savannah, Georgia
-                </p>
-              </div>
-            </div>
+            <Postcard
+              eyebrow={note.heading}
+              imageAlt=""
+              imageSrc={image}
+              message={note.message}
+              size="small"
+            />
           </motion.div>
         )
       })}

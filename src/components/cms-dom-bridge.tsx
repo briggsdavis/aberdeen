@@ -14,6 +14,7 @@ type ImageTarget = {
   acceptsVideo: boolean
   element: HTMLImageElement
   key: string
+  originalSrc: string
   role: MediaRole
   videoElement?: HTMLVideoElement
 }
@@ -125,6 +126,7 @@ function collectTargets(root: HTMLElement, page: string) {
       ),
       key: element.dataset.cmsSlot ?? legacyCompatiblePath(elementPath(element, root), page),
       element,
+      originalSrc: element.src,
       role,
     })
   }
@@ -149,6 +151,10 @@ function collectTargets(root: HTMLElement, page: string) {
 function applyMedia(target: ImageTarget, media: AppliedMedia) {
   target.videoElement?.remove()
   target.videoElement = undefined
+  target.element.style.cursor = ""
+  target.element.style.display = ""
+  target.element.style.opacity = ""
+  target.element.style.outline = ""
   target.element.style.visibility = ""
 
   if (media.kind === "video" && target.acceptsVideo) {
@@ -171,6 +177,18 @@ function applyMedia(target: ImageTarget, media: AppliedMedia) {
 
   target.element.src = media.url
   target.element.dataset.cmsMediaKind = "image"
+}
+
+function resetMedia(target: ImageTarget) {
+  target.videoElement?.remove()
+  target.videoElement = undefined
+  target.element.src = target.originalSrc
+  delete target.element.dataset.cmsMediaKind
+  target.element.style.cursor = ""
+  target.element.style.display = ""
+  target.element.style.opacity = ""
+  target.element.style.outline = ""
+  target.element.style.visibility = ""
 }
 
 export default function CmsDomBridge() {
@@ -209,8 +227,7 @@ export default function CmsDomBridge() {
     if (!preview) {
       return () => {
         for (const target of targets.images) {
-          target.videoElement?.remove()
-          target.element.style.visibility = ""
+          resetMedia(target)
         }
       }
     }
@@ -329,6 +346,10 @@ export default function CmsDomBridge() {
           }
         }
       }
+      if (event.data.type === "resetMedia") {
+        const matchingTargets = targets.images.filter((item) => item.key === event.data.key)
+        for (const target of matchingTargets) resetMedia(target)
+      }
       if (event.data.type === "applyLink") {
         const target = targets.links.find((item) => item.key === event.data.key)
         if (!target) return
@@ -398,8 +419,7 @@ export default function CmsDomBridge() {
     return () => {
       document.documentElement.classList.remove("cms-preview-mode")
       for (const target of targets.images) {
-        target.videoElement?.remove()
-        target.element.style.visibility = ""
+        resetMedia(target)
         target.element
           .closest<HTMLElement>("[data-cms-editable-container]")
           ?.removeAttribute("data-cms-editable-container")

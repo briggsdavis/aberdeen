@@ -11,7 +11,7 @@ import {
 import { useRef } from "react"
 import { useOutletContext } from "react-router"
 import { DecorativeBackdrop } from "../components/decorative-media"
-import { HeroPostcard } from "../components/hero-postcard"
+import { Postcard } from "../components/postcard"
 import {
   FAQSection,
   RestaurantGroupSection,
@@ -256,7 +256,14 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
             }}
           >
             <div className="rotate-2">
-              <HeroPostcard imageSrc={postcardImage} />
+              <Postcard
+                eyebrow="Wish you were here"
+                imageAlt="A guest enjoying dinner at Aberdeen"
+                imageCmsSlot="home-hero-postcard"
+                imageSrc={postcardImage}
+                message="Meet us where the yachts pass at sunset. Savannah has saved you a seat."
+                size="large"
+              />
             </div>
           </motion.div>
         </div>
@@ -285,16 +292,6 @@ function MaritimeFlags() {
 
 function PhotoCorners() {
   return null
-}
-
-function Postmark() {
-  return (
-    <div aria-hidden="true" className="flex flex-col gap-1.5">
-      <span className="h-px w-24 bg-aberdeen-blue/45" />
-      <span className="h-px w-20 bg-aberdeen-blue/45" />
-      <span className="h-px w-24 bg-aberdeen-blue/45" />
-    </div>
-  )
 }
 
 function IntroSection() {
@@ -504,39 +501,28 @@ function ScrollGallerySection() {
 }
 
 function ReservationsSection() {
+  const postcardImage = useRequiredPageImage("home-hero-postcard", homeHeroPostcardImage)
+
   return (
     <RippleSection
       className="bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24"
       id="reservations"
     >
       <div className="grid gap-10 md:grid-cols-[0.9fr_1fr]">
-        <motion.div
-          className="relative order-2 self-end bg-aberdeen-peach p-6 text-aberdeen-blue shadow-[10px_10px_0_var(--color-citrus)] md:order-1"
-          {...fadeIn(0.3)}
-        >
-          <div className="mb-8 flex items-start justify-between gap-6">
-            <div>
-              <p className="font-utility text-xs tracking-[0.18em] uppercase">Postcard from</p>
-              <p className="mt-2 font-playful text-5xl leading-none">Aberdeen</p>
-            </div>
-            <div className="grid h-20 w-16 place-items-center border border-dashed border-aberdeen-blue bg-aberdeen-peach p-2">
-              <img
-                alt=""
-                className="h-full w-full object-contain"
-                src="/brand/aberdeen-monogram-circle-blue.png"
-              />
-            </div>
-          </div>
-          <p className="mb-6 text-lg leading-8">
-            OpenTable will live here once the client provides the embed snippet.
-          </p>
-          <div className="mb-8 flex items-center justify-between gap-6">
-            <Postmark />
+        <motion.div className="relative order-2 self-end md:order-1" {...fadeIn(0.3)}>
+          <Postcard
+            eyebrow="Postcard from"
+            imageAlt="Seafood spread on an Aberdeen table"
+            imageSrc={postcardImage}
+            message="Meet us where the yachts pass at sunset. Savannah has saved you a seat."
+            size="large"
+          />
+          <div className="mt-8 flex flex-wrap items-center justify-between gap-6">
             <MaritimeFlags />
+            <a className="aberdeen-action bg-aberdeen-peach text-aberdeen-blue" href="/contact">
+              Plan a visit
+            </a>
           </div>
-          <a className="aberdeen-action bg-aberdeen-blue text-aberdeen-peach" href="/contact">
-            Plan a visit
-          </a>
         </motion.div>
         <div className="order-1 md:order-2">
           <motion.p className="font-utility text-sm tracking-[0.22em] uppercase" {...fadeInPlace()}>

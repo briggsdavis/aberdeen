@@ -1,5 +1,6 @@
 import { motion } from "motion/react"
 import { Link } from "react-router"
+import { Postcard } from "../components/postcard"
 import { fadeIn, fadeInPlace } from "../lib/motion"
 
 const scrapbookImages = [
@@ -588,23 +589,14 @@ function PostcardSection() {
           Send yourself to the table.
         </h2>
       </motion.div>
-      <motion.div
-        className="relative border border-aberdeen-blue bg-aberdeen-peach p-6 shadow-[10px_10px_0_var(--color-aberdeen-blue)]"
-        {...fadeIn(0.12)}
-      >
-        <div className="mb-8 flex items-start justify-between gap-6">
-          <div>
-            <p className="font-utility text-xs tracking-[0.18em] uppercase">Postcard from</p>
-            <p className="mt-2 font-playful text-5xl leading-none">Aberdeen</p>
-          </div>
-          <div className="grid h-20 w-16 place-items-center border border-aberdeen-blue font-utility text-[0.65rem] tracking-[0.14em] uppercase">
-            Stamp
-          </div>
-        </div>
-        <p className="text-lg leading-8 text-kelp-ink/80">
-          Test treatment for a reservation block: postal marks, paper texture, corner stickers, and
-          a clear call to action.
-        </p>
+      <motion.div className="relative" {...fadeIn(0.12)}>
+        <Postcard
+          eyebrow="Postcard from"
+          imageAlt={scrapbookImages[0]!.alt}
+          imageSrc={scrapbookImages[0]!.src}
+          message="Meet us where the yachts pass at sunset. Savannah has saved you a seat."
+          size="large"
+        />
         <Link
           className="mt-8 inline-block bg-aberdeen-blue px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-peach uppercase"
           to="/contact"

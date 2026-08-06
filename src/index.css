@@ -205,6 +205,13 @@
     box-shadow: 0 12px 24px rgb(from var(--color-kelp-ink) r g b / 0.12);
   }
 
+  .postcard-paper {
+    background-image: url("/paper-grain.jpg");
+    background-position: center;
+    background-size: cover;
+    background-blend-mode: multiply;
+  }
+
   .white-compass {
     filter: brightness(0) invert(1)
       drop-shadow(0 9px 11px color-mix(in srgb, var(--color-aberdeen-blue) 16%, transparent)) !important;

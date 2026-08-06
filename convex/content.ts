@@ -26,6 +26,7 @@ export const getPage = query({
     > = {}
 
     for (const [key, mediaId] of Object.entries(page.images)) {
+      if (mediaId === null) continue
       const asset = await ctx.db.get(mediaId)
       if (!asset) continue
       const url = asset.storageId
@@ -65,7 +66,7 @@ export const savePage = mutation({
     page: v.string(),
     text: v.record(v.string(), v.string()),
     links: v.record(v.string(), linkValidator),
-    images: v.record(v.string(), v.id("mediaAssets")),
+    images: v.record(v.string(), v.union(v.id("mediaAssets"), v.null())),
     imageRoles: v.record(
       v.string(),
       v.union(v.literal("content"), v.literal("decorative"), v.literal("background")),
@@ -98,6 +99,7 @@ export const savePage = mutation({
       await ctx.db.delete("mediaUsages", usage._id)
     }
     for (const [slotKey, mediaId] of Object.entries(args.images)) {
+      if (mediaId === null) continue
       await ctx.db.insert("mediaUsages", {
         mediaId,
         page: args.page,

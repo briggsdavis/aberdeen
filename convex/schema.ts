@@ -14,7 +14,7 @@ export default defineSchema({
         text: v.string(),
       }),
     ),
-    images: v.record(v.string(), v.id("mediaAssets")),
+    images: v.record(v.string(), v.union(v.id("mediaAssets"), v.null())),
     updatedAt: v.number(),
   }).index("by_page", ["page"]),
   mediaAssets: defineTable({

@@ -1,6 +1,6 @@
 import { motion } from "motion/react"
 import { DecorativeBackdrop } from "../components/decorative-media"
-import { HeroPostcard } from "../components/hero-postcard"
+import { Postcard } from "../components/postcard"
 import { RestaurantGroupSection, RippleSection } from "../components/site-extras"
 import { usePageImage, useRequiredPageImage } from "../lib/cms-runtime"
 import { fadeIn } from "../lib/motion"
@@ -45,16 +45,6 @@ function PhotoCorners() {
   return null
 }
 
-function Postmark() {
-  return (
-    <div aria-hidden="true" className="flex flex-col gap-1.5">
-      <span className="h-px w-24 bg-aberdeen-blue/45" />
-      <span className="h-px w-20 bg-aberdeen-blue/45" />
-      <span className="h-px w-24 bg-aberdeen-blue/45" />
-    </div>
-  )
-}
-
 function HeroSection() {
   const heroImage = useRequiredPageImage("hero")
   const postcardImage = usePageImage("about-hero-postcard", ["home-hero-postcard"])
@@ -84,10 +74,13 @@ function HeroSection() {
           className="relative z-20 w-[min(82vw,24rem)] self-end md:w-[min(34rem,38vw)]"
           {...fadeIn(0.18)}
         >
-          <HeroPostcard
-            cmsSlot="about-hero-postcard"
+          <Postcard
+            eyebrow="Wish you were here"
             imageAlt="People on a catamaran sailboat in the ocean"
+            imageCmsSlot="about-hero-postcard"
             imageSrc={postcardImage}
+            message="Meet us where the yachts pass at sunset. Savannah has saved you a seat."
+            size="large"
           />
         </motion.div>
       </motion.div>
@@ -96,23 +89,19 @@ function HeroSection() {
 }
 
 function StorySection() {
+  const postcardImage = usePageImage("about-hero-postcard", ["home-hero-postcard"])
+
   return (
     <section className="relative isolate grid gap-12 overflow-hidden bg-oyster-white px-5 pt-16 pb-8 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:pt-24 md:pb-12">
       <DecorativeBackdrop imageClassName="object-cover" opacity={0.13} src={antiqueMapOne} />
-      <motion.div
-        className="relative z-10 self-start bg-aberdeen-peach p-6 text-aberdeen-blue shadow-[8px_8px_0_rgb(from_var(--color-aberdeen-blue)_r_g_b/0.16)]"
-        {...fadeIn()}
-      >
-        <p className="font-utility text-xs tracking-[0.18em] uppercase">Postcard note</p>
-        <p className="mt-4 font-playful text-5xl leading-none">The story</p>
-        <div className="mt-8 flex items-center justify-between gap-6">
-          <Postmark />
-          <img
-            alt=""
-            className="h-14 w-14 object-contain"
-            src="/brand/aberdeen-monogram-circle-blue.png"
-          />
-        </div>
+      <motion.div className="relative z-10 self-start" {...fadeIn()}>
+        <Postcard
+          eyebrow="Postcard note"
+          imageAlt="People on a catamaran sailboat in the ocean"
+          imageSrc={postcardImage}
+          message="Seafood, bright spirits, and a dining room made for lingering."
+          size="large"
+        />
       </motion.div>
       <motion.div className="relative z-10 max-w-4xl space-y-8" {...fadeIn(0.1)}>
         <h2 className="font-display text-5xl leading-none text-aberdeen-blue md:text-7xl">

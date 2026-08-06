@@ -212,8 +212,8 @@ export const ensureInitialized = mutation({
     const now = Date.now()
     const settings = {
       adminInitialized: "true",
-      address: "123 Harbor Way, Savannah, Georgia 31401",
-      mapLocation: "Savannah, Georgia",
+      address: "301 Passage Way B101, Savannah, GA 31401",
+      mapLocation: "301 Passage Way B101, Savannah, GA 31401",
       phone: "(912) 555-0147",
       email: "hello@aberdeen.example",
       reservationUrl: "/contact",
@@ -226,7 +226,7 @@ export const ensureInitialized = mutation({
     }
 
     const contactDetails = [
-      ["Visit", "123 Harbor Way, Savannah, Georgia 31401", "Find us by the water."],
+      ["Visit", "301 Passage Way B101, Savannah, GA 31401", "Find us by the water."],
       ["Call", "(912) 555-0147", "For reservations and general questions."],
       ["Write", "hello@aberdeen.example", "Press, events, and restaurant inquiries."],
     ]

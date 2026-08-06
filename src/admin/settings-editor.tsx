@@ -136,7 +136,7 @@ export default function SettingsEditor() {
                 value={settings.address ?? ""}
               />
             </Field>
-            <Field hint="Used to center the embedded map." label="Map location">
+            <Field hint="Used for Google Maps links." label="Map location">
               <Input
                 onChange={(event) => updateSetting("mapLocation", event.target.value)}
                 value={settings.mapLocation ?? ""}

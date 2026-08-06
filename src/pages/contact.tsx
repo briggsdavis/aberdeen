@@ -4,6 +4,7 @@ import { DecorativeBackdrop } from "../components/decorative-media"
 import { MaritimeFlags, RopeDivider } from "../components/nautical-details"
 import { FAQSection } from "../components/site-extras"
 import { useCmsRuntime } from "../lib/cms-runtime"
+import { googleMapsPlaceUrl, restaurantAddress } from "../lib/location"
 import { fadeIn } from "../lib/motion"
 
 const antiqueMapFour = "/maps/antique-map-04.png"
@@ -23,7 +24,7 @@ function ContactDetails() {
   const details = site?.contactDetails.length
     ? site.contactDetails.map(({ label, value, note }) => [label, value, note])
     : [
-        ["Visit", "Savannah, Georgia", "Address coming soon"],
+        ["Visit", restaurantAddress, "Find us by the water."],
         ["Call", "Phone coming soon", "For reservations, private dinners, and general questions"],
         ["Write", "hello@aberdeen.example", "Press, events, and restaurant inquiries"],
       ]
@@ -82,7 +83,7 @@ function MapSection() {
         ["Saturday", "4 PM - 11 PM"],
         ["Sunday", "4 PM - 9 PM"],
       ]
-  const mapLocation = site?.settings.mapLocation ?? "Savannah, Georgia"
+  const mapLocation = site?.settings.mapLocation?.trim() || restaurantAddress
 
   return (
     <section className="grid gap-0 bg-aberdeen-peach md:grid-cols-[0.9fr_1.1fr] md:items-stretch">
@@ -106,15 +107,23 @@ function MapSection() {
         </dl>
       </motion.div>
       <motion.div className="min-h-[28rem] p-5 md:p-8 md:pl-4" {...fadeIn(0.12)}>
-        <div className="h-full min-h-[24rem] overflow-hidden border border-aberdeen-blue/15 bg-oyster-white p-2 shadow-[0_18px_44px_rgb(from_var(--color-kelp-ink)_r_g_b/0.12)]">
+        <div className="relative h-full min-h-[24rem] overflow-hidden border border-aberdeen-blue/15 bg-oyster-white p-2 shadow-[0_18px_44px_rgb(from_var(--color-kelp-ink)_r_g_b/0.12)]">
           <iframe
             className="block h-full min-h-[24rem] w-full"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             sandbox="allow-scripts allow-popups"
             src={`https://www.google.com/maps?q=${encodeURIComponent(mapLocation)}&output=embed`}
-            title="Map showing Savannah, Georgia"
+            title={`Map showing Aberdeen at ${mapLocation}`}
           />
+          <a
+            className="absolute right-5 bottom-5 z-10 border border-aberdeen-blue bg-oyster-white px-3 py-2 font-utility text-xs tracking-[0.14em] text-aberdeen-blue uppercase shadow-[4px_4px_0_var(--color-citrus)] transition-transform hover:-translate-y-1"
+            href={googleMapsPlaceUrl(mapLocation)}
+            rel="noreferrer"
+            target="_blank"
+          >
+            View on Google Maps ↗
+          </a>
         </div>
       </motion.div>
     </section>

@@ -5,6 +5,7 @@ import type { CSSProperties, MouseEvent, ReactNode } from "react"
 import { useState } from "react"
 import { api } from "../../convex/_generated/api"
 import type { Id } from "../../convex/_generated/dataModel"
+import { restaurantAddress } from "../lib/location"
 import { fadeIn } from "../lib/motion"
 import { DecorativeBackdrop } from "./decorative-media"
 import { Postcard } from "./postcard"
@@ -161,7 +162,7 @@ export function FAQSection({
       "Are menus seasonal?",
       "Yes. Dishes and drinks shift with the catch, the market, and the weather.",
     ],
-    ["Where are you located?", "The Savannah address is coming soon."],
+    ["Where are you located?", restaurantAddress],
     ["Can you handle allergies?", "Tell the team when booking and again when you arrive."],
     ["Is there a raw bar?", "Yes, oysters and chilled seafood are core to the room."],
   ]

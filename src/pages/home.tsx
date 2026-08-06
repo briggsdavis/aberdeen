@@ -11,6 +11,7 @@ import {
 import { useRef } from "react"
 import { useOutletContext } from "react-router"
 import { DecorativeBackdrop } from "../components/decorative-media"
+import { LocationMap } from "../components/location-map"
 import { Postcard } from "../components/postcard"
 import {
   FAQSection,
@@ -19,6 +20,7 @@ import {
   TiltWrap,
 } from "../components/site-extras"
 import { useCmsRuntime, usePageImage, useRequiredPageImage } from "../lib/cms-runtime"
+import { restaurantAddress } from "../lib/location"
 import { fadeIn, fadeInPlace } from "../lib/motion"
 
 const antiqueMapOne = "/maps/antique-map-01.png"
@@ -295,6 +297,9 @@ function PhotoCorners() {
 }
 
 function IntroSection() {
+  const { site } = useCmsRuntime()
+  const mapLocation = site?.settings.mapLocation?.trim() || restaurantAddress
+
   return (
     <section className="relative isolate overflow-hidden px-5 py-16 md:px-8 md:py-24">
       <DecorativeBackdrop imageClassName="object-cover" opacity={0.15} src={antiqueMapOne} />
@@ -318,13 +323,8 @@ function IntroSection() {
             Aberdeen is a bright, editorial restaurant centered on seafood, cocktails, and the easy
             ceremony of gathering around a good table.
           </p>
-          <div className="relative mt-10 h-72">
-            <img
-              alt="Seafood spread on a restaurant table"
-              className="h-full w-full object-cover"
-              src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1200&q=85"
-            />
-            <PhotoCorners />
+          <div className="relative mt-10 h-72 overflow-hidden">
+            <LocationMap location={mapLocation} />
           </div>
         </motion.div>
       </div>

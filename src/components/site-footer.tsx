@@ -1,6 +1,7 @@
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react"
 import { useRef } from "react"
 import { useCmsRuntime } from "../lib/cms-runtime"
+import { googleMapsPlaceUrl, restaurantAddress } from "../lib/location"
 import { CursorCompass } from "./decorative-media"
 import { TransitionLink } from "./page-transition"
 
@@ -46,7 +47,7 @@ function SiteFooter() {
   const visibleHours = site?.openingHours.length
     ? site.openingHours.map(({ label, value }) => [label, value])
     : hours
-  const address = settingOrFallback(site?.settings.address, "Savannah, Georgia")
+  const address = settingOrFallback(site?.settings.address, restaurantAddress)
   const phone = settingOrFallback(site?.settings.phone, "(912) 555-0147")
   const email = settingOrFallback(site?.settings.email, "hello@aberdeen.example")
   const tagline = settingOrFallback(
@@ -106,7 +107,16 @@ function SiteFooter() {
           <div>
             <p className="font-utility text-xs tracking-[0.2em] uppercase">Location & contact</p>
             <div className="mt-5 space-y-4 text-sm text-kelp-ink">
-              <p className="leading-7 whitespace-pre-line">{address}</p>
+              <p className="leading-7 whitespace-pre-line">
+                <a
+                  className="underline decoration-citrus decoration-2 underline-offset-4"
+                  href={googleMapsPlaceUrl(address)}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  {address}
+                </a>
+              </p>
               <p>
                 <a
                   className="underline decoration-citrus decoration-2 underline-offset-4"

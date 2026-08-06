@@ -1,3 +1,13 @@
+import { useState } from "react"
+
+const stampImages = [
+  "/stamps/ball.png",
+  "/stamps/float.png",
+  "/stamps/seahorse.png",
+  "/stamps/star.png",
+  "/stamps/wheel.png",
+]
+
 export function Postcard({
   eyebrow = "Wish you were here",
   imageAlt,
@@ -14,6 +24,7 @@ export function Postcard({
   size: "large" | "small"
 }) {
   const isLarge = size === "large"
+  const [stampImage] = useState(() => stampImages[Math.floor(Math.random() * stampImages.length)]!)
 
   return (
     <article
@@ -48,11 +59,11 @@ export function Postcard({
 
         <div className="flex min-w-0 flex-col">
           <div
-            className={`ml-auto overflow-hidden border-2 border-aberdeen-blue/65 ${
+            className={`ml-auto overflow-hidden border-2 border-aberdeen-blue/65 p-0.5 ${
               isLarge ? "h-12 w-12" : "h-7 w-7"
             }`}
           >
-            <img alt="" className="h-full w-full object-cover" src="/stamps/star.png" />
+            <img alt="" className="h-full w-full object-cover" src={stampImage} />
           </div>
           <p
             className={`font-playful leading-[1.05] ${

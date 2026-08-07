@@ -57,7 +57,7 @@ export function Postcard({
           </div>
         </div>
 
-        <div className="flex min-w-0 flex-col">
+        <div className="flex min-h-0 min-w-0 flex-col">
           <div
             className={`ml-auto overflow-hidden border-2 border-aberdeen-blue/65 p-0.5 ${
               isLarge ? "h-12 w-12" : "h-7 w-7"

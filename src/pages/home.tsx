@@ -477,7 +477,7 @@ function ScrollGallerySection() {
         <MaritimeFlags />
       </motion.div>
       <motion.div
-        className="relative z-10 flex w-max gap-5 px-3 will-change-transform md:gap-7 md:px-8"
+        className="scrapbook-gallery-track relative z-10 flex w-max gap-5 px-3 will-change-transform md:gap-7 md:px-8"
         style={{ x }}
       >
         {[...images, ...images].map((image, index) => (
@@ -490,7 +490,12 @@ function ScrollGallerySection() {
             {...fadeIn((index % images.length) * 0.08)}
           >
             <TiltWrap className="soft-card-shadow h-full w-full">
-              <img alt="" className="h-full w-full object-cover" src={image} />
+              <img
+                alt=""
+                className="h-full w-full object-cover"
+                data-cms-slot={`home.scrapbook.image-${(index % images.length) + 1}`}
+                src={image}
+              />
               <PhotoCorners />
             </TiltWrap>
           </motion.div>
@@ -646,12 +651,6 @@ function EventsSection() {
             View events
           </a>
         </div>
-        <img
-          alt=""
-          aria-hidden="true"
-          className="pointer-events-none absolute bottom-0 left-[26%] h-auto w-32 object-contain opacity-35 md:w-44"
-          src="/illustrations/nautical/compass-rose-simple.png"
-        />
         <div className="relative mt-10 h-[34rem] overflow-hidden shadow-[0_30px_70px_rgb(from_var(--color-kelp-ink)_r_g_b/0.3)] md:mt-0 md:h-[43rem]">
           <img
             alt="A candlelit table set for an Aberdeen private dinner"
@@ -659,7 +658,7 @@ function EventsSection() {
             src="https://images.unsplash.com/photo-1646473334251-827ea2e0b9ea?auto=format&fit=crop&w=1200&q=85"
           />
         </div>
-        <div className="relative h-[28rem] overflow-hidden shadow-[0_28px_64px_rgb(from_var(--color-kelp-ink)_r_g_b/0.28)] md:mt-24 md:h-[34rem]">
+        <div className="relative h-[28rem] overflow-hidden shadow-[0_28px_64px_rgb(from_var(--color-kelp-ink)_r_g_b/0.28)] md:h-[34rem]">
           <img
             alt="Guests gathered around a private dining table"
             className="h-full w-full object-cover"

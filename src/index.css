@@ -517,6 +517,16 @@ html.cms-preview-mode .public-site-main [class*="sticky"] {
   position: static !important;
 }
 
+html.cms-preview-mode .scrapbook-gallery-track {
+  flex-wrap: wrap;
+  width: auto;
+  will-change: auto;
+}
+
+html.cms-preview-mode .scrapbook-gallery-track > [aria-hidden="true"] {
+  display: none;
+}
+
 :is(.public-site-main, .site-footer, header) :is(a, button, article, img) {
   transition-duration: 900ms;
   transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);

@@ -120,7 +120,7 @@ export function LocationMap({ location }: LocationMapProps) {
         <rect x="-80" width="960" height="600" fill="var(--color-oyster-white)" />
 
         <path d={northShorePath} fill="var(--color-aberdeen-peach)" />
-        <g fill="var(--color-citrus)" opacity=".82">
+        <g fill="#66854f" opacity=".88">
           <circle cx="-31" cy="38" r="48" />
           <circle cx="45" cy="46" r="53" />
           <circle cx="119" cy="53" r="61" />
@@ -133,7 +133,7 @@ export function LocationMap({ location }: LocationMapProps) {
           <circle cx="782" cy="24" r="87" />
           <circle cx="863" cy="18" r="70" />
         </g>
-        <g fill="var(--color-shell-pink)" opacity=".72">
+        <g fill="#91a86b" opacity=".82">
           <circle cx="-13" cy="91" r="35" />
           <circle cx="85" cy="108" r="40" />
           <circle cx="172" cy="125" r="46" />

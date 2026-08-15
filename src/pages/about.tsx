@@ -1,7 +1,7 @@
 import { motion } from "motion/react"
 import { DecorativeBackdrop } from "../components/decorative-media"
 import { Postcard } from "../components/postcard"
-import { RestaurantGroupSection, RippleSection } from "../components/site-extras"
+import { RestaurantGroupSection, RippleSection, TiltWrap } from "../components/site-extras"
 import { usePageImage, useRequiredPageImage } from "../lib/cms-runtime"
 import { fadeIn } from "../lib/motion"
 
@@ -9,6 +9,8 @@ const antiqueMapOne = "/maps/antique-map-01.png"
 const antiqueMapTwo = "/maps/antique-map-02.png"
 const antiqueMapThree = "/maps/antique-map-03.png"
 const antiqueMapFour = "/maps/antique-map-04.png"
+const aboutPillarsImage =
+  "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1400&q=85"
 
 function AboutPage() {
   return (
@@ -19,24 +21,6 @@ function AboutPage() {
       <GroupSection />
       <RoomSection />
       <RestaurantGroupSection />
-    </div>
-  )
-}
-
-const maritimeFlagPatterns = [
-  "linear-gradient(90deg,var(--color-oyster-white) 0 50%,var(--color-aberdeen-blue) 50% 100%)",
-  "conic-gradient(var(--color-aberdeen-blue) 0 25%,var(--color-oyster-white) 0 50%,var(--color-aberdeen-blue) 0 75%,var(--color-oyster-white) 0)",
-  "linear-gradient(45deg,transparent 42%,var(--color-nautical-red) 42% 58%,transparent 58%),linear-gradient(135deg,transparent 42%,var(--color-nautical-red) 42% 58%,transparent 58%),var(--color-oyster-white)",
-  "linear-gradient(135deg,var(--color-citrus) 0 50%,var(--color-nautical-red) 50% 100%)",
-  "linear-gradient(90deg,transparent 38%,var(--color-oyster-white) 38% 62%,transparent 62%),linear-gradient(0deg,transparent 38%,var(--color-oyster-white) 38% 62%,transparent 62%),var(--color-aberdeen-blue)",
-]
-
-function MaritimeFlags() {
-  return (
-    <div aria-hidden="true" className="flex gap-2">
-      {maritimeFlagPatterns.map((background) => (
-        <span className="h-8 w-8" key={background} style={{ background }} />
-      ))}
     </div>
   )
 }
@@ -65,8 +49,7 @@ function HeroSection() {
         {...fadeIn()}
       >
         <div className="max-w-5xl">
-          <p className="font-utility text-sm tracking-[0.22em] uppercase">About Aberdeen</p>
-          <h1 className="mt-4 font-display text-6xl leading-none md:text-8xl">
+          <h1 className="font-display text-6xl leading-none md:text-8xl">
             A coastal room with a Savannah pulse.
           </h1>
         </div>
@@ -75,12 +58,10 @@ function HeroSection() {
           {...fadeIn(0.18)}
         >
           <Postcard
-            eyebrow="Wish you were here"
             imageAlt="People on a catamaran sailboat in the ocean"
             imageCmsSlot="about-hero-postcard"
             imageSrc={postcardImage}
             message="Meet us where the yachts pass at sunset. Savannah has saved you a seat."
-            size="large"
           />
         </motion.div>
       </motion.div>
@@ -96,11 +77,9 @@ function StorySection() {
       <DecorativeBackdrop imageClassName="object-cover" opacity={0.13} src={antiqueMapOne} />
       <motion.div className="relative z-10 self-start" {...fadeIn()}>
         <Postcard
-          eyebrow="Postcard note"
           imageAlt="People on a catamaran sailboat in the ocean"
           imageSrc={postcardImage}
           message="Seafood, bright spirits, and a dining room made for lingering."
-          size="large"
         />
       </motion.div>
       <motion.div className="relative z-10 max-w-4xl space-y-8" {...fadeIn(0.1)}>
@@ -123,13 +102,13 @@ function OwnerSection() {
     <section className="relative isolate grid gap-12 overflow-hidden bg-oyster-white px-5 pt-8 pb-16 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:pt-12 md:pb-24">
       <DecorativeBackdrop imageClassName="object-cover" opacity={0.12} src={antiqueMapTwo} />
       <motion.div className="relative z-10 text-center text-aberdeen-blue" {...fadeIn()}>
-        <div className="mx-auto h-72 w-72 overflow-hidden rounded-full border-8 border-aberdeen-peach">
+        <TiltWrap className="mx-auto h-72 w-72 overflow-hidden rounded-full border-8 border-aberdeen-peach">
           <img
             alt="Portrait of Aberdeen owner"
             className="no-scroll-reveal h-full w-full object-cover"
             src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=700&q=85"
           />
-        </div>
+        </TiltWrap>
         <h2 className="mt-6 font-display text-4xl leading-none">Richard DeShantz</h2>
         <p className="mt-2 font-utility text-xs tracking-[0.18em] uppercase">
           Restaurant Group Founder
@@ -158,7 +137,7 @@ function OwnerSection() {
 }
 
 function GroupSection() {
-  const stickyImage = usePageImage("about-pillars-sticky-image")
+  const stickyImage = usePageImage("about-pillars-sticky-image") ?? aboutPillarsImage
   const cards = [
     {
       label: "01",
@@ -185,14 +164,8 @@ function GroupSection() {
       <div className="relative z-10 grid items-start gap-10 md:grid-cols-[0.88fr_1.12fr] md:gap-14">
         <div>
           <motion.div className="mb-10 max-w-2xl md:mb-0" {...fadeIn()}>
-            <p
-              className="font-utility text-sm tracking-[0.22em] text-aberdeen-blue uppercase"
-              data-cms-text-key="about.pillars.eyebrow"
-            >
-              The Aberdeen point of view
-            </p>
             <h2
-              className="mt-5 font-display text-5xl leading-none text-aberdeen-blue md:text-7xl"
+              className="font-display text-5xl leading-none text-aberdeen-blue md:text-7xl"
               data-cms-text-key="about.pillars.title"
             >
               Three notes from the coast.
@@ -239,28 +212,30 @@ function GroupSection() {
         </div>
         <div className="order-first grid grid-cols-[1.08fr_0.92fr] items-start gap-4 md:sticky md:top-24 md:order-none md:h-[calc(100svh-8rem)] md:gap-6">
           <motion.div
-            className="about-pillars-image relative h-[28rem] overflow-hidden shadow-[0_28px_64px_rgb(from_var(--color-kelp-ink)_r_g_b/0.26)] md:h-full"
+            className="about-pillars-image relative h-[28rem] md:h-full"
             {...fadeIn(0.12)}
           >
-            {stickyImage ? (
+            <TiltWrap className="relative h-full w-full overflow-hidden">
               <img
                 alt="Aberdeen dining room set for an evening by the coast"
                 className="h-full w-full object-cover"
                 data-cms-slot="about-pillars-sticky-image"
                 src={stickyImage}
               />
-            ) : null}
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-aberdeen-blue/20 via-transparent to-transparent" />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-aberdeen-blue/20 via-transparent to-transparent" />
+            </TiltWrap>
           </motion.div>
           <motion.div
-            className="about-pillars-image relative mt-12 h-72 overflow-hidden shadow-[0_24px_56px_rgb(from_var(--color-kelp-ink)_r_g_b/0.24)] md:mt-24 md:h-[68%]"
+            className="about-pillars-image relative mt-12 h-72 md:mt-24 md:h-[68%]"
             {...fadeIn(0.2)}
           >
-            <img
-              alt="A bright coastal table setting at Aberdeen"
-              className="h-full w-full object-cover"
-              src="https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=900&q=85"
-            />
+            <TiltWrap className="h-full w-full overflow-hidden">
+              <img
+                alt="A bright coastal table setting at Aberdeen"
+                className="h-full w-full object-cover"
+                src="https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=900&q=85"
+              />
+            </TiltWrap>
           </motion.div>
         </div>
       </div>
@@ -274,28 +249,28 @@ function RoomSection() {
       <DecorativeBackdrop imageClassName="object-cover" opacity={0.11} src={antiqueMapFour} />
       <div className="relative z-10 grid gap-6 md:grid-cols-[1.2fr_0.8fr] md:gap-10">
         <motion.div className="relative h-[30rem] w-full md:h-[42rem]" {...fadeIn()}>
-          <img
-            alt="Restaurant bar with warm lights and bottles"
-            className="h-full w-full object-cover"
-            src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=1400&q=85"
-          />
-          <PhotoCorners />
+          <TiltWrap className="h-full w-full overflow-hidden">
+            <img
+              alt="Restaurant bar with warm lights and bottles"
+              className="h-full w-full object-cover"
+              src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=1400&q=85"
+            />
+            <PhotoCorners />
+          </TiltWrap>
         </motion.div>
         <div className="grid gap-3 md:gap-8">
           <motion.div className="relative h-64 w-full md:h-full" {...fadeIn(0.08)}>
-            <img
-              alt="Seafood dish with wine on a dining table"
-              className="h-full w-full object-cover"
-              src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1000&q=85"
-            />
-            <PhotoCorners />
+            <TiltWrap className="h-full w-full overflow-hidden">
+              <img
+                alt="Seafood dish with wine on a dining table"
+                className="h-full w-full object-cover"
+                src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1000&q=85"
+              />
+              <PhotoCorners />
+            </TiltWrap>
           </motion.div>
           <motion.div className="bg-aberdeen-peach p-6 text-aberdeen-blue md:p-8" {...fadeIn(0.16)}>
-            <div className="flex items-center justify-between gap-6">
-              <p className="font-utility text-sm tracking-[0.18em] uppercase">The room</p>
-              <MaritimeFlags />
-            </div>
-            <p className="mt-6 font-playful text-4xl leading-none">
+            <p className="font-playful text-4xl leading-none">
               Bright by day. Blue by night. Always built around the table.
             </p>
           </motion.div>

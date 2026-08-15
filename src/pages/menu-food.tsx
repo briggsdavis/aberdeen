@@ -1,6 +1,7 @@
 import { motion } from "motion/react"
 import { Link } from "react-router"
 import { DecorativeBackdrop } from "../components/decorative-media"
+import { ImageTilt } from "../components/image-tilt"
 import {
   MenuImageSection,
   MenuPageHero,
@@ -387,7 +388,6 @@ function MenuHero() {
         className="relative z-10 grid gap-10 px-5 pt-32 pb-16 md:px-8 md:pt-40 md:pb-24"
         {...fadeIn()}
       >
-        <p className="font-utility text-sm tracking-[0.22em] uppercase">Menus</p>
         <div className="max-w-5xl">
           <h1 className="font-display text-6xl leading-none md:text-8xl">Food</h1>
           <p className="mt-8 max-w-2xl text-lg leading-8">
@@ -443,7 +443,7 @@ function RawBarSection() {
           <MenuList delay={0.08} group={towers} />
         </div>
         <motion.div className="self-start md:sticky md:top-8" {...fadeIn(0.12)}>
-          <div className="relative aspect-[4/5]">
+          <ImageTilt className="relative aspect-[4/5]">
             <img
               alt="An oyster platter on ice with lemon"
               className="h-full w-full object-cover"
@@ -451,7 +451,7 @@ function RawBarSection() {
             />
             <PostcardImageStack />
             <PhotoCorners />
-          </div>
+          </ImageTilt>
           <p className="mt-4 max-w-sm font-utility text-xs tracking-[0.18em] text-aberdeen-blue/70 uppercase">
             Daily selection from both coasts, shucked at the bar.
           </p>
@@ -467,7 +467,7 @@ function StartersSection() {
       <DecorativeBackdrop imageClassName="object-cover" src="/maps/peloponnese-chart.png" />
       <div className="relative z-10 grid gap-12 md:grid-cols-[0.9fr_1fr] md:gap-16">
         <motion.div className="order-2 md:order-1" {...fadeIn(0.08)}>
-          <div className="relative aspect-[4/5]">
+          <ImageTilt className="relative aspect-[4/5]">
             <img
               alt="Cooked shrimp with greens in a blue ceramic bowl"
               className="h-full w-full object-cover"
@@ -475,7 +475,7 @@ function StartersSection() {
             />
             <PostcardImageStack />
             <PhotoCorners />
-          </div>
+          </ImageTilt>
         </motion.div>
         <div className="order-1 md:order-2">
           <MenuList group={starters} />
@@ -498,13 +498,15 @@ function MainsSection() {
         </div>
         <div className="space-y-12">
           <motion.div className="relative aspect-[16/10]" {...fadeIn(0.08)}>
-            <img
-              alt="Whole grilled fish topped with fresh salsa on a plate"
-              className="h-full w-full object-cover"
-              src="https://images.unsplash.com/photo-1777891257650-5dedbba89dd4?auto=format&fit=crop&w=1200&q=85"
-            />
-            <PostcardImageStack />
-            <PhotoCorners />
+            <ImageTilt className="relative h-full w-full">
+              <img
+                alt="Whole grilled fish topped with fresh salsa on a plate"
+                className="h-full w-full object-cover"
+                src="https://images.unsplash.com/photo-1777891257650-5dedbba89dd4?auto=format&fit=crop&w=1200&q=85"
+              />
+              <PostcardImageStack />
+              <PhotoCorners />
+            </ImageTilt>
           </motion.div>
           <MainsList delay={0.16} group={land} />
         </div>
@@ -574,8 +576,7 @@ function ReserveSection() {
     <RippleSection className="relative isolate overflow-hidden bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24">
       <div className="relative z-10 grid gap-10 md:grid-cols-[1fr_0.9fr]">
         <motion.div {...fadeIn()}>
-          <p className="font-utility text-sm tracking-[0.22em] uppercase">Reservations</p>
-          <h2 className="mt-5 max-w-3xl font-display text-5xl leading-none md:text-7xl">
+          <h2 className="max-w-3xl font-display text-5xl leading-none md:text-7xl">
             Come hungry, stay for the light.
           </h2>
           <img
@@ -592,8 +593,7 @@ function ReserveSection() {
               01
             </div>
             <div>
-              <p className="font-utility text-xs tracking-[0.18em] uppercase">Harbor check</p>
-              <p className="mt-2 font-playful text-4xl leading-none">Raw Bar Seat</p>
+              <p className="font-playful text-4xl leading-none">Raw Bar Seat</p>
             </div>
           </div>
           <p className="mb-6 text-lg leading-8">
@@ -614,9 +614,9 @@ export function StandardFoodMenuPage() {
       <MenuPageHero activePath="/menu/food" title="Food" />
       <MenuImageSection
         alt="An oyster platter on ice with lemon"
-        caption="Daily selection from both coasts, shucked at the bar."
         group={rawBar}
         image="https://images.unsplash.com/photo-1679694140422-aecfd3d5dd0b?auto=format&fit=crop&w=1000&q=85"
+        imagePanelDescription="Daily selection from both coasts, shucked at the bar."
         imagePosition="left"
         map="/maps/antique-map-01.png"
       />
@@ -631,6 +631,7 @@ export function StandardFoodMenuPage() {
         background="oyster"
         group={mains}
         image="https://images.unsplash.com/photo-1777891257650-5dedbba89dd4?auto=format&fit=crop&w=1200&q=85"
+        imagePanelDescription="Whole fish, shellfish, and coastal plates served for the table."
         imagePosition="right"
         map="/maps/thimble-islands-chart.png"
       />
@@ -639,6 +640,7 @@ export function StandardFoodMenuPage() {
         background="peach"
         group={land}
         image="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=1200&q=85"
+        imagePanelDescription="Dry-aged steak and roast chicken with bright, coastal accompaniments."
         imagePosition="left"
         map="/maps/antique-map-02.png"
       />

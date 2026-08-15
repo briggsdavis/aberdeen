@@ -41,9 +41,11 @@ function SiteLayout() {
       images.add(image)
       image.classList.add("site-image-wipe-up")
 
-      const host = image.closest<HTMLElement>(
-        "[class*='shadow'], article, .soft-card-shadow, .restaurant-logo-card",
-      )
+      const host =
+        image.closest<HTMLElement>(".image-tilt") ??
+        image.closest<HTMLElement>(
+          "[class*='shadow'], article, .soft-card-shadow, .restaurant-logo-card",
+        )
       if (!host) return
       host.classList.add("site-shadow-wipe-host", "site-shadow-pending")
       shadowHosts.add(host)

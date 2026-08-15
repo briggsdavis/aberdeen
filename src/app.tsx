@@ -8,7 +8,6 @@ import HomePage from "./pages/home"
 import DynamicMenuPage from "./pages/menu-dynamic"
 import NotFoundPage from "./pages/not-found"
 import StaffPage from "./pages/staff"
-import TestHomePage from "./pages/test-home"
 
 const siteLayoutRoute = <SiteLayout />
 const homeRoute = <HomePage />
@@ -31,7 +30,7 @@ const adminRoute = import.meta.env.VITE_CONVEX_URL ? (
     </div>
   </section>
 )
-const testHomeRoute = <TestHomePage />
+
 const notFoundRoute = <NotFoundPage />
 
 function App() {
@@ -46,7 +45,6 @@ function App() {
         <Route path="contact" element={contactRoute} />
         <Route path="staff" element={staffRoute} />
         <Route path="events" element={eventsRoute} />
-        <Route path="test" element={testHomeRoute} />
         <Route path="*" element={notFoundRoute} />
       </Route>
     </Routes>

@@ -11,6 +11,7 @@ import {
 import { useRef } from "react"
 import { useOutletContext } from "react-router"
 import { DecorativeBackdrop } from "../components/decorative-media"
+import { FramedPhoto } from "../components/framed-photo"
 import { LocationMap } from "../components/location-map"
 import { Postcard } from "../components/postcard"
 import {
@@ -24,7 +25,6 @@ import { restaurantAddress } from "../lib/location"
 import { fadeIn, fadeInPlace } from "../lib/motion"
 
 const antiqueMapOne = "/maps/antique-map-01.png"
-const antiqueMapTwo = "/maps/antique-map-02.png"
 const antiqueMapThree = "/maps/antique-map-03.png"
 const homeHeroImage =
   "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=2000&q=85"
@@ -53,7 +53,7 @@ function HomePage() {
       <MenuSection />
       <ReservationsSection />
       <ScrollGallerySection />
-      <FAQSection cardsFirst />
+      <FAQSection cardsFirst showShip={false} />
       <EventsSection />
       <RestaurantGroupSection />
     </div>
@@ -134,7 +134,7 @@ function CoastalTextMarquee() {
 
 function HeroSection({ playIntro }: { playIntro: boolean }) {
   const image = useRequiredPageImage("hero", homeHeroImage)
-  const postcardImage = useRequiredPageImage("home-hero-postcard", homeHeroPostcardImage)
+  const framedImage = useRequiredPageImage("home-hero-postcard", homeHeroPostcardImage)
   const shouldReduceMotion = useReducedMotion()
   const animateIntro = playIntro && !shouldReduceMotion
   const introDelay = animateIntro ? 2.95 : 0
@@ -258,37 +258,17 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
             }}
           >
             <div className="rotate-2">
-              <Postcard
-                eyebrow="Wish you were here"
-                imageAlt="A guest enjoying dinner at Aberdeen"
+              <FramedPhoto
+                alt="A guest enjoying dinner at Aberdeen"
+                className="w-full"
                 imageCmsSlot="home-hero-postcard"
-                imageSrc={postcardImage}
-                message="Meet us where the yachts pass at sunset. Savannah has saved you a seat."
-                size="large"
+                src={framedImage}
               />
             </div>
           </motion.div>
         </div>
       </div>
     </section>
-  )
-}
-
-const maritimeFlagPatterns = [
-  "linear-gradient(90deg,var(--color-oyster-white) 0 50%,var(--color-aberdeen-blue) 50% 100%)",
-  "conic-gradient(var(--color-aberdeen-blue) 0 25%,var(--color-oyster-white) 0 50%,var(--color-aberdeen-blue) 0 75%,var(--color-oyster-white) 0)",
-  "linear-gradient(45deg,transparent 42%,var(--color-nautical-red) 42% 58%,transparent 58%),linear-gradient(135deg,transparent 42%,var(--color-nautical-red) 42% 58%,transparent 58%),var(--color-oyster-white)",
-  "linear-gradient(135deg,var(--color-citrus) 0 50%,var(--color-nautical-red) 50% 100%)",
-  "linear-gradient(90deg,transparent 38%,var(--color-oyster-white) 38% 62%,transparent 62%),linear-gradient(0deg,transparent 38%,var(--color-oyster-white) 38% 62%,transparent 62%),var(--color-aberdeen-blue)",
-]
-
-function MaritimeFlags() {
-  return (
-    <div aria-hidden="true" className="flex gap-2">
-      {maritimeFlagPatterns.map((background) => (
-        <span className="h-8 w-8" key={background} style={{ background }} />
-      ))}
-    </div>
   )
 }
 
@@ -305,18 +285,17 @@ function IntroSection() {
       <DecorativeBackdrop imageClassName="object-cover" opacity={0.15} src={antiqueMapOne} />
       <div className="relative z-10 grid gap-10 md:grid-cols-[0.85fr_1.15fr] md:items-stretch">
         <motion.div className="relative h-[34rem] md:h-auto md:self-stretch" {...fadeIn()}>
-          <img
-            alt="Portrait of a warmly lit restaurant dining detail"
-            className="h-full w-full object-cover"
-            src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1000&q=85"
-          />
-          <PhotoCorners />
+          <TiltWrap className="teak-grain h-full w-full overflow-hidden p-2">
+            <img
+              alt="Portrait of a warmly lit restaurant dining detail"
+              className="h-full w-full object-cover"
+              src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1000&q=85"
+            />
+            <PhotoCorners />
+          </TiltWrap>
         </motion.div>
         <motion.div className="flex h-full max-w-4xl flex-col justify-center" {...fadeIn(0.1)}>
-          <p className="font-utility text-sm tracking-[0.22em] text-aberdeen-blue uppercase">
-            Richard DeShantz Restaurant Group
-          </p>
-          <h2 className="mt-5 font-display text-5xl leading-none text-aberdeen-blue md:text-7xl">
+          <h2 className="font-display text-5xl leading-none text-aberdeen-blue md:text-7xl">
             Built like a coastal postcard, served with Savannah appetite.
           </h2>
           <p className="mt-8 max-w-2xl text-lg leading-8">
@@ -348,22 +327,25 @@ function MenuSection() {
       title: "Food",
       href: "/menu/food",
       image: foodImage,
-      imagePosition: "object-top",
       slot: "div:0/section:2/div:2/a:0/div:1/img:0",
+      copy: "Cold oysters, coastal plates, and generous mains.",
+      label: "Raw bar",
     },
     {
       title: "Spirits",
       href: "/menu/spirits",
       image: spiritsImage,
-      imagePosition: "object-center",
       slot: "div:0/section:2/div:2/a:1/div:1/img:0",
+      copy: "Crisp cocktails, blue-hour pours, and bottles for the table.",
+      label: "Blue hour",
     },
     {
       title: "Beverages",
       href: "/menu/beverages",
       image: beveragesImage,
-      imagePosition: "object-center",
       slot: "div:0/section:2/div:2/a:2/div:1/img:0",
+      copy: "Sparkling, zero-proof, coffee, tea, and easy afternoon refreshers.",
+      label: "Sparkling",
     },
   ].map((menu, index) => ({
     ...menu,
@@ -372,68 +354,51 @@ function MenuSection() {
   }))
 
   return (
-    <section className="relative isolate overflow-hidden bg-oyster-white px-5 pt-16 pb-24 md:px-8 md:pt-24 md:pb-44">
-      <DecorativeBackdrop imageClassName="object-cover" opacity={0.13} src={antiqueMapTwo} />
-      <motion.div
-        className="relative z-10 mb-10 flex items-end justify-between gap-8 md:mb-12"
-        {...fadeIn()}
-      >
-        <div className="max-w-3xl">
-          <p
-            className="font-utility text-sm tracking-[0.22em] text-aberdeen-blue uppercase"
-            data-cms-text-key="home.menus.eyebrow"
-          >
-            Explore Aberdeen
-          </p>
+    <section className="bg-oyster-white px-5 py-16 md:px-8 md:py-24">
+      <motion.div className="mb-10 flex items-end justify-between gap-6" {...fadeIn()}>
+        <div>
           <h2
-            className="mt-4 font-display text-5xl leading-none text-aberdeen-blue md:text-7xl"
+            className="font-display text-5xl leading-none text-aberdeen-blue md:text-7xl"
             data-cms-text-key="home.menus.title"
           >
-            Our Curated Menus
+            Menus
           </h2>
-          <p
-            className="mt-5 max-w-2xl text-lg leading-8 text-kelp-ink/75"
-            data-cms-text-key="home.menus.copy"
-          >
-            Choose from our curated collection of coastal dishes, bright spirits, and refreshing
-            pours.
-          </p>
         </div>
-        <a
-          className="aberdeen-action hidden border border-aberdeen-blue text-aberdeen-blue md:inline-flex"
-          data-cms-link-key="home.menus.primary-link"
-          href="/menu/food"
-        >
-          View food menu
-        </a>
       </motion.div>
-      <div className="relative z-10 mx-auto grid max-w-7xl gap-10 md:grid-cols-3 md:gap-7">
+      <div className="grid gap-5 md:grid-cols-3">
         {menus.map((menu, index) => (
-          <a
+          <motion.a
             aria-label={`View ${menu.title} menu`}
-            className="group block text-aberdeen-blue"
+            className="group block bg-aberdeen-peach text-aberdeen-blue"
             data-cms-structured-link
             href={menu.href}
             key={menu.title}
+            {...fadeIn(index * 0.08)}
           >
-            <div aria-hidden="true" className="hidden" data-cms-structure="rope-divider" />
-            <div className="relative h-80 w-full overflow-hidden md:h-[34rem]">
+            <div aria-hidden="true" className="teak-grain h-3" />
+            <div className="relative aspect-[4/5] overflow-hidden">
               {menu.image ? (
                 <img
                   alt=""
-                  className={`h-full w-full object-cover ${menu.imagePosition}`}
+                  className="menu-image-hover h-full w-full object-cover"
                   data-cms-slot={menu.slot}
                   src={menu.image}
                 />
               ) : null}
+              <div className="absolute right-4 bottom-4 rounded-full border border-aberdeen-blue bg-oyster-white px-5 py-3 font-playful text-2xl leading-none text-aberdeen-blue">
+                <p className="mt-1.25">{menu.label}</p>
+              </div>
             </div>
-            <h3
-              className="menu-tab-underline mt-4 w-fit font-display text-3xl leading-none md:text-4xl lg:text-5xl"
-              data-cms-text-key={`home.menus.item-${index + 1}.title`}
-            >
-              {menu.title}
-            </h3>
-          </a>
+            <div className="min-h-44 p-5">
+              <h3
+                className="font-display text-5xl decoration-citrus decoration-2 underline-offset-8 group-hover:underline"
+                data-cms-text-key={`home.menus.item-${index + 1}.title`}
+              >
+                {menu.title}
+              </h3>
+              <p className="mt-3 max-w-sm text-base leading-7 text-kelp-ink">{menu.copy}</p>
+            </div>
+          </motion.a>
         ))}
       </div>
     </section>
@@ -467,15 +432,6 @@ function ScrollGallerySection() {
       ref={sectionRef}
     >
       <DecorativeBackdrop imageClassName="object-cover" opacity={0.13} src={antiqueMapThree} />
-      <motion.div
-        className="relative z-10 mb-10 flex items-center justify-between gap-6 px-5 md:px-8"
-        {...fadeIn()}
-      >
-        <p className="font-utility text-sm tracking-[0.22em] text-aberdeen-blue uppercase">
-          From the scrapbook
-        </p>
-        <MaritimeFlags />
-      </motion.div>
       <motion.div
         className="scrapbook-gallery-track relative z-10 flex w-max gap-5 px-3 will-change-transform md:gap-7 md:px-8"
         style={{ x }}
@@ -516,26 +472,20 @@ function ReservationsSection() {
       <div className="grid gap-10 md:grid-cols-[0.9fr_1fr]">
         <motion.div className="relative order-2 self-end md:order-1" {...fadeIn(0.3)}>
           <Postcard
-            eyebrow="Postcard from"
             imageAlt="Seafood spread on an Aberdeen table"
             imageSrc={postcardImage}
             message="Meet us where the yachts pass at sunset. Savannah has saved you a seat."
-            size="large"
           />
-          <div className="mt-8 flex flex-wrap items-center justify-between gap-6">
-            <MaritimeFlags />
+          <div className="mt-8 flex justify-end">
             <a className="aberdeen-action bg-aberdeen-peach text-aberdeen-blue" href="/contact">
               Plan a visit
             </a>
           </div>
         </motion.div>
         <div className="order-1 md:order-2">
-          <motion.p className="font-utility text-sm tracking-[0.22em] uppercase" {...fadeInPlace()}>
-            Reservations
-          </motion.p>
           <motion.h2
-            className="mt-5 max-w-3xl font-display text-5xl leading-none md:text-7xl"
-            {...fadeInPlace(0.14)}
+            className="max-w-3xl font-display text-5xl leading-none md:text-7xl"
+            {...fadeInPlace()}
           >
             Join us where the table catches the light.
           </motion.h2>
@@ -556,27 +506,21 @@ function ReservationEditorialSection() {
           className="relative z-10 max-w-2xl self-start md:absolute md:top-0 md:left-0 md:w-[46%] md:pr-10"
           {...fadeInPlace()}
         >
-          <p
-            className="font-utility text-xs tracking-[0.22em] uppercase"
-            data-cms-text-key="home.reservations.editorial.eyebrow"
-          >
-            Your table is waiting
-          </p>
           <h2
-            className="mt-5 max-w-xl font-display text-5xl leading-[0.95] md:text-7xl"
+            className="max-w-xl font-display text-5xl leading-[0.95] md:text-7xl"
             data-cms-text-key="home.reservations.editorial.title"
           >
             A beautiful evening begins by the water.
           </h2>
           <p
-            className="mt-7 max-w-lg text-base leading-7 text-kelp-ink/75 md:text-lg md:leading-8"
+            className="mt-7 max-w-lg text-xl leading-8 text-kelp-ink/75 md:text-2xl"
             data-cms-text-key="home.reservations.editorial.copy"
           >
             Come for bright seafood, cold martinis, and a table made for lingering. Reserve your
             evening at Aberdeen and let the coast set the pace.
           </p>
           <a
-            className="aberdeen-action mt-8 bg-aberdeen-blue text-aberdeen-peach"
+            className="aberdeen-action mt-8 bg-aberdeen-blue text-lg text-aberdeen-peach"
             data-cms-link-key="home.reservations.editorial.primary-link"
             href="/contact"
           >
@@ -584,22 +528,26 @@ function ReservationEditorialSection() {
           </a>
         </motion.div>
 
-        <div className="relative h-[62svh] overflow-hidden md:absolute md:top-0 md:right-0 md:h-[72%] md:w-[46%]">
-          <img
-            alt="Luxury yacht cruising across calm blue water"
-            className="h-full w-full object-cover"
-            data-cms-slot="home.reservations.editorial.yacht"
-            src={yachtImage}
-          />
+        <div className="relative h-[62svh] md:absolute md:top-0 md:right-0 md:h-[72%] md:w-[46%]">
+          <TiltWrap className="teak-grain h-full w-full overflow-hidden p-2">
+            <img
+              alt="Luxury yacht cruising across calm blue water"
+              className="h-full w-full object-cover"
+              data-cms-slot="home.reservations.editorial.yacht"
+              src={yachtImage}
+            />
+          </TiltWrap>
         </div>
 
-        <div className="relative h-[66svh] overflow-hidden md:absolute md:bottom-0 md:left-0 md:h-[56%] md:w-[46%]">
-          <img
-            alt="Palm-lined beach beside clear turquoise water"
-            className="h-full w-full object-cover"
-            data-cms-slot="home.reservations.editorial.beach"
-            src={beachImage}
-          />
+        <div className="relative h-[66svh] md:absolute md:bottom-0 md:left-0 md:h-[56%] md:w-[46%]">
+          <TiltWrap className="teak-grain h-full w-full overflow-hidden p-2">
+            <img
+              alt="Palm-lined beach beside clear turquoise water"
+              className="h-full w-full object-cover"
+              data-cms-slot="home.reservations.editorial.beach"
+              src={beachImage}
+            />
+          </TiltWrap>
         </div>
 
         <motion.div
@@ -607,14 +555,14 @@ function ReservationEditorialSection() {
           {...fadeInPlace(0.12)}
         >
           <p
-            className="max-w-sm text-sm leading-6 text-kelp-ink/70"
+            className="max-w-sm text-xl leading-8 text-kelp-ink/70 md:text-2xl"
             data-cms-text-key="home.reservations.editorial.note"
           >
             Sunset tables go quickly. Choose your evening now, and we’ll have the welcome waiting
             when you arrive.
           </p>
           <a
-            className="mt-5 inline-flex border-b border-aberdeen-blue/45 pb-1 font-utility text-xs tracking-[0.16em] uppercase"
+            className="mt-5 inline-flex border-b border-aberdeen-blue/45 pb-1 font-utility text-lg tracking-[0.16em] uppercase"
             data-cms-link-key="home.reservations.editorial.secondary-link"
             href="/contact"
           >
@@ -634,10 +582,7 @@ function EventsSection() {
         {...fadeIn()}
       >
         <div className="text-aberdeen-blue">
-          <p className="font-utility text-sm tracking-[0.22em] uppercase">
-            Events & private dining
-          </p>
-          <h2 className="mt-5 font-display text-5xl leading-none md:text-7xl">
+          <h2 className="font-display text-5xl leading-none md:text-7xl">
             A table made for the moment.
           </h2>
           <p className="mt-7 max-w-xl text-lg leading-8 text-kelp-ink/80">
@@ -651,19 +596,23 @@ function EventsSection() {
             View events
           </a>
         </div>
-        <div className="relative mt-10 h-[34rem] overflow-hidden shadow-[0_30px_70px_rgb(from_var(--color-kelp-ink)_r_g_b/0.3)] md:mt-0 md:h-[43rem]">
-          <img
-            alt="A candlelit table set for an Aberdeen private dinner"
-            className="h-full w-full object-cover"
-            src="https://images.unsplash.com/photo-1646473334251-827ea2e0b9ea?auto=format&fit=crop&w=1200&q=85"
-          />
+        <div className="relative mt-10 h-[34rem] md:mt-0 md:h-[43rem]">
+          <TiltWrap className="h-full w-full overflow-hidden">
+            <img
+              alt="A candlelit table set for an Aberdeen private dinner"
+              className="h-full w-full object-cover"
+              src="https://images.unsplash.com/photo-1646473334251-827ea2e0b9ea?auto=format&fit=crop&w=1200&q=85"
+            />
+          </TiltWrap>
         </div>
-        <div className="relative h-[28rem] overflow-hidden shadow-[0_28px_64px_rgb(from_var(--color-kelp-ink)_r_g_b/0.28)] md:h-[34rem]">
-          <img
-            alt="Guests gathered around a private dining table"
-            className="h-full w-full object-cover"
-            src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1000&q=85"
-          />
+        <div className="relative h-[28rem] md:h-[34rem]">
+          <TiltWrap className="h-full w-full overflow-hidden">
+            <img
+              alt="Guests gathered around a private dining table"
+              className="h-full w-full object-cover"
+              src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1000&q=85"
+            />
+          </TiltWrap>
         </div>
       </motion.div>
     </section>

@@ -1,8 +1,8 @@
-import { ArrowUpRight, CaretLeft, CaretRight, X } from "@phosphor-icons/react"
+import { CaretLeft, CaretRight, X } from "@phosphor-icons/react"
 import { motion } from "motion/react"
 import { useEffect, useState } from "react"
 import { DecorativeBackdrop } from "../components/decorative-media"
-import { MaritimeFlags, RopeDivider } from "../components/nautical-details"
+import { RopeDivider } from "../components/nautical-details"
 import { RippleSection } from "../components/site-extras"
 import { useCmsRuntime, useRequiredPageImage } from "../lib/cms-runtime"
 import { fadeIn, fadeInPlace } from "../lib/motion"
@@ -245,7 +245,7 @@ function UpcomingList({ events }: { events: DisplayEvent[] }) {
             <p className="font-utility text-sm tracking-[0.18em] text-aberdeen-blue uppercase">
               {event.weekday}, {event.month} {event.day} · {event.time}
             </p>
-            <h3 className="mt-4 font-display text-4xl leading-none text-kelp-ink md:text-5xl">
+            <h3 className="mt-4 font-display text-4xl leading-none text-aberdeen-blue md:text-5xl">
               {event.title}
             </h3>
             <p className="event-row-description mt-5 max-w-2xl text-lg leading-8 text-kelp-ink/80">
@@ -277,14 +277,10 @@ function HeroSection() {
         {...fadeIn()}
       >
         <div className="max-w-5xl">
-          <p className="font-utility text-sm tracking-[0.22em] uppercase">Events</p>
-          <h1 className="mt-4 font-display text-6xl leading-none md:text-8xl">
+          <h1 className="font-display text-6xl leading-none md:text-8xl">
             Seasonal nights worth circling.
           </h1>
         </div>
-        <motion.div className="relative z-20 shrink-0 self-end" {...fadeIn(0.18)}>
-          <MaritimeFlags />
-        </motion.div>
       </motion.div>
     </section>
   )
@@ -355,7 +351,7 @@ function CalendarGrid({
         ))}
         {leadingCalendarDays.map((day) => (
           <div
-            className="h-32 border-r border-b border-aberdeen-blue/25 bg-aberdeen-peach/40 md:h-48"
+            className="h-48 border-r border-b border-aberdeen-blue/25 bg-aberdeen-peach/40 md:h-64"
             key={`leading-${day}`}
           />
         ))}
@@ -365,7 +361,7 @@ function CalendarGrid({
           if (!scheduledEvents) {
             return (
               <div
-                className="h-32 border-r border-b border-aberdeen-blue/25 bg-white/35 p-3 font-utility text-xs tracking-[0.14em] text-aberdeen-blue/45 uppercase md:h-48 md:p-5"
+                className="h-48 border-r border-b border-aberdeen-blue/25 bg-white/35 p-3 font-utility text-xs tracking-[0.14em] text-aberdeen-blue/45 uppercase md:h-64 md:p-5"
                 key={`day-${day}`}
               >
                 {day}
@@ -373,9 +369,24 @@ function CalendarGrid({
             )
           }
 
+          const mainEvent = scheduledEvents.length === 1 ? scheduledEvents[0] : undefined
+
+          if (mainEvent && !mainEvent.event.recurrence) {
+            return (
+              <MainCalendarEvent
+                day={day}
+                event={mainEvent.event}
+                fillsCell
+                index={mainEvent.index}
+                key={`event-${mainEvent.event.startsAt}`}
+                onSelect={setSelectedEvent}
+              />
+            )
+          }
+
           return (
             <div
-              className="relative h-32 overflow-y-auto border-r border-b border-aberdeen-blue/25 bg-white/35 p-3 text-aberdeen-blue md:h-48 md:p-5"
+              className="relative h-48 overflow-y-auto border-r border-b border-aberdeen-blue/25 bg-white/35 p-3 text-aberdeen-blue md:h-64 md:p-5"
               key={`events-${day}`}
             >
               <p className="font-utility text-xs tracking-[0.14em] text-aberdeen-blue/45 uppercase">
@@ -397,29 +408,13 @@ function CalendarGrid({
                       </h3>
                     </motion.div>
                   ) : (
-                    <motion.button
-                      className="group relative w-full overflow-hidden bg-aberdeen-blue p-3 text-left text-aberdeen-peach shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
+                    <MainCalendarEvent
+                      day={day}
+                      event={event}
+                      index={index}
                       key={`${event.title}-${event.startsAt}-${index}`}
-                      onClick={() => setSelectedEvent(event)}
-                      type="button"
-                      {...fadeInPlace(index * 0.06)}
-                    >
-                      <span className="absolute inset-x-0 top-0 h-1 bg-citrus" />
-                      <span className="flex items-start justify-between gap-2">
-                        <span>
-                          <span className="font-utility text-[10px] tracking-[0.14em] uppercase opacity-70">
-                            {event.time}
-                          </span>
-                          <span className="mt-2 block font-display text-xl leading-none md:text-2xl">
-                            {event.title}
-                          </span>
-                        </span>
-                        <ArrowUpRight
-                          className="mt-0.5 shrink-0 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                          size={16}
-                        />
-                      </span>
-                    </motion.button>
+                      onSelect={setSelectedEvent}
+                    />
                   ),
                 )}
               </div>
@@ -428,7 +423,7 @@ function CalendarGrid({
         })}
         {trailingCalendarDays.map((day) => (
           <div
-            className="h-32 border-r border-b border-aberdeen-blue/25 bg-white/35 md:h-48"
+            className="h-48 border-r border-b border-aberdeen-blue/25 bg-white/35 md:h-64"
             key={`trailing-${day}`}
           />
         ))}
@@ -437,6 +432,42 @@ function CalendarGrid({
         <EventDetailsModal event={selectedEvent} onClose={() => setSelectedEvent(null)} />
       ) : null}
     </motion.div>
+  )
+}
+
+function MainCalendarEvent({
+  day,
+  event,
+  fillsCell = false,
+  index,
+  onSelect,
+}: {
+  day: number
+  event: DisplayEvent
+  fillsCell?: boolean
+  index: number
+  onSelect: (event: DisplayEvent) => void
+}) {
+  return (
+    <motion.button
+      className={`relative overflow-y-auto bg-aberdeen-peach p-3 text-left text-aberdeen-blue md:p-5 ${
+        fillsCell
+          ? "h-48 border-r border-b border-aberdeen-blue/25 md:h-64"
+          : "w-full border border-aberdeen-blue/25"
+      }`}
+      onClick={() => onSelect(event)}
+      type="button"
+      {...fadeInPlace(index * 0.06)}
+    >
+      <span className="flex items-start justify-between gap-3">
+        <span className="grid h-12 w-12 shrink-0 place-items-center bg-citrus font-display text-3xl leading-none">
+          {day}
+        </span>
+        <span className="font-utility text-xs tracking-[0.14em] uppercase">{event.time}</span>
+      </span>
+      <span className="mt-4 block font-display text-3xl leading-none">{event.title}</span>
+      <img alt="" className="mt-4 h-24 w-full object-cover" src={event.image} />
+    </motion.button>
   )
 }
 
@@ -543,8 +574,7 @@ function PrivateEventsSection() {
     <RippleSection className="bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24">
       <div className="grid gap-10 md:grid-cols-[1fr_0.9fr]">
         <motion.div {...fadeIn()}>
-          <p className="font-utility text-sm tracking-[0.22em] uppercase">Private events</p>
-          <h2 className="mt-5 max-w-3xl font-playful text-5xl leading-none md:text-7xl">
+          <h2 className="max-w-3xl font-playful text-5xl leading-none md:text-7xl">
             Gatherings with seafood, spirits, and a room already dressed for it.
           </h2>
           <img
@@ -567,8 +597,7 @@ function FerryTicket() {
         <div className="p-6">
           <div className="flex items-start justify-between gap-6">
             <div>
-              <p className="font-utility text-xs tracking-[0.18em] uppercase">Ferry ticket</p>
-              <p className="mt-3 font-playful text-5xl leading-none">Private Passage</p>
+              <p className="font-playful text-5xl leading-none">Private Passage</p>
             </div>
             <div className="grid h-16 w-16 place-items-center bg-citrus font-display text-4xl leading-none">
               27

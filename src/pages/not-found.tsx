@@ -18,8 +18,7 @@ export default function NotFoundPage() {
           src="/illustrations/nautical/schooner.png"
         />
         <div className="relative max-w-3xl">
-          <p className="font-utility text-sm tracking-[0.24em] uppercase">404 · Uncharted waters</p>
-          <h1 className="mt-5 font-display text-7xl leading-none md:text-9xl">
+          <h1 className="font-display text-7xl leading-none md:text-9xl">
             This page drifted away.
           </h1>
           <p className="mx-auto mt-7 max-w-xl text-lg leading-8 text-kelp-ink/75">

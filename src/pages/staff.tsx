@@ -2,7 +2,7 @@ import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "mo
 import { useRef } from "react"
 import { useLocation } from "react-router"
 import { ScrollRotatingWheel } from "../components/decorative-media"
-import { MaritimeFlags } from "../components/nautical-details"
+import { ImageTilt } from "../components/image-tilt"
 import { useCmsRuntime, useRequiredPageImage } from "../lib/cms-runtime"
 import { fadeIn } from "../lib/motion"
 
@@ -84,16 +84,10 @@ function HeroSection() {
         {...fadeIn()}
       >
         <div className="max-w-5xl">
-          <p className="font-utility text-sm tracking-[0.22em] uppercase" data-cms-no-edit>
-            Staff
-          </p>
-          <h1 className="mt-4 font-display text-6xl leading-none md:text-8xl">
+          <h1 className="font-display text-6xl leading-none md:text-8xl">
             The people who keep the room glowing.
           </h1>
         </div>
-        <motion.div className="relative z-20 shrink-0 self-end" {...fadeIn(0.18)}>
-          <MaritimeFlags />
-        </motion.div>
       </motion.div>
     </section>
   )
@@ -122,10 +116,7 @@ function RosterSection({ introductionOnly = false }: { introductionOnly?: boolea
           data-testid="staff-intro"
         >
           <motion.div {...fadeIn()}>
-            <p className="font-utility text-sm tracking-[0.22em] text-aberdeen-blue uppercase">
-              Aberdeen staff
-            </p>
-            <h2 className="mt-5 font-display text-5xl leading-none text-aberdeen-blue md:text-7xl">
+            <h2 className="font-display text-5xl leading-none text-aberdeen-blue md:text-7xl">
               Careful hands, clear timing, warm rooms.
             </h2>
             <p className="mt-8 max-w-lg text-lg leading-8 text-kelp-ink/80">
@@ -172,7 +163,7 @@ function StaffCard({
       style={{ scale: shouldReduceMotion ? 1 : scale }}
       {...fadeIn(index * 0.04)}
     >
-      <div className="relative mx-auto w-full max-w-md bg-aberdeen-peach p-4 text-aberdeen-blue shadow-[0_24px_65px_rgb(from_var(--color-kelp-ink)_r_g_b/0.18)]">
+      <ImageTilt className="relative mx-auto w-full max-w-md bg-aberdeen-peach p-4 text-aberdeen-blue">
         <div className="relative aspect-[4/5] overflow-hidden shadow-[0_18px_38px_rgb(from_var(--color-kelp-ink)_r_g_b/0.24)]">
           <img
             alt={person.name}
@@ -185,7 +176,7 @@ function StaffCard({
           <h2 className="mt-3 font-display text-5xl leading-none">{person.name}</h2>
           <p className="mt-4 leading-7 text-kelp-ink/80">{person.note}</p>
         </div>
-      </div>
+      </ImageTilt>
     </motion.article>
   )
 }

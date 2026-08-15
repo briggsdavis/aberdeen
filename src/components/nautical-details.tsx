@@ -1,21 +1,3 @@
-export const maritimeFlagPatterns = [
-  "linear-gradient(90deg,var(--color-oyster-white) 0 50%,var(--color-aberdeen-blue) 50% 100%)",
-  "conic-gradient(var(--color-aberdeen-blue) 0 25%,var(--color-oyster-white) 0 50%,var(--color-aberdeen-blue) 0 75%,var(--color-oyster-white) 0)",
-  "linear-gradient(45deg,transparent 42%,var(--color-nautical-red) 42% 58%,transparent 58%),linear-gradient(135deg,transparent 42%,var(--color-nautical-red) 42% 58%,transparent 58%),var(--color-oyster-white)",
-  "linear-gradient(135deg,var(--color-citrus) 0 50%,var(--color-nautical-red) 50% 100%)",
-  "linear-gradient(90deg,transparent 38%,var(--color-oyster-white) 38% 62%,transparent 62%),linear-gradient(0deg,transparent 38%,var(--color-oyster-white) 38% 62%,transparent 62%),var(--color-aberdeen-blue)",
-]
-
-export function MaritimeFlags({ className = "" }: { className?: string }) {
-  return (
-    <div aria-hidden="true" className={`flex gap-2 ${className}`}>
-      {maritimeFlagPatterns.map((background) => (
-        <span className="h-8 w-8" key={background} style={{ background }} />
-      ))}
-    </div>
-  )
-}
-
 export function RopeDivider({ className = "" }: { className?: string }) {
   return (
     <div aria-hidden="true" className={`hidden ${className}`} data-cms-structure="rope-divider" />

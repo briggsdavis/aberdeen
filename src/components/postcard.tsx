@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { ImageTilt } from "./image-tilt"
 
 const stampImages = [
   "/stamps/ball.png",
@@ -9,86 +10,81 @@ const stampImages = [
 ]
 
 export function Postcard({
-  eyebrow = "Wish you were here",
   imageAlt,
   imageCmsSlot,
   imageSrc,
   message,
-  size,
+  size = "large",
+  stampSrc,
 }: {
-  eyebrow?: string
   imageAlt: string
   imageCmsSlot?: string
   imageSrc: string | null
   message: string
-  size: "large" | "small"
+  size?: "large" | "small"
+  stampSrc?: string
 }) {
   const isLarge = size === "large"
-  const [stampImage] = useState(() => stampImages[Math.floor(Math.random() * stampImages.length)]!)
+  const [randomStampSrc] = useState(
+    () => stampImages[Math.floor(Math.random() * stampImages.length)]!,
+  )
 
   return (
-    <article className="postcard-paper relative aspect-[8/5] overflow-hidden bg-white text-aberdeen-blue shadow-[0_18px_46px_color-mix(in_srgb,var(--color-aberdeen-blue)_24%,transparent)]">
-      <div
-        className={`absolute grid grid-cols-2 ${isLarge ? "inset-2.5 gap-2.5 lg:inset-4 lg:gap-4" : "inset-2 gap-2"}`}
-      >
+    <ImageTilt>
+      <article className="postcard-paper relative aspect-[8/5] overflow-hidden bg-white text-aberdeen-blue">
         <div
-          className={`flex min-h-0 flex-col border-r border-aberdeen-blue/55 ${
-            isLarge ? "pr-2.5 lg:pr-4" : "pr-2"
+          className={`absolute grid grid-cols-2 ${
+            isLarge
+              ? "inset-2.5 gap-2.5 text-sm lg:inset-4 lg:gap-4"
+              : "inset-2 gap-2 text-[0.5rem]"
           }`}
         >
-          <p
-            className={`shrink-0 font-utility font-semibold tracking-[0.18em] uppercase ${
-              isLarge ? "mb-1 text-[0.55rem] lg:mb-2 lg:text-xs" : "mb-1 text-[0.4rem]"
+          <div
+            className={`flex min-h-0 flex-col border-r border-aberdeen-blue/55 ${
+              isLarge ? "pr-2.5 lg:pr-4" : "pr-2"
             }`}
           >
-            {eyebrow}
-          </p>
-          <div className="min-h-0 flex-1 overflow-hidden bg-oyster-white">
-            {imageSrc ? (
-              <img
-                alt={imageAlt}
-                className="h-full w-full object-cover"
-                data-cms-slot={imageCmsSlot}
-                src={imageSrc}
-              />
-            ) : null}
+            <div className="min-h-0 flex-1 overflow-hidden bg-oyster-white">
+              {imageSrc ? (
+                <img
+                  alt={imageAlt}
+                  className="h-full w-full object-cover"
+                  data-cms-slot={imageCmsSlot}
+                  src={imageSrc}
+                />
+              ) : null}
+            </div>
           </div>
-        </div>
 
-        <div className="flex min-h-0 min-w-0 flex-col">
-          <div
-            className={`ml-auto aspect-square shrink-0 overflow-hidden border-2 border-aberdeen-blue/65 p-0.5 ${
-              isLarge ? "h-8 w-8 lg:h-12 lg:w-12" : "h-7 w-7"
-            }`}
-          >
-            <img alt="" className="h-full w-full object-cover" src={stampImage} />
+          <div className="flex min-h-0 min-w-0 flex-col">
+            <div
+              className={`ml-auto aspect-square shrink-0 overflow-hidden border-2 border-aberdeen-blue/65 p-0.5 ${
+                isLarge ? "h-8 w-8 lg:h-12 lg:w-12" : "h-7 w-7"
+              }`}
+            >
+              <img alt="" className="h-full w-full object-cover" src={stampSrc ?? randomStampSrc} />
+            </div>
+            <p className={`font-playful leading-[1.05] ${isLarge ? "mt-1.5 lg:mt-3" : "mt-1.5"}`}>
+              {message}
+            </p>
+            <div
+              aria-hidden="true"
+              className={`mt-auto ${isLarge ? "space-y-1 pb-0.5 lg:space-y-2 lg:pb-1" : "space-y-1.5 pb-1"}`}
+            >
+              <div className="border-b border-aberdeen-blue/55" />
+              <div className="border-b border-aberdeen-blue/55" />
+              <div className="border-b border-aberdeen-blue/55" />
+            </div>
+            <p
+              className={`font-utility tracking-[0.17em] uppercase opacity-65 ${
+                isLarge ? "mt-1 lg:mt-2" : "mt-1"
+              }`}
+            >
+              Savannah, Georgia
+            </p>
           </div>
-          <p
-            className={`font-playful leading-[1.05] ${
-              isLarge
-                ? "mt-1.5 text-xs lg:mt-3 lg:text-xl"
-                : "mt-1.5 text-[0.58rem] sm:text-[0.68rem]"
-            }`}
-          >
-            {message}
-          </p>
-          <div
-            aria-hidden="true"
-            className={`mt-auto ${isLarge ? "space-y-1 pb-0.5 lg:space-y-2 lg:pb-1" : "space-y-1.5 pb-1"}`}
-          >
-            <div className="border-b border-aberdeen-blue/55" />
-            <div className="border-b border-aberdeen-blue/55" />
-            <div className="border-b border-aberdeen-blue/55" />
-          </div>
-          <p
-            className={`font-utility tracking-[0.17em] uppercase opacity-65 ${
-              isLarge ? "mt-1 text-[0.42rem] lg:mt-2 lg:text-[0.55rem]" : "mt-1 text-[0.34rem]"
-            }`}
-          >
-            Savannah, Georgia
-          </p>
         </div>
-      </div>
-    </article>
+      </article>
+    </ImageTilt>
   )
 }

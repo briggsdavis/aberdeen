@@ -18,7 +18,6 @@ const menuBeveragesImage =
   "https://images.unsplash.com/photo-1621263764928-df1444c5e859?auto=format&fit=crop&w=1000&q=85"
 
 const reservationText = {
-  "home.reservations.editorial.eyebrow": "Your table is waiting",
   "home.reservations.editorial.title": "A beautiful evening begins by the water.",
   "home.reservations.editorial.copy":
     "Come for bright seafood, cold martinis, and a table made for lingering. Reserve your evening at Aberdeen and let the coast set the pace.",

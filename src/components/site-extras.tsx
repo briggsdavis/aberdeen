@@ -1,13 +1,14 @@
 import { Heart } from "@phosphor-icons/react"
 import { useMutation } from "convex/react"
 import { AnimatePresence, motion } from "motion/react"
-import type { CSSProperties, MouseEvent, ReactNode } from "react"
+import type { ReactNode } from "react"
 import { useState } from "react"
 import { api } from "../../convex/_generated/api"
 import type { Id } from "../../convex/_generated/dataModel"
 import { restaurantAddress } from "../lib/location"
 import { fadeIn } from "../lib/motion"
 import { DecorativeBackdrop } from "./decorative-media"
+import { ImageTilt } from "./image-tilt"
 import { Postcard } from "./postcard"
 
 export function RippleSection({
@@ -26,38 +27,7 @@ export function RippleSection({
   )
 }
 
-export function TiltWrap({
-  children,
-  className = "",
-}: {
-  children: ReactNode
-  className?: string
-}) {
-  const [tilt, setTilt] = useState({ x: 0, y: 0 })
-
-  function handleMove(event: MouseEvent<HTMLDivElement>) {
-    const rect = event.currentTarget.getBoundingClientRect()
-    const x = ((event.clientX - rect.left) / rect.width - 0.5) * 9
-    const y = ((event.clientY - rect.top) / rect.height - 0.5) * -9
-    setTilt({ x, y })
-  }
-
-  return (
-    <div
-      className={`scrapbook-tilt ${className}`}
-      onMouseLeave={() => setTilt({ x: 0, y: 0 })}
-      onMouseMove={handleMove}
-      style={
-        {
-          "--tilt-x": `${tilt.x}deg`,
-          "--tilt-y": `${tilt.y}deg`,
-        } as CSSProperties
-      }
-    >
-      {children}
-    </div>
-  )
-}
+export { ImageTilt as TiltWrap }
 
 const restaurantCards = [
   { image: "/favicon.ico", name: "Aberdeen", featured: true },
@@ -96,8 +66,7 @@ export function RestaurantGroupSection() {
         className="relative z-10 mx-auto max-w-6xl text-center text-aberdeen-blue"
         {...fadeIn()}
       >
-        <p className="font-utility text-sm tracking-[0.22em] uppercase">Proud to be part of</p>
-        <h2 className="mt-3 font-display text-5xl leading-none md:text-7xl">
+        <h2 className="font-display text-5xl leading-none md:text-7xl">
           Richard DeShantz Restaurant Group
         </h2>
       </motion.div>
@@ -123,9 +92,6 @@ export function RestaurantGroupSection() {
               }`}
               src={restaurant.image}
             />
-            <h3 className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-near-black/90 via-near-black/45 to-transparent px-2 pt-8 pb-2.5 text-center font-utility text-[0.62rem] leading-tight tracking-[0.08em] text-oyster-white uppercase [text-shadow:0_2px_7px_color-mix(in_srgb,var(--color-near-black)_85%,transparent)] lg:text-xs">
-              {restaurant.name}
-            </h3>
           </motion.article>
         ))}
       </motion.div>
@@ -147,10 +113,12 @@ export function FAQSection({
   blue = false,
   cardsFirst = false,
   expanded = false,
+  showShip = true,
 }: {
   blue?: boolean
   cardsFirst?: boolean
   expanded?: boolean
+  showShip?: boolean
 }) {
   const questions = [
     ["Do you take reservations?", "Yes. Reservation links will be connected when booking opens."],
@@ -178,22 +146,19 @@ export function FAQSection({
         }`}
       >
         <div className={cardsFirst ? "md:order-2" : ""}>
-          <p
-            className={`font-utility text-sm tracking-[0.22em] uppercase ${blue ? "text-oyster-white" : "text-aberdeen-blue"}`}
-          >
-            FAQ
-          </p>
           <h2
-            className={`mt-4 font-display text-5xl leading-none md:text-7xl ${blue ? "text-oyster-white" : "text-aberdeen-blue"}`}
+            className={`font-display text-5xl leading-none md:text-7xl ${blue ? "text-oyster-white" : "text-aberdeen-blue"}`}
           >
             Good things to know.
           </h2>
-          <img
-            alt=""
-            aria-hidden="true"
-            className="pointer-events-none mt-8 h-auto w-full max-w-64 scale-x-[-1] -rotate-6 object-contain opacity-60 md:mt-10"
-            src="/illustrations/nautical/sailing-ship.png"
-          />
+          {showShip ? (
+            <img
+              alt=""
+              aria-hidden="true"
+              className="pointer-events-none mt-8 h-auto w-full max-w-64 scale-x-[-1] -rotate-6 object-contain opacity-60 md:mt-10"
+              src="/illustrations/nautical/sailing-ship.png"
+            />
+          ) : null}
           {!expanded ? (
             <a
               className={`aberdeen-action mt-8 border ${
@@ -291,7 +256,7 @@ function LocalMenuLikeButton({ itemName }: { itemName: string }) {
     <button
       aria-label={`Like ${itemName}`}
       aria-pressed={liked}
-      className={`group flex h-11 w-16 shrink-0 items-center justify-center gap-1.5 border px-3 font-utility text-xs transition duration-[480ms] ${
+      className={`group flex h-9 w-16 shrink-0 items-center justify-center gap-1.5 border px-2 font-utility text-sm transition duration-[480ms] ${
         liked
           ? "border-aberdeen-blue bg-aberdeen-blue text-oyster-white"
           : "border-current bg-transparent hover:border-aberdeen-blue hover:bg-aberdeen-blue hover:text-oyster-white"
@@ -302,7 +267,7 @@ function LocalMenuLikeButton({ itemName }: { itemName: string }) {
       <Heart
         aria-hidden="true"
         className="transition-transform group-hover:scale-110"
-        size={18}
+        size={16}
         weight={liked ? "fill" : "regular"}
       />
       <span>{count}</span>
@@ -340,7 +305,7 @@ function StoredMenuLikeButton({
     <button
       aria-label={`Like ${itemName}`}
       aria-pressed={liked}
-      className={`group flex h-11 w-16 shrink-0 items-center justify-center gap-1.5 border px-3 font-utility text-xs transition duration-[480ms] ${
+      className={`group flex h-9 w-16 shrink-0 items-center justify-center gap-1.5 border px-2 font-utility text-sm transition duration-[480ms] ${
         liked
           ? "border-aberdeen-blue bg-aberdeen-blue text-oyster-white"
           : "border-current bg-transparent hover:border-aberdeen-blue hover:bg-aberdeen-blue hover:text-oyster-white"
@@ -351,7 +316,7 @@ function StoredMenuLikeButton({
       <Heart
         aria-hidden="true"
         className="transition-transform group-hover:scale-110"
-        size={18}
+        size={16}
         weight={liked ? "fill" : "regular"}
       />
       <span>{count}</span>
@@ -372,15 +337,12 @@ export function PostcardImageStack({ images: managedImages }: { images?: string[
   ]
   const postcardNotes = [
     {
-      heading: "Savannah by sail",
       message: "The yachts are in, the river is gold, and dinner is waiting by the water.",
     },
     {
-      heading: "From the marina",
       message: "White sails, salt air, and one more beautiful evening in Savannah, Georgia.",
     },
     {
-      heading: "Wish you were here",
       message: "Meet us where the yachts pass at sunset. Savannah has saved you a seat.",
     },
   ]
@@ -409,13 +371,7 @@ export function PostcardImageStack({ images: managedImages }: { images?: string[
               transition: { delay: index * 0.12, duration: 0.576 },
             }}
           >
-            <Postcard
-              eyebrow={note.heading}
-              imageAlt=""
-              imageSrc={image}
-              message={note.message}
-              size="small"
-            />
+            <Postcard imageAlt="" imageSrc={image} message={note.message} size="small" />
           </motion.div>
         )
       })}

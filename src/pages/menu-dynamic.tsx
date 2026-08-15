@@ -11,6 +11,24 @@ import { StandardFoodMenuPage } from "./menu-food"
 import { StandardSpiritsMenuPage } from "./menu-spirits"
 import NotFoundPage from "./not-found"
 
+const imagePanelDescriptions: Record<string, Record<string, string>> = {
+  beverages: {
+    Coffee: "Espresso, cold brew, and familiar favorites for mornings through after dinner.",
+    Tea: "Black, green, and herbal teas served hot or over ice.",
+    "Zero-Proof": "Sparkling, citrusy, and built with the same care as the bar.",
+  },
+  food: {
+    "From the Land": "Dry-aged steak and roast chicken with bright, coastal accompaniments.",
+    "From the Sea": "Whole fish, shellfish, and coastal plates served for the table.",
+    "Raw Bar": "Daily selection from both coasts, shucked at the bar.",
+  },
+  spirits: {
+    "Gin & Vodka": "Botanical gin and crisp vodka, poured neat or mixed into a classic.",
+    "House Cocktails": "Built bright, cold, and coastal from the first pour.",
+    "Rum, Tequila & Whiskey": "Rum, agave, bourbon, and rye selected for sipping and cocktails.",
+  },
+}
+
 function legacyPage(slug: string) {
   if (slug === "food") return <StandardFoodMenuPage />
   if (slug === "spirits") return <StandardSpiritsMenuPage />
@@ -61,9 +79,13 @@ export default function DynamicMenuPage() {
           <MenuImageSection
             alt={`${group.title} menu section`}
             background={section.background}
-            caption={section.imageCaption}
             group={group}
             image={section.image}
+            imagePanelDescription={
+              section.imageCaption ||
+              imagePanelDescriptions[menu.slug]?.[group.title] ||
+              menu.description
+            }
             imagePosition={section.layout === "imageLeft" ? "left" : "right"}
             key={section._id}
             map={section.mapImage}

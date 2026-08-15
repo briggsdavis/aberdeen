@@ -78,7 +78,7 @@ export const defaultMenus = [
         mapImage: "/maps/thimble-islands-chart.png",
         imageUrl:
           "https://images.unsplash.com/photo-1777891257650-5dedbba89dd4?auto=format&fit=crop&w=1200&q=85",
-        imageCaption: "",
+        imageCaption: "Whole fish, shellfish, and coastal plates served for the table.",
         postcardUrls: postcards,
         groups: [group(foodMains)],
       },
@@ -88,7 +88,7 @@ export const defaultMenus = [
         mapImage: "/maps/antique-map-02.png",
         imageUrl:
           "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=1200&q=85",
-        imageCaption: "",
+        imageCaption: "Dry-aged steak and roast chicken with bright, coastal accompaniments.",
         postcardUrls: postcards,
         groups: [group(foodLand)],
       },
@@ -133,7 +133,7 @@ export const defaultMenus = [
         mapImage: "/maps/antique-map-01.png",
         imageUrl:
           "https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=1200&q=85",
-        imageCaption: "",
+        imageCaption: "Botanical gin and crisp vodka, poured neat or mixed into a classic.",
         postcardUrls: postcards,
         groups: [group(spiritMains)],
       },
@@ -143,7 +143,7 @@ export const defaultMenus = [
         mapImage: "/maps/antique-map-02.png",
         imageUrl:
           "https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=1200&q=85",
-        imageCaption: "",
+        imageCaption: "Rum, agave, bourbon, and rye selected for sipping and cocktails.",
         postcardUrls: postcards,
         groups: [group(spiritLand)],
       },
@@ -188,7 +188,8 @@ export const defaultMenus = [
         mapImage: "/maps/antique-map-01.png",
         imageUrl:
           "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=85",
-        imageCaption: "",
+        imageCaption:
+          "Espresso, cold brew, and familiar favorites for mornings through after dinner.",
         postcardUrls: postcards,
         groups: [group(beverageMains)],
       },
@@ -198,7 +199,7 @@ export const defaultMenus = [
         mapImage: "/maps/antique-map-03.png",
         imageUrl:
           "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&w=1200&q=85",
-        imageCaption: "",
+        imageCaption: "Black, green, and herbal teas served hot or over ice.",
         postcardUrls: postcards,
         groups: [group(beverageLand)],
       },

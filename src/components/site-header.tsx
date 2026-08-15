@@ -125,9 +125,9 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
   return (
     <motion.header
       animate={{ y: isHidden || isHomeIntroActive ? "-100%" : "0%" }}
-      className={`fixed inset-x-0 top-0 z-40 text-aberdeen-peach transition-[background-color,box-shadow] duration-500 will-change-transform ${
+      className={`teak-nav fixed inset-x-0 top-0 z-40 text-aberdeen-peach transition-[box-shadow] duration-500 will-change-transform ${
         isNavigationActive
-          ? "bg-aberdeen-blue shadow-[0_12px_30px_color-mix(in_srgb,var(--color-aberdeen-blue)_20%,transparent)]"
+          ? "is-active shadow-[0_12px_30px_color-mix(in_srgb,var(--color-kelp-ink)_28%,transparent)]"
           : "bg-transparent shadow-none"
       }`}
       initial={false}
@@ -189,8 +189,8 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
                         onMouseLeave={scheduleMenuPreviewClose}
                         transition={{ duration: 1.08, ease: [0.16, 1, 0.3, 1] }}
                       >
-                        <div className="bg-white p-8 text-aberdeen-blue shadow-[0_28px_70px_color-mix(in_srgb,var(--color-aberdeen-blue)_20%,transparent)] lg:p-10">
-                          <div className="grid min-h-[30rem] grid-cols-[0.72fr_1.28fr] gap-10">
+                        <div className="teak-grain p-2 text-aberdeen-blue shadow-[0_28px_70px_color-mix(in_srgb,var(--color-aberdeen-blue)_20%,transparent)]">
+                          <div className="grid min-h-[30rem] grid-cols-[0.72fr_1.28fr] gap-10 bg-white p-8 lg:p-10">
                             <div className="flex flex-col justify-center border-r border-aberdeen-blue/15 pr-10">
                               {menuPreviews.map((menu) => {
                                 return (

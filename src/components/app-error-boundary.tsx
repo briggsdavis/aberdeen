@@ -31,10 +31,7 @@ export default class AppErrorBoundary extends Component<Props, State> {
           <span className="mx-auto grid h-14 w-14 place-items-center rounded-full border border-aberdeen-peach/35">
             <WarningCircle size={28} />
           </span>
-          <p className="mt-8 font-utility text-sm tracking-[0.22em] uppercase">
-            A little rough water
-          </p>
-          <h1 className="mt-5 font-display text-6xl leading-none md:text-8xl">
+          <h1 className="mt-8 font-display text-6xl leading-none md:text-8xl">
             Something went off course.
           </h1>
           <p className="mx-auto mt-7 max-w-xl text-lg leading-8 text-aberdeen-peach/80">

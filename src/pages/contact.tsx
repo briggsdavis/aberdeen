@@ -1,7 +1,8 @@
 import { motion } from "motion/react"
 import { useState } from "react"
 import { DecorativeBackdrop } from "../components/decorative-media"
-import { MaritimeFlags, RopeDivider } from "../components/nautical-details"
+import { ImageTilt } from "../components/image-tilt"
+import { RopeDivider } from "../components/nautical-details"
 import { FAQSection } from "../components/site-extras"
 import { useCmsRuntime } from "../lib/cms-runtime"
 import { googleMapsPlaceUrl, restaurantAddress } from "../lib/location"
@@ -57,13 +58,13 @@ function ContactDetails() {
         </div>
       </div>
       <motion.div className="relative z-10" {...fadeIn(0.12)}>
-        <div className="relative h-56 md:h-64">
+        <ImageTilt className="relative h-56 overflow-hidden md:h-64">
           <img
             alt="Aberdeen dining room table"
             className="h-full w-full object-cover"
             src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1200&q=85"
           />
-        </div>
+        </ImageTilt>
         <div className="mt-6 text-aberdeen-blue">
           <h2 className="font-display text-4xl leading-none">Send a note</h2>
           <InquiryForm />
@@ -88,12 +89,7 @@ function MapSection() {
   return (
     <section className="grid gap-0 bg-aberdeen-peach md:grid-cols-[0.9fr_1.1fr] md:items-stretch">
       <motion.div className="px-5 py-16 md:px-8 md:py-24" {...fadeIn()}>
-        <div className="flex items-center justify-between gap-6">
-          <p className="font-utility text-sm tracking-[0.22em] text-aberdeen-blue uppercase">
-            Hours
-          </p>
-          <MaritimeFlags />
-        </div>
+        <p className="font-utility text-sm tracking-[0.22em] text-aberdeen-blue uppercase">Hours</p>
         <dl className="mt-10 space-y-5 text-lg">
           {visibleHours.map(([day, hours]) => (
             <div className="flex items-baseline gap-4" key={day}>
@@ -107,7 +103,7 @@ function MapSection() {
         </dl>
       </motion.div>
       <motion.div className="min-h-[28rem] p-5 md:p-8 md:pl-4" {...fadeIn(0.12)}>
-        <div className="relative h-full min-h-[24rem] overflow-hidden border border-aberdeen-blue/15 bg-oyster-white p-2 shadow-[0_18px_44px_rgb(from_var(--color-kelp-ink)_r_g_b/0.12)]">
+        <div className="teak-grain relative h-full min-h-[24rem] overflow-hidden border border-aberdeen-blue/15 p-2 shadow-[0_18px_44px_rgb(from_var(--color-kelp-ink)_r_g_b/0.12)]">
           <iframe
             className="block h-full min-h-[24rem] w-full"
             loading="lazy"

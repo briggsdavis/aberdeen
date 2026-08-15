@@ -2,6 +2,7 @@ import { motion } from "motion/react"
 import { Link } from "react-router"
 import { fadeIn } from "../lib/motion"
 import { DecorativeBackdrop } from "./decorative-media"
+import { ImageTilt } from "./image-tilt"
 import { PhotoCorners, RopeDivider } from "./nautical-details"
 import { TransitionLink } from "./page-transition"
 import { MenuLikeButton, PostcardImageStack, RippleSection } from "./site-extras"
@@ -45,7 +46,6 @@ export function MenuPageHero({
         className="grid justify-items-center gap-8 px-5 pt-32 pb-14 text-center md:px-8 md:pt-40 md:pb-20"
         {...fadeIn()}
       >
-        <p className="font-utility text-sm tracking-[0.22em] uppercase">Menus</p>
         <h1 className="font-display text-6xl leading-none md:text-8xl">{title}</h1>
         <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2 font-utility text-sm tracking-[0.18em] uppercase">
           {visibleTabs.map((tab) => (
@@ -81,7 +81,7 @@ function MenuList({
       <RopeDivider className="mb-6 rounded-none" />
       <div className="mb-6 flex items-baseline justify-between gap-4 border-b border-aberdeen-blue/20 pb-3">
         <h2
-          className={`font-display text-3xl leading-none md:text-4xl ${
+          className={`font-display text-5xl leading-none md:text-6xl ${
             inverted ? "text-aberdeen-peach" : "text-aberdeen-blue"
           }`}
         >
@@ -89,7 +89,7 @@ function MenuList({
         </h2>
         {group.note ? (
           <p
-            className={`font-utility text-xs tracking-[0.18em] uppercase ${
+            className={`font-utility text-base tracking-[0.18em] uppercase ${
               inverted ? "text-aberdeen-peach/70" : "text-aberdeen-blue/70"
             }`}
           >
@@ -103,14 +103,14 @@ function MenuList({
             <div className="grid min-w-0 grow grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
               <div className="min-w-0">
                 <p
-                  className={`font-display text-xl leading-none ${
+                  className={`font-display text-3xl leading-none ${
                     inverted ? "text-aberdeen-peach" : "text-aberdeen-blue"
                   }`}
                 >
                   {item.name}
                 </p>
                 <p
-                  className={`mt-2 leading-7 ${
+                  className={`mt-2 text-xl leading-7 ${
                     inverted ? "text-oyster-white/75" : "text-kelp-ink/80"
                   }`}
                 >
@@ -118,7 +118,7 @@ function MenuList({
                 </p>
               </div>
               <span
-                className={`font-utility text-sm leading-none tracking-[0.12em] uppercase ${
+                className={`font-utility text-lg leading-none tracking-[0.12em] uppercase ${
                   inverted ? "text-aberdeen-peach" : "text-aberdeen-blue"
                 }`}
               >
@@ -136,18 +136,18 @@ function MenuList({
 export function MenuImageSection({
   alt,
   background = "oyster",
-  caption,
   group,
   image,
+  imagePanelDescription,
   imagePosition,
   map,
   postcards,
 }: {
   alt: string
   background?: "oyster" | "peach" | "blue"
-  caption?: string
   group: StandardMenuGroup
   image: string
+  imagePanelDescription: string
   imagePosition: "left" | "right"
   map: string
   postcards?: string[]
@@ -157,20 +157,17 @@ export function MenuImageSection({
       className={`${imagePosition === "left" ? "md:order-1" : "md:order-2"} self-start md:sticky md:top-24`}
       {...fadeIn(0.08)}
     >
-      <div className="relative aspect-[4/5]">
-        <img alt={alt} className="h-full w-full object-cover" src={image} />
-        {postcards?.length === 0 ? null : <PostcardImageStack images={postcards} />}
-        <PhotoCorners />
-      </div>
-      {caption ? (
-        <p
-          className={`mt-4 max-w-sm font-utility text-xs tracking-[0.18em] uppercase ${
-            background === "blue" ? "text-aberdeen-peach/70" : "text-aberdeen-blue/70"
-          }`}
-        >
-          {caption}
-        </p>
-      ) : null}
+      <ImageTilt>
+        <div className="relative aspect-[4/5]">
+          <img alt={alt} className="h-full w-full object-cover" src={image} />
+          {postcards?.length === 0 ? null : <PostcardImageStack images={postcards} />}
+          <PhotoCorners />
+        </div>
+        <div className="bg-aberdeen-peach p-5 text-aberdeen-blue">
+          <h3 className="font-display text-7xl">{group.title}</h3>
+          <p className="mt-3 max-w-sm text-xl leading-7 text-kelp-ink">{imagePanelDescription}</p>
+        </div>
+      </ImageTilt>
     </motion.div>
   )
 
@@ -227,7 +224,7 @@ export function MenuPairSection({
       </div>
       {footnote ? (
         <motion.p
-          className="relative z-10 mt-12 max-w-3xl leading-8 text-kelp-ink/80"
+          className="relative z-10 mt-12 max-w-3xl text-xl leading-8 text-kelp-ink/80"
           {...fadeIn(0.12)}
         >
           {footnote}
@@ -252,8 +249,7 @@ export function MenuReservation({
     <RippleSection className="relative isolate overflow-hidden bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24">
       <div className="relative z-10 grid gap-10 md:grid-cols-[1fr_0.9fr]">
         <motion.div {...fadeIn()}>
-          <p className="font-utility text-sm tracking-[0.22em] uppercase">Reservations</p>
-          <h2 className="mt-5 max-w-3xl font-display text-5xl leading-none md:text-7xl">{title}</h2>
+          <h2 className="max-w-3xl font-display text-5xl leading-none md:text-7xl">{title}</h2>
           <img
             alt=""
             aria-hidden="true"
@@ -268,8 +264,7 @@ export function MenuReservation({
               {number}
             </div>
             <div>
-              <p className="font-utility text-xs tracking-[0.18em] uppercase">Harbor check</p>
-              <p className="mt-2 font-playful text-4xl leading-none">{label}</p>
+              <p className="font-playful text-4xl leading-none">{label}</p>
             </div>
           </div>
           <p className="mb-6 text-lg leading-8">{copy}</p>

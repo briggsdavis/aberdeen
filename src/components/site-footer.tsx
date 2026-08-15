@@ -65,13 +65,13 @@ function SiteFooter() {
       className="site-footer overflow-hidden bg-oyster-white px-5 py-5 text-aberdeen-blue md:px-8 md:py-6"
       ref={footerRef}
     >
+      <div aria-hidden="true" className="teak-grain absolute inset-x-0 top-0 h-2" />
       <motion.div className="flex flex-col" style={{ y: shouldReduceMotion ? 0 : footerY }}>
         <div className="grid gap-5 lg:grid-cols-[1fr_auto_1fr] lg:items-center">
           <div>
-            <p className="font-utility text-xs tracking-[0.24em] uppercase">A table by the water</p>
             <img
               alt="Aberdeen"
-              className="mt-3 w-full max-w-md"
+              className="w-full max-w-md"
               src="/brand/aberdeen-wordmark-blue.png"
             />
           </div>

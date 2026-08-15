@@ -1,6 +1,7 @@
 import { motion } from "motion/react"
 import { Link } from "react-router"
 import { DecorativeBackdrop } from "../components/decorative-media"
+import { ImageTilt } from "../components/image-tilt"
 import {
   MenuImageSection,
   MenuPageHero,
@@ -306,7 +307,6 @@ function MenuHero() {
         className="relative z-10 grid gap-10 px-5 pt-32 pb-16 md:px-8 md:pt-40 md:pb-24"
         {...fadeIn()}
       >
-        <p className="font-utility text-sm tracking-[0.22em] uppercase">Menus</p>
         <div className="max-w-5xl">
           <h1 className="font-display text-6xl leading-none md:text-8xl">Beverages</h1>
           <p className="mt-8 max-w-2xl text-lg leading-8">
@@ -372,7 +372,7 @@ function RawBarSection() {
           <MenuList delay={0.08} group={towers} />
         </div>
         <motion.div className="self-start md:sticky md:top-8" {...fadeIn(0.12)}>
-          <div className="relative aspect-[4/5]">
+          <ImageTilt className="relative aspect-[4/5]">
             <img
               alt="Sparkling lemonade and mineral water on a table"
               className="h-full w-full object-cover"
@@ -380,7 +380,7 @@ function RawBarSection() {
             />
             <PostcardImageStack />
             <PhotoCorners />
-          </div>
+          </ImageTilt>
           <p className="mt-4 max-w-sm font-utility text-xs tracking-[0.18em] text-aberdeen-blue/70 uppercase">
             Sparkling, citrusy, and built with the same care as the bar.
           </p>
@@ -396,7 +396,7 @@ function StartersSection() {
       <DecorativeBackdrop imageClassName="object-cover" src="/maps/thimble-islands-chart.png" />
       <div className="relative z-10 grid gap-12 md:grid-cols-[0.9fr_1fr] md:gap-16">
         <motion.div className="order-2 md:order-1" {...fadeIn(0.08)}>
-          <div className="relative aspect-[4/5]">
+          <ImageTilt className="relative aspect-[4/5]">
             <img
               alt="Iced citrus drink with herbs"
               className="h-full w-full object-cover"
@@ -404,7 +404,7 @@ function StartersSection() {
             />
             <PostcardImageStack />
             <PhotoCorners />
-          </div>
+          </ImageTilt>
         </motion.div>
         <div className="order-1 md:order-2">
           <MenuList group={starters} />
@@ -427,13 +427,15 @@ function MainsSection() {
         </div>
         <div className="space-y-12">
           <motion.div className="relative aspect-[16/10]" {...fadeIn(0.08)}>
-            <img
-              alt="Coffee cups gathered on a restaurant table"
-              className="h-full w-full object-cover"
-              src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=85"
-            />
-            <PostcardImageStack />
-            <PhotoCorners />
+            <ImageTilt className="relative h-full w-full">
+              <img
+                alt="Coffee cups gathered on a restaurant table"
+                className="h-full w-full object-cover"
+                src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=85"
+              />
+              <PostcardImageStack />
+              <PhotoCorners />
+            </ImageTilt>
           </motion.div>
           <MainsList delay={0.16} group={land} />
         </div>
@@ -510,8 +512,7 @@ function ReserveSection() {
     <RippleSection className="relative isolate overflow-hidden bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24">
       <div className="relative z-10 grid gap-10 md:grid-cols-[1fr_0.9fr]">
         <motion.div {...fadeIn()}>
-          <p className="font-utility text-sm tracking-[0.22em] uppercase">Reservations</p>
-          <h2 className="mt-5 max-w-3xl font-display text-5xl leading-none md:text-7xl">
+          <h2 className="max-w-3xl font-display text-5xl leading-none md:text-7xl">
             Stay for one more sparkling thing.
           </h2>
           <img
@@ -528,8 +529,7 @@ function ReserveSection() {
               03
             </div>
             <div>
-              <p className="font-utility text-xs tracking-[0.18em] uppercase">Harbor check</p>
-              <p className="mt-2 font-playful text-4xl leading-none">Sparkling</p>
+              <p className="font-playful text-4xl leading-none">Sparkling</p>
             </div>
           </div>
           <p className="mb-6 text-lg leading-8">
@@ -551,9 +551,9 @@ export function StandardBeveragesMenuPage() {
       <MenuPageHero activePath="/menu/beverages" title="Beverages" />
       <MenuImageSection
         alt="Sparkling lemonade and mineral water on a table"
-        caption="Sparkling, citrusy, and built with the same care as the bar."
         group={rawBar}
         image="https://images.unsplash.com/photo-1621263764928-df1444c5e859?auto=format&fit=crop&w=1000&q=85"
+        imagePanelDescription="Sparkling, citrusy, and built with the same care as the bar."
         imagePosition="left"
         map="/maps/antique-map-02.png"
       />
@@ -567,6 +567,7 @@ export function StandardBeveragesMenuPage() {
         alt="Coffee cups gathered on a restaurant table"
         group={mains}
         image="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=85"
+        imagePanelDescription="Espresso, cold brew, and familiar favorites for mornings through after dinner."
         imagePosition="right"
         map="/maps/antique-map-01.png"
       />
@@ -575,6 +576,7 @@ export function StandardBeveragesMenuPage() {
         background="peach"
         group={land}
         image="https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&w=1200&q=85"
+        imagePanelDescription="Black, green, and herbal teas served hot or over ice."
         imagePosition="left"
         map="/maps/antique-map-03.png"
       />

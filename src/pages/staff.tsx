@@ -3,53 +3,9 @@ import { useRef } from "react"
 import { useLocation } from "react-router"
 import { ScrollRotatingWheel } from "../components/decorative-media"
 import { ImageTilt } from "../components/image-tilt"
-import { useCmsRuntime, useRequiredPageImage } from "../lib/cms-runtime"
+import type { PublicStaffMember } from "../data/default-staff"
 import { fadeIn } from "../lib/motion"
-
-const staff = [
-  {
-    name: "Marin Vale",
-    role: "Executive Chef",
-    note: "Builds the menu around shellfish, citrus, smoke, and the day's best catch.",
-    image:
-      "https://images.unsplash.com/photo-1583394293214-28ded15ee548?auto=format&fit=crop&w=900&q=85",
-  },
-  {
-    name: "Elliot Crane",
-    role: "Chef de Cuisine",
-    note: "Keeps the line precise, fast, and generous.",
-    image:
-      "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=900&q=85",
-  },
-  {
-    name: "Simone Hart",
-    role: "Beverage Director",
-    note: "Writes the drinks list in blue, citrus, salt, and sparkle.",
-    image:
-      "https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=900&q=85",
-  },
-  {
-    name: "Theo Banks",
-    role: "General Manager",
-    note: "Makes the room feel easy before the first glass lands.",
-    image:
-      "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=900&q=85",
-  },
-  {
-    name: "June Mercer",
-    role: "Events Lead",
-    note: "Shapes private dinners, seasonal nights, and celebrations around the table.",
-    image:
-      "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=900&q=85",
-  },
-  {
-    name: "Nico Reyes",
-    role: "Raw Bar Lead",
-    note: "Keeps the ice cold, the oysters clean, and the counter moving.",
-    image:
-      "https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?auto=format&fit=crop&w=900&q=85",
-  },
-]
+import { usePublicStaff, useRequiredPageImage } from "../lib/public-data"
 
 function StaffPage() {
   const location = useLocation()
@@ -74,6 +30,8 @@ function HeroSection() {
         <img
           alt="Restaurant team preparing a dining room"
           className="absolute inset-0 h-full w-full object-cover"
+          data-cms-accepts-video
+          data-cms-media-role="background"
           data-cms-slot="hero"
           src={image}
         />
@@ -84,7 +42,10 @@ function HeroSection() {
         {...fadeIn()}
       >
         <div className="max-w-5xl">
-          <h1 className="font-display text-6xl leading-none md:text-8xl">
+          <h1
+            className="font-display text-6xl leading-none md:text-8xl"
+            data-cms-text-key="staff.hero.title"
+          >
             The people who keep the room glowing.
           </h1>
         </div>
@@ -94,15 +55,7 @@ function HeroSection() {
 }
 
 function RosterSection({ introductionOnly = false }: { introductionOnly?: boolean }) {
-  const { staff: managedStaff } = useCmsRuntime()
-  const visibleStaff = managedStaff?.length
-    ? managedStaff.map((person) => ({
-        name: person.name,
-        role: person.role,
-        note: person.biography,
-        image: person.image,
-      }))
-    : staff
+  const staff = usePublicStaff()
 
   return (
     <section className="relative bg-oyster-white px-5 py-16 md:px-8 md:py-24">
@@ -116,10 +69,16 @@ function RosterSection({ introductionOnly = false }: { introductionOnly?: boolea
           data-testid="staff-intro"
         >
           <motion.div {...fadeIn()}>
-            <h2 className="font-display text-5xl leading-none text-aberdeen-blue md:text-7xl">
+            <h2
+              className="font-display text-5xl leading-none text-aberdeen-blue md:text-7xl"
+              data-cms-text-key="staff.introduction.title"
+            >
               Careful hands, clear timing, warm rooms.
             </h2>
-            <p className="mt-8 max-w-lg text-lg leading-8 text-kelp-ink/80">
+            <p
+              className="mt-8 max-w-lg text-lg leading-8 text-kelp-ink/80"
+              data-cms-text-key="staff.introduction.copy"
+            >
               The team is built around craft and ease: people who know when to guide, when to
               vanish, and when to make the night feel a little brighter.
             </p>
@@ -130,7 +89,7 @@ function RosterSection({ introductionOnly = false }: { introductionOnly?: boolea
         </div>
         {introductionOnly ? null : (
           <div className="grid gap-16" data-cms-no-edit>
-            {visibleStaff.map((person, index) => (
+            {staff.map((person, index) => (
               <StaffCard index={index} key={person.name} person={person} />
             ))}
           </div>
@@ -140,13 +99,7 @@ function RosterSection({ introductionOnly = false }: { introductionOnly?: boolea
   )
 }
 
-function StaffCard({
-  index,
-  person,
-}: {
-  index: number
-  person: { name: string; role: string; note: string; image: string }
-}) {
+function StaffCard({ index, person }: { index: number; person: PublicStaffMember }) {
   const cardRef = useRef<HTMLElement>(null)
   const shouldReduceMotion = useReducedMotion()
   const { scrollYProgress } = useScroll({
@@ -174,7 +127,7 @@ function StaffCard({
         <div className="p-5">
           <p className="font-utility text-xs tracking-[0.18em] uppercase">{person.role}</p>
           <h2 className="mt-3 font-display text-5xl leading-none">{person.name}</h2>
-          <p className="mt-4 leading-7 text-kelp-ink/80">{person.note}</p>
+          <p className="mt-4 leading-7 text-kelp-ink/80">{person.biography}</p>
         </div>
       </ImageTilt>
     </motion.article>
@@ -185,7 +138,10 @@ function HiringSection() {
   return (
     <section className="grid gap-10 bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:grid-cols-[1fr_0.9fr] md:px-8 md:py-24">
       <motion.div {...fadeIn()}>
-        <h2 className="max-w-3xl font-playful text-5xl leading-none md:text-7xl">
+        <h2
+          className="max-w-3xl font-playful text-5xl leading-none md:text-7xl"
+          data-cms-text-key="staff.hiring.title"
+        >
           Hospitality is the house style.
         </h2>
         <img
@@ -195,7 +151,11 @@ function HiringSection() {
           src="/illustrations/nautical/compass-rose-detailed.png"
         />
       </motion.div>
-      <motion.p className="self-end text-lg leading-8" {...fadeIn(0.12)}>
+      <motion.p
+        className="self-end text-lg leading-8"
+        data-cms-text-key="staff.hiring.copy"
+        {...fadeIn(0.12)}
+      >
         The Aberdeen team is built around warmth, precision, and the good timing that makes a busy
         room feel effortless.
       </motion.p>

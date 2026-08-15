@@ -1,7 +1,5 @@
-import { motion, useReducedMotion, useScroll, useTransform } from "motion/react"
-import { useRef } from "react"
-import { useCmsRuntime } from "../lib/cms-runtime"
 import { googleMapsPlaceUrl, restaurantAddress } from "../lib/location"
+import { useShellData } from "../lib/public-data"
 import { CursorCompass } from "./decorative-media"
 import { TransitionLink } from "./page-transition"
 
@@ -24,15 +22,8 @@ function settingOrFallback(value: string | undefined, fallback: string) {
 }
 
 function SiteFooter() {
-  const footerRef = useRef<HTMLElement>(null)
-  const shouldReduceMotion = useReducedMotion()
-  const { scrollYProgress } = useScroll({
-    target: footerRef,
-    offset: ["start end", "end end"],
-  })
-  const footerY = useTransform(scrollYProgress, [0, 1], [34, 0])
   const currentYear = new Date().getFullYear()
-  const { menuPages, site } = useCmsRuntime()
+  const { menuPages, site } = useShellData()
   const visiblePageLinks = [
     pageLinks[0]!,
     ...(menuPages?.length
@@ -61,12 +52,9 @@ function SiteFooter() {
   const phoneHref = `tel:${phone.replace(/[^+\d]/g, "")}`
 
   return (
-    <footer
-      className="site-footer overflow-hidden bg-oyster-white px-5 py-5 text-aberdeen-blue md:px-8 md:py-6"
-      ref={footerRef}
-    >
-      <div aria-hidden="true" className="teak-grain absolute inset-x-0 top-0 h-2" />
-      <motion.div className="flex flex-col" style={{ y: shouldReduceMotion ? 0 : footerY }}>
+    <footer className="site-footer relative bg-oyster-white px-5 pt-7 pb-5 text-aberdeen-blue md:px-8 md:pt-8 md:pb-6">
+      <div aria-hidden="true" className="teak-grain absolute inset-x-0 top-0 h-4" />
+      <div className="flex flex-col">
         <div className="grid gap-5 lg:grid-cols-[1fr_auto_1fr] lg:items-center">
           <div>
             <img
@@ -164,7 +152,7 @@ function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-4 border-t border-aberdeen-blue/20 pt-3">
+        <div className="mt-4 border-t border-aberdeen-blue/20 pt-5">
           <div className="flex flex-col gap-4 font-utility text-[0.68rem] tracking-[0.13em] text-aberdeen-blue/65 uppercase md:flex-row md:items-center md:justify-between">
             <p>
               © {currentYear} {copyright}
@@ -190,7 +178,7 @@ function SiteFooter() {
             </a>
           </div>
         </div>
-      </motion.div>
+      </div>
     </footer>
   )
 }

@@ -16,10 +16,9 @@ export const getPage = query({
       .unique()
 
     if (!page) {
-      return { text: {}, links: {}, images: {}, media: {} }
+      return { text: {}, links: {}, media: {} }
     }
 
-    const images: Record<string, string> = {}
     const mediaByKey: Record<
       string,
       { kind: "image" | "video"; thumbnailUrl: string | null; url: string }
@@ -36,7 +35,6 @@ export const getPage = query({
         ? await ctx.storage.getUrl(asset.thumbnailStorageId)
         : null
       if (url) {
-        images[key] = url
         mediaByKey[key] = { kind: asset.kind, thumbnailUrl, url }
       }
     }
@@ -44,7 +42,6 @@ export const getPage = query({
     return {
       text: page.text,
       links: page.links,
-      images,
       media: mediaByKey,
     }
   },

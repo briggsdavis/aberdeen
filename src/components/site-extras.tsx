@@ -1,33 +1,12 @@
 import { Heart } from "@phosphor-icons/react"
 import { useMutation } from "convex/react"
 import { AnimatePresence, motion } from "motion/react"
-import type { ReactNode } from "react"
 import { useState } from "react"
 import { api } from "../../convex/_generated/api"
 import type { Id } from "../../convex/_generated/dataModel"
 import { restaurantAddress } from "../lib/location"
 import { fadeIn } from "../lib/motion"
-import { DecorativeBackdrop } from "./decorative-media"
-import { ImageTilt } from "./image-tilt"
 import { Postcard } from "./postcard"
-
-export function RippleSection({
-  children,
-  className = "",
-  id,
-}: {
-  children: ReactNode
-  className?: string
-  id?: string
-}) {
-  return (
-    <section className={className} id={id}>
-      {children}
-    </section>
-  )
-}
-
-export { ImageTilt as TiltWrap }
 
 const restaurantCards = [
   { image: "/favicon.ico", name: "Aberdeen", featured: true },
@@ -61,12 +40,14 @@ const restaurantCardReveal = {
 export function RestaurantGroupSection() {
   return (
     <section className="relative isolate flex min-h-svh flex-col justify-center overflow-hidden bg-oyster-white px-5 py-12 md:px-8 md:py-14">
-      <DecorativeBackdrop imageClassName="object-cover" src="/maps/antique-map-02.png" />
       <motion.div
         className="relative z-10 mx-auto max-w-6xl text-center text-aberdeen-blue"
         {...fadeIn()}
       >
-        <h2 className="font-display text-5xl leading-none md:text-7xl">
+        <h2
+          className="font-display text-5xl leading-none md:text-7xl"
+          data-cms-text-key="restaurant-group.title"
+        >
           Richard DeShantz Restaurant Group
         </h2>
       </motion.div>
@@ -98,6 +79,7 @@ export function RestaurantGroupSection() {
       <div className="relative z-10 mt-8 text-center">
         <a
           className="aberdeen-action bg-aberdeen-blue text-oyster-white"
+          data-cms-link-key="restaurant-group.link"
           href="https://richarddeshantz.com/"
           rel="noreferrer"
           target="_blank"
@@ -113,11 +95,13 @@ export function FAQSection({
   blue = false,
   cardsFirst = false,
   expanded = false,
+  largeText = false,
   showShip = true,
 }: {
   blue?: boolean
   cardsFirst?: boolean
   expanded?: boolean
+  largeText?: boolean
   showShip?: boolean
 }) {
   const questions = [
@@ -148,6 +132,7 @@ export function FAQSection({
         <div className={cardsFirst ? "md:order-2" : ""}>
           <h2
             className={`font-display text-5xl leading-none md:text-7xl ${blue ? "text-oyster-white" : "text-aberdeen-blue"}`}
+            data-cms-text-key="faq.title"
           >
             Good things to know.
           </h2>
@@ -166,6 +151,7 @@ export function FAQSection({
                   ? "border-oyster-white text-oyster-white"
                   : "border-aberdeen-blue text-aberdeen-blue"
               }`}
+              data-cms-link-key="faq.more-link"
               href="/contact"
             >
               More questions
@@ -174,7 +160,7 @@ export function FAQSection({
         </div>
         <div className={`space-y-3 ${cardsFirst ? "md:order-1" : ""}`}>
           {visible.map(([question, answer]) => (
-            <FAQItem answer={answer} key={question} question={question} />
+            <FAQItem answer={answer} key={question} largeText={largeText} question={question} />
           ))}
         </div>
       </div>
@@ -182,7 +168,15 @@ export function FAQSection({
   )
 }
 
-function FAQItem({ answer, question }: { answer: string; question: string }) {
+function FAQItem({
+  answer,
+  largeText,
+  question,
+}: {
+  answer: string
+  largeText: boolean
+  question: string
+}) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -193,7 +187,9 @@ function FAQItem({ answer, question }: { answer: string; question: string }) {
         onClick={() => setOpen((current) => !current)}
         type="button"
       >
-        <span className="font-display text-2xl leading-none">{question}</span>
+        <span className={`font-display leading-none ${largeText ? "text-4xl" : "text-2xl"}`}>
+          {question}
+        </span>
         <span
           aria-hidden="true"
           className={`faq-toggle grid h-8 w-8 shrink-0 place-items-center border border-aberdeen-blue font-utility text-xl ${
@@ -212,7 +208,9 @@ function FAQItem({ answer, question }: { answer: string; question: string }) {
             initial={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.384, ease: [0.22, 1, 0.36, 1] }}
           >
-            <p className="px-5 pb-5 leading-7 text-kelp-ink/80">{answer}</p>
+            <p className={`px-5 pb-5 leading-7 text-kelp-ink/80 ${largeText ? "text-xl" : ""}`}>
+              {answer}
+            </p>
           </motion.div>
         ) : null}
       </AnimatePresence>

@@ -95,9 +95,9 @@ async function syncHomepageDefaults(ctx: MutationCtx) {
   const defaultImages = {
     hero: heroId,
     "home-hero-postcard": postcardId,
-    "div:0/section:2/div:2/a:0/div:1/img:0": foodId,
-    "div:0/section:2/div:2/a:1/div:1/img:0": spiritsId,
-    "div:0/section:2/div:2/a:2/div:1/img:0": beveragesId,
+    "home.menus.food.image": foodId,
+    "home.menus.spirits.image": spiritsId,
+    "home.menus.beverages.image": beveragesId,
     "home.reservations.editorial.beach": beachId,
     "home.reservations.editorial.yacht": yachtId,
   }
@@ -124,14 +124,20 @@ async function syncHomepageDefaults(ctx: MutationCtx) {
   }
 
   for (const [slotKey, mediaId] of Object.entries(defaultImages)) {
+    const role = slotKey === "hero" ? "background" : "content"
     const usage = await ctx.db
       .query("mediaUsages")
       .withIndex("by_page_and_slotKey", (q) => q.eq("page", "/").eq("slotKey", slotKey))
       .first()
     if (usage) {
-      await ctx.db.patch("mediaUsages", usage._id, { mediaId, role: "content" })
+      await ctx.db.patch("mediaUsages", usage._id, { mediaId, role })
     } else {
-      await ctx.db.insert("mediaUsages", { mediaId, page: "/", slotKey, role: "content" })
+      await ctx.db.insert("mediaUsages", {
+        mediaId,
+        page: "/",
+        slotKey,
+        role,
+      })
     }
   }
 }

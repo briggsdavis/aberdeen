@@ -1,13 +1,9 @@
 import { CaretLeft, CaretRight, X } from "@phosphor-icons/react"
 import { motion } from "motion/react"
 import { useEffect, useState } from "react"
-import { DecorativeBackdrop } from "../components/decorative-media"
-import { RopeDivider } from "../components/nautical-details"
-import { RippleSection } from "../components/site-extras"
-import { useCmsRuntime, useRequiredPageImage } from "../lib/cms-runtime"
 import { fadeIn, fadeInPlace } from "../lib/motion"
+import { usePublicEvents, useRequiredPageImage } from "../lib/public-data"
 
-const antiqueMapFive = "/maps/antique-map-05.png"
 const sailboat = "/illustrations/nautical/sailboat.png"
 
 type DisplayEvent = {
@@ -24,96 +20,36 @@ type DisplayEvent = {
   recurrence?: "daily" | "weekly" | "monthly"
 }
 
-const defaultEvents: DisplayEvent[] = [
-  {
-    day: "06",
-    weekday: "Friday",
-    month: "June",
-    title: "Oyster Hour",
-    time: "5 PM",
-    copy: "A raw bar evening with both coasts on ice, bright mignonettes, and cold martinis.",
-    image:
-      "https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?auto=format&fit=crop&w=900&q=85",
-    year: 2027,
-    bookingUrl: "",
-    startsAt: Date.parse("2027-06-06T17:00:00-04:00"),
-  },
-  {
-    day: "12",
-    weekday: "Thursday",
-    month: "June",
-    title: "Blue Spritz Night",
-    time: "6 PM",
-    copy: "A playful bar feature built around bubbles, citrus, and Aberdeen blue.",
-    image:
-      "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=900&q=85",
-    year: 2027,
-    bookingUrl: "",
-    startsAt: Date.parse("2027-06-12T18:00:00-04:00"),
-  },
-  {
-    day: "18",
-    weekday: "Wednesday",
-    month: "June",
-    title: "Coastal Supper",
-    time: "7 PM",
-    copy: "A family-style dinner of whole fish, shellfish, summer vegetables, and shared sides.",
-    image:
-      "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=900&q=85",
-    year: 2027,
-    bookingUrl: "",
-    startsAt: Date.parse("2027-06-18T19:00:00-04:00"),
-  },
-  {
-    day: "27",
-    weekday: "Friday",
-    month: "June",
-    title: "Late Light Dinner",
-    time: "8 PM",
-    copy: "A slower evening menu for two, built around wine, seafood, and dessert at the bar.",
-    image:
-      "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=900&q=85",
-    year: 2027,
-    bookingUrl: "",
-    startsAt: Date.parse("2027-06-27T20:00:00-04:00"),
-  },
-]
-
 const calendarWeekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
 type EventsView = "list" | "calendar"
 
 function EventsPage() {
-  const { events: managedEvents } = useCmsRuntime()
-  const events = managedEvents?.length
-    ? managedEvents.map((event) => {
-        const date = new Date(event.startsAt)
-        return {
-          day: String(date.getDate()).padStart(2, "0"),
-          weekday: new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(date),
-          month: new Intl.DateTimeFormat("en-US", { month: "long" }).format(date),
-          year: date.getFullYear(),
-          title: event.title,
-          time: new Intl.DateTimeFormat("en-US", {
-            hour: "numeric",
-            minute: date.getMinutes() ? "2-digit" : undefined,
-          }).format(date),
-          copy: event.description,
-          image: event.image,
-          bookingUrl: event.bookingUrl,
-          startsAt: event.startsAt,
-          recurrence: event.recurrence,
-        }
-      })
-    : defaultEvents
+  const publicEvents = usePublicEvents()
+  const events = publicEvents.map((event) => {
+    const date = new Date(event.startsAt)
+    return {
+      day: String(date.getDate()).padStart(2, "0"),
+      weekday: new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(date),
+      month: new Intl.DateTimeFormat("en-US", { month: "long" }).format(date),
+      year: date.getFullYear(),
+      title: event.title,
+      time: new Intl.DateTimeFormat("en-US", {
+        hour: "numeric",
+        minute: date.getMinutes() ? "2-digit" : undefined,
+      }).format(date),
+      copy: event.description,
+      image: event.image,
+      bookingUrl: event.bookingUrl,
+      startsAt: event.startsAt,
+      recurrence: event.recurrence,
+    }
+  })
 
   return (
     <div className="page-shell">
       <HeroSection />
-      <ScheduleSection
-        events={events}
-        key={managedEvents === undefined ? "loading-events" : "loaded-events"}
-      />
+      <ScheduleSection events={events} key={publicEvents[0]?._id ?? "events"} />
       <PrivateEventsSection />
     </div>
   )
@@ -167,7 +103,6 @@ function ScheduleSection({ events }: { events: DisplayEvent[] }) {
 
   return (
     <section className="relative isolate overflow-hidden bg-oyster-white px-5 py-16 md:px-8 md:py-24">
-      <DecorativeBackdrop imageClassName="object-cover" opacity={0.16} src={antiqueMapFive} />
       <motion.div
         className="relative z-10 mb-10 flex flex-wrap items-end justify-between gap-6"
         {...fadeIn()}
@@ -180,10 +115,12 @@ function ScheduleSection({ events }: { events: DisplayEvent[] }) {
                 ? `${firstEvent.month} ${firstEvent.year}`
                 : "Upcoming"}
           </p>
-          <h2 className="mt-4 font-display text-5xl leading-none text-aberdeen-blue md:text-7xl">
+          <h2
+            className="mt-4 font-display text-5xl leading-none text-aberdeen-blue md:text-7xl"
+            data-cms-text-key="events.calendar.title"
+          >
             Aberdeen calendar
           </h2>
-          <RopeDivider className="mt-5 w-64" />
         </div>
         <div className="flex flex-wrap items-stretch gap-3">
           <ViewToggle onChange={setView} view={view} />
@@ -267,6 +204,8 @@ function HeroSection() {
         <img
           alt="People gathered around a restaurant table with drinks"
           className="absolute inset-0 h-full w-full object-cover"
+          data-cms-accepts-video
+          data-cms-media-role="background"
           data-cms-slot="hero"
           src={image}
         />
@@ -277,7 +216,10 @@ function HeroSection() {
         {...fadeIn()}
       >
         <div className="max-w-5xl">
-          <h1 className="font-display text-6xl leading-none md:text-8xl">
+          <h1
+            className="font-display text-6xl leading-none md:text-8xl"
+            data-cms-text-key="events.hero.title"
+          >
             Seasonal nights worth circling.
           </h1>
         </div>
@@ -519,7 +461,6 @@ function EventDetailsModal({ event, onClose }: { event: DisplayEvent; onClose: (
           >
             {event.title}
           </h2>
-          <RopeDivider className="mt-6 w-48" />
           <p className="mt-6 text-lg leading-8 text-kelp-ink/80">{event.copy}</p>
           {event.bookingUrl ? (
             <a
@@ -571,10 +512,13 @@ function occursOnDate(event: DisplayEvent, date: Date) {
 
 function PrivateEventsSection() {
   return (
-    <RippleSection className="bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24">
+    <section className="bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24">
       <div className="grid gap-10 md:grid-cols-[1fr_0.9fr]">
         <motion.div {...fadeIn()}>
-          <h2 className="max-w-3xl font-playful text-5xl leading-none md:text-7xl">
+          <h2
+            className="max-w-3xl font-playful text-5xl leading-none md:text-7xl"
+            data-cms-text-key="events.private.title"
+          >
             Gatherings with seafood, spirits, and a room already dressed for it.
           </h2>
           <img
@@ -586,7 +530,7 @@ function PrivateEventsSection() {
         </motion.div>
         <FerryTicket />
       </div>
-    </RippleSection>
+    </section>
   )
 }
 
@@ -597,18 +541,26 @@ function FerryTicket() {
         <div className="p-6">
           <div className="flex items-start justify-between gap-6">
             <div>
-              <p className="font-playful text-5xl leading-none">Private Passage</p>
+              <p
+                className="font-playful text-5xl leading-none"
+                data-cms-text-key="events.private.ticket-title"
+              >
+                Private Passage
+              </p>
             </div>
             <div className="grid h-16 w-16 place-items-center bg-citrus font-display text-4xl leading-none">
               27
             </div>
           </div>
-          <RopeDivider className="mt-6 rounded-none" />
-          <p className="mt-8 text-lg leading-8">
+          <p className="mt-8 text-lg leading-8" data-cms-text-key="events.private.copy">
             For birthdays, group dinners, brand nights, and seasonal parties, Aberdeen can shape the
             table around the moment.
           </p>
-          <a className="aberdeen-action mt-8 bg-aberdeen-blue text-aberdeen-peach" href="/contact">
+          <a
+            className="aberdeen-action mt-8 bg-aberdeen-blue text-aberdeen-peach"
+            data-cms-link-key="events.private.link"
+            href="/contact"
+          >
             Start planning
           </a>
         </div>

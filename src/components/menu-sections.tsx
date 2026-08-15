@@ -1,23 +1,10 @@
 import { motion } from "motion/react"
 import { Link } from "react-router"
+import type { MenuGroup } from "../lib/menu"
 import { fadeIn } from "../lib/motion"
-import { DecorativeBackdrop } from "./decorative-media"
 import { ImageTilt } from "./image-tilt"
-import { PhotoCorners, RopeDivider } from "./nautical-details"
 import { TransitionLink } from "./page-transition"
-import { MenuLikeButton, PostcardImageStack, RippleSection } from "./site-extras"
-
-export type StandardMenuGroup = {
-  title: string
-  note?: string
-  items: Array<{
-    _id?: string
-    name: string
-    description: string
-    likes?: number
-    price: string
-  }>
-}
+import { MenuLikeButton, PostcardImageStack } from "./site-extras"
 
 const tabs = [
   { label: "Food", to: "/menu/food" },
@@ -73,12 +60,11 @@ function MenuList({
   inverted = false,
 }: {
   delay?: number
-  group: StandardMenuGroup
+  group: MenuGroup
   inverted?: boolean
 }) {
   return (
     <motion.div {...fadeIn(delay)}>
-      <RopeDivider className="mb-6 rounded-none" />
       <div className="mb-6 flex items-baseline justify-between gap-4 border-b border-aberdeen-blue/20 pb-3">
         <h2
           className={`font-display text-5xl leading-none md:text-6xl ${
@@ -140,16 +126,14 @@ export function MenuImageSection({
   image,
   imagePanelDescription,
   imagePosition,
-  map,
   postcards,
 }: {
   alt: string
   background?: "oyster" | "peach" | "blue"
-  group: StandardMenuGroup
+  group: MenuGroup
   image: string
   imagePanelDescription: string
   imagePosition: "left" | "right"
-  map: string
   postcards?: string[]
 }) {
   const imagePanel = (
@@ -161,7 +145,6 @@ export function MenuImageSection({
         <div className="relative aspect-[4/5]">
           <img alt={alt} className="h-full w-full object-cover" src={image} />
           {postcards?.length === 0 ? null : <PostcardImageStack images={postcards} />}
-          <PhotoCorners />
         </div>
         <div className="bg-aberdeen-peach p-5 text-aberdeen-blue">
           <h3 className="font-display text-7xl">{group.title}</h3>
@@ -181,7 +164,6 @@ export function MenuImageSection({
             : "bg-oyster-white"
       }`}
     >
-      <DecorativeBackdrop imageClassName="object-cover" opacity={0.14} src={map} />
       <div className="relative z-10 grid gap-12 md:grid-cols-[0.9fr_1.1fr] md:gap-16">
         {imagePanel}
         <div
@@ -198,14 +180,12 @@ export function MenuPairSection({
   background = "oyster",
   first,
   footnote,
-  map,
   second,
 }: {
   background?: "oyster" | "peach" | "blue"
-  first: StandardMenuGroup
+  first: MenuGroup
   footnote?: string
-  map: string
-  second: StandardMenuGroup
+  second: MenuGroup
 }) {
   return (
     <section
@@ -217,7 +197,6 @@ export function MenuPairSection({
             : "bg-oyster-white"
       }`}
     >
-      <DecorativeBackdrop imageClassName="object-cover" opacity={0.12} src={map} />
       <div className="relative z-10 grid gap-12 md:grid-cols-2 md:gap-16">
         <MenuList group={first} inverted={background === "blue"} />
         <MenuList delay={0.08} group={second} inverted={background === "blue"} />
@@ -246,7 +225,7 @@ export function MenuReservation({
   title: string
 }) {
   return (
-    <RippleSection className="relative isolate overflow-hidden bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24">
+    <section className="relative isolate overflow-hidden bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24">
       <div className="relative z-10 grid gap-10 md:grid-cols-[1fr_0.9fr]">
         <motion.div {...fadeIn()}>
           <h2 className="max-w-3xl font-display text-5xl leading-none md:text-7xl">{title}</h2>
@@ -258,7 +237,6 @@ export function MenuReservation({
           />
         </motion.div>
         <motion.div className="self-end bg-oyster-white p-6 text-aberdeen-blue" {...fadeIn(0.12)}>
-          <RopeDivider className="mb-6 rounded-none" />
           <div className="mb-8 grid grid-cols-[auto_1fr] gap-5 border-b border-dotted border-aberdeen-blue/35 pb-5">
             <div className="grid h-20 w-20 place-items-center bg-citrus font-display text-5xl leading-none">
               {number}
@@ -273,6 +251,6 @@ export function MenuReservation({
           </Link>
         </motion.div>
       </div>
-    </RippleSection>
+    </section>
   )
 }

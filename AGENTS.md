@@ -1,3 +1,21 @@
+# Domain model
+
+## CMS page content
+
+Editorial text, links, and media attached to a public page through explicit semantic content slots.
+
+## Content slot
+
+A stable, page-scoped key declared where editable content is rendered. Layout and DOM order do not define identity.
+
+## Menu
+
+A published page of ordered sections, groups, and items. Convex and local defaults are adapters to the same rendering module.
+
+## Public data
+
+Page content, shell settings, Menus, Events, Staff, and inquiry submission consumed by the public site.
+
 <!-- convex-ai-start -->
 
 This project uses [Convex](https://convex.dev) as its backend.

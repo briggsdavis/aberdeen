@@ -1,16 +1,14 @@
 import { motion } from "motion/react"
-import { DecorativeBackdrop } from "../components/decorative-media"
+import { ImageTilt } from "../components/image-tilt"
 import { Postcard } from "../components/postcard"
-import { RestaurantGroupSection, RippleSection, TiltWrap } from "../components/site-extras"
-import { usePageImage, useRequiredPageImage } from "../lib/cms-runtime"
+import { RestaurantGroupSection } from "../components/site-extras"
 import { fadeIn } from "../lib/motion"
+import { usePageImage, useRequiredPageImage } from "../lib/public-data"
 
-const antiqueMapOne = "/maps/antique-map-01.png"
-const antiqueMapTwo = "/maps/antique-map-02.png"
-const antiqueMapThree = "/maps/antique-map-03.png"
-const antiqueMapFour = "/maps/antique-map-04.png"
 const aboutPillarsImage =
   "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1400&q=85"
+const aboutPostcardImage =
+  "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1000&q=85"
 
 function AboutPage() {
   return (
@@ -25,13 +23,9 @@ function AboutPage() {
   )
 }
 
-function PhotoCorners() {
-  return null
-}
-
 function HeroSection() {
   const heroImage = useRequiredPageImage("hero")
-  const postcardImage = usePageImage("about-hero-postcard", ["home-hero-postcard"])
+  const postcardImage = usePageImage("about-hero-postcard") ?? aboutPostcardImage
 
   return (
     <section className="relative min-h-[42rem] overflow-hidden bg-oyster-white text-aberdeen-blue md:min-h-[68svh]">
@@ -39,6 +33,8 @@ function HeroSection() {
         <img
           alt="Sunlit restaurant table with glassware and coastal plates"
           className="absolute inset-0 h-full w-full object-cover"
+          data-cms-accepts-video
+          data-cms-media-role="background"
           data-cms-slot="hero"
           src={heroImage}
         />
@@ -49,7 +45,10 @@ function HeroSection() {
         {...fadeIn()}
       >
         <div className="max-w-5xl">
-          <h1 className="font-display text-6xl leading-none md:text-8xl">
+          <h1
+            className="font-display text-6xl leading-none md:text-8xl"
+            data-cms-text-key="about.hero.title"
+          >
             A coastal room with a Savannah pulse.
           </h1>
         </div>
@@ -62,6 +61,7 @@ function HeroSection() {
             imageCmsSlot="about-hero-postcard"
             imageSrc={postcardImage}
             message="Meet us where the yachts pass at sunset. Savannah has saved you a seat."
+            messageCmsKey="about.hero.postcard-message"
           />
         </motion.div>
       </motion.div>
@@ -70,24 +70,27 @@ function HeroSection() {
 }
 
 function StorySection() {
-  const postcardImage = usePageImage("about-hero-postcard", ["home-hero-postcard"])
+  const postcardImage = usePageImage("about-hero-postcard") ?? aboutPostcardImage
 
   return (
     <section className="relative isolate grid gap-12 overflow-hidden bg-oyster-white px-5 pt-16 pb-8 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:pt-24 md:pb-12">
-      <DecorativeBackdrop imageClassName="object-cover" opacity={0.13} src={antiqueMapOne} />
       <motion.div className="relative z-10 self-start" {...fadeIn()}>
         <Postcard
           imageAlt="People on a catamaran sailboat in the ocean"
+          imageCmsSlot="about-hero-postcard"
           imageSrc={postcardImage}
           message="Seafood, bright spirits, and a dining room made for lingering."
+          messageCmsKey="about.story.postcard-message"
         />
       </motion.div>
       <motion.div className="relative z-10 max-w-4xl space-y-8" {...fadeIn(0.1)}>
-        <h2 className="font-display text-5xl leading-none text-aberdeen-blue md:text-7xl">
+        <h2
+          className="font-display text-5xl leading-none text-aberdeen-blue md:text-7xl"
+          data-cms-text-key="about.story.title"
+        >
           Seafood, bright spirits, and a dining room made for lingering.
         </h2>
-        <div aria-hidden="true" className="hidden" data-cms-structure="rope-divider" />
-        <p className="max-w-3xl text-lg leading-8">
+        <p className="max-w-3xl text-lg leading-8" data-cms-text-key="about.story.copy">
           Aberdeen brings coastal ease to the city: oysters on ice, citrus-forward plates, generous
           mains, and a bar that keeps the evening moving. The feeling is editorial but relaxed, like
           a postcard from the water pinned to a Savannah wall.
@@ -100,17 +103,25 @@ function StorySection() {
 function OwnerSection() {
   return (
     <section className="relative isolate grid gap-12 overflow-hidden bg-oyster-white px-5 pt-8 pb-16 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:pt-12 md:pb-24">
-      <DecorativeBackdrop imageClassName="object-cover" opacity={0.12} src={antiqueMapTwo} />
       <motion.div className="relative z-10 text-center text-aberdeen-blue" {...fadeIn()}>
-        <TiltWrap className="mx-auto h-72 w-72 overflow-hidden rounded-full border-8 border-aberdeen-peach">
+        <ImageTilt className="mx-auto h-72 w-72 overflow-hidden rounded-full border-8 border-aberdeen-peach">
           <img
             alt="Portrait of Aberdeen owner"
             className="no-scroll-reveal h-full w-full object-cover"
+            data-cms-slot="about.owner.image"
             src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=700&q=85"
           />
-        </TiltWrap>
-        <h2 className="mt-6 font-display text-4xl leading-none">Richard DeShantz</h2>
-        <p className="mt-2 font-utility text-xs tracking-[0.18em] uppercase">
+        </ImageTilt>
+        <h2
+          className="mt-6 font-display text-4xl leading-none"
+          data-cms-text-key="about.owner.name"
+        >
+          Richard DeShantz
+        </h2>
+        <p
+          className="mt-2 font-utility text-xs tracking-[0.18em] uppercase"
+          data-cms-text-key="about.owner.role"
+        >
           Restaurant Group Founder
         </p>
       </motion.div>
@@ -118,16 +129,16 @@ function OwnerSection() {
         className="relative z-10 max-w-3xl space-y-6 self-center text-lg leading-8"
         {...fadeIn(0.12)}
       >
-        <p>
+        <p data-cms-text-key="about.owner.copy-1">
           Aberdeen is imagined as a coastal room with a city pulse: bright enough for lunch,
           polished enough for celebrations, and relaxed enough to make one more round feel
           inevitable.
         </p>
-        <p>
+        <p data-cms-text-key="about.owner.copy-2">
           The restaurant group brings a practiced eye for warm service, sharp menus, and rooms that
           feel alive without feeling rushed.
         </p>
-        <p>
+        <p data-cms-text-key="about.owner.copy-3">
           Here, that hospitality is filtered through seafood, citrus, cold glass, and a Savannah
           sense of lingering.
         </p>
@@ -140,6 +151,7 @@ function GroupSection() {
   const stickyImage = usePageImage("about-pillars-sticky-image") ?? aboutPillarsImage
   const cards = [
     {
+      key: "group",
       label: "01",
       title: "From the group",
       copy: "A restaurant shaped with the polish and hospitality of Richard DeShantz Restaurant Group.",
@@ -147,11 +159,13 @@ function GroupSection() {
         "That experience shows up in the details: confident service, thoughtful pacing, and a room designed to feel effortless from the first drink onward.",
     },
     {
+      key: "water",
       label: "02",
       title: "From the water",
       copy: "A menu language of shellfish, whole fish, citrus, herbs, brine, butter, and cold glass.",
     },
     {
+      key: "room",
       label: "03",
       title: "For the room",
       copy: "A place for early drinks, long dinners, date nights, celebrations, and one more round.",
@@ -160,7 +174,6 @@ function GroupSection() {
 
   return (
     <section className="relative isolate overflow-clip bg-aberdeen-peach px-5 py-16 md:px-8 md:py-24">
-      <DecorativeBackdrop imageClassName="object-cover" opacity={0.13} src={antiqueMapThree} />
       <div className="relative z-10 grid items-start gap-10 md:grid-cols-[0.88fr_1.12fr] md:gap-14">
         <div>
           <motion.div className="mb-10 max-w-2xl md:mb-0" {...fadeIn()}>
@@ -178,29 +191,28 @@ function GroupSection() {
                   className="w-full bg-oyster-white p-6 text-aberdeen-blue shadow-[0_18px_34px_rgb(from_var(--color-kelp-ink)_r_g_b/0.1)] md:p-8"
                   {...fadeIn(index * 0.08)}
                 >
-                  <div aria-hidden="true" className="hidden" data-cms-structure="rope-divider" />
                   <p
                     className="font-utility text-sm tracking-[0.18em] uppercase"
-                    data-cms-text-key={`about.pillars.item-${index + 1}.label`}
+                    data-cms-text-key={`about.pillars.${card.key}.label`}
                   >
                     {card.label}
                   </p>
                   <h3
                     className="mt-8 font-display text-4xl leading-none md:text-5xl"
-                    data-cms-text-key={`about.pillars.item-${index + 1}.title`}
+                    data-cms-text-key={`about.pillars.${card.key}.title`}
                   >
                     {card.title}
                   </h3>
                   <p
                     className="mt-5 text-lg leading-8 text-kelp-ink/80"
-                    data-cms-text-key={`about.pillars.item-${index + 1}.copy`}
+                    data-cms-text-key={`about.pillars.${card.key}.copy`}
                   >
                     {card.copy}
                   </p>
                   {card.supplementary ? (
                     <p
                       className="mt-5 leading-7 text-kelp-ink/65"
-                      data-cms-text-key="about.pillars.item-1.supplementary"
+                      data-cms-text-key="about.pillars.group.supplementary"
                     >
                       {card.supplementary}
                     </p>
@@ -215,7 +227,7 @@ function GroupSection() {
             className="about-pillars-image relative h-[28rem] md:h-full"
             {...fadeIn(0.12)}
           >
-            <TiltWrap className="relative h-full w-full overflow-hidden">
+            <ImageTilt className="relative h-full w-full overflow-hidden">
               <img
                 alt="Aberdeen dining room set for an evening by the coast"
                 className="h-full w-full object-cover"
@@ -223,19 +235,20 @@ function GroupSection() {
                 src={stickyImage}
               />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-aberdeen-blue/20 via-transparent to-transparent" />
-            </TiltWrap>
+            </ImageTilt>
           </motion.div>
           <motion.div
             className="about-pillars-image relative mt-12 h-72 md:mt-24 md:h-[68%]"
             {...fadeIn(0.2)}
           >
-            <TiltWrap className="h-full w-full overflow-hidden">
+            <ImageTilt className="h-full w-full overflow-hidden">
               <img
                 alt="A bright coastal table setting at Aberdeen"
                 className="h-full w-full object-cover"
+                data-cms-slot="about.pillars.secondary-image"
                 src="https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=900&q=85"
               />
-            </TiltWrap>
+            </ImageTilt>
           </motion.div>
         </div>
       </div>
@@ -245,38 +258,37 @@ function GroupSection() {
 
 function RoomSection() {
   return (
-    <RippleSection className="relative isolate overflow-hidden bg-oyster-white p-5 md:p-8">
-      <DecorativeBackdrop imageClassName="object-cover" opacity={0.11} src={antiqueMapFour} />
+    <section className="relative isolate overflow-hidden bg-oyster-white p-5 md:p-8">
       <div className="relative z-10 grid gap-6 md:grid-cols-[1.2fr_0.8fr] md:gap-10">
         <motion.div className="relative h-[30rem] w-full md:h-[42rem]" {...fadeIn()}>
-          <TiltWrap className="h-full w-full overflow-hidden">
+          <ImageTilt className="h-full w-full overflow-hidden">
             <img
               alt="Restaurant bar with warm lights and bottles"
               className="h-full w-full object-cover"
+              data-cms-slot="about.room.primary-image"
               src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=1400&q=85"
             />
-            <PhotoCorners />
-          </TiltWrap>
+          </ImageTilt>
         </motion.div>
         <div className="grid gap-3 md:gap-8">
           <motion.div className="relative h-64 w-full md:h-full" {...fadeIn(0.08)}>
-            <TiltWrap className="h-full w-full overflow-hidden">
+            <ImageTilt className="h-full w-full overflow-hidden">
               <img
                 alt="Seafood dish with wine on a dining table"
                 className="h-full w-full object-cover"
+                data-cms-slot="about.room.secondary-image"
                 src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1000&q=85"
               />
-              <PhotoCorners />
-            </TiltWrap>
+            </ImageTilt>
           </motion.div>
           <motion.div className="bg-aberdeen-peach p-6 text-aberdeen-blue md:p-8" {...fadeIn(0.16)}>
-            <p className="font-playful text-4xl leading-none">
+            <p className="font-playful text-4xl leading-none" data-cms-text-key="about.room.note">
               Bright by day. Blue by night. Always built around the table.
             </p>
           </motion.div>
         </div>
       </div>
-    </RippleSection>
+    </section>
   )
 }
 

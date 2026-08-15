@@ -11,7 +11,7 @@ import "lenis/dist/lenis.css"
 import "./index.css"
 import App from "./app.tsx"
 import AppErrorBoundary from "./components/app-error-boundary.tsx"
-import { CmsRuntimeProvider } from "./lib/cms-runtime.tsx"
+import { PublicDataProvider } from "./lib/public-data.tsx"
 
 const convexUrl = import.meta.env.VITE_CONVEX_URL
 const convex = convexUrl ? new ConvexReactClient(convexUrl) : null
@@ -29,7 +29,7 @@ function Providers({ children }: { children: ReactNode }) {
     <ConvexAuthProvider client={convex}>
       <MotionConfig reducedMotion="user">
         <BrowserRouter>
-          <CmsRuntimeProvider>{children}</CmsRuntimeProvider>
+          <PublicDataProvider>{children}</PublicDataProvider>
         </BrowserRouter>
       </MotionConfig>
     </ConvexAuthProvider>

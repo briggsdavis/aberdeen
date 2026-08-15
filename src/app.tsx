@@ -5,7 +5,7 @@ import AdminPage from "./pages/admin"
 import ContactPage from "./pages/contact"
 import EventsPage from "./pages/events"
 import HomePage from "./pages/home"
-import DynamicMenuPage from "./pages/menu-dynamic"
+import MenuPage from "./pages/menu"
 import NotFoundPage from "./pages/not-found"
 import StaffPage from "./pages/staff"
 
@@ -13,7 +13,7 @@ const siteLayoutRoute = <SiteLayout />
 const homeRoute = <HomePage />
 const aboutRoute = <AboutPage />
 const menuRedirectRoute = <Navigate replace to="/menu/food" />
-const dynamicMenuRoute = <DynamicMenuPage />
+const menuRoute = <MenuPage />
 const contactRoute = <ContactPage />
 const staffRoute = <StaffPage />
 const eventsRoute = <EventsPage />
@@ -41,7 +41,7 @@ function App() {
         <Route index element={homeRoute} />
         <Route path="about" element={aboutRoute} />
         <Route path="menu" element={menuRedirectRoute} />
-        <Route path="menu/:slug" element={dynamicMenuRoute} />
+        <Route path="menu/:slug" element={menuRoute} />
         <Route path="contact" element={contactRoute} />
         <Route path="staff" element={staffRoute} />
         <Route path="events" element={eventsRoute} />

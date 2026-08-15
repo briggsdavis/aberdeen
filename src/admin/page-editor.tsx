@@ -11,43 +11,17 @@ import { useMutation, useQuery } from "convex/react"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { api } from "../../convex/_generated/api"
 import type { Id } from "../../convex/_generated/dataModel"
+import type { CmsEditorCommand, CmsPreviewMessage, MediaRole } from "../lib/cms-page-content"
 import MediaLibrary from "./media-library"
 import type { MediaSelection } from "./media-library"
 import { Field, Input, Modal, PageHeading, PrimaryButton, SecondaryButton } from "./ui"
-
-type EditorMessage =
-  | {
-      source: "aberdeen-cms"
-      type: "ready"
-      page: string
-      text: Record<string, string>
-      links: Record<string, { text: string; href: string }>
-      images: Array<{
-        acceptsVideo: boolean
-        alt: string
-        role: "content" | "decorative" | "background"
-        slotKey: string
-        url: string
-      }>
-    }
-  | { source: "aberdeen-cms"; type: "text"; key: string; value: string }
-  | {
-      source: "aberdeen-cms"
-      type: "image"
-      key: string
-      src: string
-      alt: string
-      acceptsVideo: boolean
-      role: "content" | "decorative" | "background"
-    }
-  | { source: "aberdeen-cms"; type: "link"; key: string; text: string; href: string }
 
 type SelectedImage = {
   key: string
   src: string
   alt: string
   acceptsVideo: boolean
-  role: "content" | "decorative" | "background"
+  role: MediaRole
 }
 type SelectedLink = { key: string; text: string; href: string }
 
@@ -99,9 +73,7 @@ export default function PageEditor({
   const [text, setText] = useState<Record<string, string>>({})
   const [links, setLinks] = useState<Record<string, { text: string; href: string }>>({})
   const [images, setImages] = useState<Record<string, Id<"mediaAssets"> | null>>({})
-  const [imageRoles, setImageRoles] = useState<
-    Record<string, "content" | "decorative" | "background">
-  >({})
+  const [imageRoles, setImageRoles] = useState<Record<string, MediaRole>>({})
   const [availableImages, setAvailableImages] = useState<SelectedImage[]>([])
   const [selectedImage, setSelectedImage] = useState<SelectedImage | null>(null)
   const [selectedLink, setSelectedLink] = useState<SelectedLink | null>(null)
@@ -122,7 +94,7 @@ export default function PageEditor({
   }, [savedPage])
 
   useEffect(() => {
-    const handleMessage = (event: MessageEvent<EditorMessage>) => {
+    const handleMessage = (event: MessageEvent<CmsPreviewMessage>) => {
       if (event.origin !== window.location.origin || event.data?.source !== "aberdeen-cms") return
       const message = event.data
 
@@ -187,7 +159,7 @@ export default function PageEditor({
     return () => window.removeEventListener("message", handleMessage)
   }, [page, registerPageAssets])
 
-  const postToPreview = useCallback((message: Record<string, unknown>) => {
+  const postToPreview = useCallback((message: CmsEditorCommand) => {
     iframeRef.current?.contentWindow?.postMessage(
       { source: "aberdeen-cms-parent", ...message },
       window.location.origin,
@@ -292,7 +264,7 @@ export default function PageEditor({
               </PrimaryButton>
             </div>
           }
-          description="Use Edit hero image for the page banner. Click text, content images, links, or buttons in the preview to change them."
+          description="Use Edit hero image for the page banner. Click highlighted content in the preview to change it."
           title={`${pageNames[page]} editor`}
         />
       ) : (

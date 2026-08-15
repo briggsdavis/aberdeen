@@ -14,6 +14,7 @@ export function Postcard({
   imageCmsSlot,
   imageSrc,
   message,
+  messageCmsKey,
   size = "large",
   stampSrc,
 }: {
@@ -21,6 +22,7 @@ export function Postcard({
   imageCmsSlot?: string
   imageSrc: string | null
   message: string
+  messageCmsKey?: string
   size?: "large" | "small"
   stampSrc?: string
 }) {
@@ -64,7 +66,10 @@ export function Postcard({
             >
               <img alt="" className="h-full w-full object-cover" src={stampSrc ?? randomStampSrc} />
             </div>
-            <p className={`font-playful leading-[1.05] ${isLarge ? "mt-1.5 lg:mt-3" : "mt-1.5"}`}>
+            <p
+              className={`font-playful leading-[1.05] ${isLarge ? "mt-1.5 lg:mt-3" : "mt-1.5"}`}
+              data-cms-text-key={messageCmsKey}
+            >
               {message}
             </p>
             <div

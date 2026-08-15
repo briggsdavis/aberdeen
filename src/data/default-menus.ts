@@ -1,3 +1,4 @@
+import type { MenuNavigationPage, MenuPage } from "../lib/menu"
 import {
   desserts as beverageDesserts,
   land as beverageLand,
@@ -6,7 +7,7 @@ import {
   sides as beverageSides,
   starters as beverageStarters,
   towers as beverageTowers,
-} from "../pages/menu-beverages"
+} from "./menu-beverages"
 import {
   desserts as foodDesserts,
   land as foodLand,
@@ -15,7 +16,7 @@ import {
   sides as foodSides,
   starters as foodStarters,
   towers as foodTowers,
-} from "../pages/menu-food"
+} from "./menu-food"
 import {
   desserts as spiritDesserts,
   land as spiritLand,
@@ -24,7 +25,7 @@ import {
   sides as spiritSides,
   starters as spiritStarters,
   towers as spiritTowers,
-} from "../pages/menu-spirits"
+} from "./menu-spirits"
 
 type SourceGroup = {
   title: string
@@ -214,3 +215,41 @@ export const defaultMenus = [
     ],
   },
 ]
+
+export const localMenuPages: MenuPage[] = defaultMenus.map((page) => {
+  const slug = page.title.toLowerCase()
+  return {
+    _id: `local:${slug}`,
+    title: page.title,
+    slug,
+    description: page.description,
+    heroImage: page.heroUrl,
+    sections: page.sections.map((section, sectionIndex) => ({
+      _id: `local:${slug}:section:${sectionIndex}`,
+      layout: section.layout,
+      background: section.background,
+      mapImage: section.mapImage,
+      image: section.imageUrl ?? null,
+      imageCaption: section.imageCaption,
+      showPostcardOne: Boolean(section.postcardUrls[0]),
+      showPostcardTwo: Boolean(section.postcardUrls[1]),
+      showPostcardThree: Boolean(section.postcardUrls[2]),
+      postcards: section.postcardUrls,
+      groups: section.groups.map((source, groupIndex) => ({
+        _id: `local:${slug}:section:${sectionIndex}:group:${groupIndex}`,
+        ...source,
+      })),
+    })),
+  }
+})
+
+export const localMenuNavigation: MenuNavigationPage[] = localMenuPages.map((page, order) => ({
+  _id: page._id,
+  title: page.title,
+  slug: page.slug,
+  order,
+  heroImage: page.heroImage,
+  sectionTitles: page.sections
+    .flatMap((section) => section.groups.map((group) => group.title))
+    .slice(0, 3),
+}))

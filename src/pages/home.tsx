@@ -10,22 +10,15 @@ import {
 } from "motion/react"
 import { useRef } from "react"
 import { useOutletContext } from "react-router"
-import { DecorativeBackdrop } from "../components/decorative-media"
 import { FramedPhoto } from "../components/framed-photo"
+import { ImageTilt } from "../components/image-tilt"
 import { LocationMap } from "../components/location-map"
 import { Postcard } from "../components/postcard"
-import {
-  FAQSection,
-  RestaurantGroupSection,
-  RippleSection,
-  TiltWrap,
-} from "../components/site-extras"
-import { useCmsRuntime, usePageImage, useRequiredPageImage } from "../lib/cms-runtime"
+import { FAQSection, RestaurantGroupSection } from "../components/site-extras"
 import { restaurantAddress } from "../lib/location"
 import { fadeIn, fadeInPlace } from "../lib/motion"
+import { usePageImage, useRequiredPageImage, useShellData } from "../lib/public-data"
 
-const antiqueMapOne = "/maps/antique-map-01.png"
-const antiqueMapThree = "/maps/antique-map-03.png"
 const homeHeroImage =
   "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=2000&q=85"
 const homeHeroPostcardImage =
@@ -53,7 +46,7 @@ function HomePage() {
       <MenuSection />
       <ReservationsSection />
       <ScrollGallerySection />
-      <FAQSection cardsFirst showShip={false} />
+      <FAQSection cardsFirst largeText showShip={false} />
       <EventsSection />
       <RestaurantGroupSection />
     </div>
@@ -174,6 +167,8 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
             animate={{ filter: "blur(0px)", opacity: 1 }}
             className="h-full w-full object-cover"
             fetchPriority="high"
+            data-cms-accepts-video
+            data-cms-media-role="background"
             data-cms-slot="hero"
             initial={
               animateIntro
@@ -204,6 +199,7 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
             <motion.p
               animate={{ filter: "blur(0px)", opacity: 1, y: 0 }}
               className="home-hero-intro max-w-[42rem] font-playful text-3xl leading-[1.08] text-aberdeen-peach md:text-5xl"
+              data-cms-text-key="home.hero.intro"
               initial={
                 !animateIntro
                   ? { filter: "blur(0px)", opacity: 1, y: 0 }
@@ -272,33 +268,31 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
   )
 }
 
-function PhotoCorners() {
-  return null
-}
-
 function IntroSection() {
-  const { site } = useCmsRuntime()
+  const { site } = useShellData()
   const mapLocation = site?.settings.mapLocation?.trim() || restaurantAddress
 
   return (
     <section className="relative isolate overflow-hidden px-5 py-16 md:px-8 md:py-24">
-      <DecorativeBackdrop imageClassName="object-cover" opacity={0.15} src={antiqueMapOne} />
       <div className="relative z-10 grid gap-10 md:grid-cols-[0.85fr_1.15fr] md:items-stretch">
         <motion.div className="relative h-[34rem] md:h-auto md:self-stretch" {...fadeIn()}>
-          <TiltWrap className="teak-grain h-full w-full overflow-hidden p-2">
+          <ImageTilt className="teak-grain h-full w-full overflow-hidden p-2">
             <img
               alt="Portrait of a warmly lit restaurant dining detail"
               className="h-full w-full object-cover"
+              data-cms-slot="home.intro.image"
               src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1000&q=85"
             />
-            <PhotoCorners />
-          </TiltWrap>
+          </ImageTilt>
         </motion.div>
         <motion.div className="flex h-full max-w-4xl flex-col justify-center" {...fadeIn(0.1)}>
-          <h2 className="font-display text-5xl leading-none text-aberdeen-blue md:text-7xl">
+          <h2
+            className="font-display text-5xl leading-none text-aberdeen-blue md:text-7xl"
+            data-cms-text-key="home.intro.title"
+          >
             Built like a coastal postcard, served with Savannah appetite.
           </h2>
-          <p className="mt-8 max-w-2xl text-lg leading-8">
+          <p className="mt-8 max-w-2xl text-lg leading-8" data-cms-text-key="home.intro.copy">
             Aberdeen is a bright, editorial restaurant centered on seafood, cocktails, and the easy
             ceremony of gathering around a good table.
           </p>
@@ -312,38 +306,35 @@ function IntroSection() {
 }
 
 function MenuSection() {
-  const { menuPages } = useCmsRuntime()
-  const foodImage = useRequiredPageImage("div:0/section:2/div:2/a:0/div:1/img:0", menuFoodImage)
-  const spiritsImage = useRequiredPageImage(
-    "div:0/section:2/div:2/a:1/div:1/img:0",
-    menuSpiritsImage,
-  )
-  const beveragesImage = useRequiredPageImage(
-    "div:0/section:2/div:2/a:2/div:1/img:0",
-    menuBeveragesImage,
-  )
+  const { menuPages } = useShellData()
+  const foodImage = useRequiredPageImage("home.menus.food.image", menuFoodImage)
+  const spiritsImage = useRequiredPageImage("home.menus.spirits.image", menuSpiritsImage)
+  const beveragesImage = useRequiredPageImage("home.menus.beverages.image", menuBeveragesImage)
   const menus = [
     {
+      key: "food",
       title: "Food",
       href: "/menu/food",
       image: foodImage,
-      slot: "div:0/section:2/div:2/a:0/div:1/img:0",
+      slot: "home.menus.food.image",
       copy: "Cold oysters, coastal plates, and generous mains.",
       label: "Raw bar",
     },
     {
+      key: "spirits",
       title: "Spirits",
       href: "/menu/spirits",
       image: spiritsImage,
-      slot: "div:0/section:2/div:2/a:1/div:1/img:0",
+      slot: "home.menus.spirits.image",
       copy: "Crisp cocktails, blue-hour pours, and bottles for the table.",
       label: "Blue hour",
     },
     {
+      key: "beverages",
       title: "Beverages",
       href: "/menu/beverages",
       image: beveragesImage,
-      slot: "div:0/section:2/div:2/a:2/div:1/img:0",
+      slot: "home.menus.beverages.image",
       copy: "Sparkling, zero-proof, coffee, tea, and easy afternoon refreshers.",
       label: "Sparkling",
     },
@@ -370,7 +361,6 @@ function MenuSection() {
           <motion.a
             aria-label={`View ${menu.title} menu`}
             className="group block bg-aberdeen-peach text-aberdeen-blue"
-            data-cms-structured-link
             href={menu.href}
             key={menu.title}
             {...fadeIn(index * 0.08)}
@@ -386,17 +376,24 @@ function MenuSection() {
                 />
               ) : null}
               <div className="absolute right-4 bottom-4 rounded-full border border-aberdeen-blue bg-oyster-white px-5 py-3 font-playful text-2xl leading-none text-aberdeen-blue">
-                <p className="mt-1.25">{menu.label}</p>
+                <p className="mt-1.25" data-cms-text-key={`home.menus.${menu.key}.label`}>
+                  {menu.label}
+                </p>
               </div>
             </div>
             <div className="min-h-44 p-5">
               <h3
                 className="font-display text-5xl decoration-citrus decoration-2 underline-offset-8 group-hover:underline"
-                data-cms-text-key={`home.menus.item-${index + 1}.title`}
+                data-cms-text-key={`home.menus.${menu.key}.title`}
               >
                 {menu.title}
               </h3>
-              <p className="mt-3 max-w-sm text-base leading-7 text-kelp-ink">{menu.copy}</p>
+              <p
+                className="mt-3 max-w-sm text-base leading-7 text-kelp-ink"
+                data-cms-text-key={`home.menus.${menu.key}.copy`}
+              >
+                {menu.copy}
+              </p>
             </div>
           </motion.a>
         ))}
@@ -431,7 +428,6 @@ function ScrollGallerySection() {
       className="relative isolate overflow-hidden bg-aberdeen-peach py-16 md:py-24"
       ref={sectionRef}
     >
-      <DecorativeBackdrop imageClassName="object-cover" opacity={0.13} src={antiqueMapThree} />
       <motion.div
         className="scrapbook-gallery-track relative z-10 flex w-max gap-5 px-3 will-change-transform md:gap-7 md:px-8"
         style={{ x }}
@@ -445,15 +441,14 @@ function ScrollGallerySection() {
             key={`${image}-${index}`}
             {...fadeIn((index % images.length) * 0.08)}
           >
-            <TiltWrap className="soft-card-shadow h-full w-full">
+            <ImageTilt className="soft-card-shadow h-full w-full">
               <img
                 alt=""
                 className="h-full w-full object-cover"
                 data-cms-slot={`home.scrapbook.image-${(index % images.length) + 1}`}
                 src={image}
               />
-              <PhotoCorners />
-            </TiltWrap>
+            </ImageTilt>
           </motion.div>
         ))}
       </motion.div>
@@ -465,7 +460,7 @@ function ReservationsSection() {
   const postcardImage = useRequiredPageImage("home-hero-postcard", homeHeroPostcardImage)
 
   return (
-    <RippleSection
+    <section
       className="bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24"
       id="reservations"
     >
@@ -473,11 +468,17 @@ function ReservationsSection() {
         <motion.div className="relative order-2 self-end md:order-1" {...fadeIn(0.3)}>
           <Postcard
             imageAlt="Seafood spread on an Aberdeen table"
+            imageCmsSlot="home-hero-postcard"
             imageSrc={postcardImage}
             message="Meet us where the yachts pass at sunset. Savannah has saved you a seat."
+            messageCmsKey="home.reservations.postcard-message"
           />
           <div className="mt-8 flex justify-end">
-            <a className="aberdeen-action bg-aberdeen-peach text-aberdeen-blue" href="/contact">
+            <a
+              className="aberdeen-action bg-aberdeen-peach text-aberdeen-blue"
+              data-cms-link-key="home.reservations.plan-link"
+              href="/contact"
+            >
               Plan a visit
             </a>
           </div>
@@ -485,13 +486,14 @@ function ReservationsSection() {
         <div className="order-1 md:order-2">
           <motion.h2
             className="max-w-3xl font-display text-5xl leading-none md:text-7xl"
+            data-cms-text-key="home.reservations.title"
             {...fadeInPlace()}
           >
             Join us where the table catches the light.
           </motion.h2>
         </div>
       </div>
-    </RippleSection>
+    </section>
   )
 }
 
@@ -529,25 +531,25 @@ function ReservationEditorialSection() {
         </motion.div>
 
         <div className="relative h-[62svh] md:absolute md:top-0 md:right-0 md:h-[72%] md:w-[46%]">
-          <TiltWrap className="teak-grain h-full w-full overflow-hidden p-2">
+          <ImageTilt className="teak-grain h-full w-full overflow-hidden p-2">
             <img
               alt="Luxury yacht cruising across calm blue water"
               className="h-full w-full object-cover"
               data-cms-slot="home.reservations.editorial.yacht"
               src={yachtImage}
             />
-          </TiltWrap>
+          </ImageTilt>
         </div>
 
         <div className="relative h-[66svh] md:absolute md:bottom-0 md:left-0 md:h-[56%] md:w-[46%]">
-          <TiltWrap className="teak-grain h-full w-full overflow-hidden p-2">
+          <ImageTilt className="teak-grain h-full w-full overflow-hidden p-2">
             <img
               alt="Palm-lined beach beside clear turquoise water"
               className="h-full w-full object-cover"
               data-cms-slot="home.reservations.editorial.beach"
               src={beachImage}
             />
-          </TiltWrap>
+          </ImageTilt>
         </div>
 
         <motion.div
@@ -582,37 +584,46 @@ function EventsSection() {
         {...fadeIn()}
       >
         <div className="text-aberdeen-blue">
-          <h2 className="font-display text-5xl leading-none md:text-7xl">
+          <h2
+            className="font-display text-5xl leading-none md:text-7xl"
+            data-cms-text-key="home.events.title"
+          >
             A table made for the moment.
           </h2>
-          <p className="mt-7 max-w-xl text-lg leading-8 text-kelp-ink/80">
+          <p
+            className="mt-7 max-w-xl text-lg leading-8 text-kelp-ink/80"
+            data-cms-text-key="home.events.copy"
+          >
             From candlelit dinners to full-room celebrations, Aberdeen shapes the menu, mood, and
             pacing around the people you bring together.
           </p>
           <a
             className="aberdeen-action mt-8 bg-aberdeen-blue text-aberdeen-peach [--action-fill:var(--color-oyster-white)]"
+            data-cms-link-key="home.events.link"
             href="/events"
           >
             View events
           </a>
         </div>
         <div className="relative mt-10 h-[34rem] md:mt-0 md:h-[43rem]">
-          <TiltWrap className="h-full w-full overflow-hidden">
+          <ImageTilt className="h-full w-full overflow-hidden">
             <img
               alt="A candlelit table set for an Aberdeen private dinner"
               className="h-full w-full object-cover"
+              data-cms-slot="home.events.primary-image"
               src="https://images.unsplash.com/photo-1646473334251-827ea2e0b9ea?auto=format&fit=crop&w=1200&q=85"
             />
-          </TiltWrap>
+          </ImageTilt>
         </div>
         <div className="relative h-[28rem] md:h-[34rem]">
-          <TiltWrap className="h-full w-full overflow-hidden">
+          <ImageTilt className="h-full w-full overflow-hidden">
             <img
               alt="Guests gathered around a private dining table"
               className="h-full w-full object-cover"
+              data-cms-slot="home.events.secondary-image"
               src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1000&q=85"
             />
-          </TiltWrap>
+          </ImageTilt>
         </div>
       </motion.div>
     </section>

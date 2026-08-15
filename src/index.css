@@ -182,23 +182,6 @@
     filter: drop-shadow(0 9px 11px rgb(from var(--color-kelp-ink) r g b / 0.12));
   }
 
-  .text-reveal {
-    opacity: 0;
-    filter: blur(12px);
-    transform: translate3d(0, 14px, 0);
-    transition:
-      filter 900ms cubic-bezier(0.16, 1, 0.3, 1) var(--text-reveal-delay, 0ms),
-      opacity 720ms cubic-bezier(0.16, 1, 0.3, 1) var(--text-reveal-delay, 0ms),
-      transform 900ms cubic-bezier(0.16, 1, 0.3, 1) var(--text-reveal-delay, 0ms);
-    will-change: filter, opacity, transform;
-  }
-
-  .text-reveal.is-text-revealed {
-    opacity: 1;
-    filter: blur(0);
-    transform: translate3d(0, 0, 0);
-  }
-
   main article,
   .soft-card-shadow,
   .restaurant-logo-card {
@@ -483,13 +466,6 @@
     box-shadow: 0 -24px 55px color-mix(in srgb, var(--color-aberdeen-blue) 18%, transparent);
   }
 
-  .site-footer {
-    position: relative;
-    z-index: 30;
-    margin-top: -2.5rem;
-    box-shadow: 0 -18px 42px color-mix(in srgb, var(--color-aberdeen-blue) 16%, transparent);
-  }
-
   @media (max-width: 767px) {
     .parallax-break {
       background-attachment: scroll;
@@ -591,7 +567,7 @@ html.cms-preview-mode .scrapbook-gallery-track > [aria-hidden="true"] {
   transition: color 0s linear !important;
 }
 
-.site-image-wipe-up {
+.site-image-reveal img:not(.no-scroll-reveal, [aria-hidden="true"]) {
   clip-path: inset(100% 0 0 0);
   will-change: clip-path;
   transition:
@@ -599,15 +575,19 @@ html.cms-preview-mode .scrapbook-gallery-track > [aria-hidden="true"] {
     filter 700ms ease 2100ms !important;
 }
 
-main img.site-image-wipe-up:not(.no-under-shadow) {
+main .site-image-reveal img:not(.no-scroll-reveal, [aria-hidden="true"], .no-under-shadow) {
   filter: drop-shadow(0 9px 11px rgb(from var(--color-kelp-ink) r g b / 0));
 }
 
-.site-image-wipe-up.is-revealed {
+.site-image-reveal.is-image-revealed img:not(.no-scroll-reveal, [aria-hidden="true"]),
+.page-shell > section:first-child .site-image-reveal img,
+html.cms-preview-mode .site-image-reveal img {
   clip-path: inset(0 0 0 0);
 }
 
-main img.site-image-wipe-up.is-revealed:not(.no-under-shadow) {
+main
+  .site-image-reveal.is-image-revealed
+  img:not(.no-scroll-reveal, [aria-hidden="true"], .no-under-shadow) {
   filter: drop-shadow(0 9px 11px rgb(from var(--color-kelp-ink) r g b / 0.12));
 }
 
@@ -617,7 +597,7 @@ main img.site-image-wipe-up.is-revealed:not(.no-under-shadow) {
   will-change: transform;
 }
 
-.site-image-wipe-up.menu-image-hover {
+.site-image-reveal .menu-image-hover {
   transition:
     clip-path 1600ms cubic-bezier(0.16, 1, 0.3, 1),
     filter 700ms ease 2100ms,
@@ -628,18 +608,6 @@ main img.site-image-wipe-up.is-revealed:not(.no-under-shadow) {
 .group:focus-visible .menu-image-hover,
 .group:focus-within .menu-image-hover {
   transform: scale(1.05);
-}
-
-.site-shadow-wipe-host {
-  transition: box-shadow 700ms ease 2100ms !important;
-}
-
-.site-shadow-wipe-host.site-shadow-pending {
-  box-shadow: 0 0 0 rgb(from var(--color-kelp-ink) r g b / 0) !important;
-}
-
-.about-pillars-image.site-shadow-wipe-host {
-  transition: box-shadow 700ms ease 2600ms !important;
 }
 
 @media (min-width: 768px) {
@@ -736,14 +704,6 @@ main img.site-image-wipe-up.is-revealed:not(.no-under-shadow) {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .text-reveal,
-  .text-reveal.is-text-revealed {
-    opacity: 1;
-    filter: none;
-    transform: none;
-    transition: none;
-  }
-
   .nav-logo,
   .event-row,
   .event-row-copy,
@@ -756,7 +716,7 @@ main img.site-image-wipe-up.is-revealed:not(.no-under-shadow) {
     animation: none !important;
   }
 
-  .site-image-wipe-up {
+  .site-image-reveal img {
     clip-path: inset(0) !important;
     transition: none !important;
   }

@@ -1,7 +1,7 @@
 import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { useLocation } from "react-router"
-import { useCmsRuntime } from "../lib/cms-runtime"
+import { useShellData } from "../lib/public-data"
 import { TransitionLink } from "./page-transition"
 
 const navItems = [
@@ -23,7 +23,7 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
   const menuCloseTimer = useRef<number | null>(null)
   const [activeMenuPreviewSlug, setActiveMenuPreviewSlug] = useState<string | null>(null)
   const isContactPage = location.pathname === "/contact"
-  const { menuPages, site } = useCmsRuntime()
+  const { menuPages, site } = useShellData()
   const reservationUrl = site?.settings.reservationUrl ?? "/contact"
   const menuPreviews = (menuPages ?? []).slice(0, 3).map((page) => {
     if (!page.heroImage) throw new Error(`Missing menu hero image: ${page.slug}`)

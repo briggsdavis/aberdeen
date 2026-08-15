@@ -77,7 +77,7 @@ export const dashboard = query({
       privateEventInquiries: inquiries.filter((inquiry) => inquiry.type === "privateEvent").length,
       conversionRate: uniqueVisitors ? (inquiries.length / uniqueVisitors) * 100 : 0,
       popularPages: [...pathCounts.entries()]
-        .sort((a, b) => b[1] - a[1])
+        .toSorted((a, b) => b[1] - a[1])
         .slice(0, 5)
         .map(([path, viewsForPath]) => ({ path, views: viewsForPath })),
       dailyViews,

@@ -1,10 +1,9 @@
 import { Heart } from "@phosphor-icons/react"
 import { useMutation } from "convex/react"
-import { AnimatePresence, motion } from "motion/react"
+import { motion } from "motion/react"
 import { useState } from "react"
 import { api } from "../../convex/_generated/api"
 import type { Id } from "../../convex/_generated/dataModel"
-import { restaurantAddress } from "../lib/location"
 import { fadeIn } from "../lib/motion"
 import { Postcard } from "./postcard"
 
@@ -88,133 +87,6 @@ export function RestaurantGroupSection() {
         </a>
       </div>
     </section>
-  )
-}
-
-export function FAQSection({
-  blue = false,
-  cardsFirst = false,
-  expanded = false,
-  largeText = false,
-  showShip = true,
-}: {
-  blue?: boolean
-  cardsFirst?: boolean
-  expanded?: boolean
-  largeText?: boolean
-  showShip?: boolean
-}) {
-  const questions = [
-    ["Do you take reservations?", "Yes. Reservation links will be connected when booking opens."],
-    [
-      "Do you host private events?",
-      "Yes. Aberdeen can shape group dinners and seasonal gatherings.",
-    ],
-    [
-      "Are menus seasonal?",
-      "Yes. Dishes and drinks shift with the catch, the market, and the weather.",
-    ],
-    ["Where are you located?", restaurantAddress],
-    ["Can you handle allergies?", "Tell the team when booking and again when you arrive."],
-    ["Is there a raw bar?", "Yes, oysters and chilled seafood are core to the room."],
-  ]
-  const visible = expanded ? questions : questions.slice(0, 3)
-
-  return (
-    <section
-      className={`relative isolate overflow-hidden ${blue ? "bg-aberdeen-blue" : "bg-oyster-white"} px-5 py-16 md:px-8 md:py-24`}
-    >
-      <div
-        className={`relative z-10 grid gap-10 ${
-          cardsFirst ? "md:grid-cols-[1.3fr_0.7fr]" : "md:grid-cols-[0.7fr_1.3fr]"
-        }`}
-      >
-        <div className={cardsFirst ? "md:order-2" : ""}>
-          <h2
-            className={`font-display text-5xl leading-none md:text-7xl ${blue ? "text-oyster-white" : "text-aberdeen-blue"}`}
-            data-cms-text-key="faq.title"
-          >
-            Good things to know.
-          </h2>
-          {showShip ? (
-            <img
-              alt=""
-              aria-hidden="true"
-              className="pointer-events-none mt-8 h-auto w-full max-w-64 scale-x-[-1] -rotate-6 object-contain opacity-60 md:mt-10"
-              src="/illustrations/nautical/sailing-ship.png"
-            />
-          ) : null}
-          {!expanded ? (
-            <a
-              className={`aberdeen-action mt-8 border ${
-                blue
-                  ? "border-oyster-white text-oyster-white"
-                  : "border-aberdeen-blue text-aberdeen-blue"
-              }`}
-              data-cms-link-key="faq.more-link"
-              href="/contact"
-            >
-              More questions
-            </a>
-          ) : null}
-        </div>
-        <div className={`space-y-3 ${cardsFirst ? "md:order-1" : ""}`}>
-          {visible.map(([question, answer]) => (
-            <FAQItem answer={answer} key={question} largeText={largeText} question={question} />
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function FAQItem({
-  answer,
-  largeText,
-  question,
-}: {
-  answer: string
-  largeText: boolean
-  question: string
-}) {
-  const [open, setOpen] = useState(false)
-
-  return (
-    <article className="faq-item bg-aberdeen-peach text-aberdeen-blue">
-      <button
-        aria-expanded={open}
-        className="flex w-full items-center justify-between gap-5 p-5 text-left"
-        onClick={() => setOpen((current) => !current)}
-        type="button"
-      >
-        <span className={`font-display leading-none ${largeText ? "text-4xl" : "text-2xl"}`}>
-          {question}
-        </span>
-        <span
-          aria-hidden="true"
-          className={`faq-toggle grid h-8 w-8 shrink-0 place-items-center border border-aberdeen-blue font-utility text-xl ${
-            open ? "is-open" : ""
-          }`}
-        >
-          +
-        </span>
-      </button>
-      <AnimatePresence initial={false}>
-        {open ? (
-          <motion.div
-            animate={{ height: "auto", opacity: 1 }}
-            className="overflow-hidden"
-            exit={{ height: 0, opacity: 0 }}
-            initial={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.384, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <p className={`px-5 pb-5 leading-7 text-kelp-ink/80 ${largeText ? "text-xl" : ""}`}>
-              {answer}
-            </p>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
-    </article>
   )
 }
 

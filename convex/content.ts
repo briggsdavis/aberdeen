@@ -24,20 +24,18 @@ export const getPage = query({
       { kind: "image" | "video"; thumbnailUrl: string | null; url: string }
     > = {}
 
-    for (const [key, mediaId] of Object.entries(page.images)) {
-      if (mediaId === null) continue
-      const asset = await ctx.db.get(mediaId)
-      if (!asset) continue
-      const url = asset.storageId
-        ? await ctx.storage.getUrl(asset.storageId)
-        : (asset.sourceUrl ?? null)
-      const thumbnailUrl = asset.thumbnailStorageId
-        ? await ctx.storage.getUrl(asset.thumbnailStorageId)
-        : null
-      if (url) {
-        mediaByKey[key] = { kind: asset.kind, thumbnailUrl, url }
-      }
-    }
+    await Promise.all(
+      Object.entries(page.images).map(async ([key, mediaId]) => {
+        if (mediaId === null) return
+        const asset = await ctx.db.get(mediaId)
+        if (!asset) return
+        const [url, thumbnailUrl] = await Promise.all([
+          asset.storageId ? ctx.storage.getUrl(asset.storageId) : asset.sourceUrl,
+          asset.thumbnailStorageId ? ctx.storage.getUrl(asset.thumbnailStorageId) : null,
+        ])
+        if (url) mediaByKey[key] = { kind: asset.kind, thumbnailUrl, url }
+      }),
+    )
 
     return {
       text: page.text,
@@ -92,18 +90,19 @@ export const savePage = mutation({
       .query("mediaUsages")
       .withIndex("by_page", (q) => q.eq("page", args.page))
       .take(500)
-    for (const usage of oldUsages) {
-      await ctx.db.delete("mediaUsages", usage._id)
-    }
-    for (const [slotKey, mediaId] of Object.entries(args.images)) {
-      if (mediaId === null) continue
-      await ctx.db.insert("mediaUsages", {
-        mediaId,
-        page: args.page,
-        slotKey,
-        role: args.imageRoles[slotKey] ?? "content",
-      })
-    }
+    await Promise.all(oldUsages.map((usage) => ctx.db.delete("mediaUsages", usage._id)))
+    await Promise.all(
+      Object.entries(args.images).map(([slotKey, mediaId]) =>
+        mediaId === null
+          ? null
+          : ctx.db.insert("mediaUsages", {
+              mediaId,
+              page: args.page,
+              slotKey,
+              role: args.imageRoles[slotKey] ?? "content",
+            }),
+      ),
+    )
     return null
   },
 })

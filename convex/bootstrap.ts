@@ -1,5 +1,5 @@
-import { mutation } from "./_generated/server"
 import type { MutationCtx } from "./_generated/server"
+import { mutation } from "./_generated/server"
 import { requireAdmin } from "./lib/admin"
 
 const reservationBeachImage =
@@ -123,23 +123,20 @@ async function syncHomepageDefaults(ctx: MutationCtx) {
     await ctx.db.patch("pageOverrides", existing._id, values)
   }
 
-  for (const [slotKey, mediaId] of Object.entries(defaultImages)) {
-    const role = slotKey === "hero" ? "background" : "content"
-    const usage = await ctx.db
-      .query("mediaUsages")
-      .withIndex("by_page_and_slotKey", (q) => q.eq("page", "/").eq("slotKey", slotKey))
-      .first()
-    if (usage) {
-      await ctx.db.patch("mediaUsages", usage._id, { mediaId, role })
-    } else {
-      await ctx.db.insert("mediaUsages", {
-        mediaId,
-        page: "/",
-        slotKey,
-        role,
-      })
-    }
-  }
+  await Promise.all(
+    Object.entries(defaultImages).map(async ([slotKey, mediaId]) => {
+      const role = slotKey === "hero" ? "background" : "content"
+      const usage = await ctx.db
+        .query("mediaUsages")
+        .withIndex("by_page_and_slotKey", (q) => q.eq("page", "/").eq("slotKey", slotKey))
+        .first()
+      if (usage) {
+        await ctx.db.patch("mediaUsages", usage._id, { mediaId, role })
+      } else {
+        await ctx.db.insert("mediaUsages", { mediaId, page: "/", slotKey, role })
+      }
+    }),
+  )
 }
 
 const staff = [
@@ -226,89 +223,97 @@ export const ensureInitialized = mutation({
       footerCopyright: "Aberdeen. All rights reserved.",
     }
 
-    for (const [key, value] of Object.entries(settings)) {
-      await ctx.db.insert("siteSettings", { key, value, updatedAt: now })
-    }
+    await Promise.all(
+      Object.entries(settings).map(([key, value]) =>
+        ctx.db.insert("siteSettings", { key, value, updatedAt: now }),
+      ),
+    )
 
     const contactDetails = [
       ["Visit", "301 Passage Way B101, Savannah, GA 31401", "Find us by the water."],
       ["Call", "(912) 555-0147", "For reservations and general questions."],
       ["Write", "hello@aberdeen.example", "Press, events, and restaurant inquiries."],
     ]
-    for (const [order, [label, value, note]] of contactDetails.entries()) {
-      await ctx.db.insert("contactDetails", { label, value, note, order })
-    }
+    await Promise.all(
+      contactDetails.map(([label, value, note], order) =>
+        ctx.db.insert("contactDetails", { label, value, note, order }),
+      ),
+    )
 
     const hours = [
-      ["Monday – Thursday", "5 PM – 10 PM"],
-      ["Friday – Saturday", "4 PM – 11 PM"],
-      ["Sunday", "4 PM – 9 PM"],
+      ["Monday - Thursday", "5 PM - 10 PM"],
+      ["Friday - Saturday", "4 PM - 11 PM"],
+      ["Sunday", "4 PM - 9 PM"],
     ]
-    for (const [order, [label, value]] of hours.entries()) {
-      await ctx.db.insert("openingHours", { label, value, order })
-    }
+    await Promise.all(
+      hours.map(([label, value], order) => ctx.db.insert("openingHours", { label, value, order })),
+    )
 
-    for (const [order, [platform, url]] of [
-      ["Instagram", ""],
-      ["Facebook", ""],
-    ].entries()) {
-      await ctx.db.insert("socialLinks", { platform, url, order })
-    }
+    await Promise.all(
+      [
+        ["Instagram", ""],
+        ["Facebook", ""],
+      ].map(([platform, url], order) => ctx.db.insert("socialLinks", { platform, url, order })),
+    )
 
-    for (const [order, [name, role, biography, imageUrl]] of staff.entries()) {
-      const mediaId = await ctx.db.insert("mediaAssets", {
-        sourceUrl: imageUrl,
-        filename: `${name.toLowerCase().replaceAll(" ", "-")}.jpg`,
-        alt: name,
-        contentType: "image/jpeg",
-        kind: "image",
-        size: 0,
-        createdAt: now,
-      })
-      const memberId = await ctx.db.insert("staffMembers", {
-        name,
-        role,
-        biography,
-        imageUrl,
-        imageMediaId: mediaId,
-        order,
-      })
-      await ctx.db.insert("mediaUsages", {
-        mediaId,
-        page: "/staff",
-        slotKey: `staff:${memberId}`,
-        role: "content",
-      })
-    }
+    await Promise.all(
+      staff.map(async ([name, role, biography, imageUrl], order) => {
+        const mediaId = await ctx.db.insert("mediaAssets", {
+          sourceUrl: imageUrl,
+          filename: `${name.toLowerCase().replaceAll(" ", "-")}.jpg`,
+          alt: name,
+          contentType: "image/jpeg",
+          kind: "image",
+          size: 0,
+          createdAt: now,
+        })
+        const memberId = await ctx.db.insert("staffMembers", {
+          name,
+          role,
+          biography,
+          imageUrl,
+          imageMediaId: mediaId,
+          order,
+        })
+        await ctx.db.insert("mediaUsages", {
+          mediaId,
+          page: "/staff",
+          slotKey: `staff:${memberId}`,
+          role: "content",
+        })
+      }),
+    )
 
-    for (const [title, description, date, imageUrl] of events) {
-      const mediaId = await ctx.db.insert("mediaAssets", {
-        sourceUrl: imageUrl,
-        filename: `${title.toLowerCase().replaceAll(" ", "-")}.jpg`,
-        alt: title,
-        contentType: "image/jpeg",
-        kind: "image",
-        size: 0,
-        createdAt: now,
-      })
-      const eventId = await ctx.db.insert("events", {
-        title,
-        description,
-        startsAt: Date.parse(date),
-        imageUrl,
-        imageMediaId: mediaId,
-        bookingUrl: "",
-        status: "published",
-        createdAt: now,
-        updatedAt: now,
-      })
-      await ctx.db.insert("mediaUsages", {
-        mediaId,
-        page: "/events",
-        slotKey: `event:${eventId}`,
-        role: "content",
-      })
-    }
+    await Promise.all(
+      events.map(async ([title, description, date, imageUrl]) => {
+        const mediaId = await ctx.db.insert("mediaAssets", {
+          sourceUrl: imageUrl,
+          filename: `${title.toLowerCase().replaceAll(" ", "-")}.jpg`,
+          alt: title,
+          contentType: "image/jpeg",
+          kind: "image",
+          size: 0,
+          createdAt: now,
+        })
+        const eventId = await ctx.db.insert("events", {
+          title,
+          description,
+          startsAt: Date.parse(date),
+          imageUrl,
+          imageMediaId: mediaId,
+          bookingUrl: "",
+          status: "published",
+          createdAt: now,
+          updatedAt: now,
+        })
+        await ctx.db.insert("mediaUsages", {
+          mediaId,
+          page: "/events",
+          slotKey: `event:${eventId}`,
+          role: "content",
+        })
+      }),
+    )
 
     return true
   },

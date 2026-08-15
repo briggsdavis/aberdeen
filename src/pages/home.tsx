@@ -10,11 +10,12 @@ import {
 } from "motion/react"
 import { useRef } from "react"
 import { useOutletContext } from "react-router"
+import { FaqSection, homepageFaqs } from "../components/faq-section"
 import { FramedPhoto } from "../components/framed-photo"
 import { ImageTilt } from "../components/image-tilt"
 import { LocationMap } from "../components/location-map"
 import { Postcard } from "../components/postcard"
-import { FAQSection, RestaurantGroupSection } from "../components/site-extras"
+import { RestaurantGroupSection } from "../components/site-extras"
 import { restaurantAddress } from "../lib/location"
 import { fadeIn, fadeInPlace } from "../lib/motion"
 import { usePageImage, useRequiredPageImage, useShellData } from "../lib/public-data"
@@ -46,8 +47,13 @@ function HomePage() {
       <MenuSection />
       <ReservationsSection />
       <ScrollGallerySection />
-      <FAQSection cardsFirst largeText showShip={false} />
       <EventsSection />
+      <FaqSection
+        cmsKeyPrefix="home.faq"
+        ctaHref="/contact"
+        ctaLabel="View all FAQs"
+        items={homepageFaqs}
+      />
       <RestaurantGroupSection />
     </div>
   )
@@ -365,7 +371,14 @@ function MenuSection() {
             key={menu.title}
             {...fadeIn(index * 0.08)}
           >
-            <div aria-hidden="true" className="teak-grain h-3" />
+            <div
+              aria-hidden="true"
+              className="h-3"
+              style={{
+                backgroundImage:
+                  "repeating-linear-gradient(135deg,#2a3b92 0 8px,#fff8f0 8px 16px,#f7b733 16px 24px,#fff8f0 24px 32px)",
+              }}
+            />
             <div className="relative aspect-[4/5] overflow-hidden">
               {menu.image ? (
                 <img

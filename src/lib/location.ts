@@ -4,3 +4,7 @@ export function googleMapsPlaceUrl(address: string) {
   const placePath = encodeURIComponent(address).replaceAll("%20", "+").replaceAll("%2C", ",")
   return `https://www.google.com/maps/place/${placePath}`
 }
+
+export function googleMapsEmbedUrl(address: string) {
+  return `https://www.google.com/maps?q=${encodeURIComponent(address)}&output=embed`
+}

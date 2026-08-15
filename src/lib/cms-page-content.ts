@@ -76,6 +76,8 @@ type LinkTarget = {
 
 export const emptyPageContent: PageContent = { text: {}, links: {}, media: {} }
 
+const isEditable = (element: Element) => !element.closest("[data-cms-no-edit]")
+
 export function getCmsPreview(search: string) {
   const params = new URLSearchParams(search)
   return params.has("cmsPreview") ? { scope: params.get("cmsScope") } : null
@@ -87,16 +89,15 @@ export function pageImage(content: PageContent, key: string) {
 }
 
 function collectTargets(root: HTMLElement) {
-  const editable = (element: Element) => !element.closest("[data-cms-no-edit]")
   const text: TextTarget[] = [...root.querySelectorAll<HTMLElement>("[data-cms-text-key]")]
-    .filter(editable)
+    .filter(isEditable)
     .map((element) => ({
       element,
       key: element.dataset.cmsTextKey!,
       originalText: element.textContent ?? "",
     }))
   const images: ImageTarget[] = [...root.querySelectorAll<HTMLImageElement>("img[data-cms-slot]")]
-    .filter(editable)
+    .filter(isEditable)
     .map((element) => ({
       acceptsVideo: element.dataset.cmsAcceptsVideo !== undefined,
       element,
@@ -105,7 +106,7 @@ function collectTargets(root: HTMLElement) {
       role: (element.dataset.cmsMediaRole as MediaRole | undefined) ?? "content",
     }))
   const links: LinkTarget[] = [...root.querySelectorAll<HTMLAnchorElement>("a[data-cms-link-key]")]
-    .filter(editable)
+    .filter(isEditable)
     .map((element) => ({
       element,
       key: element.dataset.cmsLinkKey!,

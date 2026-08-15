@@ -139,7 +139,6 @@ export const registerPageAssets = mutation({
       }
       if (!asset) continue
       ids[item.slotKey] = asset._id
-
       const existingUsage = await ctx.db
         .query("mediaUsages")
         .withIndex("by_page_and_slotKey", (q) =>
@@ -166,14 +165,16 @@ export const registerPageAssets = mutation({
 })
 
 async function assertUnused(ctx: MutationCtx, ids: Id<"mediaAssets">[]) {
-  for (const id of ids) {
-    const usage = await ctx.db
-      .query("mediaUsages")
-      .withIndex("by_mediaId", (q) => q.eq("mediaId", id))
-      .take(1)
-    if (usage.length) {
-      throw new ConvexError("Media currently used on the site cannot be deleted.")
-    }
+  const usages = await Promise.all(
+    ids.map((id) =>
+      ctx.db
+        .query("mediaUsages")
+        .withIndex("by_mediaId", (q) => q.eq("mediaId", id))
+        .take(1),
+    ),
+  )
+  if (usages.some((usage) => usage.length)) {
+    throw new ConvexError("Media currently used on the site cannot be deleted.")
   }
 }
 
@@ -183,13 +184,17 @@ export const remove = mutation({
     await requireAdmin(ctx)
     const ids = args.ids.slice(0, 100)
     await assertUnused(ctx, ids)
-    for (const id of ids) {
-      const asset = await ctx.db.get("mediaAssets", id)
-      if (!asset) continue
-      if (asset.storageId) await ctx.storage.delete(asset.storageId)
-      if (asset.thumbnailStorageId) await ctx.storage.delete(asset.thumbnailStorageId)
-      await ctx.db.delete("mediaAssets", id)
-    }
+    await Promise.all(
+      ids.map(async (id) => {
+        const asset = await ctx.db.get("mediaAssets", id)
+        if (!asset) return
+        await Promise.all([
+          asset.storageId ? ctx.storage.delete(asset.storageId) : null,
+          asset.thumbnailStorageId ? ctx.storage.delete(asset.thumbnailStorageId) : null,
+        ])
+        await ctx.db.delete("mediaAssets", id)
+      }),
+    )
     return null
   },
 })

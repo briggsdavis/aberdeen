@@ -252,14 +252,16 @@ async function deleteSection(ctx: MutationCtx, id: Id<"menuSections">) {
     .query("menuGroups")
     .withIndex("by_sectionId_and_order", (q) => q.eq("sectionId", id))
     .collect()
-  for (const group of groups) {
-    const items = await ctx.db
-      .query("menuItems")
-      .withIndex("by_groupId_and_order", (q) => q.eq("groupId", group._id))
-      .collect()
-    for (const item of items) await ctx.db.delete(item._id)
-    await ctx.db.delete(group._id)
-  }
+  await Promise.all(
+    groups.map(async (group) => {
+      const items = await ctx.db
+        .query("menuItems")
+        .withIndex("by_groupId_and_order", (q) => q.eq("groupId", group._id))
+        .collect()
+      await Promise.all(items.map((item) => ctx.db.delete(item._id)))
+      await ctx.db.delete(group._id)
+    }),
+  )
   if (section) {
     await syncSectionMediaUsages(ctx, section.pageId, id, {})
   }
@@ -274,7 +276,7 @@ export const removePage = mutation({
       .query("menuSections")
       .withIndex("by_pageId_and_order", (q) => q.eq("pageId", args.id))
       .collect()
-    for (const section of sections) await deleteSection(ctx, section._id)
+    await Promise.all(sections.map((section) => deleteSection(ctx, section._id)))
     await setMediaUsage(ctx, args.id, "hero", undefined, "background")
     await ctx.db.delete(args.id)
     return null
@@ -285,7 +287,7 @@ export const reorderPages = mutation({
   args: { ids: v.array(v.id("menuPages")) },
   handler: async (ctx, args) => {
     await requireAdmin(ctx)
-    for (const [order, id] of args.ids.entries()) await ctx.db.patch(id, { order })
+    await Promise.all(args.ids.map((id, order) => ctx.db.patch(id, { order })))
     return null
   },
 })
@@ -329,9 +331,9 @@ export const createSection = mutation({
       createdAt: now,
       updatedAt: now,
     })
-    for (const [order, group] of groups.entries()) {
-      await ctx.db.insert("menuGroups", { sectionId, ...group, order })
-    }
+    await Promise.all(
+      groups.map((group, order) => ctx.db.insert("menuGroups", { sectionId, ...group, order })),
+    )
     await syncSectionMediaUsages(ctx, args.pageId, sectionId, values)
     return sectionId
   },
@@ -365,7 +367,7 @@ export const reorderSections = mutation({
   args: { pageId: v.id("menuPages"), ids: v.array(v.id("menuSections")) },
   handler: async (ctx, args) => {
     await requireAdmin(ctx)
-    for (const [order, id] of args.ids.entries()) await ctx.db.patch(id, { order })
+    await Promise.all(args.ids.map((id, order) => ctx.db.patch(id, { order })))
     return null
   },
 })
@@ -449,7 +451,7 @@ export const reorderItems = mutation({
   args: { groupId: v.id("menuGroups"), ids: v.array(v.id("menuItems")) },
   handler: async (ctx, args) => {
     await requireAdmin(ctx)
-    for (const [order, id] of args.ids.entries()) await ctx.db.patch(id, { order })
+    await Promise.all(args.ids.map((id, order) => ctx.db.patch(id, { order })))
     return null
   },
 })
@@ -581,24 +583,28 @@ export const initializeDefaults = mutation({
           postcardThreeMediaId: postcardIds[2],
         })
 
-        for (const [groupOrder, group] of section.groups.entries()) {
-          const groupId = await ctx.db.insert("menuGroups", {
-            sectionId,
-            title: group.title,
-            note: group.note,
-            order: groupOrder,
-          })
-          for (const [itemOrder, item] of group.items.entries()) {
-            await ctx.db.insert("menuItems", {
-              groupId,
-              name: item.name,
-              description: item.description,
-              price: item.price,
-              likes: 0,
-              order: itemOrder,
+        await Promise.all(
+          section.groups.map(async (group, groupOrder) => {
+            const groupId = await ctx.db.insert("menuGroups", {
+              sectionId,
+              title: group.title,
+              note: group.note,
+              order: groupOrder,
             })
-          }
-        }
+            await Promise.all(
+              group.items.map((item, itemOrder) =>
+                ctx.db.insert("menuItems", {
+                  groupId,
+                  name: item.name,
+                  description: item.description,
+                  price: item.price,
+                  likes: 0,
+                  order: itemOrder,
+                }),
+              ),
+            )
+          }),
+        )
       }
     }
     return true

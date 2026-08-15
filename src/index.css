@@ -229,17 +229,6 @@
       drop-shadow(0 9px 11px color-mix(in srgb, var(--color-aberdeen-blue) 16%, transparent)) !important;
   }
 
-  .hero-radial-glow {
-    background: radial-gradient(
-      ellipse 62% 58% at 0% 100%,
-      rgb(from var(--color-aberdeen-blue) r g b / 0.98) 0%,
-      rgb(from var(--color-aberdeen-blue) r g b / 0.9) 25%,
-      rgb(from var(--color-aberdeen-blue) r g b / 0.58) 43%,
-      rgb(from var(--color-aberdeen-blue) r g b / 0.22) 56%,
-      rgb(from var(--color-aberdeen-blue) r g b / 0) 70%
-    );
-  }
-
   .home-hero-radial-glow {
     background: radial-gradient(
       ellipse 72% 68% at 14% 100%,
@@ -291,54 +280,6 @@
       transition: box-shadow 1200ms ease;
       will-change: auto;
     }
-  }
-
-  .faq-item {
-    box-shadow: 0 10px 20px rgb(from var(--color-kelp-ink) r g b / 0.12);
-    transition:
-      box-shadow 288ms ease,
-      background-color 288ms ease;
-  }
-
-  .faq-item:hover {
-    background: white;
-    box-shadow: 8px 8px 0 rgb(from var(--color-aberdeen-blue) r g b / 0.12);
-  }
-
-  .faq-toggle {
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
-    transition:
-      transform 360ms cubic-bezier(0.22, 1, 0.36, 1),
-      color 760ms ease;
-  }
-
-  .faq-toggle::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: var(--color-aberdeen-blue);
-    transform: scaleY(0);
-    transform-origin: bottom;
-    transition: transform 920ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .faq-item:hover .faq-toggle,
-  .faq-item:focus-within .faq-toggle {
-    color: var(--color-oyster-white);
-  }
-
-  .faq-item:hover .faq-toggle::before,
-  .faq-item:focus-within .faq-toggle::before,
-  .faq-toggle.is-open::before {
-    transform: scaleY(1);
-  }
-
-  .faq-toggle.is-open {
-    color: var(--color-oyster-white);
-    transform: rotate(45deg);
   }
 
   .nav-logo {
@@ -434,12 +375,6 @@
     }
   }
 
-  .parallax-break {
-    background-attachment: fixed;
-    background-position: center;
-    background-size: cover;
-  }
-
   .page-shell {
     position: relative;
   }
@@ -458,19 +393,11 @@
     background-color: var(--color-aberdeen-peach);
   }
 
-  .page-shell::after {
-    display: none;
-  }
-
   .page-shell > section:nth-child(2) {
     box-shadow: 0 -24px 55px color-mix(in srgb, var(--color-aberdeen-blue) 18%, transparent);
   }
 
   @media (max-width: 767px) {
-    .parallax-break {
-      background-attachment: scroll;
-    }
-
     .page-shell > section:nth-child(2) {
       box-shadow: 0 -16px 34px color-mix(in srgb, var(--color-aberdeen-blue) 15%, transparent);
     }
@@ -555,11 +482,6 @@ html.cms-preview-mode .scrapbook-gallery-track > [aria-hidden="true"] {
   transition-duration: 1200ms;
 }
 
-.aberdeen-action.border-oyster-white {
-  --action-fill: var(--color-oyster-white);
-  --action-foreground: var(--color-aberdeen-blue);
-}
-
 .aberdeen-action:hover,
 .aberdeen-action:focus-visible {
   color: var(--color-near-black) !important;
@@ -608,12 +530,6 @@ main
 .group:focus-visible .menu-image-hover,
 .group:focus-within .menu-image-hover {
   transform: scale(1.05);
-}
-
-@media (min-width: 768px) {
-  .contact-page > section:last-child > div {
-    grid-template-columns: 0.9fr 1.1fr;
-  }
 }
 
 .public-site-main,
@@ -676,10 +592,6 @@ main
 @media (min-width: 768px) {
   :is(.public-site-main, .site-footer) .md\:text-3xl {
     font-size: 1.6875rem;
-  }
-
-  :is(.public-site-main, .site-footer) .md\:text-4xl {
-    font-size: 2.025rem;
   }
 
   :is(.public-site-main, .site-footer) .md\:text-5xl {

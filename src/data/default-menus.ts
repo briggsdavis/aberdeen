@@ -250,6 +250,6 @@ export const localMenuNavigation: MenuNavigationPage[] = localMenuPages.map((pag
   order,
   heroImage: page.heroImage,
   sectionTitles: page.sections
-    .flatMap((section) => section.groups.map((group) => group.title))
+    .flatMap((section) => section.groups.map((menuGroup) => menuGroup.title))
     .slice(0, 3),
 }))

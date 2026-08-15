@@ -43,6 +43,8 @@ const pageLabels: Record<string, string> = {
   "/menu/beverages": "Beverages menu",
 }
 
+const allMediaKinds: MediaKind[] = ["image", "video"]
+
 function uploadToStorage(
   url: string,
   body: Blob,
@@ -73,14 +75,14 @@ function imageMetadata(file: File) {
   return new Promise<{ height: number; width: number }>((resolve, reject) => {
     const image = new Image()
     const url = URL.createObjectURL(file)
-    image.onload = () => {
+    image.addEventListener("load", () => {
       resolve({ height: image.naturalHeight, width: image.naturalWidth })
       URL.revokeObjectURL(url)
-    }
-    image.onerror = () => {
+    })
+    image.addEventListener("error", () => {
       URL.revokeObjectURL(url)
       reject(new Error("This image could not be read."))
-    }
+    })
     image.src = url
   })
 }
@@ -96,10 +98,10 @@ function videoMetadata(file: File) {
     const url = URL.createObjectURL(file)
     video.muted = true
     video.preload = "metadata"
-    video.onloadedmetadata = () => {
+    video.addEventListener("loadedmetadata", () => {
       video.currentTime = Math.min(0.2, Math.max(0, video.duration / 10))
-    }
-    video.onseeked = () => {
+    })
+    video.addEventListener("seeked", () => {
       const width = video.videoWidth
       const height = video.videoHeight
       const maxWidth = 960
@@ -120,11 +122,11 @@ function videoMetadata(file: File) {
         "image/jpeg",
         0.82,
       )
-    }
-    video.onerror = () => {
+    })
+    video.addEventListener("error", () => {
       URL.revokeObjectURL(url)
       reject(new Error("This video could not be read."))
-    }
+    })
     video.src = url
   })
 }
@@ -132,7 +134,7 @@ function videoMetadata(file: File) {
 export default function MediaLibrary({
   onSelect,
   selectedId,
-  acceptedKinds = ["image", "video"],
+  acceptedKinds = allMediaKinds,
   initialFilter = "photos",
 }: {
   onSelect?: (selection: MediaSelection) => void

@@ -162,8 +162,8 @@ function UpcomingList({ events }: { events: DisplayEvent[] }) {
             hoveredEvent === index ? "is-event-hovered" : ""
           } ${index % 2 === 1 ? "event-row-reversed md:flex-row-reverse" : ""}`}
           key={event.title}
-          onBlur={(event) => {
-            if (!event.currentTarget.contains(event.relatedTarget)) setHoveredEvent(null)
+          onBlur={(blurEvent) => {
+            if (!blurEvent.currentTarget.contains(blurEvent.relatedTarget)) setHoveredEvent(null)
           }}
           onFocus={() => setHoveredEvent(index)}
           onMouseEnter={() => setHoveredEvent(index)}

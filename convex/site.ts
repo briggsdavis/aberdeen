@@ -79,37 +79,35 @@ export const saveGlobal = mutation({
     await requireAdmin(ctx)
     const now = Date.now()
 
-    for (const [key, value] of Object.entries(args.settings)) {
-      const existing = await ctx.db
-        .query("siteSettings")
-        .withIndex("by_key", (q) => q.eq("key", key))
-        .unique()
-      if (existing) {
-        await ctx.db.patch("siteSettings", existing._id, { value, updatedAt: now })
-      } else {
-        await ctx.db.insert("siteSettings", { key, value, updatedAt: now })
-      }
-    }
+    await Promise.all(
+      Object.entries(args.settings).map(async ([key, value]) => {
+        const existing = await ctx.db
+          .query("siteSettings")
+          .withIndex("by_key", (q) => q.eq("key", key))
+          .unique()
+        return existing
+          ? ctx.db.patch("siteSettings", existing._id, { value, updatedAt: now })
+          : ctx.db.insert("siteSettings", { key, value, updatedAt: now })
+      }),
+    )
 
-    for (const row of await ctx.db.query("contactDetails").take(100)) {
-      await ctx.db.delete("contactDetails", row._id)
-    }
-    for (const row of await ctx.db.query("openingHours").take(100)) {
-      await ctx.db.delete("openingHours", row._id)
-    }
-    for (const row of await ctx.db.query("socialLinks").take(100)) {
-      await ctx.db.delete("socialLinks", row._id)
-    }
-
-    for (const [order, row] of args.contactDetails.entries()) {
-      await ctx.db.insert("contactDetails", { ...row, order })
-    }
-    for (const [order, row] of args.openingHours.entries()) {
-      await ctx.db.insert("openingHours", { ...row, order })
-    }
-    for (const [order, row] of args.socialLinks.entries()) {
-      await ctx.db.insert("socialLinks", { ...row, order })
-    }
+    const [contactDetails, openingHours, socialLinks] = await Promise.all([
+      ctx.db.query("contactDetails").take(100),
+      ctx.db.query("openingHours").take(100),
+      ctx.db.query("socialLinks").take(100),
+    ])
+    await Promise.all([
+      ...contactDetails.map((row) => ctx.db.delete("contactDetails", row._id)),
+      ...openingHours.map((row) => ctx.db.delete("openingHours", row._id)),
+      ...socialLinks.map((row) => ctx.db.delete("socialLinks", row._id)),
+    ])
+    await Promise.all([
+      ...args.contactDetails.map((row, order) =>
+        ctx.db.insert("contactDetails", { ...row, order }),
+      ),
+      ...args.openingHours.map((row, order) => ctx.db.insert("openingHours", { ...row, order })),
+      ...args.socialLinks.map((row, order) => ctx.db.insert("socialLinks", { ...row, order })),
+    ])
 
     return null
   },
@@ -218,15 +216,17 @@ export const reorderCollection = mutation({
   handler: async (ctx, args) => {
     await requireAdmin(ctx)
 
-    for (const [order, id] of args.ids.entries()) {
-      if (args.collection === "contactDetails") {
-        await ctx.db.patch("contactDetails", id as never, { order })
-      } else if (args.collection === "openingHours") {
-        await ctx.db.patch("openingHours", id as never, { order })
-      } else {
-        await ctx.db.patch("socialLinks", id as never, { order })
-      }
-    }
+    await Promise.all(
+      args.ids.map((id, order) => {
+        if (args.collection === "contactDetails") {
+          return ctx.db.patch("contactDetails", id as never, { order })
+        }
+        if (args.collection === "openingHours") {
+          return ctx.db.patch("openingHours", id as never, { order })
+        }
+        return ctx.db.patch("socialLinks", id as never, { order })
+      }),
+    )
     return null
   },
 })

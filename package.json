@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "convex dev --start vite",
+    "dev": "bun --parallel dev:vite dev:convex",
+    "dev:vite": "portless aberdeen vite",
+    "dev:convex": "convex dev",
     "build": "tsc -b && vite build",
     "preview": "vite preview"
   },

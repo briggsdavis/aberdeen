@@ -129,9 +129,7 @@ export const reorder = mutation({
   args: { ids: v.array(v.id("staffMembers")) },
   handler: async (ctx, args) => {
     await requireAdmin(ctx)
-    for (const [order, id] of args.ids.entries()) {
-      await ctx.db.patch("staffMembers", id, { order })
-    }
+    await Promise.all(args.ids.map((id, order) => ctx.db.patch("staffMembers", id, { order })))
     return null
   },
 })

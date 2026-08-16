@@ -1,5 +1,6 @@
 import { ArrowLeft, House } from "@phosphor-icons/react"
 import { Link } from "react-router"
+import { standardActionTone } from "../lib/standard-action"
 
 export default function NotFoundPage() {
   return (
@@ -25,11 +26,16 @@ export default function NotFoundPage() {
             The address may have changed, or the page may never have made it onto the map.
           </p>
           <div className="mt-9 flex flex-wrap justify-center gap-3">
-            <Link className="aberdeen-action bg-aberdeen-blue text-aberdeen-peach" to="/">
+            <Link
+              className="aberdeen-action standard-action"
+              data-standard-action-tone={standardActionTone(0)}
+              to="/"
+            >
               <House size={17} /> Return home
             </Link>
             <button
-              className="aberdeen-action border border-aberdeen-blue text-aberdeen-blue"
+              className="aberdeen-action standard-action"
+              data-standard-action-tone={standardActionTone(1)}
               onClick={() => window.history.back()}
               type="button"
             >

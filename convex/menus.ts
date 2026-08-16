@@ -10,6 +10,11 @@ const layoutValidator = v.union(
   v.literal("paired"),
 )
 const backgroundValidator = v.union(v.literal("oyster"), v.literal("peach"), v.literal("blue"))
+const defaultPostcardMessages = [
+  "The yachts are in, the river is gold, and dinner is waiting by the water.",
+  "White sails, salt air, and one more beautiful evening in Savannah, Georgia.",
+  "Meet us where the yachts pass at sunset. Savannah has saved you a seat.",
+]
 
 async function assetUrl(ctx: QueryCtx, id: Id<"mediaAssets"> | undefined) {
   if (!id) return null
@@ -99,11 +104,16 @@ async function nestedPage(ctx: QueryCtx, page: Doc<"menuPages">) {
           ...section,
           mapImage: (await assetUrl(ctx, section.mapMediaId)) ?? section.mapImage,
           image: await assetUrl(ctx, section.imageMediaId),
-          postcards: await Promise.all([
-            assetUrl(ctx, section.postcardOneMediaId),
-            assetUrl(ctx, section.postcardTwoMediaId),
-            assetUrl(ctx, section.postcardThreeMediaId),
-          ]),
+          postcards: (
+            await Promise.all([
+              assetUrl(ctx, section.postcardOneMediaId),
+              assetUrl(ctx, section.postcardTwoMediaId),
+              assetUrl(ctx, section.postcardThreeMediaId),
+            ])
+          ).map((image, index) => ({
+            image,
+            message: section.postcardMessages?.[index] ?? defaultPostcardMessages[index]!,
+          })),
           groups: await Promise.all(
             groups.map(async (group) => ({
               ...group,
@@ -305,6 +315,7 @@ const sectionFields = {
   postcardTwoMediaId: v.optional(v.id("mediaAssets")),
   showPostcardThree: v.boolean(),
   postcardThreeMediaId: v.optional(v.id("mediaAssets")),
+  postcardMessages: v.array(v.string()),
 }
 
 export const createSection = mutation({
@@ -483,6 +494,7 @@ const seedSectionValidator = v.object({
   imageUrl: v.optional(v.string()),
   imageCaption: v.string(),
   postcardUrls: v.array(v.string()),
+  postcardMessages: v.optional(v.array(v.string())),
   groups: v.array(seedGroupValidator),
 })
 
@@ -571,6 +583,7 @@ export const initializeDefaults = mutation({
           postcardTwoMediaId: postcardIds[1],
           showPostcardThree: Boolean(postcardIds[2]),
           postcardThreeMediaId: postcardIds[2],
+          postcardMessages: section.postcardMessages ?? defaultPostcardMessages,
           order: sectionOrder,
           createdAt: now,
           updatedAt: now,

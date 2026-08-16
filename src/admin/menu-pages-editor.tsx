@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react"
 import { useNavigate, useParams } from "react-router"
 import { api } from "../../convex/_generated/api"
 import type { Id } from "../../convex/_generated/dataModel"
+import { defaultPostcardMessages } from "../lib/menu"
 import MediaLibrary from "./media-library"
 import type { MediaSelection } from "./media-library"
 import {
@@ -31,7 +32,7 @@ type SectionDraft = {
   map: ImageChoice | null
   image: ImageChoice | null
   imageCaption: string
-  postcards: Array<{ show: boolean; image: ImageChoice | null }>
+  postcards: Array<{ show: boolean; image: ImageChoice | null; message: string }>
   groups: Array<{ title: string; note: string }>
 }
 
@@ -43,9 +44,9 @@ const emptySection: SectionDraft = {
   image: null,
   imageCaption: "",
   postcards: [
-    { show: false, image: null },
-    { show: false, image: null },
-    { show: false, image: null },
+    { show: false, image: null, message: defaultPostcardMessages[0]! },
+    { show: false, image: null, message: defaultPostcardMessages[1]! },
+    { show: false, image: null, message: defaultPostcardMessages[2]! },
   ],
   groups: [{ title: "", note: "" }],
 }
@@ -181,23 +182,26 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
       postcards: [
         {
           show: section.showPostcardOne,
+          message: section.postcards[0]?.message ?? "",
           image:
-            section.postcards[0] && section.postcardOneMediaId
-              ? { id: section.postcardOneMediaId, url: section.postcards[0] }
+            section.postcards[0]?.image && section.postcardOneMediaId
+              ? { id: section.postcardOneMediaId, url: section.postcards[0].image }
               : null,
         },
         {
           show: section.showPostcardTwo,
+          message: section.postcards[1]?.message ?? "",
           image:
-            section.postcards[1] && section.postcardTwoMediaId
-              ? { id: section.postcardTwoMediaId, url: section.postcards[1] }
+            section.postcards[1]?.image && section.postcardTwoMediaId
+              ? { id: section.postcardTwoMediaId, url: section.postcards[1].image }
               : null,
         },
         {
           show: section.showPostcardThree,
+          message: section.postcards[2]?.message ?? "",
           image:
-            section.postcards[2] && section.postcardThreeMediaId
-              ? { id: section.postcardThreeMediaId, url: section.postcards[2] }
+            section.postcards[2]?.image && section.postcardThreeMediaId
+              ? { id: section.postcardThreeMediaId, url: section.postcards[2].image }
               : null,
         },
       ],
@@ -233,6 +237,7 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
       postcardTwoMediaId: sectionDraft.postcards[1]?.image?.id,
       showPostcardThree: sectionDraft.postcards[2]?.show ?? false,
       postcardThreeMediaId: sectionDraft.postcards[2]?.image?.id,
+      postcardMessages: sectionDraft.postcards.map((postcard) => postcard.message.trim()),
     }
     setSaving(true)
     setError("")
@@ -270,7 +275,7 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
     ) {
       const index = { postcardOne: 0, postcardTwo: 1, postcardThree: 2 }[picker]
       const postcards = [...sectionDraft.postcards]
-      postcards[index] = { show: true, image }
+      postcards[index] = { ...postcards[index]!, show: true, image }
       setSectionDraft({ ...sectionDraft, postcards })
     }
     setPicker(null)
@@ -744,47 +749,61 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
                       value={sectionDraft.imageCaption}
                     />
                   </Field>
-                  <div className="grid gap-3 sm:grid-cols-3">
-                    {sectionDraft.postcards.map((postcard, index) => (
-                      <div className="rounded-xl border border-kelp-ink/15 p-3" key={index}>
-                        <label className="flex items-center gap-2 text-xs font-semibold text-kelp-ink/80">
-                          <input
-                            checked={postcard.show}
-                            onChange={(event) => {
-                              const next = [...sectionDraft.postcards]
-                              next[index] = { ...postcard, show: event.target.checked }
-                              setSectionDraft({ ...sectionDraft, postcards: next })
-                            }}
-                            type="checkbox"
-                          />
-                          Show postcard {index + 1}
-                        </label>
-                        <button
-                          className="mt-3 grid aspect-[4/3] w-full place-items-center overflow-hidden rounded-lg bg-aberdeen-peach/40 text-xs text-kelp-ink/60"
-                          onClick={() =>
-                            setPicker(
-                              (["postcardOne", "postcardTwo", "postcardThree"] as const)[index]!,
-                            )
-                          }
-                          type="button"
-                        >
-                          {postcard.image ? (
-                            <img
-                              alt=""
-                              className="h-full w-full object-cover"
-                              src={postcard.image.url}
+                  {page?.slug === "food" ? (
+                    <div className="grid gap-3 sm:grid-cols-3">
+                      {sectionDraft.postcards.map((postcard, index) => (
+                        <div className="rounded-xl border border-kelp-ink/15 p-3" key={index}>
+                          <label className="flex items-center gap-2 text-xs font-semibold text-kelp-ink/80">
+                            <input
+                              checked={postcard.show}
+                              onChange={(event) => {
+                                const next = [...sectionDraft.postcards]
+                                next[index] = { ...postcard, show: event.target.checked }
+                                setSectionDraft({ ...sectionDraft, postcards: next })
+                              }}
+                              type="checkbox"
                             />
-                          ) : (
-                            "Choose image"
-                          )}
-                        </button>
-                      </div>
-                    ))}
-                  </div>
+                            Show postcard {index + 1}
+                          </label>
+                          <button
+                            className="mt-3 grid aspect-[4/3] w-full place-items-center overflow-hidden rounded-lg bg-aberdeen-peach/40 text-xs text-kelp-ink/60"
+                            onClick={() =>
+                              setPicker(
+                                (["postcardOne", "postcardTwo", "postcardThree"] as const)[index]!,
+                              )
+                            }
+                            type="button"
+                          >
+                            {postcard.image ? (
+                              <img
+                                alt=""
+                                className="h-full w-full object-cover"
+                                src={postcard.image.url}
+                              />
+                            ) : (
+                              "Choose image"
+                            )}
+                          </button>
+                          <div className="mt-3">
+                            <Field label="Message">
+                              <Textarea
+                                onChange={(event) => {
+                                  const next = [...sectionDraft.postcards]
+                                  next[index] = { ...postcard, message: event.target.value }
+                                  setSectionDraft({ ...sectionDraft, postcards: next })
+                                }}
+                                value={postcard.message}
+                              />
+                            </Field>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : null}
                 </>
               ) : (
                 <div className="grid min-h-40 place-items-center rounded-xl bg-oyster-white p-6 text-center text-sm text-kelp-ink/60">
-                  Paired sections use two menu lists and do not display a main or postcard image.
+                  Paired sections use two menu lists and do not display a main image.
                 </div>
               )}
             </div>

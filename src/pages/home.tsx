@@ -14,15 +14,15 @@ import { FaqSection, homepageFaqs } from "../components/faq-section"
 import { FramedPhoto } from "../components/framed-photo"
 import { ImageTilt } from "../components/image-tilt"
 import { LocationMap } from "../components/location-map"
-import { Postcard } from "../components/postcard"
 import { RestaurantGroupSection } from "../components/site-extras"
 import { restaurantAddress } from "../lib/location"
 import { fadeIn, fadeInPlace } from "../lib/motion"
 import { usePageImage, useRequiredPageImage, useShellData } from "../lib/public-data"
+import { standardActionTone } from "../lib/standard-action"
 
 const homeHeroImage =
   "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=2000&q=85"
-const homeHeroPostcardImage =
+const homeFramedImage =
   "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1000&q=85"
 const menuFoodImage =
   "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=1000&q=85"
@@ -52,22 +52,27 @@ function HomePage() {
         cmsKeyPrefix="home.faq"
         ctaHref="/contact"
         ctaLabel="View all FAQs"
+        ctaToneIndex={6}
         items={homepageFaqs}
       />
-      <RestaurantGroupSection />
+      <RestaurantGroupSection actionToneIndex={7} />
     </div>
   )
 }
 
 const coastalPhrases = [
-  { label: "Savannah, Georgia", style: "font-normal italic" },
-  { label: "By the Ocean", style: "font-bold not-italic" },
-  { label: "Coastal Seafood", style: "font-normal not-italic" },
-  { label: "Bright Spirits", style: "font-bold italic" },
-  { label: "Oysters on Ice", style: "font-normal not-italic" },
-  { label: "Lowcountry Evenings", style: "font-normal italic" },
-  { label: "Fresh Catch", style: "font-bold not-italic" },
+  { label: "Savannah, Georgia", style: "font-normal" },
+  { label: "By the Ocean", style: "font-bold" },
+  { label: "Coastal Seafood", style: "font-normal" },
+  { label: "Bright Spirits", style: "font-bold" },
+  { label: "Oysters on Ice", style: "font-normal" },
+  { label: "Lowcountry Evenings", style: "font-normal" },
+  { label: "Fresh Catch", style: "font-bold" },
 ]
+const marqueeColorCount = 4
+const coastalMarqueeItems = Array.from({ length: marqueeColorCount }, (_, cycle) =>
+  coastalPhrases.map((phrase) => ({ cycle, phrase })),
+).flat()
 
 function wrap(min: number, max: number, value: number) {
   const range = max - min
@@ -94,7 +99,8 @@ function CoastalTextMarquee() {
     if (Math.abs(velocity) > 8) direction.current = velocity > 0 ? -1 : 1
 
     const speedMultiplier = 1 + Math.min(Math.abs(velocity) / 450, 4)
-    const distance = direction.current * 1.4 * speedMultiplier * (delta / 1000)
+    const distance =
+      (direction.current * 1.4 * speedMultiplier * (delta / 1000)) / marqueeColorCount
     baseX.set(baseX.get() + distance)
   })
 
@@ -109,8 +115,12 @@ function CoastalTextMarquee() {
       >
         {[0, 1].map((copy) => (
           <div aria-hidden={copy === 1} className="flex shrink-0 items-center" key={copy}>
-            {coastalPhrases.map((phrase) => (
-              <div className="flex shrink-0 items-center" key={`${copy}-${phrase.label}`}>
+            {coastalMarqueeItems.map(({ cycle, phrase }) => (
+              <div
+                aria-hidden={cycle > 0 || undefined}
+                className="coastal-marquee-item flex shrink-0 items-center"
+                key={`${copy}-${cycle}-${phrase.label}`}
+              >
                 <span
                   className={`px-5 font-display text-3xl leading-none whitespace-nowrap md:px-8 md:text-5xl ${phrase.style}`}
                 >
@@ -118,7 +128,7 @@ function CoastalTextMarquee() {
                 </span>
                 <span
                   aria-hidden="true"
-                  className="font-playful text-xl leading-none text-aberdeen-blue md:text-2xl"
+                  className="font-playful text-xl leading-none text-black md:text-2xl"
                 >
                   ✶
                 </span>
@@ -133,7 +143,7 @@ function CoastalTextMarquee() {
 
 function HeroSection({ playIntro }: { playIntro: boolean }) {
   const image = useRequiredPageImage("hero", homeHeroImage)
-  const framedImage = useRequiredPageImage("home-hero-postcard", homeHeroPostcardImage)
+  const framedImage = useRequiredPageImage("home-hero-postcard", homeFramedImage)
   const shouldReduceMotion = useReducedMotion()
   const animateIntro = playIntro && !shouldReduceMotion
   const introDelay = animateIntro ? 2.95 : 0
@@ -302,9 +312,7 @@ function IntroSection() {
             Aberdeen is a bright, editorial restaurant centered on seafood, cocktails, and the easy
             ceremony of gathering around a good table.
           </p>
-          <div className="relative mt-10 h-72 overflow-hidden">
-            <LocationMap location={mapLocation} />
-          </div>
+          <LocationMap className="mt-10 max-w-3xl" location={mapLocation} />
         </motion.div>
       </div>
     </section>
@@ -470,7 +478,7 @@ function ScrollGallerySection() {
 }
 
 function ReservationsSection() {
-  const postcardImage = useRequiredPageImage("home-hero-postcard", homeHeroPostcardImage)
+  const framedImage = useRequiredPageImage("home-hero-postcard", homeFramedImage)
 
   return (
     <section
@@ -479,17 +487,18 @@ function ReservationsSection() {
     >
       <div className="grid gap-10 md:grid-cols-[0.9fr_1fr]">
         <motion.div className="relative order-2 self-end md:order-1" {...fadeIn(0.3)}>
-          <Postcard
-            imageAlt="Seafood spread on an Aberdeen table"
+          <FramedPhoto
+            alt="Seafood spread on an Aberdeen table"
+            className="w-full"
             imageCmsSlot="home-hero-postcard"
-            imageSrc={postcardImage}
-            message="Meet us where the yachts pass at sunset. Savannah has saved you a seat."
-            messageCmsKey="home.reservations.postcard-message"
+            src={framedImage}
+            variant="01-rotated"
           />
           <div className="mt-8 flex justify-end">
             <a
-              className="aberdeen-action bg-aberdeen-peach text-aberdeen-blue"
+              className="aberdeen-action standard-action"
               data-cms-link-key="home.reservations.plan-link"
+              data-standard-action-tone={standardActionTone(4)}
               href="/contact"
             >
               Plan a visit
@@ -535,8 +544,9 @@ function ReservationEditorialSection() {
             evening at Aberdeen and let the coast set the pace.
           </p>
           <a
-            className="aberdeen-action mt-8 bg-aberdeen-blue text-lg text-aberdeen-peach"
+            className="aberdeen-action standard-action mt-8 text-lg"
             data-cms-link-key="home.reservations.editorial.primary-link"
+            data-standard-action-tone={standardActionTone(3)}
             href="/contact"
           >
             Reserve your table
@@ -611,8 +621,9 @@ function EventsSection() {
             pacing around the people you bring together.
           </p>
           <a
-            className="aberdeen-action mt-8 bg-aberdeen-blue text-aberdeen-peach [--action-fill:var(--color-oyster-white)]"
+            className="aberdeen-action standard-action mt-8"
             data-cms-link-key="home.events.link"
+            data-standard-action-tone={standardActionTone(5)}
             href="/events"
           >
             View events

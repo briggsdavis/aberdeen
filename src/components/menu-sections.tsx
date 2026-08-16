@@ -1,10 +1,12 @@
 import { motion } from "motion/react"
 import { Link } from "react-router"
-import type { MenuGroup } from "../lib/menu"
+import type { MenuGroup, PostcardContent } from "../lib/menu"
 import { fadeIn } from "../lib/motion"
+import { standardActionTone } from "../lib/standard-action"
 import { ImageTilt } from "./image-tilt"
 import { TransitionLink } from "./page-transition"
-import { MenuLikeButton, PostcardImageStack } from "./site-extras"
+import { PostcardStack } from "./postcard-stack"
+import { MenuLikeButton } from "./site-extras"
 
 const tabs = [
   { label: "Food", to: "/menu/food" },
@@ -134,7 +136,7 @@ export function MenuImageSection({
   image: string
   imagePanelDescription: string
   imagePosition: "left" | "right"
-  postcards?: string[]
+  postcards?: PostcardContent[]
 }) {
   const imagePanel = (
     <motion.div
@@ -144,7 +146,7 @@ export function MenuImageSection({
       <ImageTilt>
         <div className="relative aspect-[4/5]">
           <img alt={alt} className="h-full w-full object-cover" src={image} />
-          {postcards?.length === 0 ? null : <PostcardImageStack images={postcards} />}
+          {postcards?.length ? <PostcardStack postcards={postcards} /> : null}
         </div>
         <div className="bg-aberdeen-peach p-5 text-aberdeen-blue">
           <h3 className="font-display text-7xl">{group.title}</h3>
@@ -246,7 +248,11 @@ export function MenuReservation({
             </div>
           </div>
           <p className="mb-6 text-lg leading-8">{copy}</p>
-          <Link className="aberdeen-action bg-aberdeen-blue text-aberdeen-peach" to="/contact">
+          <Link
+            className="aberdeen-action standard-action"
+            data-standard-action-tone={standardActionTone(0)}
+            to="/contact"
+          >
             Plan a visit
           </Link>
         </motion.div>

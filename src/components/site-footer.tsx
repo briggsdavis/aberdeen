@@ -76,7 +76,7 @@ function SiteFooter() {
         <div className="grid content-start gap-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           <div>
             <p className="font-utility text-xs tracking-[0.2em] uppercase">Explore</p>
-            <nav aria-label="Footer navigation" className="mt-3 grid gap-2">
+            <nav aria-label="Footer navigation" className="mt-3 flex flex-wrap gap-x-5 gap-y-2">
               {visiblePageLinks.map(([label, to]) => (
                 <TransitionLink
                   className="menu-tab-underline w-fit font-display text-2xl leading-none"

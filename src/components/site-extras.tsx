@@ -5,7 +5,7 @@ import { useState } from "react"
 import { api } from "../../convex/_generated/api"
 import type { Id } from "../../convex/_generated/dataModel"
 import { fadeIn } from "../lib/motion"
-import { Postcard } from "./postcard"
+import { standardActionTone } from "../lib/standard-action"
 
 const restaurantCards = [
   { image: "/favicon.ico", name: "Aberdeen", featured: true },
@@ -36,7 +36,7 @@ const restaurantCardReveal = {
   },
 }
 
-export function RestaurantGroupSection() {
+export function RestaurantGroupSection({ actionToneIndex = 0 }: { actionToneIndex?: number }) {
   return (
     <section className="relative isolate flex min-h-svh flex-col justify-center overflow-hidden bg-oyster-white px-5 py-12 md:px-8 md:py-14">
       <motion.div
@@ -77,8 +77,9 @@ export function RestaurantGroupSection() {
       </motion.div>
       <div className="relative z-10 mt-8 text-center">
         <a
-          className="aberdeen-action bg-aberdeen-blue text-oyster-white"
+          className="aberdeen-action standard-action"
           data-cms-link-key="restaurant-group.link"
+          data-standard-action-tone={standardActionTone(actionToneIndex)}
           href="https://richarddeshantz.com/"
           rel="noreferrer"
           target="_blank"
@@ -191,60 +192,5 @@ function StoredMenuLikeButton({
       />
       <span>{count}</span>
     </button>
-  )
-}
-
-export function PostcardImageStack({ images: managedImages }: { images?: string[] }) {
-  const images = managedImages ?? [
-    "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=500&q=85",
-    "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=500&q=85",
-    "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&w=500&q=85",
-  ]
-  const placements = [
-    { left: "-3%", top: "7%", rotate: -8 },
-    { right: "-3%", top: "20%", rotate: 9 },
-    { bottom: "6%", left: "10%", rotate: 6 },
-  ]
-  const postcardNotes = [
-    {
-      message: "The yachts are in, the river is gold, and dinner is waiting by the water.",
-    },
-    {
-      message: "White sails, salt air, and one more beautiful evening in Savannah, Georgia.",
-    },
-    {
-      message: "Meet us where the yachts pass at sunset. Savannah has saved you a seat.",
-    },
-  ]
-
-  return (
-    <div
-      aria-hidden="true"
-      className="pointer-events-none absolute inset-0 z-10 overflow-visible"
-      data-testid="postcard-stack"
-    >
-      {images.map((image, index) => {
-        const note = postcardNotes[index] ?? postcardNotes[0]!
-
-        return (
-          <motion.div
-            className="absolute aspect-[8/5] w-[min(74%,15rem)]"
-            initial={{ opacity: 0, scale: 0.82, y: 24 }}
-            key={`${image}-${index}`}
-            style={{ ...placements[index], zIndex: index + 1 }}
-            viewport={{ amount: 0.55, once: false }}
-            whileInView={{
-              opacity: 1,
-              rotate: placements[index].rotate,
-              scale: 1,
-              y: 0,
-              transition: { delay: index * 0.12, duration: 0.576 },
-            }}
-          >
-            <Postcard imageAlt="" imageSrc={image} message={note.message} size="small" />
-          </motion.div>
-        )
-      })}
-    </div>
   )
 }

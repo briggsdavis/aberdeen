@@ -68,6 +68,7 @@ export default defineSchema({
     postcardTwoMediaId: v.optional(v.id("mediaAssets")),
     showPostcardThree: v.boolean(),
     postcardThreeMediaId: v.optional(v.id("mediaAssets")),
+    postcardMessages: v.optional(v.array(v.string())),
     order: v.number(),
     createdAt: v.number(),
     updatedAt: v.number(),

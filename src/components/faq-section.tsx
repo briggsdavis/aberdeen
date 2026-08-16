@@ -3,6 +3,7 @@ import { motion } from "motion/react"
 import { useId, useState } from "react"
 import { restaurantAddress } from "../lib/location"
 import { fadeIn } from "../lib/motion"
+import { standardActionTone } from "../lib/standard-action"
 
 const restaurantFaqs = [
   {
@@ -44,11 +45,13 @@ export function FaqSection({
   cmsKeyPrefix,
   ctaHref,
   ctaLabel,
+  ctaToneIndex = 0,
   items = restaurantFaqs,
 }: {
   cmsKeyPrefix: string
   ctaHref?: string
   ctaLabel?: string
+  ctaToneIndex?: number
   items?: readonly { answer: string; question: string }[]
 }) {
   return (
@@ -74,8 +77,9 @@ export function FaqSection({
         </div>
         {ctaHref && ctaLabel ? (
           <motion.a
-            className="aberdeen-action mt-10 bg-aberdeen-peach text-aberdeen-blue"
+            className="aberdeen-action standard-action mt-10"
             data-cms-link-key={`${cmsKeyPrefix}.link`}
+            data-standard-action-tone={standardActionTone(ctaToneIndex)}
             href={ctaHref}
             {...fadeIn(0.15)}
           >

@@ -32,6 +32,10 @@
   --color-citrus: #f7b733;
   --color-shell-pink: #efa6a0;
   --color-nautical-red: #d43f2f;
+  --color-accent-orange: #f68620;
+  --color-accent-blue: #253b97;
+  --color-accent-gray: #a7abb9;
+  --color-accent-navy: #142b51;
   --color-near-black: #111;
   --color-danger: var(--color-nautical-red);
   --color-warning: color-mix(in srgb, var(--color-citrus) 45%, var(--color-kelp-ink));
@@ -65,6 +69,22 @@
 }
 
 @layer components {
+  .coastal-marquee-item:nth-child(4n + 1) {
+    color: var(--color-accent-orange);
+  }
+
+  .coastal-marquee-item:nth-child(4n + 2) {
+    color: var(--color-accent-blue);
+  }
+
+  .coastal-marquee-item:nth-child(4n + 3) {
+    color: var(--color-accent-gray);
+  }
+
+  .coastal-marquee-item:nth-child(4n) {
+    color: var(--color-accent-navy);
+  }
+
   [class~="bg-aberdeen-blue"]:not(.aberdeen-action) {
     --surface-action-background: white;
     --surface-action-color: var(--color-near-black);
@@ -117,6 +137,34 @@
   .aberdeen-action:hover::before,
   .aberdeen-action:focus-visible::before {
     transform: scaleY(1);
+  }
+
+  .standard-action[data-standard-action-tone="orange"] {
+    --surface-action-background: var(--color-accent-orange);
+    --surface-action-color: var(--color-accent-navy);
+    --surface-action-fill: var(--color-accent-gray);
+    --surface-action-hover-color: var(--color-accent-navy);
+  }
+
+  .standard-action[data-standard-action-tone="blue"] {
+    --surface-action-background: var(--color-accent-blue);
+    --surface-action-color: var(--color-oyster-white);
+    --surface-action-fill: var(--color-accent-orange);
+    --surface-action-hover-color: var(--color-accent-navy);
+  }
+
+  .standard-action[data-standard-action-tone="gray"] {
+    --surface-action-background: var(--color-accent-gray);
+    --surface-action-color: var(--color-accent-navy);
+    --surface-action-fill: var(--color-accent-orange);
+    --surface-action-hover-color: var(--color-accent-navy);
+  }
+
+  .standard-action[data-standard-action-tone="navy"] {
+    --surface-action-background: var(--color-accent-navy);
+    --surface-action-color: var(--color-oyster-white);
+    --surface-action-fill: var(--color-accent-gray);
+    --surface-action-hover-color: var(--color-accent-navy);
   }
 
   .nav-underline {
@@ -487,6 +535,12 @@ html.cms-preview-mode .scrapbook-gallery-track > [aria-hidden="true"] {
   color: var(--color-near-black) !important;
   -webkit-text-fill-color: var(--color-near-black) !important;
   transition: color 0s linear !important;
+}
+
+.standard-action:hover,
+.standard-action:focus-visible {
+  color: var(--action-foreground) !important;
+  -webkit-text-fill-color: var(--action-foreground) !important;
 }
 
 .site-image-reveal img:not(.no-scroll-reveal, [aria-hidden="true"]) {

@@ -13,6 +13,17 @@ export type MenuGroup = {
   items: MenuItem[]
 }
 
+export type PostcardContent = {
+  image: string
+  message: string
+}
+
+export const defaultPostcardMessages = [
+  "The yachts are in, the river is gold, and dinner is waiting by the water.",
+  "White sails, salt air, and one more beautiful evening in Savannah, Georgia.",
+  "Meet us where the yachts pass at sunset. Savannah has saved you a seat.",
+] as const
+
 export type MenuSection = {
   _id: string
   layout: "imageLeft" | "imageRight" | "paired"
@@ -23,7 +34,7 @@ export type MenuSection = {
   showPostcardOne: boolean
   showPostcardTwo: boolean
   showPostcardThree: boolean
-  postcards: Array<string | null>
+  postcards: Array<{ image: string | null; message: string }>
   groups: MenuGroup[]
 }
 

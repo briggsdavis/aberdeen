@@ -6,6 +6,7 @@ import { FaqSection } from "../components/faq-section"
 import { googleMapsEmbedUrl, googleMapsPlaceUrl, restaurantAddress } from "../lib/location"
 import { fadeIn } from "../lib/motion"
 import { useShellData, useSubmitInquiry } from "../lib/public-data"
+import { standardActionTone } from "../lib/standard-action"
 
 type SubmissionState = "idle" | "submitting" | "success" | "error"
 
@@ -168,7 +169,8 @@ function ContactPage() {
               </label>
               <div className="flex flex-wrap items-center gap-4">
                 <button
-                  className="aberdeen-action bg-aberdeen-blue text-aberdeen-peach disabled:pointer-events-none disabled:opacity-50"
+                  className="aberdeen-action standard-action disabled:pointer-events-none disabled:opacity-50"
+                  data-standard-action-tone={standardActionTone(0)}
                   disabled={!submitInquiry || submissionState === "submitting"}
                   type="submit"
                 >

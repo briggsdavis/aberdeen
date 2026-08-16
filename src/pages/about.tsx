@@ -1,13 +1,13 @@
 import { motion } from "motion/react"
+import { FramedPhoto } from "../components/framed-photo"
 import { ImageTilt } from "../components/image-tilt"
-import { Postcard } from "../components/postcard"
 import { RestaurantGroupSection } from "../components/site-extras"
 import { fadeIn } from "../lib/motion"
 import { usePageImage, useRequiredPageImage } from "../lib/public-data"
 
 const aboutPillarsImage =
   "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1400&q=85"
-const aboutPostcardImage =
+const aboutFramedImage =
   "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1000&q=85"
 
 function AboutPage() {
@@ -25,7 +25,7 @@ function AboutPage() {
 
 function HeroSection() {
   const heroImage = useRequiredPageImage("hero")
-  const postcardImage = usePageImage("about-hero-postcard") ?? aboutPostcardImage
+  const framedImage = usePageImage("about-hero-postcard") ?? aboutFramedImage
 
   return (
     <section className="relative min-h-[42rem] overflow-hidden bg-oyster-white text-aberdeen-blue md:min-h-[68svh]">
@@ -44,7 +44,7 @@ function HeroSection() {
         className="relative z-10 flex min-h-[42rem] flex-col items-stretch justify-end gap-8 px-5 pt-32 pb-8 md:min-h-[68svh] md:flex-row md:items-end md:justify-between md:px-8 md:pt-40 md:pb-10"
         {...fadeIn()}
       >
-        <div className="max-w-5xl">
+        <div className="max-w-4xl">
           <h1
             className="font-display text-6xl leading-none md:text-8xl"
             data-cms-text-key="about.hero.title"
@@ -53,15 +53,15 @@ function HeroSection() {
           </h1>
         </div>
         <motion.div
-          className="relative z-20 w-[min(82vw,24rem)] self-end md:w-[min(34rem,38vw)]"
+          className="relative z-20 w-[min(82vw,24rem)] self-end md:-mr-6 md:-mb-10 md:w-[min(38rem,40vw)]"
           {...fadeIn(0.18)}
         >
-          <Postcard
-            imageAlt="People on a catamaran sailboat in the ocean"
+          <FramedPhoto
+            alt="People on a catamaran sailboat in the ocean"
+            className="w-full"
             imageCmsSlot="about-hero-postcard"
-            imageSrc={postcardImage}
-            message="Meet us where the yachts pass at sunset. Savannah has saved you a seat."
-            messageCmsKey="about.hero.postcard-message"
+            src={framedImage}
+            variant="02"
           />
         </motion.div>
       </motion.div>
@@ -70,17 +70,17 @@ function HeroSection() {
 }
 
 function StorySection() {
-  const postcardImage = usePageImage("about-hero-postcard") ?? aboutPostcardImage
+  const framedImage = usePageImage("about-hero-postcard") ?? aboutFramedImage
 
   return (
-    <section className="relative isolate grid gap-12 overflow-hidden bg-oyster-white px-5 pt-16 pb-8 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:pt-24 md:pb-12">
+    <section className="relative isolate grid gap-12 overflow-hidden bg-oyster-white px-5 pt-16 pb-4 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:pt-24 md:pb-6">
       <motion.div className="relative z-10 self-start" {...fadeIn()}>
-        <Postcard
-          imageAlt="People on a catamaran sailboat in the ocean"
+        <FramedPhoto
+          alt="People on a catamaran sailboat in the ocean"
+          className="w-full"
           imageCmsSlot="about-hero-postcard"
-          imageSrc={postcardImage}
-          message="Seafood, bright spirits, and a dining room made for lingering."
-          messageCmsKey="about.story.postcard-message"
+          src={framedImage}
+          variant="03"
         />
       </motion.div>
       <motion.div className="relative z-10 max-w-4xl space-y-8" {...fadeIn(0.1)}>
@@ -102,32 +102,10 @@ function StorySection() {
 
 function OwnerSection() {
   return (
-    <section className="relative isolate grid gap-12 overflow-hidden bg-oyster-white px-5 pt-8 pb-16 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:pt-12 md:pb-24">
-      <motion.div className="relative z-10 text-center text-aberdeen-blue" {...fadeIn()}>
-        <ImageTilt className="mx-auto h-72 w-72 overflow-hidden rounded-full border-8 border-aberdeen-peach">
-          <img
-            alt="Portrait of Aberdeen owner"
-            className="no-scroll-reveal h-full w-full object-cover"
-            data-cms-slot="about.owner.image"
-            src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=700&q=85"
-          />
-        </ImageTilt>
-        <h2
-          className="mt-6 font-display text-4xl leading-none"
-          data-cms-text-key="about.owner.name"
-        >
-          Richard DeShantz
-        </h2>
-        <p
-          className="mt-2 font-utility text-xs tracking-[0.18em] uppercase"
-          data-cms-text-key="about.owner.role"
-        >
-          Restaurant Group Founder
-        </p>
-      </motion.div>
+    <section className="relative isolate grid gap-12 overflow-hidden bg-oyster-white px-5 pt-4 pb-16 md:grid-cols-[1.2fr_0.8fr] md:px-8 md:pt-6 md:pb-24">
       <motion.div
-        className="relative z-10 max-w-3xl space-y-6 self-center text-lg leading-8"
-        {...fadeIn(0.12)}
+        className="relative z-10 max-w-3xl space-y-6 self-center text-lg leading-8 md:pl-12 xl:pl-16"
+        {...fadeIn()}
       >
         <p data-cms-text-key="about.owner.copy-1">
           Aberdeen is imagined as a coastal room with a city pulse: bright enough for lunch,
@@ -142,6 +120,22 @@ function OwnerSection() {
           Here, that hospitality is filtered through seafood, citrus, cold glass, and a Savannah
           sense of lingering.
         </p>
+      </motion.div>
+      <motion.div className="relative z-10 text-center text-aberdeen-blue" {...fadeIn(0.12)}>
+        <ImageTilt className="teak-grain mx-auto h-80 w-80 overflow-hidden rounded-full p-2">
+          <img
+            alt="Portrait of Aberdeen owner"
+            className="no-scroll-reveal h-full w-full rounded-full object-cover"
+            data-cms-slot="about.owner.image"
+            src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=700&q=85"
+          />
+        </ImageTilt>
+        <h2
+          className="mt-6 font-display text-4xl leading-none"
+          data-cms-text-key="about.owner.name"
+        >
+          Richard DeShantz
+        </h2>
       </motion.div>
     </section>
   )
@@ -211,7 +205,7 @@ function GroupSection() {
                   </p>
                   {card.supplementary ? (
                     <p
-                      className="mt-5 leading-7 text-kelp-ink/65"
+                      className="mt-5 text-lg leading-8 text-kelp-ink/80"
                       data-cms-text-key="about.pillars.group.supplementary"
                     >
                       {card.supplementary}
@@ -281,7 +275,10 @@ function RoomSection() {
               />
             </ImageTilt>
           </motion.div>
-          <motion.div className="bg-aberdeen-peach p-6 text-aberdeen-blue md:p-8" {...fadeIn(0.16)}>
+          <motion.div
+            className="flex items-center justify-center bg-aberdeen-peach p-6 text-center text-aberdeen-blue md:p-8"
+            {...fadeIn(0.16)}
+          >
             <p className="font-playful text-4xl leading-none" data-cms-text-key="about.room.note">
               Bright by day. Blue by night. Always built around the table.
             </p>

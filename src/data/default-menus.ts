@@ -1,3 +1,4 @@
+import { defaultPostcardMessages } from "../lib/menu"
 import type { MenuNavigationPage, MenuPage } from "../lib/menu"
 import {
   desserts as beverageDesserts,
@@ -46,7 +47,6 @@ const postcards = [
   "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=500&q=85",
   "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&w=500&q=85",
 ]
-
 export const defaultMenus = [
   {
     title: "Food",
@@ -117,7 +117,7 @@ export const defaultMenus = [
         imageUrl:
           "https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=1000&q=85",
         imageCaption: "Built bright, cold, and coastal from the first pour.",
-        postcardUrls: postcards,
+        postcardUrls: [],
         groups: [group(spiritRawBar)],
       },
       {
@@ -135,7 +135,7 @@ export const defaultMenus = [
         imageUrl:
           "https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=1200&q=85",
         imageCaption: "Botanical gin and crisp vodka, poured neat or mixed into a classic.",
-        postcardUrls: postcards,
+        postcardUrls: [],
         groups: [group(spiritMains)],
       },
       {
@@ -145,7 +145,7 @@ export const defaultMenus = [
         imageUrl:
           "https://images.unsplash.com/photo-1470337458703-46ad1756a187?auto=format&fit=crop&w=1200&q=85",
         imageCaption: "Rum, agave, bourbon, and rye selected for sipping and cocktails.",
-        postcardUrls: postcards,
+        postcardUrls: [],
         groups: [group(spiritLand)],
       },
       {
@@ -172,7 +172,7 @@ export const defaultMenus = [
         imageUrl:
           "https://images.unsplash.com/photo-1621263764928-df1444c5e859?auto=format&fit=crop&w=1000&q=85",
         imageCaption: "Sparkling, citrusy, and built with the same care as the bar.",
-        postcardUrls: postcards,
+        postcardUrls: [],
         groups: [group(beverageRawBar)],
       },
       {
@@ -191,7 +191,7 @@ export const defaultMenus = [
           "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=85",
         imageCaption:
           "Espresso, cold brew, and familiar favorites for mornings through after dinner.",
-        postcardUrls: postcards,
+        postcardUrls: [],
         groups: [group(beverageMains)],
       },
       {
@@ -201,7 +201,7 @@ export const defaultMenus = [
         imageUrl:
           "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&w=1200&q=85",
         imageCaption: "Black, green, and herbal teas served hot or over ice.",
-        postcardUrls: postcards,
+        postcardUrls: [],
         groups: [group(beverageLand)],
       },
       {
@@ -234,7 +234,10 @@ export const localMenuPages: MenuPage[] = defaultMenus.map((page) => {
       showPostcardOne: Boolean(section.postcardUrls[0]),
       showPostcardTwo: Boolean(section.postcardUrls[1]),
       showPostcardThree: Boolean(section.postcardUrls[2]),
-      postcards: section.postcardUrls,
+      postcards: section.postcardUrls.map((image, index) => ({
+        image,
+        message: section.postcardMessages?.[index] ?? defaultPostcardMessages[index]!,
+      })),
       groups: section.groups.map((source, groupIndex) => ({
         _id: `local:${slug}:section:${sectionIndex}:group:${groupIndex}`,
         ...source,

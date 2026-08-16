@@ -1,10 +1,13 @@
 import { CaretLeft, CaretRight, X } from "@phosphor-icons/react"
 import { motion } from "motion/react"
 import { useEffect, useState } from "react"
+import { FramedPhoto } from "../components/framed-photo"
 import { fadeIn, fadeInPlace } from "../lib/motion"
-import { usePublicEvents, useRequiredPageImage } from "../lib/public-data"
+import { usePageImage, usePublicEvents, useRequiredPageImage } from "../lib/public-data"
+import { standardActionTone } from "../lib/standard-action"
 
-const sailboat = "/illustrations/nautical/sailboat.png"
+const privateEventsImage =
+  "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=1200&q=85"
 
 type DisplayEvent = {
   day: string
@@ -158,7 +161,9 @@ function UpcomingList({ events }: { events: DisplayEvent[] }) {
     <motion.div className="grid gap-6" {...fadeInPlace()}>
       {events.map((event, index) => (
         <motion.article
-          className={`event-row grid overflow-hidden rounded-2xl bg-aberdeen-peach md:flex ${
+          className={`event-row grid overflow-hidden rounded-2xl md:flex ${
+            index % 2 === 1 ? "bg-aberdeen-blue" : "bg-aberdeen-peach"
+          } ${
             hoveredEvent === index ? "is-event-hovered" : ""
           } ${index % 2 === 1 ? "event-row-reversed md:flex-row-reverse" : ""}`}
           key={event.title}
@@ -179,13 +184,25 @@ function UpcomingList({ events }: { events: DisplayEvent[] }) {
             />
           </div>
           <div className="event-row-copy min-w-0 flex-1 p-6 md:p-10">
-            <p className="font-utility text-sm tracking-[0.18em] text-aberdeen-blue uppercase">
+            <p
+              className={`font-utility text-sm tracking-[0.18em] uppercase ${
+                index % 2 === 1 ? "text-aberdeen-peach" : "text-aberdeen-blue"
+              }`}
+            >
               {event.weekday}, {event.month} {event.day} · {event.time}
             </p>
-            <h3 className="mt-4 font-display text-4xl leading-none text-aberdeen-blue md:text-5xl">
+            <h3
+              className={`mt-4 font-display text-4xl leading-none md:text-5xl ${
+                index % 2 === 1 ? "text-aberdeen-peach" : "text-aberdeen-blue"
+              }`}
+            >
               {event.title}
             </h3>
-            <p className="event-row-description mt-5 max-w-2xl text-lg leading-8 text-kelp-ink/80">
+            <p
+              className={`event-row-description mt-5 max-w-2xl text-lg leading-8 ${
+                index % 2 === 1 ? "text-oyster-white/80" : "text-kelp-ink/80"
+              }`}
+            >
               {event.copy}
             </p>
           </div>
@@ -511,9 +528,11 @@ function occursOnDate(event: DisplayEvent, date: Date) {
 }
 
 function PrivateEventsSection() {
+  const image = usePageImage("events.private.image") ?? privateEventsImage
+
   return (
     <section className="bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24">
-      <div className="grid gap-10 md:grid-cols-[1fr_0.9fr]">
+      <div className="grid items-center gap-10 md:grid-cols-[1fr_0.9fr]">
         <motion.div {...fadeIn()}>
           <h2
             className="max-w-3xl font-playful text-5xl leading-none md:text-7xl"
@@ -521,62 +540,33 @@ function PrivateEventsSection() {
           >
             Gatherings with seafood, spirits, and a room already dressed for it.
           </h2>
-          <img
-            alt=""
-            aria-hidden="true"
-            className="mt-8 h-auto w-full max-w-md object-contain opacity-75"
-            src={sailboat}
-          />
-        </motion.div>
-        <FerryTicket />
-      </div>
-    </section>
-  )
-}
-
-function FerryTicket() {
-  return (
-    <motion.div className="self-end bg-oyster-white text-aberdeen-blue" {...fadeIn(0.12)}>
-      <div className="grid md:grid-cols-[1fr_auto]">
-        <div className="p-6">
-          <div className="flex items-start justify-between gap-6">
-            <div>
-              <p
-                className="font-playful text-5xl leading-none"
-                data-cms-text-key="events.private.ticket-title"
-              >
-                Private Passage
-              </p>
-            </div>
-            <div className="grid h-16 w-16 place-items-center bg-citrus font-display text-4xl leading-none">
-              27
-            </div>
-          </div>
-          <p className="mt-8 text-lg leading-8" data-cms-text-key="events.private.copy">
+          <p
+            className="mt-8 max-w-2xl text-lg leading-8 text-oyster-white/80"
+            data-cms-text-key="events.private.copy"
+          >
             For birthdays, group dinners, brand nights, and seasonal parties, Aberdeen can shape the
             table around the moment.
           </p>
           <a
-            className="aberdeen-action mt-8 bg-aberdeen-blue text-aberdeen-peach"
+            className="aberdeen-action standard-action mt-8"
             data-cms-link-key="events.private.link"
+            data-standard-action-tone={standardActionTone(0)}
             href="/contact"
           >
             Start planning
           </a>
-        </div>
-        <div className="hidden border-l border-dotted border-aberdeen-blue/35 p-5 md:grid">
-          <div className="flex flex-col items-center justify-between gap-8">
-            <span className="font-utility text-xs tracking-[0.18em] uppercase [writing-mode:vertical-rl]">
-              Savannah GA
-            </span>
-            <span className="h-24 w-px border-l border-dotted border-aberdeen-blue/35" />
-            <span className="font-utility text-xs tracking-[0.18em] uppercase [writing-mode:vertical-rl]">
-              Aberdeen
-            </span>
-          </div>
-        </div>
+        </motion.div>
+        <motion.div {...fadeIn(0.12)}>
+          <FramedPhoto
+            alt="Guests gathered around a restaurant table"
+            className="w-full"
+            imageCmsSlot="events.private.image"
+            src={image}
+            variant="03"
+          />
+        </motion.div>
       </div>
-    </motion.div>
+    </section>
   )
 }
 

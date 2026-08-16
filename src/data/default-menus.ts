@@ -236,7 +236,7 @@ export const localMenuPages: MenuPage[] = defaultMenus.map((page) => {
       showPostcardThree: Boolean(section.postcardUrls[2]),
       postcards: section.postcardUrls.map((image, index) => ({
         image,
-        message: section.postcardMessages?.[index] ?? defaultPostcardMessages[index]!,
+        message: defaultPostcardMessages[index]!,
       })),
       groups: section.groups.map((source, groupIndex) => ({
         _id: `local:${slug}:section:${sectionIndex}:group:${groupIndex}`,

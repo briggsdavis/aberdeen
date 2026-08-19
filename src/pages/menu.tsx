@@ -38,16 +38,13 @@ export default function MenuPage() {
 
         const group = section.groups[0]
         if (!group || !section.image) return null
-        const postcards =
-          menu.slug === "food"
-            ? [
-                section.showPostcardOne ? section.postcards[0] : null,
-                section.showPostcardTwo ? section.postcards[1] : null,
-                section.showPostcardThree ? section.postcards[2] : null,
-              ].flatMap((postcard) =>
-                postcard?.image ? [{ image: postcard.image, message: postcard.message }] : [],
-              )
-            : []
+        const postcards = [
+          section.showPostcardOne ? section.postcards[0] : null,
+          section.showPostcardTwo ? section.postcards[1] : null,
+          section.showPostcardThree ? section.postcards[2] : null,
+        ].flatMap((postcard) =>
+          postcard?.image ? [{ image: postcard.image, message: postcard.message }] : [],
+        )
 
         return (
           <MenuImageSection

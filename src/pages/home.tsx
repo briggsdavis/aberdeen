@@ -292,7 +292,7 @@ function IntroSection() {
     <section className="relative isolate overflow-hidden px-5 py-16 md:px-8 md:py-24">
       <div className="relative z-10 grid gap-10 md:grid-cols-[0.85fr_1.15fr] md:items-stretch">
         <motion.div className="relative h-[34rem] md:h-auto md:self-stretch" {...fadeIn()}>
-          <ImageTilt className="teak-grain h-full w-full overflow-hidden p-2">
+          <ImageTilt className="teak-grain h-full w-full overflow-hidden p-[0.6rem]">
             <img
               alt="Portrait of a warmly lit restaurant dining detail"
               className="h-full w-full object-cover"
@@ -485,27 +485,17 @@ function ReservationsSection() {
       className="bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24"
       id="reservations"
     >
-      <div className="grid gap-10 md:grid-cols-[0.9fr_1fr]">
-        <motion.div className="relative order-2 self-end md:order-1" {...fadeIn(0.3)}>
+      <div className="grid gap-10 md:grid-cols-[0.9fr_1fr] md:items-start">
+        <motion.div className="relative order-2 self-end md:order-1 md:self-start" {...fadeIn(0.3)}>
           <FramedPhoto
             alt="Seafood spread on an Aberdeen table"
             className="w-full"
             imageCmsSlot="home-hero-postcard"
             src={framedImage}
-            variant="01-rotated"
+            variant="02"
           />
-          <div className="mt-8 flex justify-end">
-            <a
-              className="aberdeen-action standard-action"
-              data-cms-link-key="home.reservations.plan-link"
-              data-standard-action-tone={standardActionTone(4)}
-              href="/contact"
-            >
-              Plan a visit
-            </a>
-          </div>
         </motion.div>
-        <div className="order-1 md:order-2">
+        <div className="order-1 flex flex-col items-start md:order-2 md:pt-8">
           <motion.h2
             className="max-w-3xl font-display text-5xl leading-none md:text-7xl"
             data-cms-text-key="home.reservations.title"
@@ -513,6 +503,23 @@ function ReservationsSection() {
           >
             Join us where the table catches the light.
           </motion.h2>
+          <motion.p
+            className="mt-7 max-w-xl text-lg leading-8 text-oyster-white/80"
+            data-cms-text-key="home.reservations.copy"
+            {...fadeInPlace(0.08)}
+          >
+            Settle in for oysters on ice, bright coastal plates, and a round of cold drinks as
+            afternoon slips into evening.
+          </motion.p>
+          <motion.a
+            className="aberdeen-action standard-action mt-8"
+            data-cms-link-key="home.reservations.plan-link"
+            data-standard-action-tone={standardActionTone(4)}
+            href="/contact"
+            {...fadeInPlace(0.14)}
+          >
+            Plan a visit
+          </motion.a>
         </div>
       </div>
     </section>
@@ -554,7 +561,7 @@ function ReservationEditorialSection() {
         </motion.div>
 
         <div className="relative h-[62svh] md:absolute md:top-0 md:right-0 md:h-[72%] md:w-[46%]">
-          <ImageTilt className="teak-grain h-full w-full overflow-hidden p-2">
+          <ImageTilt className="teak-grain h-full w-full overflow-hidden p-[0.6rem]">
             <img
               alt="Luxury yacht cruising across calm blue water"
               className="h-full w-full object-cover"
@@ -565,7 +572,7 @@ function ReservationEditorialSection() {
         </div>
 
         <div className="relative h-[66svh] md:absolute md:bottom-0 md:left-0 md:h-[56%] md:w-[46%]">
-          <ImageTilt className="teak-grain h-full w-full overflow-hidden p-2">
+          <ImageTilt className="teak-grain h-full w-full overflow-hidden p-[0.6rem]">
             <img
               alt="Palm-lined beach beside clear turquoise water"
               className="h-full w-full object-cover"
@@ -630,7 +637,7 @@ function EventsSection() {
           </a>
         </div>
         <div className="relative mt-10 h-[34rem] md:mt-0 md:h-[43rem]">
-          <ImageTilt className="h-full w-full overflow-hidden">
+          <ImageTilt className="teak-grain h-full w-full overflow-hidden p-[0.6rem]">
             <img
               alt="A candlelit table set for an Aberdeen private dinner"
               className="h-full w-full object-cover"
@@ -640,7 +647,7 @@ function EventsSection() {
           </ImageTilt>
         </div>
         <div className="relative h-[28rem] md:h-[34rem]">
-          <ImageTilt className="h-full w-full overflow-hidden">
+          <ImageTilt className="teak-grain h-full w-full overflow-hidden p-[0.6rem]">
             <img
               alt="Guests gathered around a private dining table"
               className="h-full w-full object-cover"

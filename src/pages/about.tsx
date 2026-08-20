@@ -122,7 +122,7 @@ function OwnerSection() {
         </p>
       </motion.div>
       <motion.div className="relative z-10 text-center text-aberdeen-blue" {...fadeIn(0.12)}>
-        <ImageTilt className="teak-grain mx-auto h-80 w-80 overflow-hidden rounded-full p-2">
+        <ImageTilt className="teak-grain mx-auto h-80 w-80 overflow-hidden rounded-full p-[0.6rem]">
           <img
             alt="Portrait of Aberdeen owner"
             className="no-scroll-reveal h-full w-full rounded-full object-cover"
@@ -221,7 +221,7 @@ function GroupSection() {
             className="about-pillars-image relative h-[28rem] md:h-full"
             {...fadeIn(0.12)}
           >
-            <ImageTilt className="relative h-full w-full overflow-hidden">
+            <ImageTilt className="teak-grain relative h-full w-full overflow-hidden p-[0.6rem]">
               <img
                 alt="Aberdeen dining room set for an evening by the coast"
                 className="h-full w-full object-cover"
@@ -235,7 +235,7 @@ function GroupSection() {
             className="about-pillars-image relative mt-12 h-72 md:mt-24 md:h-[68%]"
             {...fadeIn(0.2)}
           >
-            <ImageTilt className="h-full w-full overflow-hidden">
+            <ImageTilt className="teak-grain h-full w-full overflow-hidden p-[0.6rem]">
               <img
                 alt="A bright coastal table setting at Aberdeen"
                 className="h-full w-full object-cover"

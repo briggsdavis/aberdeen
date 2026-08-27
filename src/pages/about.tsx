@@ -1,4 +1,5 @@
 import { motion } from "motion/react"
+import { Decoration } from "../components/decoration"
 import { FramedPhoto } from "../components/framed-photo"
 import { ImageTilt } from "../components/image-tilt"
 import { RestaurantGroupSection } from "../components/site-extras"
@@ -74,6 +75,10 @@ function StorySection() {
 
   return (
     <section className="relative isolate grid gap-12 overflow-hidden bg-oyster-white px-5 pt-16 pb-4 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:pt-24 md:pb-6">
+      <Decoration
+        className="-right-16 -bottom-8 -z-10 w-52 rotate-12 opacity-15 md:right-8 md:w-72"
+        name="whale-tail"
+      />
       <motion.div className="relative z-10 self-start" {...fadeIn()}>
         <FramedPhoto
           alt="People on a catamaran sailboat in the ocean"
@@ -122,7 +127,7 @@ function OwnerSection() {
         </p>
       </motion.div>
       <motion.div className="relative z-10 text-center text-aberdeen-blue" {...fadeIn(0.12)}>
-        <ImageTilt className="teak-grain mx-auto h-80 w-80 overflow-hidden rounded-full p-[0.6rem]">
+        <ImageTilt className="teak-grain mx-auto h-80 w-80 overflow-hidden rounded-full p-[1.2rem]">
           <img
             alt="Portrait of Aberdeen owner"
             className="no-scroll-reveal h-full w-full rounded-full object-cover"
@@ -221,7 +226,7 @@ function GroupSection() {
             className="about-pillars-image relative h-[28rem] md:h-full"
             {...fadeIn(0.12)}
           >
-            <ImageTilt className="teak-grain relative h-full w-full overflow-hidden p-[0.6rem]">
+            <ImageTilt className="teak-grain relative h-full w-full overflow-hidden p-[1.2rem]">
               <img
                 alt="Aberdeen dining room set for an evening by the coast"
                 className="h-full w-full object-cover"
@@ -235,7 +240,7 @@ function GroupSection() {
             className="about-pillars-image relative mt-12 h-72 md:mt-24 md:h-[68%]"
             {...fadeIn(0.2)}
           >
-            <ImageTilt className="teak-grain h-full w-full overflow-hidden p-[0.6rem]">
+            <ImageTilt className="teak-grain h-full w-full overflow-hidden p-[1.2rem]">
               <img
                 alt="A bright coastal table setting at Aberdeen"
                 className="h-full w-full object-cover"
@@ -255,7 +260,7 @@ function RoomSection() {
     <section className="relative isolate overflow-hidden bg-oyster-white p-5 md:p-8">
       <div className="relative z-10 grid gap-6 md:grid-cols-[1.2fr_0.8fr] md:gap-10">
         <motion.div className="relative h-[30rem] w-full md:h-[42rem]" {...fadeIn()}>
-          <ImageTilt className="h-full w-full overflow-hidden">
+          <ImageTilt className="teak-grain h-full w-full overflow-hidden p-[1.2rem]">
             <img
               alt="Restaurant bar with warm lights and bottles"
               className="h-full w-full object-cover"
@@ -266,7 +271,7 @@ function RoomSection() {
         </motion.div>
         <div className="grid gap-3 md:gap-8">
           <motion.div className="relative h-64 w-full md:h-full" {...fadeIn(0.08)}>
-            <ImageTilt className="h-full w-full overflow-hidden">
+            <ImageTilt className="teak-grain h-full w-full overflow-hidden p-[1.2rem]">
               <img
                 alt="Seafood dish with wine on a dining table"
                 className="h-full w-full object-cover"

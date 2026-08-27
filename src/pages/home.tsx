@@ -10,12 +10,11 @@ import {
 } from "motion/react"
 import { useRef } from "react"
 import { useOutletContext } from "react-router"
+import { Decoration } from "../components/decoration"
 import { FaqSection, homepageFaqs } from "../components/faq-section"
 import { FramedPhoto } from "../components/framed-photo"
 import { ImageTilt } from "../components/image-tilt"
-import { LocationMap } from "../components/location-map"
 import { RestaurantGroupSection } from "../components/site-extras"
-import { restaurantAddress } from "../lib/location"
 import { fadeIn, fadeInPlace } from "../lib/motion"
 import { usePageImage, useRequiredPageImage, useShellData } from "../lib/public-data"
 import { standardActionTone } from "../lib/standard-action"
@@ -24,6 +23,8 @@ const homeHeroImage =
   "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=2000&q=85"
 const homeFramedImage =
   "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1000&q=85"
+const homeIntroLocationImage =
+  "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1200&q=85"
 const menuFoodImage =
   "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=1000&q=85"
 const menuSpiritsImage =
@@ -107,7 +108,7 @@ function CoastalTextMarquee() {
   return (
     <section
       aria-label="The spirit of Aberdeen"
-      className="overflow-hidden border-y border-kelp-ink/20 bg-oyster-white py-5 text-aberdeen-blue md:py-7"
+      className="no-site-texture overflow-hidden border-y border-kelp-ink/20 bg-oyster-white py-5 text-aberdeen-blue md:py-7"
     >
       <motion.div
         className="flex w-max will-change-transform"
@@ -285,14 +286,17 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
 }
 
 function IntroSection() {
-  const { site } = useShellData()
-  const mapLocation = site?.settings.mapLocation?.trim() || restaurantAddress
+  const locationImage = usePageImage("home.intro.location-image") ?? homeIntroLocationImage
 
   return (
     <section className="relative isolate overflow-hidden px-5 py-16 md:px-8 md:py-24">
+      <Decoration
+        className="-right-16 -bottom-28 -z-10 w-56 -rotate-12 opacity-15 md:right-4 md:bottom-2 md:w-72"
+        name="anchor"
+      />
       <div className="relative z-10 grid gap-10 md:grid-cols-[0.85fr_1.15fr] md:items-stretch">
         <motion.div className="relative h-[34rem] md:h-auto md:self-stretch" {...fadeIn()}>
-          <ImageTilt className="teak-grain h-full w-full overflow-hidden p-[0.6rem]">
+          <ImageTilt className="teak-grain h-full w-full overflow-hidden p-[1.2rem]">
             <img
               alt="Portrait of a warmly lit restaurant dining detail"
               className="h-full w-full object-cover"
@@ -312,7 +316,14 @@ function IntroSection() {
             Aberdeen is a bright, editorial restaurant centered on seafood, cocktails, and the easy
             ceremony of gathering around a good table.
           </p>
-          <LocationMap className="mt-10 max-w-3xl" location={mapLocation} />
+          <ImageTilt className="teak-grain mt-10 aspect-3/2 w-full max-w-3xl overflow-hidden p-[1.2rem]">
+            <img
+              alt="Waves rolling toward the Savannah coast"
+              className="h-full w-full object-cover"
+              data-cms-slot="home.intro.location-image"
+              src={locationImage}
+            />
+          </ImageTilt>
         </motion.div>
       </div>
     </section>
@@ -359,7 +370,11 @@ function MenuSection() {
   }))
 
   return (
-    <section className="bg-oyster-white px-5 py-16 md:px-8 md:py-24">
+    <section className="relative isolate overflow-hidden bg-oyster-white px-5 py-16 md:px-8 md:py-24">
+      <Decoration
+        className="-top-10 -right-12 -z-10 w-40 rotate-12 opacity-20 md:top-6 md:right-6 md:w-56"
+        name="oyster-shell"
+      />
       <motion.div className="mb-10 flex items-end justify-between gap-6" {...fadeIn()}>
         <div>
           <h2
@@ -561,7 +576,7 @@ function ReservationEditorialSection() {
         </motion.div>
 
         <div className="relative h-[62svh] md:absolute md:top-0 md:right-0 md:h-[72%] md:w-[46%]">
-          <ImageTilt className="teak-grain h-full w-full overflow-hidden p-[0.6rem]">
+          <ImageTilt className="teak-grain h-full w-full overflow-hidden p-[1.2rem]">
             <img
               alt="Luxury yacht cruising across calm blue water"
               className="h-full w-full object-cover"
@@ -572,7 +587,7 @@ function ReservationEditorialSection() {
         </div>
 
         <div className="relative h-[66svh] md:absolute md:bottom-0 md:left-0 md:h-[56%] md:w-[46%]">
-          <ImageTilt className="teak-grain h-full w-full overflow-hidden p-[0.6rem]">
+          <ImageTilt className="teak-grain h-full w-full overflow-hidden p-[1.2rem]">
             <img
               alt="Palm-lined beach beside clear turquoise water"
               className="h-full w-full object-cover"
@@ -637,7 +652,7 @@ function EventsSection() {
           </a>
         </div>
         <div className="relative mt-10 h-[34rem] md:mt-0 md:h-[43rem]">
-          <ImageTilt className="teak-grain h-full w-full overflow-hidden p-[0.6rem]">
+          <ImageTilt className="teak-grain h-full w-full overflow-hidden p-[1.2rem]">
             <img
               alt="A candlelit table set for an Aberdeen private dinner"
               className="h-full w-full object-cover"
@@ -647,7 +662,7 @@ function EventsSection() {
           </ImageTilt>
         </div>
         <div className="relative h-[28rem] md:h-[34rem]">
-          <ImageTilt className="teak-grain h-full w-full overflow-hidden p-[0.6rem]">
+          <ImageTilt className="teak-grain h-full w-full overflow-hidden p-[1.2rem]">
             <img
               alt="Guests gathered around a private dining table"
               className="h-full w-full object-cover"

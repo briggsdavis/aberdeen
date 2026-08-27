@@ -2,6 +2,7 @@ import { ArrowUpRight, CheckCircle } from "@phosphor-icons/react"
 import { motion } from "motion/react"
 import { useCallback, useState } from "react"
 import type { FormEvent } from "react"
+import { Decoration } from "../components/decoration"
 import { FaqSection } from "../components/faq-section"
 import { googleMapsEmbedUrl, googleMapsPlaceUrl, restaurantAddress } from "../lib/location"
 import { fadeIn } from "../lib/motion"
@@ -80,6 +81,10 @@ function ContactPage() {
       </section>
 
       <section className="relative isolate overflow-hidden bg-aberdeen-peach px-5 py-16 md:px-8 md:py-24">
+        <Decoration
+          className="-bottom-24 left-4 -z-10 w-28 -rotate-12 opacity-20 md:bottom-4 md:left-1/3 md:w-36"
+          name="message-bottle"
+        />
         <div className="relative z-10 grid gap-12 lg:grid-cols-[0.75fr_1.25fr] lg:gap-20">
           <motion.div {...fadeIn()}>
             <h2
@@ -211,7 +216,7 @@ function ContactPage() {
               Open in Google Maps <ArrowUpRight size={17} />
             </a>
           </div>
-          <div className="h-96 overflow-hidden border-8 border-aberdeen-peach shadow-xl md:h-[34rem]">
+          <div className="teak-grain h-96 overflow-hidden p-[1.2rem] shadow-xl md:h-[34rem]">
             <iframe
               allowFullScreen
               className="h-full w-full border-0"

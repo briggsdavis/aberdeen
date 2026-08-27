@@ -189,7 +189,7 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
                         onMouseLeave={scheduleMenuPreviewClose}
                         transition={{ duration: 1.08, ease: [0.16, 1, 0.3, 1] }}
                       >
-                        <div className="teak-grain p-2 text-aberdeen-blue shadow-[0_28px_70px_color-mix(in_srgb,var(--color-aberdeen-blue)_20%,transparent)]">
+                        <div className="teak-grain p-4 text-aberdeen-blue shadow-[0_28px_70px_color-mix(in_srgb,var(--color-aberdeen-blue)_20%,transparent)]">
                           <div className="grid min-h-[30rem] grid-cols-[0.72fr_1.28fr] gap-10 bg-white p-8 lg:p-10">
                             <div className="flex flex-col justify-center border-r border-aberdeen-blue/15 pr-10">
                               {menuPreviews.map((menu) => {

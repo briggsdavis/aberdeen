@@ -1,6 +1,7 @@
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "motion/react"
-import { useRef } from "react"
+import { useLayoutEffect, useRef } from "react"
 import { useLocation } from "react-router"
+import { Decoration } from "../components/decoration"
 import { ScrollRotatingWheel } from "../components/decorative-media"
 import { ImageTilt } from "../components/image-tilt"
 import type { PublicStaffMember } from "../data/default-staff"
@@ -56,17 +57,37 @@ function HeroSection() {
 
 function RosterSection({ introductionOnly = false }: { introductionOnly?: boolean }) {
   const staff = usePublicStaff()
+  const introRef = useRef<HTMLDivElement>(null)
+
+  useLayoutEffect(() => {
+    const intro = introRef.current
+    if (!intro || introductionOnly) return
+
+    const updateHeight = () => {
+      intro.style.setProperty("--staff-intro-height", `${intro.offsetHeight}px`)
+    }
+    const observer = new ResizeObserver(updateHeight)
+
+    updateHeight()
+    observer.observe(intro)
+    return () => observer.disconnect()
+  }, [introductionOnly])
 
   return (
-    <section className="relative bg-oyster-white px-5 py-16 md:px-8 md:py-24">
+    <section className="relative isolate overflow-clip bg-oyster-white px-5 py-16 md:px-8 md:py-24">
+      <Decoration
+        className="top-24 -right-20 -z-10 w-64 rotate-12 opacity-15 md:top-40 md:right-4 md:w-80"
+        name="sailor-hat"
+      />
       <div
         className={`relative grid gap-12 ${
           introductionOnly ? "mx-auto max-w-4xl" : "md:grid-cols-[0.75fr_1.25fr]"
         }`}
       >
         <div
-          className={`self-start ${introductionOnly ? "" : "md:sticky md:top-28"}`}
+          className={`self-start ${introductionOnly ? "" : "staff-intro-sticky md:sticky"}`}
           data-testid="staff-intro"
+          ref={introRef}
         >
           <motion.div {...fadeIn()}>
             <h2
@@ -117,12 +138,14 @@ function StaffCard({ index, person }: { index: number; person: PublicStaffMember
       {...fadeIn(index * 0.04)}
     >
       <ImageTilt className="relative mx-auto w-full max-w-md bg-aberdeen-peach p-4 text-aberdeen-blue">
-        <div className="relative aspect-[4/5] overflow-hidden shadow-[0_18px_38px_rgb(from_var(--color-kelp-ink)_r_g_b/0.24)]">
-          <img
-            alt={person.name}
-            className="no-under-shadow h-full w-full object-cover"
-            src={person.image}
-          />
+        <div className="teak-grain p-[1.2rem]">
+          <div className="relative aspect-[4/5] overflow-hidden shadow-[0_18px_38px_rgb(from_var(--color-kelp-ink)_r_g_b/0.24)]">
+            <img
+              alt={person.name}
+              className="no-under-shadow h-full w-full object-cover"
+              src={person.image}
+            />
+          </div>
         </div>
         <div className="p-5">
           <p className="font-utility text-xs tracking-[0.18em] uppercase">{person.role}</p>

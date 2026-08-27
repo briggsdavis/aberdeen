@@ -52,7 +52,7 @@ function SiteFooter() {
   const phoneHref = `tel:${phone.replace(/[^+\d]/g, "")}`
 
   return (
-    <footer className="site-footer relative bg-oyster-white px-5 pt-7 pb-5 text-aberdeen-blue md:px-8 md:pt-8 md:pb-6">
+    <footer className="site-footer no-site-texture relative bg-oyster-white px-5 pt-7 pb-5 text-aberdeen-blue md:px-8 md:pt-8 md:pb-6">
       <div aria-hidden="true" className="teak-grain absolute inset-x-0 top-0 h-4" />
       <div className="flex flex-col">
         <div className="grid gap-5 lg:grid-cols-[1fr_auto_1fr] lg:items-center">

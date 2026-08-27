@@ -1,6 +1,7 @@
 import { CaretLeft, CaretRight, X } from "@phosphor-icons/react"
 import { motion } from "motion/react"
 import { useEffect, useState } from "react"
+import { Decoration } from "../components/decoration"
 import { FramedPhoto } from "../components/framed-photo"
 import { fadeIn, fadeInPlace } from "../lib/motion"
 import { usePageImage, usePublicEvents, useRequiredPageImage } from "../lib/public-data"
@@ -106,6 +107,10 @@ function ScheduleSection({ events }: { events: DisplayEvent[] }) {
 
   return (
     <section className="relative isolate overflow-hidden bg-oyster-white px-5 py-16 md:px-8 md:py-24">
+      <Decoration
+        className="-top-12 right-4 -z-10 w-28 rotate-12 opacity-15 md:top-8 md:right-12 md:w-40"
+        name="lobster"
+      />
       <motion.div
         className="relative z-10 mb-10 flex flex-wrap items-end justify-between gap-6"
         {...fadeIn()}
@@ -176,12 +181,14 @@ function UpcomingList({ events }: { events: DisplayEvent[] }) {
           tabIndex={0}
           {...fadeInPlace(index * 0.06)}
         >
-          <div className="event-row-image-frame aspect-[4/3] w-full overflow-hidden md:self-start">
-            <img
-              alt={event.title}
-              className="event-row-image h-full object-cover"
-              src={event.image}
-            />
+          <div className="event-row-image-frame teak-grain aspect-[4/3] w-full overflow-hidden p-[1.2rem] md:self-start">
+            <div className="relative h-full w-full overflow-hidden rounded-lg">
+              <img
+                alt={event.title}
+                className="event-row-image h-full object-cover"
+                src={event.image}
+              />
+            </div>
           </div>
           <div className="event-row-copy min-w-0 flex-1 p-6 md:p-10">
             <p

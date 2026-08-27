@@ -57,6 +57,39 @@
     background: var(--color-aberdeen-peach);
   }
 
+  .site-texture,
+  .site-texture :where(main, section, footer)[class~="bg-white"],
+  .site-texture :where(main, section, footer)[class~="bg-oyster-white"],
+  .site-texture :where(main, section, footer)[class~="bg-aberdeen-peach"],
+  .site-texture :where(main, section, footer)[class~="bg-aberdeen-blue"] {
+    background-image:
+      linear-gradient(
+        rgb(from var(--site-texture-color, var(--color-aberdeen-peach)) r g b / 0.25),
+        rgb(from var(--site-texture-color, var(--color-aberdeen-peach)) r g b / 0.25)
+      ),
+      url("/texture.png");
+  }
+
+  .site-texture :where(main, section, footer)[class~="bg-white"] {
+    --site-texture-color: white;
+  }
+
+  .site-texture :where(main, section, footer)[class~="bg-oyster-white"] {
+    --site-texture-color: var(--color-oyster-white);
+  }
+
+  .site-texture :where(main, section, footer)[class~="bg-aberdeen-peach"] {
+    --site-texture-color: var(--color-aberdeen-peach);
+  }
+
+  .site-texture :where(main, section, footer)[class~="bg-aberdeen-blue"] {
+    --site-texture-color: var(--color-aberdeen-blue);
+  }
+
+  .site-texture .no-site-texture {
+    background-image: none;
+  }
+
   a,
   button {
     outline-color: var(--color-citrus);
@@ -425,6 +458,12 @@
 
   .page-shell {
     position: relative;
+  }
+
+  @media (min-width: 768px) {
+    .staff-intro-sticky {
+      top: max(1rem, calc(50svh - var(--staff-intro-height, 0px) / 2));
+    }
   }
 
   .page-shell > section:first-child {

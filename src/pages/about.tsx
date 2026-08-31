@@ -2,6 +2,7 @@ import { motion } from "motion/react"
 import { Decoration } from "../components/decoration"
 import { FramedPhoto } from "../components/framed-photo"
 import { ImageTilt } from "../components/image-tilt"
+import { ScrapbookScene } from "../components/scrapbook-scene"
 import { RestaurantGroupSection } from "../components/site-extras"
 import { fadeIn } from "../lib/motion"
 import { usePageImage, useRequiredPageImage } from "../lib/public-data"
@@ -86,6 +87,10 @@ function StorySection() {
           imageCmsSlot="about-hero-postcard"
           src={framedImage}
           variant="03"
+        />
+        <ScrapbookScene
+          className="absolute right-1 bottom-2 z-20 w-44 md:-right-8 md:bottom-4 md:w-60"
+          variant="voyage"
         />
       </motion.div>
       <motion.div className="relative z-10 max-w-4xl space-y-8" {...fadeIn(0.1)}>

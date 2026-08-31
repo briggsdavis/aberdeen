@@ -276,6 +276,33 @@
     background-blend-mode: multiply;
   }
 
+  .scene-paper {
+    background-image: url("/paper-grain.jpg");
+    background-position: center;
+    background-size: cover;
+    background-blend-mode: multiply;
+  }
+
+  .scene-stripes {
+    background: repeating-linear-gradient(
+      135deg,
+      var(--color-aberdeen-blue) 0 0.75rem,
+      var(--color-oyster-white) 0.75rem 1.5rem,
+      var(--color-nautical-red) 1.5rem 2.25rem,
+      var(--color-oyster-white) 2.25rem 3rem
+    );
+  }
+
+  .scene-rope {
+    border-radius: 9999px;
+    background: repeating-linear-gradient(
+      115deg,
+      #b98d58 0 0.32rem,
+      #e5c99c 0.32rem 0.62rem,
+      #8d6135 0.62rem 0.78rem
+    );
+  }
+
   .teak-grain {
     background-color: #763712;
     background-image: linear-gradient(rgb(33 14 5 / 0.08), rgb(33 14 5 / 0.08)), url("/teak.jpg");

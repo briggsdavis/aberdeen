@@ -3,6 +3,7 @@ import { motion } from "motion/react"
 import { useEffect, useState } from "react"
 import { Decoration } from "../components/decoration"
 import { FramedPhoto } from "../components/framed-photo"
+import { ScrapbookScene } from "../components/scrapbook-scene"
 import { fadeIn, fadeInPlace } from "../lib/motion"
 import { usePageImage, usePublicEvents, useRequiredPageImage } from "../lib/public-data"
 import { standardActionTone } from "../lib/standard-action"
@@ -247,6 +248,12 @@ function HeroSection() {
             Seasonal nights worth circling.
           </h1>
         </div>
+        <motion.div
+          className="absolute top-28 right-3 z-20 w-40 md:right-8 md:w-64"
+          {...fadeIn(0.18)}
+        >
+          <ScrapbookScene variant="calendar" />
+        </motion.div>
       </motion.div>
     </section>
   )

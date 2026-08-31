@@ -14,6 +14,7 @@ import { Decoration } from "../components/decoration"
 import { FaqSection, homepageFaqs } from "../components/faq-section"
 import { FramedPhoto } from "../components/framed-photo"
 import { ImageTilt } from "../components/image-tilt"
+import { ScrapbookCornerScene, ScrapbookScene } from "../components/scrapbook-scene"
 import { RestaurantGroupSection } from "../components/site-extras"
 import { fadeIn, fadeInPlace } from "../lib/motion"
 import { usePageImage, useRequiredPageImage, useShellData } from "../lib/public-data"
@@ -304,6 +305,10 @@ function IntroSection() {
               src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1000&q=85"
             />
           </ImageTilt>
+          <ScrapbookScene
+            className="absolute -bottom-10 -left-5 z-20 w-40 md:-left-8 md:w-56"
+            variant="harbor"
+          />
         </motion.div>
         <motion.div className="flex h-full max-w-4xl flex-col justify-center" {...fadeIn(0.1)}>
           <h2
@@ -497,10 +502,10 @@ function ReservationsSection() {
 
   return (
     <section
-      className="bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24"
+      className="relative isolate overflow-hidden bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24"
       id="reservations"
     >
-      <div className="grid gap-10 md:grid-cols-[0.9fr_1fr] md:items-start">
+      <div className="relative z-10 grid gap-10 md:grid-cols-[0.9fr_1fr] md:items-start">
         <motion.div className="relative order-2 self-end md:order-1 md:self-start" {...fadeIn(0.3)}>
           <FramedPhoto
             alt="Seafood spread on an Aberdeen table"
@@ -537,6 +542,12 @@ function ReservationsSection() {
           </motion.a>
         </div>
       </div>
+      <motion.div
+        className="relative z-20 mt-10 ml-auto w-56 md:absolute md:right-8 md:bottom-8 md:w-72"
+        {...fadeIn(0.2)}
+      >
+        <ScrapbookCornerScene />
+      </motion.div>
     </section>
   )
 }

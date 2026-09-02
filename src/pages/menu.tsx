@@ -20,7 +20,13 @@ export default function MenuPage() {
 
   return (
     <div className="page-shell">
-      <MenuPageHero activePath={`/menu/${menu.slug}`} menuPages={navigation} title={menu.title} />
+      <MenuPageHero
+        activePath={`/menu/${menu.slug}`}
+        description={menu.description}
+        image={menu.heroImage}
+        menuPages={navigation}
+        title={menu.title}
+      />
       {menu.sections.map((section) => {
         if (section.layout === "paired") {
           const first = section.groups[0]
@@ -31,6 +37,7 @@ export default function MenuPage() {
               background={section.background}
               first={first}
               key={section._id}
+              map={section.mapImage}
               second={second}
             />
           )
@@ -55,6 +62,7 @@ export default function MenuPage() {
             imagePanelDescription={section.imageCaption || menu.description}
             imagePosition={section.layout === "imageLeft" ? "left" : "right"}
             key={section._id}
+            map={section.mapImage}
             postcards={postcards}
           />
         )

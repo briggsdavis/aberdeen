@@ -16,10 +16,14 @@ const tabs = [
 
 export function MenuPageHero({
   activePath,
+  description,
+  image,
   menuPages,
   title,
 }: {
   activePath: string
+  description: string
+  image: string | null
   menuPages?: Array<{ slug: string; title: string }>
   title: string
 }) {
@@ -30,12 +34,22 @@ export function MenuPageHero({
     })) ?? tabs
 
   return (
-    <section className="bg-white text-aberdeen-blue">
+    <section className="relative isolate overflow-hidden bg-aberdeen-blue text-aberdeen-peach">
+      {image ? (
+        <img
+          alt={`${title} menu hero`}
+          className="absolute inset-0 -z-20 h-full w-full object-cover"
+          src={image}
+        />
+      ) : null}
+      <div className="absolute inset-0 -z-10 bg-aberdeen-blue/65" />
       <motion.div
-        className="grid justify-items-center gap-8 px-5 pt-32 pb-14 text-center md:px-8 md:pt-40 md:pb-20"
+        className="grid min-h-[34rem] content-end justify-items-center gap-7 px-5 pt-32 pb-14 text-center md:min-h-[44rem] md:px-8 md:pt-40 md:pb-20"
         {...fadeIn()}
       >
+        <p className="font-utility text-sm tracking-[0.22em] uppercase">Menus</p>
         <h1 className="font-display text-6xl leading-none md:text-8xl">{title}</h1>
+        <p className="max-w-2xl text-lg leading-8 text-oyster-white/90">{description}</p>
         <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2 font-utility text-sm tracking-[0.18em] uppercase">
           {visibleTabs.map((tab) => (
             <TransitionLink
@@ -128,6 +142,7 @@ export function MenuImageSection({
   image,
   imagePanelDescription,
   imagePosition,
+  map,
   postcards,
 }: {
   alt: string
@@ -136,6 +151,7 @@ export function MenuImageSection({
   image: string
   imagePanelDescription: string
   imagePosition: "left" | "right"
+  map: string
   postcards?: PostcardContent[]
 }) {
   const imagePanel = (
@@ -166,6 +182,14 @@ export function MenuImageSection({
             : "bg-oyster-white"
       }`}
     >
+      {map ? (
+        <img
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover opacity-[0.12]"
+          src={map}
+        />
+      ) : null}
       <div className="relative z-10 grid gap-12 md:grid-cols-[0.9fr_1.1fr] md:gap-16">
         {imagePanel}
         <div
@@ -182,11 +206,13 @@ export function MenuPairSection({
   background = "oyster",
   first,
   footnote,
+  map,
   second,
 }: {
   background?: "oyster" | "peach" | "blue"
   first: MenuGroup
   footnote?: string
+  map: string
   second: MenuGroup
 }) {
   return (
@@ -199,6 +225,14 @@ export function MenuPairSection({
             : "bg-oyster-white"
       }`}
     >
+      {map ? (
+        <img
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover opacity-[0.1]"
+          src={map}
+        />
+      ) : null}
       <div className="relative z-10 grid gap-12 md:grid-cols-2 md:gap-16">
         <MenuList group={first} inverted={background === "blue"} />
         <MenuList delay={0.08} group={second} inverted={background === "blue"} />

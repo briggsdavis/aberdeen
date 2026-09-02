@@ -14,7 +14,6 @@ import { Decoration } from "../components/decoration"
 import { FaqSection, homepageFaqs } from "../components/faq-section"
 import { FramedPhoto } from "../components/framed-photo"
 import { ImageTilt } from "../components/image-tilt"
-import { ScrapbookCornerScene, ScrapbookScene } from "../components/scrapbook-scene"
 import { RestaurantGroupSection } from "../components/site-extras"
 import { fadeIn, fadeInPlace } from "../lib/motion"
 import { usePageImage, useRequiredPageImage, useShellData } from "../lib/public-data"
@@ -29,7 +28,7 @@ const homeIntroLocationImage =
 const menuFoodImage =
   "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=1000&q=85"
 const menuSpiritsImage =
-  "https://images.unsplash.com/photo-1551024709-f90425340c7e?auto=format&fit=crop&w=1000&q=85"
+  "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=1000&q=85"
 const menuBeveragesImage =
   "https://images.unsplash.com/photo-1621263764928-df1444c5e859?auto=format&fit=crop&w=1000&q=85"
 const reservationBeachImage =
@@ -109,7 +108,7 @@ function CoastalTextMarquee() {
   return (
     <section
       aria-label="The spirit of Aberdeen"
-      className="no-site-texture overflow-hidden border-y border-kelp-ink/20 bg-oyster-white py-5 text-aberdeen-blue md:py-7"
+      className="no-site-artwork overflow-hidden border-y border-kelp-ink/20 bg-oyster-white py-5 text-aberdeen-blue md:py-7"
     >
       <motion.div
         className="flex w-max will-change-transform"
@@ -292,7 +291,7 @@ function IntroSection() {
   return (
     <section className="relative isolate overflow-hidden px-5 py-16 md:px-8 md:py-24">
       <Decoration
-        className="-right-16 -bottom-28 -z-10 w-56 -rotate-12 opacity-15 md:right-4 md:bottom-2 md:w-72"
+        className="-right-14 -bottom-24 -z-10 w-52 -rotate-12 md:right-3 md:bottom-0 md:w-64"
         name="anchor"
       />
       <div className="relative z-10 grid gap-10 md:grid-cols-[0.85fr_1.15fr] md:items-stretch">
@@ -305,9 +304,9 @@ function IntroSection() {
               src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1000&q=85"
             />
           </ImageTilt>
-          <ScrapbookScene
-            className="absolute -bottom-10 -left-5 z-20 w-40 md:-left-8 md:w-56"
-            variant="harbor"
+          <Decoration
+            className="-bottom-8 -left-5 z-20 w-44 -rotate-6 drop-shadow-xl md:-left-8 md:w-60"
+            name="ship1"
           />
         </motion.div>
         <motion.div className="flex h-full max-w-4xl flex-col justify-center" {...fadeIn(0.1)}>
@@ -377,8 +376,9 @@ function MenuSection() {
   return (
     <section className="relative isolate overflow-hidden bg-oyster-white px-5 py-16 md:px-8 md:py-24">
       <Decoration
-        className="-top-10 -right-12 -z-10 w-40 rotate-12 opacity-20 md:top-6 md:right-6 md:w-56"
-        name="oyster-shell"
+        className="-top-10 -right-16 -z-10 w-52 md:top-4 md:right-8 md:w-72"
+        name="oyster"
+        style={{ transform: "rotate(-18deg)" }}
       />
       <motion.div className="mb-10 flex items-end justify-between gap-6" {...fadeIn()}>
         <div>
@@ -422,7 +422,7 @@ function MenuSection() {
                 </p>
               </div>
             </div>
-            <div className="min-h-44 p-5">
+            <div className="teak-menu-panel min-h-44 p-5 text-oyster-white">
               <h3
                 className="font-display text-5xl decoration-citrus decoration-2 underline-offset-8 group-hover:underline"
                 data-cms-text-key={`home.menus.${menu.key}.title`}
@@ -430,7 +430,7 @@ function MenuSection() {
                 {menu.title}
               </h3>
               <p
-                className="mt-3 max-w-sm text-base leading-7 text-kelp-ink"
+                className="mt-3 max-w-sm text-base leading-7 text-oyster-white/90"
                 data-cms-text-key={`home.menus.${menu.key}.copy`}
               >
                 {menu.copy}
@@ -465,12 +465,10 @@ function ScrollGallerySection() {
   ]
 
   return (
-    <section
-      className="relative isolate overflow-hidden bg-aberdeen-peach py-16 md:py-24"
-      ref={sectionRef}
-    >
+    <section className="relative isolate overflow-hidden bg-oyster-white" ref={sectionRef}>
+      <GalleryTextRail direction={-1} />
       <motion.div
-        className="scrapbook-gallery-track relative z-10 flex w-max gap-5 px-3 will-change-transform md:gap-7 md:px-8"
+        className="scrapbook-gallery-track relative z-10 flex w-max gap-5 px-3 py-5 will-change-transform md:gap-7 md:px-8 md:py-7"
         style={{ x }}
       >
         {[...images, ...images].map((image, index) => (
@@ -493,7 +491,52 @@ function ScrollGallerySection() {
           </motion.div>
         ))}
       </motion.div>
+      <GalleryTextRail direction={1} />
     </section>
+  )
+}
+
+const galleryRailPhrases = [
+  "Bright seafood, cold martinis, and generous plates set the table",
+  "Coastal afternoons turn into evenings worth lingering over",
+  "Oysters, citrus, good company, and one more round by the water",
+  "Savannah warmth meets the easy ceremony of a beautifully set table",
+]
+
+function GalleryTextRail({ direction }: { direction: -1 | 1 }) {
+  const shouldReduceMotion = useReducedMotion()
+  const { scrollY } = useScroll()
+  const start = direction === -1 ? -18 : -38
+  const x = useTransform(
+    scrollY,
+    (position) => `${wrap(-50, 0, start + direction * position * 0.012)}%`,
+  )
+
+  return (
+    <div
+      aria-hidden="true"
+      className="no-site-artwork relative z-20 overflow-hidden border-y border-[#9a7845]/30 bg-oyster-white py-4 text-[#8b6938] md:py-5"
+    >
+      <motion.div
+        className="flex w-max will-change-transform"
+        style={{ x: shouldReduceMotion ? `${start}%` : x }}
+      >
+        {[0, 1].map((copy) => (
+          <div className="flex shrink-0 items-center" key={copy}>
+            {galleryRailPhrases.map((phrase) => (
+              <div className="flex shrink-0 items-center" key={`${copy}-${phrase}`}>
+                <span className="px-5 font-utility text-sm tracking-[0.15em] whitespace-nowrap uppercase md:px-7 md:text-base">
+                  {phrase}
+                </span>
+                <span aria-hidden="true" className="text-lg leading-none">
+                  ◆
+                </span>
+              </div>
+            ))}
+          </div>
+        ))}
+      </motion.div>
+    </div>
   )
 }
 
@@ -543,10 +586,19 @@ function ReservationsSection() {
         </div>
       </div>
       <motion.div
-        className="relative z-20 mt-10 ml-auto w-56 md:absolute md:right-8 md:bottom-8 md:w-72"
+        aria-hidden="true"
+        className="relative z-20 mt-10 ml-auto aspect-[5/4] w-56 md:absolute md:right-8 md:bottom-8 md:w-72"
         {...fadeIn(0.2)}
       >
-        <ScrapbookCornerScene />
+        <Decoration className="inset-0 h-full w-full object-contain drop-shadow-xl" name="map" />
+        <Decoration
+          className="right-[-4%] bottom-[-4%] w-[48%] rotate-6 drop-shadow-xl"
+          name="lifebuoy"
+        />
+        <Decoration
+          className="bottom-[-2%] left-[-12%] w-[64%] -rotate-6 drop-shadow-xl"
+          name="ship2"
+        />
       </motion.div>
     </section>
   )

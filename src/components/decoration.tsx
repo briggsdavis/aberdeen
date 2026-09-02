@@ -1,9 +1,21 @@
+import type { CSSProperties } from "react"
+
 type DecorationProps = {
   className?: string
-  name: "anchor" | "lobster" | "message-bottle" | "oyster-shell" | "sailor-hat" | "whale-tail"
+  name:
+    | "anchor"
+    | "bigship"
+    | "lifebuoy"
+    | "map"
+    | "nautilus"
+    | "oyster"
+    | "shell"
+    | "ship1"
+    | "ship2"
+  style?: CSSProperties
 }
 
-export function Decoration({ className = "", name }: DecorationProps) {
+export function Decoration({ className = "", name, style }: DecorationProps) {
   return (
     <img
       alt=""
@@ -11,7 +23,8 @@ export function Decoration({ className = "", name }: DecorationProps) {
       className={`pointer-events-none absolute select-none ${className}`}
       draggable={false}
       loading="lazy"
-      src={`/decorations/${name}.png`}
+      src={`/${name}.png`}
+      style={style}
     />
   )
 }

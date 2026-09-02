@@ -9,14 +9,14 @@ export default function NotFoundPage() {
         <img
           alt=""
           aria-hidden="true"
-          className="absolute inset-0 h-full w-full object-cover opacity-[0.12]"
-          src="/maps/antique-map-03.png"
+          className="absolute -right-40 bottom-12 w-[38rem] rotate-3 object-contain drop-shadow-xl md:w-[52rem]"
+          src="/map.png"
         />
         <img
           alt=""
           aria-hidden="true"
-          className="absolute right-[-5rem] bottom-[-4rem] w-[24rem] rotate-[-8deg] opacity-15 md:w-[34rem]"
-          src="/illustrations/nautical/schooner.png"
+          className="absolute right-[-5rem] bottom-[-4rem] w-[24rem] rotate-[-8deg] drop-shadow-xl md:w-[34rem]"
+          src="/ship2.png"
         />
         <div className="relative max-w-3xl">
           <h1 className="font-display text-7xl leading-none md:text-9xl">

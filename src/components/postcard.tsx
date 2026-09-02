@@ -1,13 +1,7 @@
 import { useState } from "react"
 import { ImageTilt } from "./image-tilt"
 
-const stampImages = [
-  "/stamps/ball.png",
-  "/stamps/float.png",
-  "/stamps/seahorse.png",
-  "/stamps/star.png",
-  "/stamps/wheel.png",
-]
+const stampImages = ["/lifebuoy.png", "/nautilus.png", "/oyster.png", "/shell.png"]
 
 export function Postcard({
   imageAlt,
@@ -42,7 +36,7 @@ export function Postcard({
             <div
               className={`ml-auto h-7 w-7 shrink-0 overflow-hidden border-2 p-0.5 ${stampBorderColor}`}
             >
-              <img alt="" className="h-full w-full object-cover" src={stampSrc} />
+              <img alt="" className="h-full w-full object-contain" src={stampSrc} />
             </div>
             <p className="mt-1.5 font-playful leading-[1.05]">{message}</p>
             <div aria-hidden="true" className="mt-auto space-y-1.5 pb-1">

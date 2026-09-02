@@ -57,36 +57,50 @@
     background: var(--color-aberdeen-peach);
   }
 
-  .site-texture,
-  .site-texture :where(main, section, footer)[class~="bg-white"],
-  .site-texture :where(main, section, footer)[class~="bg-oyster-white"],
-  .site-texture :where(main, section, footer)[class~="bg-aberdeen-peach"],
-  .site-texture :where(main, section, footer)[class~="bg-aberdeen-blue"] {
+  .site-surfaces,
+  .site-surfaces :where(main, section, footer)[class~="bg-white"],
+  .site-surfaces :where(main, section, footer)[class~="bg-oyster-white"],
+  .site-surfaces :where(main, section, footer)[class~="bg-aberdeen-peach"] {
+    --site-surface-color: var(--color-aberdeen-peach);
+    background-attachment: fixed;
     background-image:
       linear-gradient(
-        rgb(from var(--site-texture-color, var(--color-aberdeen-peach)) r g b / 0.25),
-        rgb(from var(--site-texture-color, var(--color-aberdeen-peach)) r g b / 0.25)
+        rgb(from var(--site-surface-color) r g b / 0.5),
+        rgb(from var(--site-surface-color) r g b / 0.5)
+      ),
+      url("/background.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .site-surfaces :where(main, section, footer)[class~="bg-white"] {
+    --site-surface-color: white;
+  }
+
+  .site-surfaces :where(main, section, footer)[class~="bg-oyster-white"] {
+    --site-surface-color: var(--color-oyster-white);
+  }
+
+  .site-surfaces :where(main, section, footer)[class~="bg-aberdeen-peach"] {
+    --site-surface-color: var(--color-aberdeen-peach);
+  }
+
+  .site-surfaces :where(main, section, footer)[class~="bg-aberdeen-blue"] {
+    background-attachment: scroll;
+    background-color: var(--color-aberdeen-blue);
+    background-image:
+      linear-gradient(
+        rgb(from var(--color-aberdeen-blue) r g b / 0.25),
+        rgb(from var(--color-aberdeen-blue) r g b / 0.25)
       ),
       url("/texture.png");
+    background-position: 0 0;
+    background-repeat: repeat;
+    background-size: auto;
   }
 
-  .site-texture :where(main, section, footer)[class~="bg-white"] {
-    --site-texture-color: white;
-  }
-
-  .site-texture :where(main, section, footer)[class~="bg-oyster-white"] {
-    --site-texture-color: var(--color-oyster-white);
-  }
-
-  .site-texture :where(main, section, footer)[class~="bg-aberdeen-peach"] {
-    --site-texture-color: var(--color-aberdeen-peach);
-  }
-
-  .site-texture :where(main, section, footer)[class~="bg-aberdeen-blue"] {
-    --site-texture-color: var(--color-aberdeen-blue);
-  }
-
-  .site-texture .no-site-texture {
+  .site-surfaces .no-site-artwork {
     background-image: none;
   }
 
@@ -276,36 +290,16 @@
     background-blend-mode: multiply;
   }
 
-  .scene-paper {
-    background-image: url("/paper-grain.jpg");
-    background-position: center;
-    background-size: cover;
-    background-blend-mode: multiply;
-  }
-
-  .scene-stripes {
-    background: repeating-linear-gradient(
-      135deg,
-      var(--color-aberdeen-blue) 0 0.75rem,
-      var(--color-oyster-white) 0.75rem 1.5rem,
-      var(--color-nautical-red) 1.5rem 2.25rem,
-      var(--color-oyster-white) 2.25rem 3rem
-    );
-  }
-
-  .scene-rope {
-    border-radius: 9999px;
-    background: repeating-linear-gradient(
-      115deg,
-      #b98d58 0 0.32rem,
-      #e5c99c 0.32rem 0.62rem,
-      #8d6135 0.62rem 0.78rem
-    );
-  }
-
   .teak-grain {
     background-color: #763712;
     background-image: linear-gradient(rgb(33 14 5 / 0.08), rgb(33 14 5 / 0.08)), url("/teak.jpg");
+    background-position: center;
+    background-size: cover;
+  }
+
+  .teak-menu-panel {
+    background-color: #5b2b0f;
+    background-image: linear-gradient(rgb(20 8 3 / 0.22), rgb(20 8 3 / 0.22)), url("/teak.jpg");
     background-position: center;
     background-size: cover;
   }

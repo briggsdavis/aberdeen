@@ -52,7 +52,7 @@ function SiteLayout() {
 
   const content = (
     <MotionConfig reducedMotion={editorPreview ? "always" : "user"}>
-      <div className="site-texture relative min-h-svh bg-aberdeen-peach text-kelp-ink">
+      <div className="site-surfaces relative min-h-svh bg-aberdeen-peach text-kelp-ink">
         <PageTransitionProvider>
           {focusedEditorPreview ? null : <SiteHeader playHomeIntro={playHomeIntro} />}
           <main className="public-site-main relative min-h-svh bg-white">

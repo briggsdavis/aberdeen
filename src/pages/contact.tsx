@@ -63,12 +63,12 @@ function ContactPage() {
 
   return (
     <div className="page-shell">
-      <section className="relative flex min-h-[42rem] items-end overflow-hidden bg-aberdeen-blue px-5 pt-32 pb-16 text-aberdeen-peach md:min-h-[68svh] md:px-8 md:pt-40 md:pb-20">
+      <section className="relative flex min-h-[42rem] items-end overflow-hidden bg-white px-5 pt-32 pb-16 text-aberdeen-blue md:min-h-[68svh] md:px-8 md:pt-40 md:pb-20">
         <img
           alt=""
           aria-hidden="true"
-          className="no-under-shadow absolute -top-20 -right-32 w-[42rem] rotate-12 opacity-10 md:w-[55rem]"
-          src="/illustrations/nautical/compass-rose-detailed.png"
+          className="no-under-shadow absolute right-[-3rem] bottom-[-2rem] w-[14rem] rotate-6 drop-shadow-xl md:right-[-4rem] md:bottom-[-3rem] md:w-[20rem]"
+          src="/bigship.png"
         />
         <motion.div className="relative z-10 max-w-6xl" {...fadeIn()}>
           <h1
@@ -82,8 +82,8 @@ function ContactPage() {
 
       <section className="relative isolate overflow-hidden bg-aberdeen-peach px-5 py-16 md:px-8 md:py-24">
         <Decoration
-          className="-bottom-24 left-4 -z-10 w-28 -rotate-12 opacity-20 md:bottom-4 md:left-1/3 md:w-36"
-          name="message-bottle"
+          className="-bottom-24 left-2 -z-10 w-[10.5rem] -rotate-12 md:bottom-2 md:left-1/3 md:w-52"
+          name="nautilus"
         />
         <div className="relative z-10 grid gap-12 lg:grid-cols-[0.75fr_1.25fr] lg:gap-20">
           <motion.div {...fadeIn()}>
@@ -147,15 +147,21 @@ function ContactPage() {
             </h2>
             <form className="mt-8 grid gap-6" onSubmit={handleSubmit}>
               <div className="grid gap-6 md:grid-cols-2">
-                <FormField label="Name" name="name" required />
-                <FormField label="Email" name="email" required type="email" />
+                <FormField label="Name" name="name" placeholder="Jane Smith" required />
+                <FormField
+                  label="Email"
+                  name="email"
+                  placeholder="jane@example.com"
+                  required
+                  type="email"
+                />
               </div>
               <div className="grid gap-6 md:grid-cols-2">
-                <FormField label="Phone" name="phone" type="tel" />
+                <FormField label="Phone" name="phone" placeholder="(912) 555-0123" type="tel" />
                 <label className="grid gap-2 font-utility text-xs tracking-[0.16em] text-aberdeen-blue uppercase">
                   Inquiry type
                   <select
-                    className="min-h-12 rounded-none border border-aberdeen-blue/25 bg-white px-4 font-body text-base tracking-normal text-kelp-ink normal-case transition outline-none focus:border-aberdeen-blue focus:ring-2 focus:ring-citrus/50"
+                    className="min-h-12 rounded-none border-0 border-b border-aberdeen-blue/45 bg-transparent px-0 font-body text-base tracking-normal text-kelp-ink normal-case transition outline-none focus:border-aberdeen-blue focus:ring-0"
                     name="type"
                   >
                     <option value="contact">General contact</option>
@@ -166,9 +172,10 @@ function ContactPage() {
               <label className="grid gap-2 font-utility text-xs tracking-[0.16em] text-aberdeen-blue uppercase">
                 Message
                 <textarea
-                  className="min-h-40 resize-y rounded-none border border-aberdeen-blue/25 bg-white px-4 py-3 font-body text-base leading-7 tracking-normal text-kelp-ink normal-case transition outline-none focus:border-aberdeen-blue focus:ring-2 focus:ring-citrus/50"
+                  className="min-h-32 resize-y rounded-none border-0 border-b border-aberdeen-blue/45 bg-transparent px-0 py-3 font-body text-base leading-7 tracking-normal text-kelp-ink normal-case transition outline-none placeholder:text-kelp-ink/45 focus:border-aberdeen-blue focus:ring-0 focus:placeholder:text-transparent"
                   maxLength={4000}
                   name="message"
+                  placeholder="Tell us how we can help…"
                   required
                 />
               </label>
@@ -238,11 +245,13 @@ function ContactPage() {
 function FormField({
   label,
   name,
+  placeholder,
   required = false,
   type = "text",
 }: {
   label: string
   name: string
+  placeholder: string
   required?: boolean
   type?: "email" | "tel" | "text"
 }) {
@@ -250,9 +259,10 @@ function FormField({
     <label className="grid gap-2 font-utility text-xs tracking-[0.16em] text-aberdeen-blue uppercase">
       {label}
       <input
-        className="min-h-12 rounded-none border border-aberdeen-blue/25 bg-white px-4 font-body text-base tracking-normal text-kelp-ink normal-case transition outline-none focus:border-aberdeen-blue focus:ring-2 focus:ring-citrus/50"
+        className="min-h-12 rounded-none border-0 border-b border-aberdeen-blue/45 bg-transparent px-0 font-body text-base tracking-normal text-kelp-ink normal-case transition outline-none placeholder:text-kelp-ink/45 focus:border-aberdeen-blue focus:ring-0 focus:placeholder:text-transparent"
         maxLength={type === "email" ? 320 : 160}
         name={name}
+        placeholder={placeholder}
         required={required}
         type={type}
       />

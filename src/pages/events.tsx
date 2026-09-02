@@ -3,7 +3,6 @@ import { motion } from "motion/react"
 import { useEffect, useState } from "react"
 import { Decoration } from "../components/decoration"
 import { FramedPhoto } from "../components/framed-photo"
-import { ScrapbookScene } from "../components/scrapbook-scene"
 import { fadeIn, fadeInPlace } from "../lib/motion"
 import { usePageImage, usePublicEvents, useRequiredPageImage } from "../lib/public-data"
 import { standardActionTone } from "../lib/standard-action"
@@ -109,8 +108,8 @@ function ScheduleSection({ events }: { events: DisplayEvent[] }) {
   return (
     <section className="relative isolate overflow-hidden bg-oyster-white px-5 py-16 md:px-8 md:py-24">
       <Decoration
-        className="-top-12 right-4 -z-10 w-28 rotate-12 opacity-15 md:top-8 md:right-12 md:w-40"
-        name="lobster"
+        className="-top-10 right-2 -z-10 w-28 rotate-12 md:top-8 md:right-12 md:w-40"
+        name="shell"
       />
       <motion.div
         className="relative z-10 mb-10 flex flex-wrap items-end justify-between gap-6"
@@ -221,7 +220,7 @@ function UpcomingList({ events }: { events: DisplayEvent[] }) {
 }
 
 function HeroSection() {
-  const image = useRequiredPageImage("hero")
+  const image = useRequiredPageImage("hero", privateEventsImage)
 
   return (
     <section className="relative min-h-[42rem] overflow-hidden bg-oyster-white text-aberdeen-blue md:min-h-[68svh]">
@@ -249,10 +248,13 @@ function HeroSection() {
           </h1>
         </div>
         <motion.div
-          className="absolute top-28 right-3 z-20 w-40 md:right-8 md:w-64"
+          className="absolute top-28 right-3 z-20 h-44 w-44 md:right-8 md:h-64 md:w-64"
           {...fadeIn(0.18)}
         >
-          <ScrapbookScene variant="calendar" />
+          <Decoration
+            className="inset-0 h-full w-full rotate-3 object-contain drop-shadow-xl"
+            name="lifebuoy"
+          />
         </motion.div>
       </motion.div>
     </section>

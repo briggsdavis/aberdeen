@@ -2,11 +2,13 @@ import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "mo
 import { useLayoutEffect, useRef } from "react"
 import { useLocation } from "react-router"
 import { Decoration } from "../components/decoration"
-import { ScrollRotatingWheel } from "../components/decorative-media"
 import { ImageTilt } from "../components/image-tilt"
 import type { PublicStaffMember } from "../data/default-staff"
 import { fadeIn } from "../lib/motion"
 import { usePublicStaff, useRequiredPageImage } from "../lib/public-data"
+
+const staffHeroImage =
+  "https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1800&q=85"
 
 function StaffPage() {
   const location = useLocation()
@@ -23,7 +25,7 @@ function StaffPage() {
 }
 
 function HeroSection() {
-  const image = useRequiredPageImage("hero")
+  const image = useRequiredPageImage("hero", staffHeroImage)
 
   return (
     <section className="relative min-h-[42rem] overflow-hidden bg-oyster-white text-aberdeen-blue md:min-h-[68svh]">
@@ -76,8 +78,8 @@ function RosterSection({ introductionOnly = false }: { introductionOnly?: boolea
   return (
     <section className="relative isolate overflow-clip bg-oyster-white px-5 py-16 md:px-8 md:py-24">
       <Decoration
-        className="top-24 -right-20 -z-10 w-64 rotate-12 opacity-15 md:top-40 md:right-4 md:w-80"
-        name="sailor-hat"
+        className="top-24 -right-20 -z-10 w-60 rotate-12 md:top-40 md:right-4 md:w-72"
+        name="anchor"
       />
       <div
         className={`relative grid gap-12 ${
@@ -104,8 +106,11 @@ function RosterSection({ introductionOnly = false }: { introductionOnly?: boolea
               vanish, and when to make the night feel a little brighter.
             </p>
           </motion.div>
-          <div data-cms-no-edit>
-            <ScrollRotatingWheel compact />
+          <div aria-hidden="true" className="relative mt-8 h-48" data-cms-no-edit>
+            <Decoration
+              className="top-0 left-0 h-44 w-44 -rotate-6 object-contain drop-shadow-xl"
+              name="nautilus"
+            />
           </div>
         </div>
         {introductionOnly ? null : (
@@ -170,8 +175,8 @@ function HiringSection() {
         <img
           alt=""
           aria-hidden="true"
-          className="white-compass mt-8 h-auto w-full max-w-48 object-contain opacity-70"
-          src="/illustrations/nautical/compass-rose-detailed.png"
+          className="mt-8 h-auto w-full max-w-56 object-contain drop-shadow-xl"
+          src="/ship1.png"
         />
       </motion.div>
       <motion.p

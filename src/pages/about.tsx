@@ -2,7 +2,6 @@ import { motion } from "motion/react"
 import { Decoration } from "../components/decoration"
 import { FramedPhoto } from "../components/framed-photo"
 import { ImageTilt } from "../components/image-tilt"
-import { ScrapbookScene } from "../components/scrapbook-scene"
 import { RestaurantGroupSection } from "../components/site-extras"
 import { fadeIn } from "../lib/motion"
 import { usePageImage, useRequiredPageImage } from "../lib/public-data"
@@ -26,7 +25,7 @@ function AboutPage() {
 }
 
 function HeroSection() {
-  const heroImage = useRequiredPageImage("hero")
+  const heroImage = useRequiredPageImage("hero", aboutPillarsImage)
   const framedImage = usePageImage("about-hero-postcard") ?? aboutFramedImage
 
   return (
@@ -77,8 +76,8 @@ function StorySection() {
   return (
     <section className="relative isolate grid gap-12 overflow-hidden bg-oyster-white px-5 pt-16 pb-4 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:pt-24 md:pb-6">
       <Decoration
-        className="-right-16 -bottom-8 -z-10 w-52 rotate-12 opacity-15 md:right-8 md:w-72"
-        name="whale-tail"
+        className="-right-14 -bottom-10 -z-10 w-48 rotate-12 md:right-8 md:w-64"
+        name="nautilus"
       />
       <motion.div className="relative z-10 self-start" {...fadeIn()}>
         <FramedPhoto
@@ -88,9 +87,9 @@ function StorySection() {
           src={framedImage}
           variant="03"
         />
-        <ScrapbookScene
-          className="absolute right-1 bottom-2 z-20 w-44 md:-right-8 md:bottom-4 md:w-60"
-          variant="voyage"
+        <Decoration
+          className="right-1 bottom-0 z-20 w-48 rotate-3 drop-shadow-xl md:-right-10 md:bottom-3 md:w-64"
+          name="bigship"
         />
       </motion.div>
       <motion.div className="relative z-10 max-w-4xl space-y-8" {...fadeIn(0.1)}>

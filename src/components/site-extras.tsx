@@ -8,20 +8,69 @@ import { fadeIn } from "../lib/motion"
 import { standardActionTone } from "../lib/standard-action"
 
 const restaurantCards = [
-  { image: "/favicon.ico", name: "Aberdeen", featured: true },
-  { image: "/restaurants/meat-and-potatoes.webp", name: "Meat and Potatoes" },
-  { image: "/restaurants/butcher-and-the-rye.webp", name: "Butcher and the Rye" },
-  { image: "/restaurants/tako.webp", name: "Tako" },
-  { image: "/restaurants/tako-torta.webp", name: "Tako Torta" },
-  { image: "/restaurants/poulet-bleu.webp", name: "Poulet Bleu" },
-  { image: "/restaurants/fish-nor-fowl.webp", name: "Fish Nor Fowl" },
-  { image: "/restaurants/coop-de-ville.webp", name: "Coupe de Ville" },
-  { image: "/restaurants/sally-anns.webp", name: "Sally Ann's" },
-  { image: "/restaurants/golden-gai.webp", name: "Golden Gai" },
-  { image: "/restaurants/vieux-carre.webp", name: "Vieux Carre" },
-  { image: "/restaurants/gi-jin.webp", name: "Gi-Jin" },
-  { image: "/restaurants/sea-monkey.webp", name: "Sea Monkey" },
-  { image: "/restaurants/rib-room.webp", name: "Rib Room" },
+  { href: "/", image: "/favicon.ico", name: "Aberdeen", featured: true },
+  {
+    href: "https://meatandpotatoespgh.com/",
+    image: "/restaurants/meat-and-potatoes.webp",
+    name: "Meat and Potatoes",
+  },
+  {
+    href: "https://butcherandtherye.com/",
+    image: "/restaurants/butcher-and-the-rye.webp",
+    name: "Butcher and the Rye",
+  },
+  { href: "https://takopgh.com/", image: "/restaurants/tako.webp", name: "Tako" },
+  {
+    href: "https://pouletbleupgh.com/",
+    image: "/restaurants/poulet-bleu.webp",
+    name: "Poulet Bleu",
+  },
+  {
+    href: "https://fishnorfowlpgh.com/",
+    image: "/restaurants/fish-nor-fowl.webp",
+    name: "Fish Nor Fowl",
+  },
+  {
+    href: "https://coopdevillepgh.com/",
+    image: "/restaurants/coop-de-ville.webp",
+    name: "Coop de Ville",
+  },
+  { href: "https://gi-jin.com/", image: "/restaurants/gi-jin.webp", name: "Gi-Jin" },
+  {
+    href: "https://takotorta.com/",
+    image: "/restaurants/tako-torta.webp",
+    name: "Tako Torta",
+  },
+  {
+    href: "https://ribroompgh.com/",
+    image: "/restaurants/rib-room.webp",
+    name: "Rib Room",
+  },
+  {
+    href: "https://sallyannspgh.com/",
+    image: "/restaurants/sally-anns.webp",
+    name: "Sally Ann's",
+  },
+  {
+    href: "https://goldengaipgh.com/",
+    image: "/restaurants/golden-gai.webp",
+    name: "Golden Gai",
+  },
+  {
+    href: "https://www.preampcoffeestudio.com/",
+    image: "/brand/preamp-logo.png",
+    name: "Preamp Coffee Studio",
+  },
+  {
+    href: "https://www.seamonkeypgh.com/",
+    image: "/restaurants/sea-monkey.webp",
+    name: "Sea Monkey",
+  },
+  {
+    href: "https://www.seamonkeypgh.com/vieux-carre",
+    image: "/restaurants/vieux-carre.webp",
+    name: "Vieux Carré",
+  },
 ]
 const restaurantCardSequence = {
   hidden: {},
@@ -51,28 +100,36 @@ export function RestaurantGroupSection({ actionToneIndex = 0 }: { actionToneInde
         </h2>
       </motion.div>
       <motion.div
-        className="relative z-10 mt-8 grid grid-cols-2 gap-3 md:grid-cols-7"
+        className="relative z-10 mx-auto mt-9 grid w-full max-w-7xl grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5 lg:gap-5"
         initial="hidden"
         variants={restaurantCardSequence}
         viewport={{ amount: 0.12, once: true }}
         whileInView="visible"
       >
         {restaurantCards.map((restaurant) => (
-          <motion.article
-            className={`restaurant-logo-card group relative aspect-square cursor-pointer overflow-hidden ${
-              restaurant.featured ? "bg-aberdeen-blue" : "bg-oyster-white"
-            }`}
+          <motion.a
+            aria-label={`Visit ${restaurant.name}`}
+            className="restaurant-logo-card teak-grain group relative aspect-square overflow-hidden p-3 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-citrus md:p-4"
+            href={restaurant.href}
             key={restaurant.name}
+            rel={restaurant.href === "/" ? undefined : "noreferrer"}
+            target={restaurant.href === "/" ? undefined : "_blank"}
             variants={restaurantCardReveal}
           >
-            <img
-              alt={`${restaurant.name} logo`}
-              className={`no-scroll-reveal h-full w-full object-contain transition duration-[1100ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.025] ${
-                restaurant.featured ? "p-8 brightness-0 invert" : ""
+            <span
+              className={`grid h-full w-full place-items-center overflow-hidden ${
+                restaurant.featured ? "bg-aberdeen-blue" : "bg-oyster-white"
               }`}
-              src={restaurant.image}
-            />
-          </motion.article>
+            >
+              <img
+                alt={`${restaurant.name} logo`}
+                className={`no-scroll-reveal h-full w-full object-contain transition duration-[1100ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.035] ${
+                  restaurant.featured ? "p-8 brightness-0 invert" : ""
+                }`}
+                src={restaurant.image}
+              />
+            </span>
+          </motion.a>
         ))}
       </motion.div>
       <div className="relative z-10 mt-8 text-center">

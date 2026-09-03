@@ -35,10 +35,6 @@ const reservationBeachImage =
   "https://images.unsplash.com/photo-1672841828459-bc913fdcd995?auto=format&fit=crop&w=1800&q=85"
 const reservationYachtImage =
   "https://images.unsplash.com/photo-1641787540215-53a5914bdef3?auto=format&fit=crop&w=1800&q=85"
-const faqLeftImage =
-  "https://images.unsplash.com/photo-1523905330026-b8bd1f5f320e?auto=format&fit=crop&w=900&q=85"
-const faqRightImage =
-  "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=900&q=85"
 
 function HomePage() {
   const { playHomeIntro } = useOutletContext<{ playHomeIntro: boolean }>()
@@ -53,7 +49,13 @@ function HomePage() {
       <ReservationsSection />
       <ScrollGallerySection />
       <EventsSection />
-      <HomeFaqSection />
+      <FaqSection
+        cmsKeyPrefix="home.faq"
+        ctaHref="/contact"
+        ctaLabel="View all FAQs"
+        ctaToneIndex={6}
+        items={homepageFaqs}
+      />
       <RestaurantGroupSection actionToneIndex={7} />
     </div>
   )
@@ -274,7 +276,6 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
                 className="w-full"
                 imageCmsSlot="home-hero-postcard"
                 src={framedImage}
-                variant="04"
               />
             </div>
           </motion.div>
@@ -289,6 +290,10 @@ function IntroSection() {
 
   return (
     <section className="relative isolate overflow-hidden px-5 py-16 md:px-8 md:py-24">
+      <Decoration
+        className="-right-14 -bottom-24 -z-10 w-52 -rotate-12 md:right-3 md:bottom-0 md:w-64"
+        name="anchor"
+      />
       <div className="relative z-10 grid gap-10 md:grid-cols-[0.85fr_1.15fr] md:items-stretch">
         <motion.div className="relative h-[34rem] md:h-auto md:self-stretch" {...fadeIn()}>
           <ImageTilt className="teak-grain h-full w-full overflow-hidden p-[1.2rem]">
@@ -302,10 +307,6 @@ function IntroSection() {
           <Decoration
             className="-bottom-8 -left-5 z-20 w-44 -rotate-6 drop-shadow-xl md:-left-8 md:w-60"
             name="ship1"
-          />
-          <Decoration
-            className="-top-14 -right-12 z-30 w-44 rotate-[30deg] drop-shadow-xl md:-top-20 md:-right-16 md:w-60"
-            name="anchor"
           />
         </motion.div>
         <motion.div className="flex h-full max-w-4xl flex-col justify-center" {...fadeIn(0.1)}>
@@ -554,7 +555,7 @@ function ReservationsSection() {
             className="w-full"
             imageCmsSlot="home-hero-postcard"
             src={framedImage}
-            variant="05"
+            variant="02"
           />
         </motion.div>
         <div className="order-1 flex flex-col items-start md:order-2 md:pt-8">
@@ -600,35 +601,6 @@ function ReservationsSection() {
         />
       </motion.div>
     </section>
-  )
-}
-
-function HomeFaqSection() {
-  const leftImage = usePageImage("home.faq.postcard-left") ?? faqLeftImage
-  const rightImage = usePageImage("home.faq.postcard-right") ?? faqRightImage
-
-  return (
-    <FaqSection
-      cmsKeyPrefix="home.faq"
-      ctaHref="/contact"
-      ctaLabel="View all FAQs"
-      ctaToneIndex={6}
-      items={homepageFaqs}
-      postcards={[
-        {
-          alt: "A coastal dish prepared for the table",
-          imageCmsSlot: "home.faq.postcard-left",
-          src: leftImage,
-          variant: "04",
-        },
-        {
-          alt: "Bright drinks shared by the water",
-          imageCmsSlot: "home.faq.postcard-right",
-          src: rightImage,
-          variant: "05",
-        },
-      ]}
-    />
   )
 }
 

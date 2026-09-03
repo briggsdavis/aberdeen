@@ -4,8 +4,6 @@ import { useId, useState } from "react"
 import { restaurantAddress } from "../lib/location"
 import { fadeIn } from "../lib/motion"
 import { standardActionTone } from "../lib/standard-action"
-import { FramedPhoto } from "./framed-photo"
-import type { FrameVariant } from "./framed-photo"
 
 const restaurantFaqs = [
   {
@@ -36,13 +34,6 @@ const restaurantFaqs = [
 
 export const homepageFaqs = restaurantFaqs.slice(0, 3)
 
-type FaqPostcard = {
-  alt: string
-  imageCmsSlot: string
-  src: string | null
-  variant: FrameVariant
-}
-
 const iconClosed = { rotate: 0 }
 const iconOpen = { rotate: 45 }
 const iconTransition = { duration: 0.3, ease: [0.22, 1, 0.36, 1] as const }
@@ -56,36 +47,16 @@ export function FaqSection({
   ctaLabel,
   ctaToneIndex = 0,
   items = restaurantFaqs,
-  postcards,
 }: {
   cmsKeyPrefix: string
   ctaHref?: string
   ctaLabel?: string
   ctaToneIndex?: number
   items?: readonly { answer: string; question: string }[]
-  postcards?: readonly [FaqPostcard, FaqPostcard]
 }) {
   return (
     <section className="relative overflow-hidden bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24">
-      {postcards?.[0]?.src ? (
-        <motion.div
-          className="absolute top-28 -left-8 z-0 hidden w-[clamp(13rem,18vw,18rem)] -rotate-[9deg] xl:block 2xl:left-10"
-          {...fadeIn(0.08)}
-        >
-          <FramedPhoto {...postcards[0]} className="w-full" />
-        </motion.div>
-      ) : null}
-      {postcards?.[1]?.src ? (
-        <motion.div
-          className="absolute right-[-2rem] bottom-20 z-0 hidden w-[clamp(13rem,18vw,18rem)] rotate-[8deg] xl:block 2xl:right-10"
-          {...fadeIn(0.16)}
-        >
-          <FramedPhoto {...postcards[1]} className="w-full" />
-        </motion.div>
-      ) : null}
-      <div
-        className={`relative z-10 mx-auto w-full ${postcards ? "max-w-[44.8rem]" : "max-w-5xl"}`}
-      >
+      <div className="mx-auto max-w-5xl">
         <motion.h2
           className="font-display text-5xl leading-none md:text-7xl"
           data-cms-text-key={`${cmsKeyPrefix}.title`}

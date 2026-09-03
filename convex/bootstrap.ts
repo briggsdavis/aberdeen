@@ -10,10 +10,6 @@ const homeHeroImage =
   "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=2000&q=85"
 const homeHeroPostcardImage =
   "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1000&q=85"
-const homeFaqLeftImage =
-  "https://images.unsplash.com/photo-1523905330026-b8bd1f5f320e?auto=format&fit=crop&w=900&q=85"
-const homeFaqRightImage =
-  "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=900&q=85"
 const menuFoodImage =
   "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=1000&q=85"
 const menuSpiritsImage =
@@ -78,18 +74,6 @@ async function syncHomepageDefaults(ctx: MutationCtx) {
     "home-hero-postcard.jpg",
     "Seafood spread on a restaurant table",
   )
-  const faqLeftId = await sourceImage(
-    ctx,
-    homeFaqLeftImage,
-    "home-faq-postcard-left.jpg",
-    "A coastal dish prepared for the table",
-  )
-  const faqRightId = await sourceImage(
-    ctx,
-    homeFaqRightImage,
-    "home-faq-postcard-right.jpg",
-    "Bright drinks shared by the water",
-  )
   const foodId = await sourceImage(ctx, menuFoodImage, "home-menu-food.jpg", "Coastal seafood dish")
   const spiritsId = await sourceImage(
     ctx,
@@ -118,8 +102,6 @@ async function syncHomepageDefaults(ctx: MutationCtx) {
   const defaultImages = {
     hero: heroId,
     "home-hero-postcard": postcardId,
-    "home.faq.postcard-left": faqLeftId,
-    "home.faq.postcard-right": faqRightId,
     "home.menus.food.image": foodId,
     "home.menus.spirits.image": spiritsId,
     "home.menus.beverages.image": beveragesId,

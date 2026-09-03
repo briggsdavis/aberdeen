@@ -205,9 +205,9 @@ function ContactPage() {
         </div>
       </section>
 
-      <section className="relative isolate overflow-hidden bg-oyster-white px-5 py-16 md:px-8 md:py-24">
-        <motion.div className="relative z-10 grid gap-8 lg:grid-cols-[0.7fr_1.3fr]" {...fadeIn()}>
-          <div className="relative pb-48 lg:pb-0">
+      <section className="relative bg-oyster-white px-5 py-16 md:px-8 md:py-24">
+        <motion.div className="grid gap-8 lg:grid-cols-[0.7fr_1.3fr]" {...fadeIn()}>
+          <div>
             <h2
               className="font-display text-5xl leading-none text-aberdeen-blue md:text-7xl"
               data-cms-text-key="contact.map.title"
@@ -222,10 +222,6 @@ function ContactPage() {
             >
               Open in Google Maps <ArrowUpRight size={17} />
             </a>
-            <Decoration
-              className="right-4 bottom-0 w-36 rotate-12 drop-shadow-xl md:w-44 lg:top-40 lg:right-auto lg:bottom-auto lg:left-5 lg:w-48"
-              name="lifebuoy"
-            />
           </div>
           <div className="teak-grain h-96 overflow-hidden p-[1.2rem] shadow-xl md:h-[34rem]">
             <iframe

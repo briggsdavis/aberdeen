@@ -4,6 +4,7 @@ import { useCallback, useState } from "react"
 import type { FormEvent } from "react"
 import { Decoration } from "../components/decoration"
 import { FaqSection } from "../components/faq-section"
+import { FramedPhoto } from "../components/framed-photo"
 import { googleMapsEmbedUrl, googleMapsPlaceUrl, restaurantAddress } from "../lib/location"
 import { fadeIn } from "../lib/motion"
 import { useShellData, useSubmitInquiry } from "../lib/public-data"
@@ -222,6 +223,14 @@ function ContactPage() {
             >
               Open in Google Maps <ArrowUpRight size={17} />
             </a>
+            <div className="mt-10 w-full max-w-sm -rotate-3 lg:mt-14">
+              <FramedPhoto
+                alt="A sailboat crossing the river beside Savannah marshland"
+                className="w-full"
+                src="/images/editorial/contact-river.webp"
+                variant="05"
+              />
+            </div>
           </div>
           <div className="teak-grain h-96 overflow-hidden p-[1.2rem] shadow-xl md:h-[34rem]">
             <iframe

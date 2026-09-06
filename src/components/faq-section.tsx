@@ -4,6 +4,8 @@ import { useId, useState } from "react"
 import { restaurantAddress } from "../lib/location"
 import { fadeIn } from "../lib/motion"
 import { standardActionTone } from "../lib/standard-action"
+import { FramedPhoto } from "./framed-photo"
+import type { FrameVariant } from "./framed-photo"
 
 const restaurantFaqs = [
   {
@@ -42,49 +44,75 @@ const contentOpen = { height: "auto", opacity: 1 }
 const contentTransition = { duration: 0.42, ease: [0.22, 1, 0.36, 1] as const }
 
 export function FaqSection({
+  accentPhotos,
   cmsKeyPrefix,
   ctaHref,
   ctaLabel,
   ctaToneIndex = 0,
   items = restaurantFaqs,
 }: {
+  accentPhotos?: readonly {
+    alt: string
+    src: string
+    variant: FrameVariant
+  }[]
   cmsKeyPrefix: string
   ctaHref?: string
   ctaLabel?: string
   ctaToneIndex?: number
   items?: readonly { answer: string; question: string }[]
 }) {
+  const hasAccentPhotos = Boolean(accentPhotos?.length)
+
   return (
     <section className="relative overflow-hidden bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24">
-      <div className="mx-auto max-w-5xl">
-        <motion.h2
-          className="font-display text-5xl leading-none md:text-7xl"
-          data-cms-text-key={`${cmsKeyPrefix}.title`}
-          {...fadeIn()}
-        >
-          Frequently asked
-        </motion.h2>
-        <div className="mt-10 border-t border-aberdeen-peach/35">
-          {items.map((faq, index) => (
-            <FaqItem
-              answer={faq.answer}
-              cmsKeyPrefix={cmsKeyPrefix}
-              index={index}
-              key={faq.question}
-              question={faq.question}
-            />
-          ))}
-        </div>
-        {ctaHref && ctaLabel ? (
-          <motion.a
-            className="aberdeen-action standard-action mt-10"
-            data-cms-link-key={`${cmsKeyPrefix}.link`}
-            data-standard-action-tone={standardActionTone(ctaToneIndex)}
-            href={ctaHref}
-            {...fadeIn(0.15)}
+      <div className={`relative mx-auto ${hasAccentPhotos ? "max-w-[90rem]" : "max-w-5xl"}`}>
+        {accentPhotos?.[0] ? (
+          <motion.div
+            className="relative z-10 mb-10 w-[min(78vw,22rem)] -rotate-3 lg:absolute lg:top-2 lg:left-0 lg:mb-0 lg:w-[20%]"
+            {...fadeIn(0.08)}
           >
-            {ctaLabel}
-          </motion.a>
+            <FramedPhoto {...accentPhotos[0]} className="w-full" />
+          </motion.div>
+        ) : null}
+        <div className={hasAccentPhotos ? "relative z-20 mx-auto max-w-[45rem]" : ""}>
+          <motion.h2
+            className="font-display text-5xl leading-none md:text-7xl"
+            data-cms-text-key={`${cmsKeyPrefix}.title`}
+            {...fadeIn()}
+          >
+            Frequently asked
+          </motion.h2>
+          <div className="mt-10 border-t border-aberdeen-peach/35">
+            {items.map((faq, index) => (
+              <FaqItem
+                answer={faq.answer}
+                cmsKeyPrefix={cmsKeyPrefix}
+                index={index}
+                key={faq.question}
+                question={faq.question}
+              />
+            ))}
+          </div>
+          {ctaHref && ctaLabel ? (
+            <motion.a
+              className="aberdeen-action standard-action mt-10"
+              data-cms-link-key={`${cmsKeyPrefix}.link`}
+              data-standard-action-tone={standardActionTone(ctaToneIndex)}
+              href={ctaHref}
+              {...fadeIn(0.15)}
+            >
+              {ctaLabel}
+            </motion.a>
+          ) : null}
+        </div>
+        {accentPhotos?.[1] ? (
+          <motion.div
+            className="relative z-10 mt-10 ml-auto w-[min(78vw,22rem)] rotate-3 lg:absolute lg:right-0 lg:bottom-[-2rem] lg:mt-0 lg:w-[20%]"
+            {...fadeIn(0.16)}
+          >
+            <FramedPhoto {...accentPhotos[1]} className="w-full" />
+          </motion.div>
         ) : null}
       </div>
     </section>

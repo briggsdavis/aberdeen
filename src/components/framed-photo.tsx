@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react"
 import { ImageTilt } from "./image-tilt"
 
-type FrameVariant = "01" | "01-rotated" | "02" | "03"
+export type FrameVariant = "01" | "01-rotated" | "02" | "03" | "04" | "05" | "06"
 
 function createFrameStyles(variant: FrameVariant, aspectRatio: string) {
   const maskSrc = `/frames/torn-paper/mask-${variant}.png`
@@ -26,6 +26,9 @@ const frameStyles: Record<FrameVariant, ReturnType<typeof createFrameStyles>> = 
   "01-rotated": createFrameStyles("01-rotated", "1339 / 1016"),
   "02": createFrameStyles("02", "4 / 3"),
   "03": createFrameStyles("03", "4 / 3"),
+  "04": createFrameStyles("04", "3 / 2"),
+  "05": createFrameStyles("05", "3 / 2"),
+  "06": createFrameStyles("06", "3 / 2"),
 }
 
 export function FramedPhoto({

@@ -50,6 +50,18 @@ function HomePage() {
       <ScrollGallerySection />
       <EventsSection />
       <FaqSection
+        accentPhotos={[
+          {
+            alt: "Oysters on ice with fresh lemon",
+            src: "/images/editorial/home-faq-oysters.webp",
+            variant: "04",
+          },
+          {
+            alt: "Martinis and seafood at the bar during blue hour",
+            src: "/images/editorial/home-faq-martinis.webp",
+            variant: "05",
+          },
+        ]}
         cmsKeyPrefix="home.faq"
         ctaHref="/contact"
         ctaLabel="View all FAQs"

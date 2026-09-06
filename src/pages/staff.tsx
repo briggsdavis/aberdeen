@@ -2,6 +2,7 @@ import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "mo
 import { useLayoutEffect, useRef } from "react"
 import { useLocation } from "react-router"
 import { Decoration } from "../components/decoration"
+import { FramedPhoto } from "../components/framed-photo"
 import { ImageTilt } from "../components/image-tilt"
 import type { PublicStaffMember } from "../data/default-staff"
 import { fadeIn } from "../lib/motion"
@@ -51,6 +52,14 @@ function HeroSection() {
           >
             The people who keep the room glowing.
           </h1>
+        </div>
+        <div className="w-[min(78vw,24rem)] shrink-0 rotate-3 self-end md:w-[30vw] md:max-w-md">
+          <FramedPhoto
+            alt="Aberdeen's restaurant team preparing the dining room together"
+            className="w-full"
+            src="/images/editorial/staff-team-prep.webp"
+            variant="06"
+          />
         </div>
       </motion.div>
     </section>
@@ -179,14 +188,20 @@ function HiringSection() {
           src="/ship1.png"
         />
       </motion.div>
-      <motion.p
-        className="self-end text-lg leading-8"
-        data-cms-text-key="staff.hiring.copy"
-        {...fadeIn(0.12)}
-      >
-        The Aberdeen team is built around warmth, precision, and the good timing that makes a busy
-        room feel effortless.
-      </motion.p>
+      <motion.div className="self-end" {...fadeIn(0.12)}>
+        <div className="mb-10 w-full max-w-lg -rotate-2">
+          <FramedPhoto
+            alt="A server carrying coastal dishes through the dining room"
+            className="w-full"
+            src="/images/editorial/staff-service.webp"
+            variant="04"
+          />
+        </div>
+        <p className="text-lg leading-8" data-cms-text-key="staff.hiring.copy">
+          The Aberdeen team is built around warmth, precision, and the good timing that makes a busy
+          room feel effortless.
+        </p>
+      </motion.div>
     </section>
   )
 }

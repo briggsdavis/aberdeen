@@ -131,14 +131,20 @@ function OwnerSection() {
         </p>
       </motion.div>
       <motion.div className="relative z-10 text-center text-aberdeen-blue" {...fadeIn(0.12)}>
-        <ImageTilt className="teak-grain mx-auto h-80 w-80 overflow-hidden rounded-full p-[1.2rem]">
-          <img
-            alt="Portrait of Aberdeen owner"
-            className="no-scroll-reveal h-full w-full rounded-full object-cover"
-            data-cms-slot="about.owner.image"
-            src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=700&q=85"
+        <div className="relative mx-auto w-72 md:w-80">
+          <ImageTilt className="teak-grain h-96 w-full overflow-hidden p-[1.2rem] md:h-[26rem]">
+            <img
+              alt="Portrait of Aberdeen owner"
+              className="no-scroll-reveal h-full w-full object-cover"
+              data-cms-slot="about.owner.image"
+              src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=700&q=85"
+            />
+          </ImageTilt>
+          <Decoration
+            className="-bottom-[3%] -left-[4%] z-20 w-1/5 drop-shadow-xl"
+            name="shell"
           />
-        </ImageTilt>
+        </div>
         <h2
           className="mt-6 font-display text-4xl leading-none"
           data-cms-text-key="about.owner.name"

@@ -2,7 +2,6 @@ import { motion } from "motion/react"
 import { Decoration } from "../components/decoration"
 import { FramedPhoto } from "../components/framed-photo"
 import { ImageTilt } from "../components/image-tilt"
-import { RestaurantGroupSection } from "../components/site-extras"
 import { fadeIn } from "../lib/motion"
 import { usePageImage, useRequiredPageImage } from "../lib/public-data"
 
@@ -19,7 +18,6 @@ function AboutPage() {
       <OwnerSection />
       <GroupSection />
       <RoomSection />
-      <RestaurantGroupSection />
     </div>
   )
 }
@@ -122,8 +120,8 @@ function OwnerSection() {
           inevitable.
         </p>
         <p data-cms-text-key="about.owner.copy-2">
-          The restaurant group brings a practiced eye for warm service, sharp menus, and rooms that
-          feel alive without feeling rushed.
+          It brings a practiced eye for warm service, sharp menus, and a room that feels alive
+          without feeling rushed.
         </p>
         <p data-cms-text-key="about.owner.copy-3">
           Here, that hospitality is filtered through seafood, citrus, cold glass, and a Savannah
@@ -140,17 +138,20 @@ function OwnerSection() {
               src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=700&q=85"
             />
           </ImageTilt>
-          <Decoration
-            className="-bottom-[3%] -left-[4%] z-20 w-1/5 drop-shadow-xl"
-            name="shell"
-          />
+          <Decoration className="-bottom-[3%] -left-[4%] z-20 w-1/5 drop-shadow-xl" name="shell" />
         </div>
         <h2
           className="mt-6 font-display text-4xl leading-none"
           data-cms-text-key="about.owner.name"
         >
-          Richard DeShantz
+          James Ciminillo
         </h2>
+        <p
+          className="mt-2 font-utility text-sm tracking-[0.13em] uppercase"
+          data-cms-text-key="about.owner.title"
+        >
+          Executive Chef/Owner
+        </p>
       </motion.div>
     </section>
   )
@@ -162,8 +163,8 @@ function GroupSection() {
     {
       key: "group",
       label: "01",
-      title: "From the group",
-      copy: "A restaurant shaped with the polish and hospitality of Richard DeShantz Restaurant Group.",
+      title: "From the heart",
+      copy: "A restaurant shaped with polish, warmth, and genuine hospitality.",
       supplementary:
         "That experience shows up in the details: confident service, thoughtful pacing, and a room designed to feel effortless from the first drink onward.",
     },

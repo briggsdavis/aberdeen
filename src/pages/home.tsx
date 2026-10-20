@@ -14,7 +14,6 @@ import { Decoration } from "../components/decoration"
 import { FaqSection, homepageFaqs } from "../components/faq-section"
 import { FramedPhoto } from "../components/framed-photo"
 import { ImageTilt } from "../components/image-tilt"
-import { RestaurantGroupSection } from "../components/site-extras"
 import { fadeIn, fadeInPlace } from "../lib/motion"
 import { usePageImage, useRequiredPageImage, useShellData } from "../lib/public-data"
 import { standardActionTone } from "../lib/standard-action"
@@ -68,7 +67,6 @@ function HomePage() {
         ctaToneIndex={6}
         items={homepageFaqs}
       />
-      <RestaurantGroupSection actionToneIndex={7} />
     </div>
   )
 }

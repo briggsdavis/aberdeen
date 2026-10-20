@@ -161,17 +161,6 @@ function SiteFooter() {
             <p>
               © {currentYear} {copyright}
             </p>
-            <p>
-              Part of{" "}
-              <a
-                className="underline decoration-citrus decoration-2 underline-offset-4"
-                href="https://richarddeshantz.com/"
-                rel="noreferrer"
-                target="_blank"
-              >
-                Richard DeShantz Restaurant Group
-              </a>
-            </p>
             <a
               className="underline decoration-citrus decoration-2 underline-offset-4 md:text-right"
               href="https://socialsatisfaction.agency/"

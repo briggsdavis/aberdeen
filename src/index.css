@@ -278,8 +278,7 @@
   }
 
   main article,
-  .soft-card-shadow,
-  .restaurant-logo-card {
+  .soft-card-shadow {
     box-shadow: 0 12px 24px rgb(from var(--color-kelp-ink) r g b / 0.12);
   }
 

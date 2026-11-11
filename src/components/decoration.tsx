@@ -60,7 +60,8 @@ function handlePointerLeave() {
   schedule()
 }
 
-function register(element: HTMLElement) {
+function register(element: HTMLElement | null) {
+  if (!element) return
   if (decorations.size === 0) {
     window.addEventListener("pointermove", handlePointerMove, { passive: true })
     window.addEventListener("scroll", schedule, { passive: true })

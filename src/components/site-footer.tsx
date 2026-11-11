@@ -20,8 +20,9 @@ function settingOrFallback(value: string | undefined, fallback: string) {
   return normalizedValue ? normalizedValue : fallback
 }
 
+const currentYear = new Date().getFullYear()
+
 function SiteFooter() {
-  const currentYear = new Date().getFullYear()
   const { menuPages, site } = useShellData()
   const visiblePageLinks = [
     pageLinks[0]!,
@@ -67,7 +68,7 @@ function SiteFooter() {
               alt=""
               aria-hidden="true"
               className="h-auto w-full object-contain drop-shadow-xl"
-              src="/nautilus.png"
+              src="/oyster.png"
             />
           </div>
           <p className="max-w-lg font-playful text-2xl leading-tight text-aberdeen-blue md:text-3xl lg:justify-self-end">

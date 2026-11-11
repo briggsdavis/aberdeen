@@ -75,7 +75,7 @@ function StorySection() {
     <section className="relative isolate grid gap-12 overflow-hidden bg-oyster-white px-5 pt-16 pb-4 md:grid-cols-[0.8fr_1.2fr] md:px-8 md:pt-24 md:pb-6">
       <Decoration
         className="-right-14 -bottom-10 -z-10 w-48 rotate-12 md:right-8 md:w-64"
-        name="nautilus"
+        name="oyster"
       />
       <motion.div className="relative z-10 self-start" {...fadeIn()}>
         <FramedPhoto
@@ -87,7 +87,7 @@ function StorySection() {
         />
         <Decoration
           className="right-1 bottom-0 z-20 w-48 rotate-3 drop-shadow-xl md:-right-10 md:bottom-3 md:w-64"
-          name="bigship"
+          name="beach-chair"
         />
       </motion.div>
       <motion.div className="relative z-10 max-w-4xl space-y-8" {...fadeIn(0.1)}>
@@ -138,7 +138,10 @@ function OwnerSection() {
               src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=700&q=85"
             />
           </ImageTilt>
-          <Decoration className="-bottom-[3%] -left-[4%] z-20 w-1/5 drop-shadow-xl" name="shell" />
+          <Decoration
+            className="-bottom-[3%] -left-[4%] z-20 w-1/5 drop-shadow-xl"
+            name="sun-hat"
+          />
         </div>
         <h2
           className="mt-6 font-display text-4xl leading-none"

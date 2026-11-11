@@ -301,8 +301,8 @@ function IntroSection() {
   return (
     <section className="relative isolate overflow-hidden px-5 py-16 md:px-8 md:py-24">
       <Decoration
-        className="-right-14 -bottom-24 -z-10 w-52 -rotate-12 md:right-3 md:bottom-0 md:w-64"
-        name="anchor"
+        className="-right-14 -bottom-24 z-20 w-52 -rotate-12 md:right-3 md:bottom-0 md:w-64"
+        name="seagull"
       />
       <div className="relative z-10 grid gap-10 md:grid-cols-[0.85fr_1.15fr] md:items-stretch">
         <motion.div className="relative h-[34rem] md:h-auto md:self-stretch" {...fadeIn()}>
@@ -316,7 +316,7 @@ function IntroSection() {
           </ImageTilt>
           <Decoration
             className="-bottom-8 -left-5 z-20 w-44 -rotate-6 drop-shadow-xl md:-left-8 md:w-60"
-            name="ship1"
+            name="beach-towel"
           />
         </motion.div>
         <motion.div className="flex h-full max-w-4xl flex-col justify-center" {...fadeIn(0.1)}>
@@ -386,9 +386,8 @@ function MenuSection() {
   return (
     <section className="relative isolate overflow-hidden bg-oyster-white px-5 py-16 md:px-8 md:py-24">
       <Decoration
-        className="-top-10 -right-16 -z-10 w-52 md:top-4 md:right-8 md:w-72"
-        name="oyster"
-        style={{ transform: "rotate(-18deg)" }}
+        className="-top-10 -right-16 z-20 w-52 -rotate-[18deg] md:top-4 md:right-8 md:w-72"
+        name="sunscreen-and-cocktail"
       />
       <motion.div className="mb-10 flex items-end justify-between gap-6" {...fadeIn()}>
         <div>
@@ -600,14 +599,13 @@ function ReservationsSection() {
         className="relative z-20 mt-10 ml-auto aspect-[5/4] w-56 md:absolute md:right-8 md:bottom-8 md:w-72"
         {...fadeIn(0.2)}
       >
-        <Decoration className="inset-0 h-full w-full object-contain drop-shadow-xl" name="map" />
         <Decoration
-          className="right-[-4%] bottom-[-4%] w-[48%] rotate-6 drop-shadow-xl"
-          name="lifebuoy"
+          className="right-[-8%] bottom-[0%] w-[72%] rotate-6 drop-shadow-xl"
+          name="sea-turtle"
         />
         <Decoration
-          className="bottom-[-2%] left-[-12%] w-[64%] -rotate-6 drop-shadow-xl"
-          name="ship2"
+          className="bottom-[-2%] left-[-16%] w-[64%] -rotate-6 drop-shadow-xl"
+          name="flip-flops"
         />
       </motion.div>
     </section>

@@ -25,7 +25,7 @@ export default class AppErrorBoundary extends Component<Props, State> {
           alt=""
           aria-hidden="true"
           className="absolute -right-28 -bottom-24 w-[34rem] rotate-6 drop-shadow-xl md:w-[42rem]"
-          src="/ship2.png"
+          src="/flip-flops.png"
         />
         <div className="relative max-w-2xl text-center">
           <span className="mx-auto grid h-14 w-14 place-items-center rounded-full border border-aberdeen-peach/35">

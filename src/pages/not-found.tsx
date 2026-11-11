@@ -10,13 +10,13 @@ export default function NotFoundPage() {
           alt=""
           aria-hidden="true"
           className="absolute -right-40 bottom-12 w-[38rem] rotate-3 object-contain drop-shadow-xl md:w-[52rem]"
-          src="/map.png"
+          src="/bikini-top.png"
         />
         <img
           alt=""
           aria-hidden="true"
           className="absolute right-[-5rem] bottom-[-4rem] w-[24rem] rotate-[-8deg] drop-shadow-xl md:w-[34rem]"
-          src="/ship2.png"
+          src="/flip-flops.png"
         />
         <div className="relative max-w-3xl">
           <h1 className="font-display text-7xl leading-none md:text-9xl">

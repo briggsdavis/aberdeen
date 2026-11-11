@@ -1,7 +1,12 @@
 import { useState } from "react"
 import { ImageTilt } from "./image-tilt"
 
-const stampImages = ["/lifebuoy.png", "/nautilus.png", "/oyster.png", "/shell.png"]
+const stampImages = [
+  "/sea-turtle.png",
+  "/oyster.png",
+  "/sunscreen-and-cocktail.png",
+  "/sun-hat.png",
+]
 
 export function Postcard({
   imageAlt,

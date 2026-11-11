@@ -1,10 +1,11 @@
 import { ArrowDown, ArrowUp, ImageSquare, PencilSimple, Plus, Trash } from "@phosphor-icons/react"
 import { useMutation, useQuery } from "convex/react"
-import { useEffect, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import { useNavigate, useParams } from "react-router"
 import { api } from "../../convex/_generated/api"
 import type { Id } from "../../convex/_generated/dataModel"
 import { defaultPostcardMessages } from "../lib/menu"
+import { useRenderSync } from "../lib/use-render-sync"
 import MediaLibrary from "./media-library"
 import type { MediaSelection } from "./media-library"
 import {
@@ -125,12 +126,12 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
     price: string
   } | null>(null)
 
-  useEffect(() => {
+  useRenderSync(page, (page) => {
     if (!page) return
     setTitle(page.title)
     setDescription(page.description)
     if (page.heroImage) setHero({ id: page.heroMediaId, url: page.heroImage })
-  }, [page])
+  })
 
   const pageIndex = useMemo(
     () => pages?.findIndex((candidate) => candidate._id === pageId) ?? -1,

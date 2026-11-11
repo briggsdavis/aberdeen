@@ -33,6 +33,7 @@ import SettingsEditor from "../admin/settings-editor"
 import StaffEditor from "../admin/staff-editor"
 import { PageHeading } from "../admin/ui"
 import { defaultMenus } from "../data/default-menus"
+import { useRenderSync } from "../lib/use-render-sync"
 
 type AuthFlow = "signIn" | "signUp"
 
@@ -212,9 +213,7 @@ function AdminShell() {
     }
   }, [initializeMenus, menuPages])
 
-  useEffect(() => {
-    setMobileOpen(false)
-  }, [location.pathname])
+  useRenderSync(location.pathname, () => setMobileOpen(false))
 
   const sidebar = (
     <aside className="flex h-full w-64 shrink-0 flex-col bg-aberdeen-blue px-3 py-4 text-white">

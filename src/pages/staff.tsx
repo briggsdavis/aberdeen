@@ -88,7 +88,7 @@ function RosterSection({ introductionOnly = false }: { introductionOnly?: boolea
     <section className="relative isolate overflow-clip bg-oyster-white px-5 py-16 md:px-8 md:py-24">
       <Decoration
         className="top-24 -right-20 -z-10 w-60 rotate-12 md:top-40 md:right-4 md:w-72"
-        name="anchor"
+        name="seagull"
       />
       <div
         className={`relative grid gap-12 ${
@@ -118,7 +118,7 @@ function RosterSection({ introductionOnly = false }: { introductionOnly?: boolea
           <div aria-hidden="true" className="relative mt-8 h-48" data-cms-no-edit>
             <Decoration
               className="top-0 left-0 h-44 w-44 -rotate-6 object-contain drop-shadow-xl"
-              name="nautilus"
+              name="oyster"
             />
           </div>
         </div>
@@ -185,7 +185,7 @@ function HiringSection() {
           alt=""
           aria-hidden="true"
           className="mt-8 h-auto w-full max-w-56 object-contain drop-shadow-xl"
-          src="/ship1.png"
+          src="/beach-towel.png"
         />
       </motion.div>
       <motion.div className="self-end" {...fadeIn(0.12)}>

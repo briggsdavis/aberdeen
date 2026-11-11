@@ -17,6 +17,7 @@ function SmoothScroll({ children }: { children: ReactNode }) {
     }
 
     const lenis = new Lenis({
+      autoRaf: true,
       duration: 1.08,
       easing: (value) => Math.min(1, 1.001 - 2 ** (-10 * value)),
       smoothWheel: true,
@@ -26,16 +27,7 @@ function SmoothScroll({ children }: { children: ReactNode }) {
     })
     lenisRef.current = lenis
 
-    let frame = 0
-    const update = (time: number) => {
-      lenis.raf(time)
-      frame = window.requestAnimationFrame(update)
-    }
-
-    frame = window.requestAnimationFrame(update)
-
     return () => {
-      window.cancelAnimationFrame(frame)
       lenisRef.current = null
       lenis.destroy()
     }

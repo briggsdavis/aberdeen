@@ -1,5 +1,5 @@
 import { MotionConfig, useReducedMotion } from "motion/react"
-import { useEffect, useRef } from "react"
+import { useEffect, useState } from "react"
 import { Outlet, useLocation } from "react-router"
 import { getCmsPreview } from "../lib/cms-page-content"
 import CmsDomBridge from "./cms-dom-bridge"
@@ -11,19 +11,21 @@ import SmoothScroll from "./smooth-scroll"
 function SiteLayout() {
   const location = useLocation()
   const shouldReduceMotion = useReducedMotion()
-  const hasPlayedHomeIntro = useRef(
-    typeof window !== "undefined" &&
-      sessionStorage.getItem("aberdeen-home-intro-played") === "true",
+  // Latch the intro to the first eligible history entry; "" means already played.
+  const [introKey, setIntroKey] = useState(() =>
+    typeof window !== "undefined" && sessionStorage.getItem("aberdeen-home-intro-played") === "true"
+      ? ""
+      : null,
   )
-  const playHomeIntro =
-    location.pathname === "/" && !shouldReduceMotion && !hasPlayedHomeIntro.current
+  if (introKey === null && location.pathname === "/" && !shouldReduceMotion)
+    setIntroKey(location.key)
+  const playHomeIntro = introKey === location.key
   const preview = getCmsPreview(location.search)
   const editorPreview = Boolean(preview)
   const focusedEditorPreview = preview?.scope === "staff-introduction"
 
   useEffect(() => {
     if (!playHomeIntro) return
-    hasPlayedHomeIntro.current = true
     sessionStorage.setItem("aberdeen-home-intro-played", "true")
   }, [playHomeIntro])
 

@@ -2,6 +2,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { useLocation } from "react-router"
 import { useShellData } from "../lib/public-data"
+import { useRenderSync } from "../lib/use-render-sync"
 import { TransitionLink } from "./page-transition"
 
 const navItems = [
@@ -17,7 +18,7 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
   const shouldReduceMotion = useReducedMotion()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isHidden, setIsHidden] = useState(false)
-  const [isHomeIntroActive, setIsHomeIntroActive] = useState(playHomeIntro)
+  const [isHomeIntroActive, setIsHomeIntroActive] = useState(playHomeIntro && !shouldReduceMotion)
   const [isScrolled, setIsScrolled] = useState(false)
   const [menuPreviewOpen, setMenuPreviewOpen] = useState(false)
   const menuCloseTimer = useRef<number | null>(null)
@@ -97,20 +98,15 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [isMenuOpen])
 
-  useEffect(() => {
-    setIsHidden(false)
-  }, [location.pathname])
+  const homeIntro = playHomeIntro && !shouldReduceMotion
+  useRenderSync(location.pathname, () => setIsHidden(false))
+  useRenderSync(homeIntro, setIsHomeIntroActive)
 
   useEffect(() => {
-    if (!playHomeIntro || shouldReduceMotion) {
-      setIsHomeIntroActive(false)
-      return
-    }
-
-    setIsHomeIntroActive(true)
+    if (!homeIntro) return
     const introTimer = window.setTimeout(() => setIsHomeIntroActive(false), 3050)
     return () => window.clearTimeout(introTimer)
-  }, [playHomeIntro, shouldReduceMotion])
+  }, [homeIntro])
 
   const homeIntroReveal = (order: number) => ({
     animate: { opacity: isHomeIntroActive ? 0 : 1, x: isHomeIntroActive ? -10 : 0 },

@@ -269,7 +269,7 @@ export function MenuReservation({
             alt=""
             aria-hidden="true"
             className="mt-8 h-auto w-full max-w-md object-contain drop-shadow-xl"
-            src="/bigship.png"
+            src="/beach-chair.png"
           />
         </motion.div>
         <motion.div className="self-end bg-oyster-white p-6 text-aberdeen-blue" {...fadeIn(0.12)}>

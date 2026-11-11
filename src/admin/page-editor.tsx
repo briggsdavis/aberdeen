@@ -12,6 +12,7 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import { api } from "../../convex/_generated/api"
 import type { Id } from "../../convex/_generated/dataModel"
 import type { CmsEditorCommand, CmsPreviewMessage, MediaRole } from "../lib/cms-page-content"
+import { useRenderSync } from "../lib/use-render-sync"
 import MediaLibrary from "./media-library"
 import type { MediaSelection } from "./media-library"
 import { Field, Input, Modal, PageHeading, PrimaryButton, SecondaryButton } from "./ui"
@@ -85,12 +86,15 @@ export default function PageEditor({
   const [error, setError] = useState("")
   const pageDataReady = savedPage !== undefined
 
-  useEffect(() => {
+  useRenderSync(savedPage, (savedPage) => {
     if (!savedPage) return
     setText(savedPage.text)
     setLinks(savedPage.links)
     setImages(savedPage.images)
-    savedImagesRef.current = savedPage.images
+  })
+
+  useEffect(() => {
+    if (savedPage) savedImagesRef.current = savedPage.images
   }, [savedPage])
 
   useEffect(() => {

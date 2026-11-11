@@ -1,6 +1,6 @@
 import { ArrowDown, ArrowUp, PencilSimple, Plus, Trash } from "@phosphor-icons/react"
 import { useMutation, useQuery } from "convex/react"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { api } from "../../convex/_generated/api"
 import type { Id } from "../../convex/_generated/dataModel"
 import MediaLibrary from "./media-library"
@@ -30,34 +30,35 @@ export default function StaffEditor() {
   const updateMember = useMutation(api.staff.update)
   const removeMember = useMutation(api.staff.remove)
   const reorderMembers = useMutation(api.staff.reorder)
-  const [orderedIds, setOrderedIds] = useState<Array<Id<"staffMembers">>>([])
+  const [draftIds, setDraftIds] = useState<Array<Id<"staffMembers">> | null>(null)
   const [editing, setEditing] = useState<StaffForm | null>(null)
   const [showMedia, setShowMedia] = useState(false)
   const [saving, setSaving] = useState(false)
-  const [orderDirty, setOrderDirty] = useState(false)
-
-  useEffect(() => {
-    if (members && !orderDirty) setOrderedIds(members.map((member) => member._id))
-  }, [members, orderDirty])
+  const orderDirty = draftIds !== null
+  const serverIds = useMemo(() => members?.map((member) => member._id) ?? [], [members])
+  const orderedIds = draftIds ?? serverIds
 
   const orderedMembers = orderedIds
     .map((id) => members?.find((member) => member._id === id))
     .filter((member): member is NonNullable<typeof member> => Boolean(member))
 
-  const move = useCallback((index: number, direction: -1 | 1) => {
-    setOrderedIds((current) => {
-      const target = index + direction
-      if (target < 0 || target >= current.length) return current
-      const next = [...current]
-      ;[next[index], next[target]] = [next[target]!, next[index]!]
-      return next
-    })
-    setOrderDirty(true)
-  }, [])
+  const move = useCallback(
+    (index: number, direction: -1 | 1) => {
+      setDraftIds((draft) => {
+        const current = draft ?? serverIds
+        const target = index + direction
+        if (target < 0 || target >= current.length) return current
+        const next = [...current]
+        ;[next[index], next[target]] = [next[target]!, next[index]!]
+        return next
+      })
+    },
+    [serverIds],
+  )
 
   const saveOrder = useCallback(async () => {
     await reorderMembers({ ids: orderedIds })
-    setOrderDirty(false)
+    setDraftIds(null)
   }, [orderedIds, reorderMembers])
 
   const saveMember = useCallback(async () => {

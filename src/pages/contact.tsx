@@ -69,7 +69,7 @@ function ContactPage() {
           alt=""
           aria-hidden="true"
           className="no-under-shadow absolute right-[-3rem] bottom-[-2rem] w-[14rem] rotate-6 drop-shadow-xl md:right-[-4rem] md:bottom-[-3rem] md:w-[20rem]"
-          src="/bigship.png"
+          src="/beach-chair.png"
         />
         <motion.div className="relative z-10 max-w-6xl" {...fadeIn()}>
           <h1
@@ -84,7 +84,7 @@ function ContactPage() {
       <section className="relative isolate overflow-hidden bg-aberdeen-peach px-5 py-16 md:px-8 md:py-24">
         <Decoration
           className="-bottom-24 left-2 -z-10 w-[10.5rem] -rotate-12 md:bottom-2 md:left-1/3 md:w-52"
-          name="nautilus"
+          name="oyster"
         />
         <div className="relative z-10 grid gap-12 lg:grid-cols-[0.75fr_1.25fr] lg:gap-20">
           <motion.div {...fadeIn()}>

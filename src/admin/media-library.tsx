@@ -262,15 +262,12 @@ export default function MediaLibrary({
         ...current.filter((item) => item.status === "uploading"),
       ])
       setError("")
-      let nextIndex = 0
-      let lastSelection: MediaSelection | null = null
+      const queue = items.values()
+      const selections: MediaSelection[] = []
       const worker = async () => {
-        while (nextIndex < items.length) {
-          const item = items[nextIndex]
-          nextIndex += 1
-          if (!item) return
+        for (const item of queue) {
           try {
-            lastSelection = await uploadOne(item.file, item.id)
+            selections.push(await uploadOne(item.file, item.id))
           } catch (uploadError) {
             updateUpload(item.id, {
               error: uploadError instanceof Error ? uploadError.message : "Upload failed.",
@@ -280,7 +277,7 @@ export default function MediaLibrary({
         }
       }
       await Promise.all(Array.from({ length: Math.min(4, items.length) }, () => worker()))
-      if (items.length === 1 && lastSelection && onSelect) onSelect(lastSelection)
+      if (items.length === 1 && selections[0]) onSelect?.(selections[0])
     },
     [onSelect, updateUpload, uploadOne],
   )

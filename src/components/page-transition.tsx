@@ -1,11 +1,10 @@
-import { motion } from "motion/react"
+import { motion, useReducedMotion } from "motion/react"
 import {
   createContext,
   type MouseEvent,
   type ReactNode,
   useCallback,
   useContext,
-  useEffect,
   useLayoutEffect,
   useMemo,
   useRef,
@@ -38,22 +37,6 @@ const sleep = (seconds: number) =>
     window.setTimeout(resolve, seconds * 1000)
   })
 
-function usePrefersReducedMotion() {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
-    setPrefersReducedMotion(mediaQuery.matches)
-
-    const handleChange = () => setPrefersReducedMotion(mediaQuery.matches)
-    mediaQuery.addEventListener("change", handleChange)
-
-    return () => mediaQuery.removeEventListener("change", handleChange)
-  }, [])
-
-  return prefersReducedMotion
-}
-
 function toPath(to: To) {
   return typeof to === "string" ? to : createPath(to)
 }
@@ -74,7 +57,7 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
   const isTransitioning = useRef(false)
   const location = useLocation()
   const navigate = useNavigate()
-  const prefersReducedMotion = usePrefersReducedMotion()
+  const prefersReducedMotion = useReducedMotion()
 
   useLayoutEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "auto" })

@@ -1,7 +1,8 @@
 import { ArrowDown, ArrowUp, Plus, Trash } from "@phosphor-icons/react"
 import { useMutation, useQuery } from "convex/react"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useState } from "react"
 import { api } from "../../convex/_generated/api"
+import { useRenderSync } from "../lib/use-render-sync"
 import {
   Field,
   Input,
@@ -79,13 +80,13 @@ export default function SettingsEditor() {
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
 
-  useEffect(() => {
-    if (!data || dirty) return
+  useRenderSync(dirty ? undefined : data, (data) => {
+    if (!data) return
     setSettings(data.settings)
     setContacts(data.contactDetails.map(({ label, value, note }) => ({ label, value, note })))
     setHours(data.openingHours.map(({ label, value }) => ({ label, value })))
     setSocials(data.socialLinks.map(({ platform, url }) => ({ platform, url })))
-  }, [data, dirty])
+  })
 
   const touch = useCallback(() => {
     setDirty(true)

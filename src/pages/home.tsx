@@ -17,7 +17,7 @@ import { ImageTilt } from "../components/image-tilt"
 import OpenTableReservation from "../components/opentable-reservation"
 import { fadeIn, fadeInPlace } from "../lib/motion"
 import { usePageImage, useRequiredPageImage, useShellData } from "../lib/public-data"
-import { reservationHref } from "../lib/reservations"
+import { reservationHref, reservationLinkProps } from "../lib/reservations"
 import { standardActionTone } from "../lib/standard-action"
 
 const homeHeroImage =
@@ -255,7 +255,8 @@ function HeroSection({ playIntro }: { playIntro: boolean }) {
               <a
                 className="aberdeen-action min-w-0 flex-1 font-bold [--surface-action-background:white] [--surface-action-color:var(--color-aberdeen-blue)] [--surface-action-fill:var(--color-aberdeen-peach)] [--surface-action-hover-color:var(--color-aberdeen-blue)]"
                 data-cms-link-key="home.hero.reserve"
-                href="#reservations"
+                href={reservationHref}
+                {...reservationLinkProps}
               >
                 Reserve
               </a>
@@ -646,6 +647,7 @@ function ReservationEditorialSection() {
             data-cms-link-key="home.reservations.editorial.primary-link"
             data-standard-action-tone={standardActionTone(3)}
             href={reservationHref}
+            {...reservationLinkProps}
           >
             Reserve your table
           </a>
@@ -688,6 +690,7 @@ function ReservationEditorialSection() {
             className="mt-5 inline-flex border-b border-aberdeen-blue/45 pb-1 font-utility text-lg tracking-[0.16em] uppercase"
             data-cms-link-key="home.reservations.editorial.secondary-link"
             href={reservationHref}
+            {...reservationLinkProps}
           >
             Make a reservation
           </a>

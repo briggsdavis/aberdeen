@@ -2,7 +2,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { useLocation } from "react-router"
 import { usePageVisibility, useShellData } from "../lib/public-data"
-import { reservationHref } from "../lib/reservations"
+import { reservationLinkProps, resolveReservationHref } from "../lib/reservations"
 import { useRenderSync } from "../lib/use-render-sync"
 import { TransitionLink } from "./page-transition"
 
@@ -34,7 +34,7 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
     .map((item) =>
       item.label === "Menus" && firstMenuSlug ? { ...item, to: `/menu/${firstMenuSlug}` } : item,
     )
-  const reservationUrl = site?.settings.reservationUrl?.trim() || reservationHref
+  const reservationUrl = resolveReservationHref(site?.settings.reservationUrl)
   const menuPreviews = (menuPages ?? []).slice(0, 3).map((page) => {
     if (!page.heroImage) throw new Error(`Missing menu hero image: ${page.slug}`)
 
@@ -252,6 +252,7 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
                 : "shadow-[0_3px_10px_color-mix(in_srgb,var(--color-aberdeen-blue)_20%,transparent)]"
             }`}
             href={reservationUrl}
+            {...reservationLinkProps}
           >
             Reserve
           </a>
@@ -302,6 +303,7 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
             className="aberdeen-action mt-3 w-fit bg-aberdeen-peach px-5 py-3 font-utility text-sm tracking-[0.16em] text-aberdeen-blue uppercase"
             onClick={closeMenu}
             href={reservationUrl}
+            {...reservationLinkProps}
           >
             Reserve
           </a>

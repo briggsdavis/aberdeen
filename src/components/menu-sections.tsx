@@ -1,7 +1,7 @@
 import { motion } from "motion/react"
 import type { MenuGroup, PostcardContent } from "../lib/menu"
 import { fadeIn } from "../lib/motion"
-import { reservationHref } from "../lib/reservations"
+import { reservationHref, reservationLinkProps } from "../lib/reservations"
 import { standardActionTone } from "../lib/standard-action"
 import { ImageTilt } from "./image-tilt"
 import { TransitionLink } from "./page-transition"
@@ -292,6 +292,7 @@ export function MenuReservation({
             className="aberdeen-action standard-action"
             data-standard-action-tone={standardActionTone(0)}
             href={reservationHref}
+            {...reservationLinkProps}
           >
             Reserve a table
           </a>

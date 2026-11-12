@@ -34,11 +34,11 @@ const reservationLinks = {
     text: "Reserve directly on OpenTable",
   },
   "home.reservations.editorial.primary-link": {
-    href: "/#reservations",
+    href: "https://www.opentable.com/r/the-aberdeen-savannah",
     text: "Reserve your table",
   },
   "home.reservations.editorial.secondary-link": {
-    href: "/#reservations",
+    href: "https://www.opentable.com/r/the-aberdeen-savannah",
     text: "Make a reservation",
   },
 } as const
@@ -225,7 +225,7 @@ export const ensureInitialized = mutation({
       mapLocation: "301 Passage Way B101, Savannah, GA 31401",
       phone: "(912) 736-2667",
       email: "hello@aberdeen.example",
-      reservationUrl: "/#reservations",
+      reservationUrl: "https://www.opentable.com/r/the-aberdeen-savannah",
       footerTagline: "Seafood, bright spirits, good evenings.",
       footerCopyright: "Aberdeen. All rights reserved.",
     }

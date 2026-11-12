@@ -1,4 +1,8 @@
-import { openTableReservationUrl, openTableWidgetUrl } from "../lib/reservations"
+import {
+  openTableReservationUrl,
+  openTableWidgetUrl,
+  reservationLinkProps,
+} from "../lib/reservations"
 
 export default function OpenTableReservation() {
   return (
@@ -16,8 +20,7 @@ export default function OpenTableReservation() {
           className="underline decoration-aberdeen-blue/40 underline-offset-4 hover:decoration-aberdeen-blue"
           data-cms-link-key="home.reservations.plan-link"
           href={openTableReservationUrl}
-          rel="noreferrer"
-          target="_blank"
+          {...reservationLinkProps}
         >
           Reserve directly on OpenTable
         </a>

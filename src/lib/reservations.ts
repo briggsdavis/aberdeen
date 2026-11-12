@@ -1,5 +1,19 @@
-export const reservationHref = "/#reservations"
 export const openTableReservationUrl = "https://www.opentable.com/r/the-aberdeen-savannah"
+export const reservationHref = openTableReservationUrl
+export const reservationLinkProps = { rel: "noreferrer", target: "_blank" } as const
+
+const legacyReservationHrefs = new Set(["#reservations", "/#reservations"])
+
+// Older saved content pointed reservation links at the on-page widget anchor.
+export function isLegacyReservationHref(href: string) {
+  return legacyReservationHrefs.has(href.trim())
+}
+
+export function resolveReservationHref(href: string | undefined) {
+  const value = href?.trim()
+  if (!value || isLegacyReservationHref(value)) return reservationHref
+  return value
+}
 
 // OpenTable's iframe endpoint and sizing, as returned by the supplied widget loader.
 export const openTableWidgetUrl = `https://www.opentable.com/widget/reservation/mural?${new URLSearchParams(

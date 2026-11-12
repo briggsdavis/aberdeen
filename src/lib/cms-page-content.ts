@@ -1,3 +1,5 @@
+import { isLegacyReservationHref, reservationHref } from "./reservations"
+
 export type MediaRole = "background" | "content" | "decorative"
 
 export type PageMedia = {
@@ -189,7 +191,7 @@ export function mountCmsPageContent({
     const link = content.links[target.key]
     if (!link) continue
     target.element.textContent = link.text
-    target.element.href = link.href
+    target.element.href = isLegacyReservationHref(link.href) ? reservationHref : link.href
   }
   for (const target of targets.images) {
     const media = content.media[target.key]
@@ -293,7 +295,7 @@ export function mountCmsPageContent({
       const target = targets.links.find((item) => item.key === message.key)
       if (!target) return
       target.element.textContent = message.text
-      target.element.href = message.href
+      target.element.href = isLegacyReservationHref(message.href) ? reservationHref : message.href
     }
   }
   window.addEventListener("message", handleParentMessage)

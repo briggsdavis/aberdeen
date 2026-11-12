@@ -1,8 +1,8 @@
 import { motion } from "motion/react"
-import { Link } from "react-router"
 import type { MenuGroup, PostcardContent } from "../lib/menu"
 import { fadeIn } from "../lib/motion"
 import { standardActionTone } from "../lib/standard-action"
+import { reservationHref } from "../lib/reservations"
 import { ImageTilt } from "./image-tilt"
 import { TransitionLink } from "./page-transition"
 import { PostcardStack } from "./postcard-stack"
@@ -288,13 +288,13 @@ export function MenuReservation({
             </div>
           </div>
           <p className="mb-6 text-lg leading-8">{copy}</p>
-          <Link
+          <a
             className="aberdeen-action standard-action"
             data-standard-action-tone={standardActionTone(0)}
-            to="/contact"
+            href={reservationHref}
           >
-            Plan a visit
-          </Link>
+            Reserve a table
+          </a>
         </motion.div>
       </div>
     </section>

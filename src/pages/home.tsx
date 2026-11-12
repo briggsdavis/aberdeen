@@ -14,9 +14,11 @@ import { Decoration } from "../components/decoration"
 import { FaqSection, homepageFaqs } from "../components/faq-section"
 import { FramedPhoto } from "../components/framed-photo"
 import { ImageTilt } from "../components/image-tilt"
+import OpenTableReservation from "../components/opentable-reservation"
 import { fadeIn, fadeInPlace } from "../lib/motion"
 import { usePageImage, useRequiredPageImage, useShellData } from "../lib/public-data"
 import { standardActionTone } from "../lib/standard-action"
+import { reservationHref } from "../lib/reservations"
 
 const homeHeroImage =
   "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=2000&q=85"
@@ -554,7 +556,7 @@ function ReservationsSection() {
 
   return (
     <section
-      className="relative isolate overflow-hidden bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24"
+      className="relative isolate scroll-mt-24 overflow-hidden bg-aberdeen-blue px-5 py-16 text-aberdeen-peach md:px-8 md:py-24"
       id="reservations"
     >
       <div className="relative z-10 grid gap-10 md:grid-cols-[0.9fr_1fr] md:items-start">
@@ -583,20 +585,23 @@ function ReservationsSection() {
             Settle in for oysters on ice, bright coastal plates, and a round of cold drinks as
             afternoon slips into evening.
           </motion.p>
-          <motion.a
-            className="aberdeen-action standard-action mt-8"
-            data-cms-link-key="home.reservations.plan-link"
-            data-standard-action-tone={standardActionTone(4)}
-            href="/contact"
-            {...fadeInPlace(0.14)}
-          >
-            Plan a visit
-          </motion.a>
+          <div className="mt-8 grid w-full items-center gap-8 xl:grid-cols-[minmax(17rem,1fr)_minmax(0,1fr)]">
+            <OpenTableReservation />
+            <div aria-hidden="true" className="grid place-items-center py-4">
+              <img
+                alt=""
+                className="w-full max-w-64 -rotate-6 select-none drop-shadow-xl xl:max-w-80"
+                draggable={false}
+                loading="lazy"
+                src="/seagull.png"
+              />
+            </div>
+          </div>
         </div>
       </div>
       <motion.div
         aria-hidden="true"
-        className="relative z-20 mt-10 ml-auto aspect-[5/4] w-56 md:absolute md:right-8 md:bottom-8 md:w-72"
+        className="pointer-events-none relative z-20 mt-10 ml-auto aspect-[5/4] w-56 md:absolute md:bottom-8 md:left-8 md:w-72"
         {...fadeIn(0.2)}
       >
         <Decoration
@@ -640,7 +645,7 @@ function ReservationEditorialSection() {
             className="aberdeen-action standard-action mt-8 text-lg"
             data-cms-link-key="home.reservations.editorial.primary-link"
             data-standard-action-tone={standardActionTone(3)}
-            href="/contact"
+            href={reservationHref}
           >
             Reserve your table
           </a>
@@ -682,7 +687,7 @@ function ReservationEditorialSection() {
           <a
             className="mt-5 inline-flex border-b border-aberdeen-blue/45 pb-1 font-utility text-lg tracking-[0.16em] uppercase"
             data-cms-link-key="home.reservations.editorial.secondary-link"
-            href="/contact"
+            href={reservationHref}
           >
             Make a reservation
           </a>

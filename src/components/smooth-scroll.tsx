@@ -17,6 +17,7 @@ function SmoothScroll({ children }: { children: ReactNode }) {
     }
 
     const lenis = new Lenis({
+      anchors: { offset: -96 },
       autoRaf: true,
       duration: 1.08,
       easing: (value) => Math.min(1, 1.001 - 2 ** (-10 * value)),
@@ -32,6 +33,20 @@ function SmoothScroll({ children }: { children: ReactNode }) {
       lenis.destroy()
     }
   }, [])
+
+  useEffect(() => {
+    if (!location.hash) return
+    const frame = requestAnimationFrame(() => {
+      const target = document.getElementById(location.hash.slice(1))
+      if (!target) return
+      if (lenisRef.current) {
+        lenisRef.current.scrollTo(target, { offset: -96, immediate: true, force: true })
+      } else {
+        target.scrollIntoView({ behavior: "instant", block: "start" })
+      }
+    })
+    return () => cancelAnimationFrame(frame)
+  }, [location.pathname, location.hash])
 
   return children
 }

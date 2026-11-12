@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import { useLocation } from "react-router"
 import { useShellData } from "../lib/public-data"
 import { useRenderSync } from "../lib/use-render-sync"
+import { reservationHref } from "../lib/reservations"
 import { TransitionLink } from "./page-transition"
 
 const navItems = [
@@ -25,7 +26,7 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
   const [activeMenuPreviewSlug, setActiveMenuPreviewSlug] = useState<string | null>(null)
   const isContactPage = location.pathname === "/contact"
   const { menuPages, site } = useShellData()
-  const reservationUrl = site?.settings.reservationUrl ?? "/contact"
+  const reservationUrl = site?.settings.reservationUrl?.trim() || reservationHref
   const menuPreviews = (menuPages ?? []).slice(0, 3).map((page) => {
     if (!page.heroImage) throw new Error(`Missing menu hero image: ${page.slug}`)
 

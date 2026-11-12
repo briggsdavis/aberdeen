@@ -1,5 +1,5 @@
 import { googleMapsPlaceUrl, restaurantAddress } from "../lib/location"
-import { useShellData } from "../lib/public-data"
+import { usePageVisibility, useShellData } from "../lib/public-data"
 import { TransitionLink } from "./page-transition"
 
 const pageLinks = [
@@ -24,16 +24,12 @@ const currentYear = new Date().getFullYear()
 
 function SiteFooter() {
   const { menuPages, site } = useShellData()
+  const pageVisibility = usePageVisibility()
+  const menuLinks = (menuPages ?? []).map((page) => [page.title, `/menu/${page.slug}`])
   const visiblePageLinks = [
     pageLinks[0]!,
-    ...(menuPages?.length
-      ? menuPages.map((page) => [page.title, `/menu/${page.slug}`])
-      : [
-          ["Food", "/menu/food"],
-          ["Spirits", "/menu/spirits"],
-          ["Beverages", "/menu/beverages"],
-        ]),
-    ...pageLinks.slice(1),
+    ...menuLinks,
+    ...pageLinks.slice(1).filter(([, to]) => to !== "/staff" || pageVisibility.staff),
   ]
   const visibleHours = site?.openingHours.length
     ? site.openingHours.map(({ label, value }) => [label, value])

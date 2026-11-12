@@ -1,8 +1,9 @@
-import { ArrowDown, ArrowUp, PencilSimple, Plus, Trash } from "@phosphor-icons/react"
+import { ArrowDown, ArrowUp, Eye, EyeSlash, PencilSimple, Plus, Trash } from "@phosphor-icons/react"
 import { useMutation, useQuery } from "convex/react"
 import { useCallback, useMemo, useState } from "react"
 import { api } from "../../convex/_generated/api"
 import type { Id } from "../../convex/_generated/dataModel"
+import { pageToggleSettings } from "../lib/public-data"
 import MediaLibrary from "./media-library"
 import type { MediaSelection } from "./media-library"
 import PageEditor from "./page-editor"
@@ -30,6 +31,9 @@ export default function StaffEditor() {
   const updateMember = useMutation(api.staff.update)
   const removeMember = useMutation(api.staff.remove)
   const reorderMembers = useMutation(api.staff.reorder)
+  const siteSettings = useQuery(api.site.getAdminSettings)
+  const saveSetting = useMutation(api.site.saveSetting)
+  const staffHidden = siteSettings?.settings[pageToggleSettings.staff] === "false"
   const [draftIds, setDraftIds] = useState<Array<Id<"staffMembers">> | null>(null)
   const [editing, setEditing] = useState<StaffForm | null>(null)
   const [showMedia, setShowMedia] = useState(false)
@@ -100,7 +104,29 @@ export default function StaffEditor() {
   return (
     <div className="grid gap-6">
       <PageHeading
-        description="Edit the page introduction in place, then manage the people displayed in the staff roster."
+        actions={
+          <SecondaryButton
+            disabled={!siteSettings}
+            onClick={() =>
+              void saveSetting({ key: pageToggleSettings.staff, value: String(staffHidden) })
+            }
+          >
+            {staffHidden ? (
+              <>
+                <Eye size={16} /> Show on site
+              </>
+            ) : (
+              <>
+                <EyeSlash size={16} /> Hide from site
+              </>
+            )}
+          </SecondaryButton>
+        }
+        description={
+          staffHidden
+            ? "Hidden from the site. Visitors get a not found page and it is left out of the navigation."
+            : "Edit the page introduction in place, then manage the people displayed in the staff roster."
+        }
         title="Staff editor"
       />
       <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1.6fr)_minmax(320px,0.65fr)]">

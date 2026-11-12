@@ -132,7 +132,9 @@ async function nestedPage(ctx: QueryCtx, page: Doc<"menuPages">) {
 export const listPublicNavigation = query({
   args: {},
   handler: async (ctx) => {
-    const pages = await ctx.db.query("menuPages").withIndex("by_order").collect()
+    const pages = (await ctx.db.query("menuPages").withIndex("by_order").collect()).filter(
+      (page) => !page.hidden,
+    )
     return await Promise.all(
       pages.map(async (page) => {
         const sections = await ctx.db
@@ -168,7 +170,7 @@ export const getPublicBySlug = query({
       .query("menuPages")
       .withIndex("by_slug", (q) => q.eq("slug", args.slug))
       .unique()
-    return page ? await nestedPage(ctx, page) : null
+    return page && !page.hidden ? await nestedPage(ctx, page) : null
   },
 })
 
@@ -253,6 +255,15 @@ export const updatePage = mutation({
     })
     await setMediaUsage(ctx, args.id, "hero", args.heroMediaId, "background")
     return slug
+  },
+})
+
+export const setPageHidden = mutation({
+  args: { id: v.id("menuPages"), hidden: v.boolean() },
+  handler: async (ctx, args) => {
+    await requireAdmin(ctx)
+    await ctx.db.patch(args.id, { hidden: args.hidden, updatedAt: Date.now() })
+    return null
   },
 })
 

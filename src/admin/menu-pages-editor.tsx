@@ -1,4 +1,13 @@
-import { ArrowDown, ArrowUp, ImageSquare, PencilSimple, Plus, Trash } from "@phosphor-icons/react"
+import {
+  ArrowDown,
+  ArrowUp,
+  Eye,
+  EyeSlash,
+  ImageSquare,
+  PencilSimple,
+  Plus,
+  Trash,
+} from "@phosphor-icons/react"
 import { useMutation, useQuery } from "convex/react"
 import { useMemo, useState } from "react"
 import { useNavigate, useParams } from "react-router"
@@ -95,6 +104,7 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
   const updatePage = useMutation(api.menus.updatePage)
   const removePage = useMutation(api.menus.removePage)
   const reorderPages = useMutation(api.menus.reorderPages)
+  const setPageHidden = useMutation(api.menus.setPageHidden)
   const createSection = useMutation(api.menus.createSection)
   const updateSection = useMutation(api.menus.updateSection)
   const removeSection = useMutation(api.menus.removeSection)
@@ -327,6 +337,19 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
         actions={
           !creating && pageId ? (
             <div className="flex flex-wrap gap-2">
+              <SecondaryButton
+                onClick={() => void setPageHidden({ id: pageId, hidden: !page?.hidden })}
+              >
+                {page?.hidden ? (
+                  <>
+                    <Eye size={16} /> Show on site
+                  </>
+                ) : (
+                  <>
+                    <EyeSlash size={16} /> Hide from site
+                  </>
+                )}
+              </SecondaryButton>
               <SecondaryButton disabled={pageIndex <= 0} onClick={() => void shiftPage(-1)}>
                 <ArrowUp size={16} /> Move page up
               </SecondaryButton>
@@ -352,7 +375,9 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
         description={
           creating
             ? "Add the page details. Its URL is generated automatically from the title."
-            : "Manage this page, its sections, paired lists, images, and menu items."
+            : page?.hidden
+              ? "Hidden from the site. Visitors get a not found page and it is left out of the navigation."
+              : "Manage this page, its sections, paired lists, images, and menu items."
         }
         title={creating ? "Add menu page" : `${page?.title ?? "Menu"} editor`}
       />

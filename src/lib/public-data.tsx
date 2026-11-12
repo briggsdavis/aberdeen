@@ -36,7 +36,8 @@ const PageContentContext = createContext({ content: emptyPageContent, ready: tru
 const ShellDataContext = createContext<{
   menuPages: MenuNavigationPage[] | undefined
   site: SiteData | undefined
-}>({ menuPages: localMenuNavigation, site: undefined })
+  siteReady: boolean
+}>({ menuPages: localMenuNavigation, site: undefined, siteReady: true })
 const MenuDataContext = createContext<{
   backendEnabled: boolean
   menu: MenuPage | null | undefined
@@ -79,7 +80,10 @@ export function PublicDataProvider({ children }: { children: ReactNode }) {
     () => ({ content: content ?? emptyPageContent, ready: content !== undefined || isAdmin }),
     [content, isAdmin],
   )
-  const shellData = useMemo(() => ({ menuPages, site }), [menuPages, site])
+  const shellData = useMemo(
+    () => ({ menuPages, site, siteReady: site !== undefined || isAdmin }),
+    [isAdmin, menuPages, site],
+  )
   const menuData = useMemo(
     () => ({ backendEnabled: true, menu, navigation: menuPages }),
     [menu, menuPages],
@@ -130,6 +134,19 @@ export function useRequiredPageImage(key: string, fallback?: string) {
 
 export function useShellData() {
   return useContext(ShellDataContext)
+}
+
+export type ToggleablePage = "staff"
+
+export const pageToggleSettings: Record<ToggleablePage, string> = {
+  staff: "staffEnabled",
+}
+
+/** Pages are enabled unless an admin explicitly sets their toggle to "false". */
+export function usePageVisibility() {
+  const { site, siteReady } = useContext(ShellDataContext)
+  const isEnabled = (page: ToggleablePage) => site?.settings[pageToggleSettings[page]] !== "false"
+  return { ready: siteReady, staff: isEnabled("staff") }
 }
 
 export function useMenuData(slug: string) {

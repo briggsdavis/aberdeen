@@ -1,5 +1,8 @@
+import type { ReactNode } from "react"
 import { Navigate, Route, Routes } from "react-router"
 import SiteLayout from "./components/site-layout"
+import { usePageVisibility, useShellData } from "./lib/public-data"
+import type { ToggleablePage } from "./lib/public-data"
 import AboutPage from "./pages/about"
 import AdminPage from "./pages/admin"
 import ContactPage from "./pages/contact"
@@ -10,12 +13,29 @@ import NotFoundPage from "./pages/not-found"
 import StaffPage from "./pages/staff"
 
 const siteLayoutRoute = <SiteLayout />
+
+function PageGate({ children, page }: { children: ReactNode; page: ToggleablePage }) {
+  const visibility = usePageVisibility()
+  if (!visibility.ready) return <div className="min-h-svh animate-pulse bg-oyster-white" />
+  return visibility[page] ? children : <NotFoundPage />
+}
 const homeRoute = <HomePage />
 const aboutRoute = <AboutPage />
-const menuRedirectRoute = <Navigate replace to="/menu/food" />
+function MenuRedirect() {
+  const { menuPages } = useShellData()
+  if (!menuPages) return <div className="min-h-svh animate-pulse bg-oyster-white" />
+  const first = menuPages[0]
+  return first ? <Navigate replace to={`/menu/${first.slug}`} /> : <NotFoundPage />
+}
+
+const menuRedirectRoute = <MenuRedirect />
 const menuRoute = <MenuPage />
 const contactRoute = <ContactPage />
-const staffRoute = <StaffPage />
+const staffRoute = (
+  <PageGate page="staff">
+    <StaffPage />
+  </PageGate>
+)
 const eventsRoute = <EventsPage />
 const adminRoute = import.meta.env.VITE_CONVEX_URL ? (
   <AdminPage />

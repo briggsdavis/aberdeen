@@ -48,6 +48,7 @@ export default defineSchema({
     slug: v.string(),
     description: v.string(),
     heroMediaId: v.id("mediaAssets"),
+    hidden: v.optional(v.boolean()),
     order: v.number(),
     createdAt: v.number(),
     updatedAt: v.number(),

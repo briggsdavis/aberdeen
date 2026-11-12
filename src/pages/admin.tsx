@@ -301,6 +301,9 @@ function AdminShell() {
               to={`/admin/menus/${menuPage._id}`}
             >
               {menuPage.title}
+              {menuPage.hidden ? (
+                <span className="ml-auto text-xs text-white/45">Hidden</span>
+              ) : null}
             </SidebarLink>
           ))}
           <Link

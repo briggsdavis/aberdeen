@@ -17,8 +17,8 @@ import { ImageTilt } from "../components/image-tilt"
 import OpenTableReservation from "../components/opentable-reservation"
 import { fadeIn, fadeInPlace } from "../lib/motion"
 import { usePageImage, useRequiredPageImage, useShellData } from "../lib/public-data"
-import { standardActionTone } from "../lib/standard-action"
 import { reservationHref } from "../lib/reservations"
+import { standardActionTone } from "../lib/standard-action"
 
 const homeHeroImage =
   "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=2000&q=85"
@@ -44,10 +44,10 @@ function HomePage() {
     <div className="page-shell">
       <HeroSection playIntro={playHomeIntro} />
       <CoastalTextMarquee />
+      <ReservationsSection />
       <IntroSection />
       <ReservationEditorialSection />
       <MenuSection />
-      <ReservationsSection />
       <ScrollGallerySection />
       <EventsSection />
       <FaqSection
@@ -590,7 +590,7 @@ function ReservationsSection() {
             <div aria-hidden="true" className="grid place-items-center py-4">
               <img
                 alt=""
-                className="w-full max-w-64 -rotate-6 select-none drop-shadow-xl xl:max-w-80"
+                className="w-full max-w-64 -rotate-6 drop-shadow-xl select-none xl:max-w-80"
                 draggable={false}
                 loading="lazy"
                 src="/seagull.png"

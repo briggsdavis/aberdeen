@@ -1,18 +1,18 @@
 import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { useLocation } from "react-router"
-import { useShellData } from "../lib/public-data"
-import { useRenderSync } from "../lib/use-render-sync"
+import { usePageVisibility, useShellData } from "../lib/public-data"
 import { reservationHref } from "../lib/reservations"
+import { useRenderSync } from "../lib/use-render-sync"
 import { TransitionLink } from "./page-transition"
 
 const navItems = [
   { label: "About", to: "/about" },
-  { label: "Menus", to: "/menu/food" },
+  { label: "Menus", to: "/menu" },
   { label: "Events", to: "/events" },
-  { label: "Staff", to: "/staff" },
+  { label: "Staff", to: "/staff", page: "staff" },
   { label: "Contact", to: "/contact" },
-]
+] as const
 
 function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
   const location = useLocation()
@@ -26,6 +26,14 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
   const [activeMenuPreviewSlug, setActiveMenuPreviewSlug] = useState<string | null>(null)
   const isContactPage = location.pathname === "/contact"
   const { menuPages, site } = useShellData()
+  const pageVisibility = usePageVisibility()
+  const firstMenuSlug = menuPages?.[0]?.slug
+  const visibleNavItems = navItems
+    .filter((item) => !("page" in item) || pageVisibility[item.page])
+    .filter((item) => item.label !== "Menus" || menuPages?.length !== 0)
+    .map((item) =>
+      item.label === "Menus" && firstMenuSlug ? { ...item, to: `/menu/${firstMenuSlug}` } : item,
+    )
   const reservationUrl = site?.settings.reservationUrl?.trim() || reservationHref
   const menuPreviews = (menuPages ?? []).slice(0, 3).map((page) => {
     if (!page.heroImage) throw new Error(`Missing menu hero image: ${page.slug}`)
@@ -154,7 +162,7 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
           }`}
           {...homeIntroReveal(1)}
         >
-          {navItems.map((item, index) => (
+          {visibleNavItems.map((item, index) => (
             <motion.div key={item.label} {...homeIntroReveal(index + 1)}>
               {item.label === "Menus" ? (
                 <div
@@ -236,7 +244,7 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
             </motion.div>
           ))}
         </motion.nav>
-        <motion.div className="hidden md:block" {...homeIntroReveal(navItems.length + 1)}>
+        <motion.div className="hidden md:block" {...homeIntroReveal(visibleNavItems.length + 1)}>
           <a
             className={`aberdeen-action border border-white bg-white px-4 py-2 font-utility text-sm tracking-[0.14em] text-near-black uppercase transition-[box-shadow] duration-500 [--action-fill:var(--color-aberdeen-blue)] hover:text-white ${
               isNavigationActive
@@ -278,7 +286,7 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
         id="mobile-navigation"
       >
         <div className="grid gap-4">
-          {navItems.map((item) => (
+          {visibleNavItems.map((item) => (
             <TransitionLink
               className={`nav-underline font-display text-4xl leading-none ${
                 location.pathname.startsWith(item.to) ? "text-citrus" : ""

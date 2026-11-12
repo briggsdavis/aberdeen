@@ -2,6 +2,7 @@ import { ArrowDown, ArrowUp, Plus, Trash } from "@phosphor-icons/react"
 import { useMutation, useQuery } from "convex/react"
 import { useCallback, useState } from "react"
 import { api } from "../../convex/_generated/api"
+import { pageToggleSettings } from "../lib/public-data"
 import { useRenderSync } from "../lib/use-render-sync"
 import {
   Field,
@@ -96,8 +97,10 @@ export default function SettingsEditor() {
   const save = useCallback(async () => {
     setSaving(true)
     try {
+      // Page visibility is managed from each page's editor, so never overwrite it here.
+      const { [pageToggleSettings.staff]: _staffEnabled, ...globalSettings } = settings
       await saveGlobal({
-        settings,
+        settings: globalSettings,
         contactDetails: contacts,
         openingHours: hours,
         socialLinks: socials,

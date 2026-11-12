@@ -102,7 +102,11 @@ function MenuList({
       <ul className="space-y-5">
         {group.items.map((item) => (
           <li className="menu-item-row flex items-center gap-4" key={item.name}>
-            <div className="grid min-w-0 grow grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
+            <div
+              className={`grid min-w-0 grow items-center ${
+                item.price?.trim() ? "grid-cols-[minmax(0,1fr)_auto] gap-4" : "grid-cols-1"
+              }`}
+            >
               <div className="min-w-0">
                 <p
                   className={`font-display text-3xl leading-none ${
@@ -119,13 +123,15 @@ function MenuList({
                   {item.description}
                 </p>
               </div>
-              <span
-                className={`font-utility text-lg leading-none tracking-[0.12em] uppercase ${
-                  inverted ? "text-aberdeen-peach" : "text-aberdeen-blue"
-                }`}
-              >
-                {item.price}
-              </span>
+              {item.price?.trim() ? (
+                <span
+                  className={`font-utility text-lg leading-none tracking-[0.12em] uppercase ${
+                    inverted ? "text-aberdeen-peach" : "text-aberdeen-blue"
+                  }`}
+                >
+                  {item.price}
+                </span>
+              ) : null}
             </div>
             <MenuLikeButton initialCount={item.likes} itemId={item._id} itemName={item.name} />
           </li>

@@ -10,13 +10,10 @@ import {
   towers as beverageTowers,
 } from "./menu-beverages"
 import {
-  desserts as foodDesserts,
-  land as foodLand,
-  mains as foodMains,
-  rawBar as foodRawBar,
-  sides as foodSides,
-  starters as foodStarters,
-  towers as foodTowers,
+  cold as foodCold,
+  hot as foodHot,
+  sandwiches as foodSandwiches,
+  entrees as foodEntrees,
 } from "./menu-food"
 import {
   desserts as spiritDesserts,
@@ -61,9 +58,9 @@ export const defaultMenus = [
         mapImage: "/maps/antique-map-01.png",
         imageUrl:
           "https://images.unsplash.com/photo-1679694140422-aecfd3d5dd0b?auto=format&fit=crop&w=1000&q=85",
-        imageCaption: "Daily selection from both coasts, shucked at the bar.",
+        imageCaption: "Oysters, shellfish, crudo, and cold plates.",
         postcardUrls: postcards,
-        groups: [group(foodRawBar)],
+        groups: [group(foodCold)],
       },
       {
         layout: "paired" as const,
@@ -71,7 +68,7 @@ export const defaultMenus = [
         mapImage: "/maps/peloponnese-chart.png",
         imageCaption: "",
         postcardUrls: [],
-        groups: [group(foodTowers), group(foodStarters)],
+        groups: [group(foodHot), group(foodSandwiches)],
       },
       {
         layout: "imageRight" as const,
@@ -79,27 +76,9 @@ export const defaultMenus = [
         mapImage: "/maps/thimble-islands-chart.png",
         imageUrl:
           "https://images.unsplash.com/photo-1777891257650-5dedbba89dd4?auto=format&fit=crop&w=1200&q=85",
-        imageCaption: "Whole fish, shellfish, and coastal plates served for the table.",
+        imageCaption: "Fish, pork chop, and shrimp and grits.",
         postcardUrls: postcards,
-        groups: [group(foodMains)],
-      },
-      {
-        layout: "imageLeft" as const,
-        background: "peach" as const,
-        mapImage: "/maps/antique-map-02.png",
-        imageUrl:
-          "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=1200&q=85",
-        imageCaption: "Dry-aged steak and roast chicken with bright, coastal accompaniments.",
-        postcardUrls: postcards,
-        groups: [group(foodLand)],
-      },
-      {
-        layout: "paired" as const,
-        background: "oyster" as const,
-        mapImage: "/maps/antique-map-03.png",
-        imageCaption: "",
-        postcardUrls: [],
-        groups: [group(foodSides), group(foodDesserts)],
+        groups: [group(foodEntrees)],
       },
     ],
   },

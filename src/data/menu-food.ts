@@ -1,188 +1,106 @@
-export const rawBar = {
-  title: "Raw Bar",
-  note: "Shucked to order",
+// Transcribed from Alexandra Hebert's Current Menu.pdf.
+// Blank prices are intentional: the PDF only prices oysters, clams, and stone crab claws.
+export const cold = {
+  title: "Cold",
   items: [
+    { name: "Oysters", description: "Chefs selections", price: "$4 each" },
     {
-      name: "East Coast Oysters",
-      description: "Briny and cold, classic mignonette, lemon",
-      price: "$4 ea",
+      name: "Peel and eat shrimp",
+      description: "House seasoning - roasted garlic ranch aioli - butter - lemon",
+      price: "",
+    },
+    { name: "Clams", description: "", price: "$2 each" },
+    { name: "Stone crab claws", description: "", price: "$5 each" },
+    {
+      name: "Salmon crudo",
+      description: "Dill - capers - pickled red onion - whipped cream cheese - everything bagel",
+      price: "",
     },
     {
-      name: "West Coast Oysters",
-      description: "Sweet and cucumber-bright, yuzu kosho",
-      price: "$4 ea",
+      name: "Beef tartare",
+      description: "Spicy bbq sauce - capers - gherkins - chives - shallots",
+      price: "",
     },
     {
-      name: "Tuna Crudo",
-      description: "Blood orange, fennel, chili oil, sea salt",
-      price: "$21",
+      name: "Carrots",
+      description: "Herbed yogurt - chili vinaigrette - dill - pepita seeds",
+      price: "",
     },
     {
-      name: "Hamachi",
-      description: "Green apple, jalapeño, citrus ponzu",
-      price: "$23",
-    },
-    {
-      name: "Jumbo Shrimp Cocktail",
-      description: "Horseradish cocktail sauce, charred lemon",
-      price: "$19",
+      name: "Waldorf",
+      description: "Apple - smoked blue cheese - green goddess dressing - celery - dill - pecans",
+      price: "",
     },
   ],
 }
 
-export const towers = {
-  title: "For the Table",
-  note: "Built on ice",
+export const hot = {
+  title: "Hot",
+  items: [
+    { name: "Stuffed squid", description: "Shrimp chorizo - vodka sauce - lime", price: "" },
+    { name: "Buffalo shrimp", description: "Blue cheese dressing", price: "" },
+    { name: "Salt cold croquettes", description: "Smoked chili mayo", price: "" },
+    { name: "Lobster tail pogos", description: "Lemon aioli - caviar", price: "" },
+    { name: "Clam chowder", description: "Bell peppers - celery - bacon - potato", price: "" },
+    { name: "Fried pickles", description: "Calabrian ranch", price: "" },
+    { name: "Confit Chicken fritters", description: "Smoked chili mayo", price: "" },
+  ],
+}
+
+export const sandwiches = {
+  title: "Sandwiches",
   items: [
     {
-      name: "Aberdeen Tower",
-      description: "Oysters, shrimp, chilled lobster, snow crab, crudo",
-      price: "market",
+      name: "Smashed burger",
+      description: "Special sauce - American cheese - bread and butter pickles",
+      price: "",
     },
     {
-      name: "Half Tower",
-      description: "Oysters, shrimp, mussels, lemon, three sauces",
-      price: "$68",
+      name: "Roast chicken soup",
+      description: "Chicken gravy - mirepox - stevedore Baquet",
+      price: "",
+    },
+    {
+      name: "French dip",
+      description: "Ribeye - carmalized onions - jalsburgh spread - beef jus - stevedore Baquet",
+      price: "",
+    },
+    {
+      name: "Fried fish",
+      description: "Slaw - marinaded cucumbers - tartar sauce",
+      price: "",
     },
   ],
 }
 
-export const starters = {
-  title: "Starters",
+export const entrees = {
+  title: "Entrees",
   items: [
     {
-      name: "New England Clam Chowder",
-      description: "Smoked bacon, fingerling potato, oyster cracker",
-      price: "$14",
+      name: "Pork chop",
+      description: "Baked bean sauce - spicy collard greens - pastrami belly - scallions",
+      price: "",
     },
     {
-      name: "Crispy Calamari",
-      description: "Pickled chili, lemon aioli, sea herbs",
-      price: "$17",
+      name: "Salmon steak",
+      description: "Warm potato salad - salmon roe beurre blanch",
+      price: "",
+    },
+    { name: "Fish and Chips", description: "Haddock - tartar sauce - lemon", price: "" },
+    {
+      name: "Red Snapper",
+      description: "Bacon butter - grilled cabbage - remoulaise",
+      price: "",
     },
     {
-      name: "Grilled Octopus",
-      description: "Gigante beans, salsa verde, smoked paprika",
-      price: "$22",
+      name: "BBQ Glazed fish collar",
+      description: "benne seeds - scallions - cilantro - marinated cucumbers - bibb lettuce",
+      price: "",
     },
     {
-      name: "Maryland Crab Cake",
-      description: "Lump crab, remoulade, shaved celery",
-      price: "$24",
-    },
-    {
-      name: "Steamed Mussels",
-      description: "White wine, garlic, calabrian butter, grilled bread",
-      price: "$20",
-    },
-    {
-      name: "Little Gem Salad",
-      description: "Buttermilk, herbs, cucumber, sourdough crumb",
-      price: "$15",
-    },
-  ],
-}
-
-export const mains = {
-  title: "From the Sea",
-  items: [
-    {
-      name: "Whole Roasted Branzino",
-      description: "Charred lemon, grilled vegetables, salsa verde",
-      price: "$42",
-    },
-    {
-      name: "Pan-Seared Scallops",
-      description: "Sweet corn, brown butter, lime, sea beans",
-      price: "$44",
-    },
-    {
-      name: "Cedar Plank Salmon",
-      description: "Roasted potatoes, heirloom tomato, dill",
-      price: "$38",
-    },
-    {
-      name: "Cioppino",
-      description: "Lobster, clams, mussels, shrimp, tomato saffron broth",
-      price: "$46",
-    },
-    {
-      name: "Linguine Vongole",
-      description: "Manila clams, white wine, chili, parsley",
-      price: "$32",
-    },
-    {
-      name: "Aberdeen Lobster Roll",
-      description: "Warm butter or chilled herb mayo, hand-cut fries",
-      price: "$34",
-    },
-  ],
-}
-
-export const land = {
-  title: "From the Land",
-  items: [
-    {
-      name: "Dry-Aged Strip",
-      description: "Maître d' butter, watercress, charred lemon",
-      price: "$52",
-    },
-    {
-      name: "Roast Chicken",
-      description: "Lemon, garlic, schmaltz potatoes, salsa verde",
-      price: "$34",
-    },
-  ],
-}
-
-export const sides = {
-  title: "Sides",
-  items: [
-    {
-      name: "Hand-Cut Fries",
-      description: "Old Bay, lemon aioli",
-      price: "$10",
-    },
-    {
-      name: "Charred Broccolini",
-      description: "Chili, garlic, citrus",
-      price: "$12",
-    },
-    {
-      name: "Heirloom Tomatoes",
-      description: "Sea salt, olive oil, herbs",
-      price: "$13",
-    },
-    {
-      name: "Whipped Potatoes",
-      description: "Brown butter, chive",
-      price: "$11",
-    },
-  ],
-}
-
-export const desserts = {
-  title: "Dessert",
-  items: [
-    {
-      name: "Citrus Olive Oil Cake",
-      description: "Blood orange, crème fraîche, candied peel",
-      price: "$13",
-    },
-    {
-      name: "Key Lime Tart",
-      description: "Torched meringue, lime zest, graham",
-      price: "$13",
-    },
-    {
-      name: "Chocolate Pot de Crème",
-      description: "Sea salt, olive oil, shortbread",
-      price: "$12",
-    },
-    {
-      name: "Seasonal Sorbet",
-      description: "Three scoops, fresh citrus, mint",
-      price: "$11",
+      name: "Shrimp and Grits",
+      description: "BBQ shrimp - Calabrian chili - orange - herbs - sherry",
+      price: "",
     },
   ],
 }

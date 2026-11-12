@@ -543,9 +543,11 @@ export default function MenuPagesEditor({ creating = false }: { creating?: boole
                                     {item.description}
                                   </p>
                                 </div>
-                                <span className="text-xs font-semibold text-aberdeen-blue">
-                                  {item.price}
-                                </span>
+                                {item.price?.trim() ? (
+                                  <span className="text-xs font-semibold text-aberdeen-blue">
+                                    {item.price}
+                                  </span>
+                                ) : null}
                                 <button
                                   aria-label="Move item up"
                                   className="p-1 text-kelp-ink/45 hover:text-aberdeen-blue"

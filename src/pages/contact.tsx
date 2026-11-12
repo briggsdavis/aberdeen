@@ -23,7 +23,7 @@ function ContactPage() {
   const [submissionMessage, setSubmissionMessage] = useState("")
   const address = settingOrFallback(site?.settings.address, restaurantAddress)
   const mapLocation = settingOrFallback(site?.settings.mapLocation, address)
-  const phone = settingOrFallback(site?.settings.phone, "(912) 555-0147")
+  const phone = settingOrFallback(site?.settings.phone, "(912) 736-2667")
   const email = settingOrFallback(site?.settings.email, "hello@aberdeen.example")
   const phoneHref = `tel:${phone.replace(/[^+\d]/g, "")}`
 

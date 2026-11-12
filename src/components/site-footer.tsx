@@ -39,7 +39,7 @@ function SiteFooter() {
     ? site.openingHours.map(({ label, value }) => [label, value])
     : hours
   const address = settingOrFallback(site?.settings.address, restaurantAddress)
-  const phone = settingOrFallback(site?.settings.phone, "(912) 555-0147")
+  const phone = settingOrFallback(site?.settings.phone, "(912) 736-2667")
   const email = settingOrFallback(site?.settings.email, "hello@aberdeen.example")
   const tagline = settingOrFallback(
     site?.settings.footerTagline,

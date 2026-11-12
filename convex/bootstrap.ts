@@ -1,3 +1,4 @@
+import type { Id } from "./_generated/dataModel"
 import type { MutationCtx } from "./_generated/server"
 import { mutation } from "./_generated/server"
 import { requireAdmin } from "./lib/admin"
@@ -102,6 +103,7 @@ async function syncHomepageDefaults(ctx: MutationCtx) {
   const defaultImages = {
     hero: heroId,
     "home-hero-postcard": postcardId,
+    "home.reservations.image": postcardId,
     "home.menus.food.image": foodId,
     "home.menus.spirits.image": spiritsId,
     "home.menus.beverages.image": beveragesId,
@@ -131,7 +133,9 @@ async function syncHomepageDefaults(ctx: MutationCtx) {
   }
 
   await Promise.all(
-    Object.entries(defaultImages).map(async ([slotKey, mediaId]) => {
+    Object.keys(defaultImages).map(async (slotKey) => {
+      const mediaId = (values.images as Record<string, Id<"mediaAssets"> | null | undefined>)[slotKey]
+      if (!mediaId) return
       const role = slotKey === "hero" ? "background" : "content"
       const usage = await ctx.db
         .query("mediaUsages")

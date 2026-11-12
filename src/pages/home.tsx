@@ -553,7 +553,7 @@ function GalleryTextRail({ direction }: { direction: -1 | 1 }) {
 }
 
 function ReservationsSection() {
-  const framedImage = useRequiredPageImage("home-hero-postcard", homeFramedImage)
+  const framedImage = useRequiredPageImage("home.reservations.image", homeFramedImage)
 
   return (
     <section
@@ -565,7 +565,7 @@ function ReservationsSection() {
           <FramedPhoto
             alt="Seafood spread on an Aberdeen table"
             className="w-full"
-            imageCmsSlot="home-hero-postcard"
+            imageCmsSlot="home.reservations.image"
             src={framedImage}
             variant="02"
           />

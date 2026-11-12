@@ -152,7 +152,7 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
                   ? "drop-shadow-[0_2px_4px_color-mix(in_srgb,var(--color-aberdeen-blue)_24%,transparent)]"
                   : "drop-shadow-none"
               }`}
-              src="/brand/aberdeen-wordmark-peach.png"
+              src="/brand/aberdeen-wordmark-peach.png?v=2"
             />
           </TransitionLink>
         </motion.div>
@@ -164,7 +164,7 @@ function SiteHeader({ playHomeIntro }: { playHomeIntro: boolean }) {
         >
           {visibleNavItems.map((item, index) => (
             <motion.div key={item.label} {...homeIntroReveal(index + 1)}>
-              {item.label === "Menus" ? (
+              {item.label === "Menus" && menuPreviews.length > 1 ? (
                 <div
                   className="relative"
                   onBlur={(event) => {

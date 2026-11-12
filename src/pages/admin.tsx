@@ -85,7 +85,7 @@ function AdminAuthForm() {
           className="absolute -right-28 -bottom-24 w-[34rem] opacity-15"
           src="/illustrations/nautical/compass-rose-detailed.png"
         />
-        <img alt="Aberdeen" className="relative w-44" src="/brand/aberdeen-wordmark-peach.png" />
+        <img alt="Aberdeen" className="relative w-44" src="/brand/aberdeen-wordmark-peach.png?v=2" />
         <div className="relative max-w-xl">
           <p className="font-utility text-xs tracking-[0.2em] uppercase">Content management</p>
           <h1 className="mt-5 font-display text-6xl leading-none">
@@ -218,7 +218,7 @@ function AdminShell() {
   const sidebar = (
     <aside className="flex h-full w-64 shrink-0 flex-col bg-aberdeen-blue px-3 py-4 text-white">
       <div className="flex h-14 items-center justify-between px-2">
-        <img alt="Aberdeen" className="w-36" src="/brand/aberdeen-wordmark-peach.png" />
+        <img alt="Aberdeen" className="w-36" src="/brand/aberdeen-wordmark-peach.png?v=2" />
         <button
           aria-label="Close navigation"
           className="grid h-9 w-9 place-items-center rounded-lg text-white/60 hover:bg-white/10 hover:text-white lg:hidden"
